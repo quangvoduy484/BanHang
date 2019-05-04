@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap 3.3.7 -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  @*<link rel="stylesheet" href="~/Content/Template/bower_components/bootstrap/dist/css/bootstrap.min.css">*@
+  <!-- Font Awesome -->
+ @* <link rel="stylesheet" href="~/Content/Template/bower_components/font-awesome/css/font-awesome.min.css">*@
+
+
+
+  @*<link href="~/Content/Template/dist/css/page/Header.css" rel="stylesheet" />
+    <link href="~/Content/Template/dist/css/page/TrangChu.css" rel="stylesheet" />*@
+  <link rel="stylesheet" href="~/Content/Template/bower_components/Ionicons/css/ionicons.min.css">
+  <script src="~/Content/Template/bower_components/jquery/dist/jquery.min.js"></script>
+  <!-- Bootstrap 3.3.7 -->
+  <script src="~/Content/Template/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  @*<style>
+      * {
+        font-family: 'Roboto', 'sans-serif';
+      }
+    </style>*@
+</head>
+<!-- ADD THE CLASS fixed TO GET A FIXED HEADER AND SIDEBAR LAYOUT -->
+<!-- the fixed layout is not compatible with sidebar-mini -->
+<body>
+  <div class="container-fluid">
+    @* @RenderPage("Header.cshtml")*@
+    <div class="clearfix" style="background-color:#808080;color:white">
+      <div class="float-left  d-block" style="width: 150px;margin: 15px 15px 15px 15px;">
+        <span class="fa fa-phone mr-1" style="color: orange;"></span>Hotline:0914318762
+      </div>
+    </div>
+    <div>
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" style="font-family: 'Roboto', 'sans-serif';">
+          <ul class="nav navbar-nav navbar-left" style="font-family: 'Roboto', 'sans-serif';">
+            <li class="nav-item" style="font-family: 'Roboto', 'sans-serif';">
+              <a class="nav-link" style="font-family: 'Roboto', 'sans-serif';" href="#">Mưa dồn dập trong t <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Tìm cửa hàng</a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="#">Khuyến mãi</a>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-center">
+            <li class="nav-item ">
+              <a class="nav-link" href="#">Võ Duy Quang</a>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="nav-item"><a class="nav-link" href="#">Right</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Right</a></li>
+          </ul>
+
+        </div>
+      </nav>
+
+    </div>
+    <div>
+      <ul class="nav navbar-nav menu-kindroom">
+        @{
+          using (WebSiteBanHang.Models.BanHangContext db = new WebSiteBanHang.Models.BanHangContext())
+          {
+            var LoaiPhong = db.LOAIPHONGs.Where(x => x.TrangThai == true).OrderBy(x => x.Id_LoaiPhong).AsEnumerable();
+            foreach (var item in LoaiPhong)
+            {
+              <li class="nav-item">
+                @Html.ActionLink(item.TenLoaiPhong.ToUpper(), "LoadByRoomKind", "RoomKind", new { id = item.Id_LoaiPhong, Type = item.Type }, new { @class = "nav-link" })
+              </li>
+            }
+          }
+
+        }
+
+      </ul>
+    </div>
+
+  </div>
+        <div class="container-fluid">
+            @RenderBody()
+        </div>
+
+
+        @RenderSection("ScriptSection", false)
+    </body>
+    </html>

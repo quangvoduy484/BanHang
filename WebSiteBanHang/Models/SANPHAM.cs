@@ -12,10 +12,10 @@ namespace WebSiteBanHang.Models
     [Key]
     public int Id_SanPham { get; set; }
     public string TenSanPham { get; set; }
-    public double? DonViTinh { get; set; }
+    public string  DonViTinh { get; set; }
     public string MauSac { get; set; }
     public string VatLieu { get; set; }
-    public double? KichThuoc { get; set; }
+    public string KichThuoc { get; set; }
     public string HinhAnh { get; set; }
     public string Mota { get; set; }
     public int TrangThai { get; set; }
@@ -34,8 +34,7 @@ namespace WebSiteBanHang.Models
     [Column(Order = 1)]
     public int Id_LoaiSanPham { get; set; }
     [Column(Order = 2)]
-    public int Id_KhuyenMai { get; set; }
-
+    public int? Id_KhuyenMai { get; set; }
     public virtual KHUYENMAI KHUYENMAI { get; set; }
     public virtual LOAISANPHAM LOAISANPHAM { get; set; }
     public ICollection<GIASANPHAM> GIASANPHAMs { get; set; }

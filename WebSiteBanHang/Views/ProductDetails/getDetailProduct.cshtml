@@ -1,0 +1,29 @@
+﻿@model WebSiteBanHang.Models.SANPHAM
+
+@{
+    ViewBag.Title = "getDetailProduct";
+    Layout = "~/Views/Shared/TrangChu.cshtml";
+}
+<div style="width:955px;margin:auto" id="detail_product">
+    <div id="product_detail_title">
+        <a>Sản phẩm mới ></a> <span style="color:orange">@Model.TenSanPham</span>
+    </div>
+    <div id="product_detail_top" >
+        Bạn cần trợ giúp ? <b>Gọi ngay 1800 7200</b>
+    </div>
+    <div id="product_detail_content">
+        <div id="product_image">
+            <img src="@Url.Content("/Content/Template/bower_components/ckeditor/samples/img/"+Model.HinhAnh)" />
+        </div>
+        <div id="product_info">
+            <span>@Model.TenSanPham</span><br />
+            <b>Giá Tiền:</b> <span style="color:orange">139.000.000<br /></span><br />
+            <b>Đơn vị tính:</b><span>@Model.DonViTinh<br /></span><br />
+            <b>Kích thước:</b><span>@Model.KichThuoc<br /></span><br />
+            <b>Vật liệu:</b><span>@Model.VatLieu<br /></span><br />
+            <b>Màu sắc:</b><span>@Model.MauSac<br /></span><br />
+            <button type="button" style="padding:10px 110px 10px 110px" class="btn btn-warning btn-lg">MUA NGAY</button>
+            <a style="padding:0px 20px 0px 80px;top:10px;position:relative;color:orange" href="#">Xem Giỏ Hàng Của Bạn</a>
+        </div>
+    </div>
+</div>

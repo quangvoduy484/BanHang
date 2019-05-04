@@ -175,6 +175,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomepageController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ProductDetailsController.cs" />
+    <Compile Include="Controllers\RoomKindController.cs" />
     <Compile Include="Helper\UserRole.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -183,6 +185,14 @@
     <Compile Include="Migrations\201904231741032_InitialCreate.cs" />
     <Compile Include="Migrations\201904231741032_InitialCreate.Designer.cs">
       <DependentUpon>201904231741032_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904251417052_AddColumn_Type_ForLoaiPhong.cs" />
+    <Compile Include="Migrations\201904251417052_AddColumn_Type_ForLoaiPhong.Designer.cs">
+      <DependentUpon>201904251417052_AddColumn_Type_ForLoaiPhong.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905010408002_Update_Table_SanPham.cs" />
+    <Compile Include="Migrations\201905010408002_Update_Table_SanPham.Designer.cs">
+      <DependentUpon>201905010408002_Update_Table_SanPham.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BanHangContext.cs" />
@@ -3197,11 +3207,21 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\wsc\skins\moono-lisa\wsc.css" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\xml\plugin.js" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\css\samples.css" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\img\500-ban-an-chamcha-liveegde-86666-1.jpg" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\img\500-ban-tofu.gif" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\img\500-console-table-86834.jpg" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\img\500-ghe-an-chamcha.jpg" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\img\500-round-table-cafe-86826.jpg" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\img\500-sofa-cognac.jpg" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\img\500-tu-hoc-keo-pop.jpg" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\img\banner-web-2.jpg" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\img\banner-web-cua-hang.jpg" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\img\github-top.png" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\img\header-bg.png" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\img\header-separator.png" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\img\logo.png" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\img\navigation-tip.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\img\nha-xinh-banner-thietketrongoi-21-2.jpg" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\index.html" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\js\sample.js" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\js\sf.js" />
@@ -5569,6 +5589,9 @@
     <Content Include="Content\Template\dist\css\alt\AdminLTE-select2.min.css" />
     <Content Include="Content\Template\dist\css\alt\AdminLTE-without-plugins.css" />
     <Content Include="Content\Template\dist\css\alt\AdminLTE-without-plugins.min.css" />
+    <Content Include="Content\Template\dist\css\page\Header.css" />
+    <Content Include="Content\Template\dist\css\page\ProductDetail.css" />
+    <Content Include="Content\Template\dist\css\page\TrangChu.css" />
     <Content Include="Content\Template\dist\css\skins\skin-black-light.css" />
     <Content Include="Content\Template\dist\css\skins\skin-black-light.min.css" />
     <Content Include="Content\Template\dist\css\skins\skin-black.css" />
@@ -5652,6 +5675,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\RoomKind\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -5963,10 +5987,17 @@
     <Content Include="Views\Shared\TrangChu.cshtml" />
     <Content Include="Views\Shared\Header.cshtml" />
     <Content Include="Views\Homepage\Index.cshtml" />
+    <Content Include="Views\ProductDetails\getDetailProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201904231741032_InitialCreate.resx">
       <DependentUpon>201904231741032_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904251417052_AddColumn_Type_ForLoaiPhong.resx">
+      <DependentUpon>201904251417052_AddColumn_Type_ForLoaiPhong.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905010408002_Update_Table_SanPham.resx">
+      <DependentUpon>201905010408002_Update_Table_SanPham.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
