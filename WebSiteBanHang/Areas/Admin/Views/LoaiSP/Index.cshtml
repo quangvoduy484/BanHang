@@ -1,0 +1,137 @@
+﻿@model List<WebSiteBanHang.Areas.Admin.ViewModels.LoaiSPViewModel>
+
+@{
+    /**/
+
+    ViewBag.Title = "Loại sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+<style>
+    .table-admin {
+        border: 1px solid #ddd;
+    }
+
+        .table-admin td, .table-admin th {
+            border: 1px solid #ddd !important;
+        }
+
+    /*.table-admin td {
+            color: #0e0e0e;
+        }
+
+        .table-admin th {
+            font-size: 20px;
+            font-family: initial;
+            color: #0e0e0e;
+        }*/
+
+    .TieuDe p {
+        font-family: initial;
+        font-size: 35px;
+        color: #00020c;
+    }
+
+    .TieuDe a {
+        width: 50px;
+    }
+</style>
+<div class="TieuDe">
+    <p>DANH SÁCH LOẠI SẢN PHẨM</p>
+</div>
+<div style="padding-bottom: 10px; padding-left: 15px;">
+    <a class="btn btn-success" href="/Admin/LoaiSP/Create">Thêm mới</a>
+</div>
+<div class="col-md-12">
+    <table id="loaisp" class="table table-bordered table-striped table-admin" role="grid">
+        <thead>
+            <tr>
+                <th>Tên loại</th>
+                <th>Tên phòng</th>
+                <th>Chức năng</th>
+            </tr>
+        </thead>
+        <tbody class="tbody"></tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        loadGridView();
+
+        //config toastr
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "2000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    });
+    function loadGridView() {
+        $('#loaisp').DataTable({
+            serverSide: true,
+            ajax: {
+                url: "/Admin/LoaiSP/getall",
+                type: "POST",
+                dataType: "JSON",
+            },
+            language: {
+                lengthMenu: "Hiển thị _MENU_ mục",
+                zeroRecords: "Không tìm thấy ",
+                info: "Hiển thị trang _PAGE_ đến _PAGES_ của _MAX_ mục",
+                infoEmpty: "Không có dữ liệu",
+                infoFiltered: "(lọc từ _MAX_ tổng mục)",
+                search: "Tìm kiếm",
+                searchPlaceholder: "Search...",
+            },
+            columns: [
+                { title: "Tên Loại", data: "TenLoai" },
+                { title: "Loại Phòng", data: "LoaiPhong" },
+                {
+                    title: "Chức năng",
+                    data: "MaLoai",
+                    searchable: false,
+                    sortable: false,
+                    render: function (data, type, full, meta) {
+                        return `<div>
+                                    <a class="btn btn-primary" href="/Admin/LoaiSP/Edit/${data}">Sửa</a>
+                                    <button class="btn btn-danger" onclick="XoaSP(${data})">Xoá</button>
+                                </div> `
+                    }
+                }
+            ],
+
+        });
+    }
+    function XoaSP(maLoai) {
+        if (window.confirm("Bạn có muốn xoá không?")) {
+            $.ajax({
+                method: "POST",
+                url: "/Admin/LoaiSP/Delete/" + maLoai,
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data.StatusCode === 200) {
+                        toastr.success("Xóa thành công");
+                        $('#loaisp').DataTable().ajax.reload();
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(rrorThrown);
+                }
+            });
+        }
+    }
+</script>
+

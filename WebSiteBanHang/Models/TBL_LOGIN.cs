@@ -9,6 +9,7 @@ namespace WebSiteBanHang.Models
     public class TBL_LOGIN
     {
         [Key]
+        [StringLength(20)]
         public string USERNAME { get; set; }
         public string PASSWORD { get; set; }
         [StringLength(500)]

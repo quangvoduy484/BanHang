@@ -1,0 +1,89 @@
+﻿@model IEnumerable<WebSiteBanHang.Models.KHUYENMAI>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+<style>
+    .table .middle {
+        vertical-align: middle;
+    }
+
+    .table-admin {
+        border: 1px solid #ddd;
+    }
+
+        .table-admin td, .table-admin th {
+            border: 1px solid #ddd !important;
+        }
+</style>
+<h2>DANH SÁCH KHUYẾN MÃI</h2>
+
+<div style="padding-bottom: 10px; padding-left: 15px;">
+    <a class="btn btn-success" href="/Admin/KhuyenMai/Create">Thêm mới</a>
+</div>
+<div class="col-md-12">
+    <table class="table table-bordered table-striped table-admin" role="grid">
+        <tr>
+            <th>
+                Ngày bắt đầu
+            </th>
+            <th>
+                Ngày kết thúc
+            </th>
+            <th>
+                Gía trị khuyến mãi
+            </th>
+            <th>
+                Chức năng
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+        <tr id="data_@item.Id_KhuyenMai">
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayBatDau)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayKetThuc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GiaTriKhuyenMai)
+            </td>
+            <td class="middle">
+
+                <a class="btn btn-primary" href="/Admin/KhuyenMai/Edit/@item.Id_KhuyenMai">Sửa</a>
+                <button class="btn btn-danger" onclick="xoaKM(@item.Id_KhuyenMai)">Xoá</button>
+
+            </td>
+        </tr>
+        }
+
+    </table>
+</div>
+<script type="text/javascript">
+    function xoaKM(maKM) {
+        if (window.confirm("Bạn có muốn xoá không?")) { //ok
+            $.ajax({
+                method: "POST",
+                url: "/Admin/KhuyenMai/Delete/" + maKM,
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data.StatusCode === 200) {
+                        var a = "#data_" + maKM;
+                        $(a).remove();
+                        toastr.success("Xóa thành công");
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(rrorThrown);
+                }
+            });
+
+        }
+    }
+</script>
+
