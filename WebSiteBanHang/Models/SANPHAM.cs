@@ -21,7 +21,7 @@ namespace WebSiteBanHang.Models
         public bool? TrangThai { get; set; }
         //public DateTime NgayBatDauBaoHanh { get; set; }
         public string BaoHanh { get; set; }
-        public int SoLuongTon { get; set; }
+        public int? SoLuongTon { get; set; }
         public string XuatXu { get; set; }
 
         [StringLength(20)]
@@ -35,7 +35,7 @@ namespace WebSiteBanHang.Models
         [Column(Order = 1)]
         public int Id_LoaiSanPham { get; set; }
         [Column(Order = 2)]
-        public int Id_KhuyenMai { get; set; }
+        public int? Id_KhuyenMai { get; set; }
 
         public virtual KHUYENMAI KHUYENMAI { get; set; }
         public virtual LOAISANPHAM LOAISANPHAM { get; set; }

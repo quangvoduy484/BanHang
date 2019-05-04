@@ -39,7 +39,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         public ActionResult Create()
         {
             var loaiSP = loaiSPService.ListAll();
-            SelectList listloaiSP = new SelectList(loaiSP, "MaLoai", "TenLoai");
+            SelectList listloaiSP = new SelectList(loaiSP, "Id_LoaiSanPham", "TenLoai");
             ViewBag.LoaiSP = listloaiSP;
             return View();
         }
@@ -69,7 +69,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         {
             var sanpham = sanPhamService.Details(id);
             var loaiSP = loaiSPService.ListAll();
-            SelectList listloaiSP = new SelectList(loaiSP, "MaLoai", "TenLoai");
+            SelectList listloaiSP = new SelectList(loaiSP, "Id_LoaiSanPham", "TenLoai");
             ViewBag.LoaiSP = listloaiSP;
             if (sanpham == null)
             {

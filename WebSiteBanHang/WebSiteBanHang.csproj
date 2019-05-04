@@ -226,6 +226,10 @@
     <Compile Include="Migrations\201905040949376_change-db.Designer.cs">
       <DependentUpon>201905040949376_change-db.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905041116221_modify-slton-id-km.cs" />
+    <Compile Include="Migrations\201905041116221_modify-slton-id-km.Designer.cs">
+      <DependentUpon>201905041116221_modify-slton-id-km.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BanHangContext.cs" />
     <Compile Include="Models\CHITIETDATHANG.cs" />
@@ -5617,6 +5621,45 @@
     <Content Include="Content\Template\bower_components\jquery\src\var\support.js" />
     <Content Include="Content\Template\bower_components\jquery\src\var\toString.js" />
     <Content Include="Content\Template\bower_components\jquery\src\wrap.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\jquery-jvectormap.css" />
+    <Content Include="Content\Template\bower_components\jvectormap\jquery-jvectormap.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\jquery-mousewheel.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\abstract-canvas-element.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\abstract-element.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\abstract-shape-element.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\color-scale.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\data-series.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\jvectormap.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\numeric-scale.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\ordinal-scale.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\proj.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\simple-scale.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\svg-canvas-element.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\svg-circle-element.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\svg-element.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\svg-group-element.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\svg-path-element.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\svg-shape-element.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\vector-canvas.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\vml-canvas-element.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\vml-circle-element.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\vml-element.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\vml-group-element.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\vml-path-element.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\vml-shape-element.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\lib\world-map.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\tests\assets\jquery-1.8.2.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\tests\assets\jquery-jvectormap-map.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\tests\assets\jquery-jvectormap-us-aea-en.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\tests\assets\jquery-jvectormap-us-lcc-en.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\tests\assets\jquery-jvectormap-us-merc-en.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\tests\assets\jquery-jvectormap-us-mill-en.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\tests\assets\jquery-jvectormap-world-mill-en.js" />
+    <Content Include="Content\Template\bower_components\jvectormap\tests\build.html" />
+    <Content Include="Content\Template\bower_components\jvectormap\tests\custom.html" />
+    <Content Include="Content\Template\bower_components\jvectormap\tests\index.html" />
+    <Content Include="Content\Template\bower_components\jvectormap\tests\markers.html" />
+    <Content Include="Content\Template\bower_components\jvectormap\tests\reverse-projection.html" />
     <Content Include="Content\Template\dist\css\AdminLTE.css" />
     <Content Include="Content\Template\dist\css\AdminLTE.min.css" />
     <Content Include="Content\Template\dist\css\alt\AdminLTE-bootstrap-social.css" />
@@ -5697,6 +5740,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="scripts\jquery.validate.min.js" />
+    <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="scripts\toastr.js" />
     <Content Include="scripts\toastr.min.js" />
     <Content Include="Web.config">
@@ -6046,6 +6091,12 @@
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
     <Content Include="Areas\Admin\Views\Login\Login.cshtml" />
+    <Content Include="Content\Template\bower_components\jvectormap\.bower.json" />
+    <Content Include="Content\Template\bower_components\jvectormap\build.sh" />
+    <Content Include="Content\Template\bower_components\jvectormap\converter\converter.py" />
+    <Content Include="Content\Template\bower_components\jvectormap\converter\simplifier.py" />
+    <Content Include="Content\Template\bower_components\jvectormap\jvectormap.jquery.json" />
+    <Content Include="Content\Template\bower_components\jvectormap\README.md" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -6080,6 +6131,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905040949376_change-db.resx">
       <DependentUpon>201905040949376_change-db.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905041116221_modify-slton-id-km.resx">
+      <DependentUpon>201905041116221_modify-slton-id-km.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
