@@ -1,0 +1,115 @@
+﻿@model WebSiteBanHang.Models.KHUYENMAI
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+<head>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+</head>
+<style>
+    * {
+        font-size: 16px;
+    }
+
+    label {
+        font-weight: initial;
+    }
+
+    h2, h4 {
+        color: blue;
+    }
+</style>
+<h2>CHỈNH SỬA</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Loại khuyến mãi</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id_KhuyenMai)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NgayBatDau, "Ngày bắt đầu",htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @*@Html.EditorFor(model => model.NGAYBATDAU, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NGAYBATDAU, "", new { @class = "text-danger" })*@
+                @Html.TextBoxFor(model => model.NgayBatDau, "{0:dd/MM/yyyy}",new { @class = "form-control dt1", placeholder = "__/__/____" })
+                @Html.ValidationMessageFor(model => model.NgayBatDau, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NgayKetThuc,"Ngày kết thúc", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.NgayKetThuc, "{0:dd/MM/yyyy}",new { @class = "form-control dt2" })
+                @Html.ValidationMessageFor(model => model.NgayKetThuc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.GiaTriKhuyenMai,"Gía trị khuyến mãi", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.GiaTriKhuyenMai, new { htmlAttributes = new { id= "intLimitTextBox", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.GiaTriKhuyenMai, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Cập nhật" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("<< Quay lại danh sách", "Index")
+</div>
+<script type="text/javascript">
+    $(function () { // will trigger when the document is ready
+        $(".dt1").datepicker({
+            dateFormat: "dd/mm/yy",
+            onSelect: function (selected) {
+                var dt = $(this).datepicker('getDate'); //lay ngay da chon
+                $(".dt2").datepicker("option", "minDate", dt); //set ngay toi thieu cho Datepicker 2
+            }
+        });
+        $(".dt2").datepicker({
+            dateFormat: "dd/mm/yy",
+            onSelect: function (selected) {
+                var dt = $(this).datepicker('getDate');
+                $(".dt1").datepicker("option", "maxDate", dt); //set ngay toi da cho Datepicker 1
+            }
+        });
+
+        // validate Ngay
+        $.validator.methods.date = function (value, element) {
+            return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
+        };
+
+        $.fn.inputFilter = function (inputFilter) {
+            return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function () {
+                if (inputFilter(this.value)) {
+                    this.oldValue = this.value;
+                    this.oldSelectionStart = this.selectionStart;
+                    this.oldSelectionEnd = this.selectionEnd;
+                } else if (this.hasOwnProperty("oldValue")) {
+                    this.value = this.oldValue;
+                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                }
+            });
+        };
+
+        //chi nhap so
+        $("#intLimitTextBox").inputFilter(function (value) {
+            return /^\d*$/.test(value) && (value === "" || (parseInt(value) >= 1 && parseInt(value) <= 100));
+        });
+
+    });
+</script>

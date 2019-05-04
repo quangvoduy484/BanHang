@@ -1,0 +1,178 @@
+﻿@model IEnumerable<WebSiteBanHang.Areas.Admin.ViewModels.SanPhamViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+<style>
+    .table-admin {
+        border: 1px solid #ddd;
+    }
+
+        .table-admin td, .table-admin th {
+            border: 1px solid #ddd !important;
+        }
+
+    .TieuDe p {
+        font-family: initial;
+        font-size: 35px;
+        color: #00020c;
+    }
+
+    .TieuDe a {
+        width: 50px;
+    }
+
+    h2 {
+        text-align: center;
+        color: #4169E1;
+    }
+</style>
+<h2>DANH SÁCH SẢN PHẨM</h2>
+
+<div style="padding-bottom: 10px; padding-left: 15px;">
+    <a class="btn btn-success" href="/Admin/SanPham/Create">Thêm mới</a>
+</div>
+<div class="col-md-12">
+    <table id="sp" class="table table-bordered table-striped table-admin" role="grid">
+
+        <tr>
+
+            <th>
+                Tên sản phẩm
+            </th>
+            <th>
+                Tên loại
+            </th>
+            <th>
+                Đơn vị tính
+            </th>
+            <th>
+                Kích thước
+            </th>
+            <th>Chức năng</th>
+        </tr>
+        <tbody class="tbody"></tbody>
+
+        @*@foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenSanPham)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenLoai)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DVT)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KichThuoc)
+                </td>
+                <td>
+                    <a class="btn btn-success" href="/Admin/SanPham/Detail/@item.MaSanPham">
+                        <i class="fa fa-search-plus"></i>
+                    </a>
+                    <a class="btn btn-info" href="/Admin/SanPham/Edit/@item.MaSanPham">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a class="btn btn-danger" onclick="xoaSP(@item.MaSanPham)">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                </td>
+            </tr>
+        }*@
+
+    </table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        loadGridView();
+
+        //config toastr
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "2000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    });
+    function loadGridView() {
+        $('#sp').DataTable({
+
+            serverSide: true,
+            ajax: {
+                url: "/Admin/SanPham/getall",
+                type: "POST",
+                dataType: "JSON",
+            },
+            language: {
+                lengthMenu: "Hiển thị _MENU_ mục",
+                zeroRecords: "Không tìm thấy ",
+                info: "Hiển thị trang _PAGE_ đến _PAGES_ của _MAX_ mục",
+                infoEmpty: "Không có dữ liệu",
+                infoFiltered: "(lọc từ _MAX_ tổng mục)",
+                search: "Tìm kiếm",
+                searchPlaceholder: "Search...",
+            },
+            columns: [
+                { title: "Tên sản phẩm", data: "TenSanPham" },
+                { title: "Tên loại", data: "TenLoai" },
+                { title: "Đơn vị tính", data: "DVT" },
+                { title: "Kích thước", data: "KichThuoc" },
+                {
+                    title: "Chức năng",
+                    data: "MaSanPham",
+                    searchable: false,
+                    sortable: false,
+                    render: function (data, type, full, meta) {
+                        return `<div>
+                                     <a class="btn btn-success" href="/Admin/SanPham/Details/${data}">
+                                        <i class="fa fa-search-plus"></i>
+                                     </a>
+                                     <a class="btn btn-info" href="/Admin/SanPham/Edit/${data}">
+                                        <i class="fa fa-edit"></i>
+                                     </a>
+                                     <a class="btn btn-danger" onclick="xoaSanPham(${data})">
+                                         <i class="fa fa-trash-o"></i>
+                                     </a>
+                                 </div> `
+                        }
+                    }
+                ],
+
+            });
+        }
+    function xoaSanPham(masp) {
+        if (window.confirm("Bạn có muốn xoá không?")) {
+            $.ajax({
+                method: "POST",
+                url: "/Admin/SanPham/Delete/" + masp,
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data.StatusCode === 200) {
+                        toastr.success("Xóa thành công");
+                        $('#sp').DataTable().ajax.reload();
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(rrorThrown);
+                }
+            });
+        }
+    }
+</script>
+

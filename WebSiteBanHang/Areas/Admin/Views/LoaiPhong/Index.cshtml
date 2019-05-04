@@ -1,0 +1,86 @@
+﻿@model IEnumerable<WebSiteBanHang.Models.LOAIPHONG>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+<style>
+    .table .middle {
+        vertical-align: middle;
+    }
+
+    .table-admin {
+        border: 1px solid #ddd;
+    }
+
+        .table-admin td, .table-admin th {
+            border: 1px solid #ddd !important;
+        }
+</style>
+<h2>DANH SÁCH LOẠI PHÒNG</h2>
+<div style="padding-bottom: 10px; padding-left: 15px;">
+    <a class="btn btn-success" href="/Admin/LoaiPhong/Create">Thêm mới</a>
+</div>
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+<div class="col-md-12">
+    <table class="table table-bordered table-striped table-admin" role="grid">
+        <tr>
+            <th>
+                Tên phòng
+                @*@Html.DisplayNameFor(model => model.TENPHONG)*@
+            </th>
+            <th>
+                Hình ảnh
+                @*@Html.DisplayNameFor(model => model.HINHANH)*@
+            </th>
+            <th> Chức năng</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr id="data_@item.Id_LoaiPhong">
+                <td class="middle">
+                    @Html.DisplayFor(modelItem => item.TenLoaiPhong)
+                </td>
+                <td>
+                    <img src="@item.HinhAnh" style="width: 100%; max-width: 150px;" />
+                    @*@Html.DisplayFor(modelItem => item.HINHANH)*@
+                </td>
+                <td class="middle">
+
+                    <a class="btn btn-primary" href="/Admin/LoaiPhong/Edit/@item.Id_LoaiPhong">Sửa</a>
+                    <button class="btn btn-danger" onclick="xoaPhong(@item.Id_LoaiPhong)">Xoá</button>
+
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<script type="text/javascript">
+    function xoaPhong(maPhong) {
+        if (window.confirm("Bạn có muốn xoá không?")) { //ok
+            $.ajax({
+                method: "POST",
+                url: "/Admin/LoaiPhong/Delete/" + maPhong,
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data.StatusCode === 200) {
+                        var a = "#data_" + maPhong;
+                        $(a).remove();
+                        toastr.success("Xóa thành công");
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(rrorThrown);
+                }
+            });
+            
+        }
+    }
+</script>
+

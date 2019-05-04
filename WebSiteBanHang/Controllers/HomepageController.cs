@@ -7,36 +7,36 @@ using WebSiteBanHang.Models;
 
 namespace WebSiteBanHang.Controllers
 {
-  public class HomepageController : Controller
-  {
-    BanHangContext db = new BanHangContext();
-    // GET: Homepage
-    public ActionResult Index()
+    public class HomepageController : Controller
     {
-      return View();
-    }
-
-    public JsonResult getProductNew()
-    {
-      try
-      {
-        var sanphams = db.SANPHAMs.Where(x => x.TrangThai == 1).OrderByDescending(x => x.CREATED_DATE).Select(x => new
+        BanHangContext db = new BanHangContext();
+        // GET: Homepage
+        public ActionResult Index()
         {
-          Id = x.Id_SanPham,
-          Ten = x.TenSanPham,
-          Hinh = "/Content/Template/bower_components/ckeditor/samples/img/"+ x.HinhAnh
+            return View();
+        }
 
-        }).Take(6).ToList();
-        return Json(sanphams, JsonRequestBehavior.AllowGet);
-      }
-      catch(Exception ex)
-      {
-        Console.Write(ex.Message);
-      }
-      return null;
-        
+        public JsonResult getProductNew()
+        {
+            try
+            {
+                var sanphams = db.SANPHAMs.Where(x => x.TrangThai != false).OrderByDescending(x => x.CREATED_DATE).Select(x => new
+                {
+                    Id = x.Id_SanPham,
+                    Ten = x.TenSanPham,
+                    Hinh = "/Content/Template/bower_components/ckeditor/samples/img/" + x.HinhAnh
+
+                }).Take(6).ToList();
+                return Json(sanphams, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+            }
+            return null;
+
+
+        }
 
     }
-
-  }
 }

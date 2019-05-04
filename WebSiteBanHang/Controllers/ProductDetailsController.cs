@@ -20,8 +20,8 @@ namespace WebSiteBanHang.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var product = db.SANPHAMs.Include(x => x.HINHs).Where(x => x.TrangThai == 1 && x.Id_SanPham == id).SingleOrDefault(); 
-            if(product == null)
+            var product = db.SANPHAMs.Include(x => x.HINHs).Where(x => x.TrangThai != false && x.Id_SanPham == id).SingleOrDefault();
+            if (product == null)
             {
                 return HttpNotFound();
             }

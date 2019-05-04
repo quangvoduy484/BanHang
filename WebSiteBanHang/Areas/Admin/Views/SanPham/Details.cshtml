@@ -1,0 +1,61 @@
+﻿@model WebSiteBanHang.Areas.Admin.ViewModels.SanPhamViewModel
+
+@{
+    ViewBag.Title = "Chi tiết sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+<style>
+    .image {
+        border-top: solid 1PX #d6d0c7;
+        border-right: solid 1PX #d6d0c7;
+        background-color: white;
+    }
+
+    .detail {
+        border-top: solid 1PX #d6d0c7;
+        padding-top: 10px;
+    }
+
+    .function {
+        margin-top: 10px;
+    }
+    h2{
+        padding-left: 10px;
+    }
+</style>
+
+<h2>Chi tiết sản phẩm</h2>
+<div>
+    <div class="col-md-12">
+        <div class="image col-md-6">
+            <img src="@Model.HinhAnh " />
+        </div>
+        <div class="detail col-md-6">
+            <p>@Model.TenSanPham</p>
+
+            <p>
+                <label>Loại: </label>@Model.TenLoai
+            </p>
+            <p>
+                <label>Kích thước:</label>
+                @Model.KichThuoc
+            </p>
+            <p>
+                <label>Vật liệu:</label>
+                @Model.VatLieu
+            </p>
+            <p>
+                <label>Màu sắc: </label> @Model.MauSac
+            </p>
+            <p>
+                <label>Mô tả:</label>@Model.MoTa
+            </p>
+        </div>
+    </div>
+    <div class="col-md-12 function">
+        @Html.ActionLink("<< Quay lại danh sách", "Index") |
+        <a class="btn btn-primary" href="/Admin/SanPham/Edit/@Model.MaSanPham">Sửa</a>
+
+    </div>
+
+</div>

@@ -15,9 +15,10 @@ namespace WebSiteBanHang.Models
     public string MoTa { get; set; }
     public string TenNoiThat { get; set; }
     public bool? TrangThai { get; set; }
+    public ICollection<MAUPHONG> MAUPHONGs { get; set; }
+    public ICollection<LOAISANPHAM> LOAISANPHAMs { get; set; }
     public int Type { get; set; }
-    public ICollection<KIEUPHONG> KIEUPHONGs { get; set; }
     
 
-  }
+    }
 }

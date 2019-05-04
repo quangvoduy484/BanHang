@@ -7,7 +7,7 @@ using System.Web.Security;
 using WebSiteBanHang.Helper;
 using WebSiteBanHang.Models;
 
-namespace WebSiteBanHang.Controllers
+namespace WebSiteBanHang.Areas.Admin.Controllers
 {
     public class LoginController : Controller
     {
@@ -40,7 +40,7 @@ namespace WebSiteBanHang.Controllers
                             }
                             else
                             {
-                                return RedirectToAction("Index", "Home");
+                                return RedirectToAction("Index", "Dashboard");
                             }
                         }
                         else
@@ -49,8 +49,9 @@ namespace WebSiteBanHang.Controllers
                         }
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    string error = ex.Message;
                     ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu không đúng");
                 }
             }

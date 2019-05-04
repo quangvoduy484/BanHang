@@ -12,7 +12,7 @@ namespace WebSiteBanHang.Models
     public int Id_GiaSanPham { get; set; }
     public DateTime? NgayLap { get; set; }
     public Double GiaBan { get; set; }
-
+    public bool? TrangThai { get; set; }
     public int Id_SanPham { get; set; }
     public virtual SANPHAM SANPHAM { get; set; }
 

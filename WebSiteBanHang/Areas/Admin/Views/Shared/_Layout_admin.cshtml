@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>VINPEARL | VIN ANIMAL MANAGEMENT</title>
+    <title>Admin | @ViewBag.Title</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -13,7 +13,7 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="~/Content/Template/bower_components/Ionicons/css/ionicons.min.css">
     <!-- jvectormap -->
-    <link rel="stylesheet" href="~/Library/bower_components/jvectormap/jquery-jvectormap.css">
+    <link rel="stylesheet" href="~/Content/Template/bower_components/jvectormap/jquery-jvectormap.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="~/Content/Template/dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -43,7 +43,7 @@
     <script src="~/Content/Template/bower_components/fastclick/lib/fastclick.js"></script>
     <!-- AdminLTE App -->
     <script src="~/Content/Template/dist/js/adminlte.min.js"></script>
-    <script src="~/Scripts/he.js"></script>
+    @*<script src="~/Scripts/he.js"></script>*@
 
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
@@ -76,12 +76,12 @@
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="~/Content/Template/dist/img/vinpearl.jpg" class="user-image" alt="User Image">
-                            
-                            </a> 
+
+                            </a>
                             <ul class="dropdown-menu user-menu user" role="menu">
                                 <li><a href="#">@System.Web.HttpContext.Current.User.Identity.Name.ToUpper()</a> </li>
                                 <li><a href="/Login/Logout">Đăng xuất</a></li>
-                                
+
                             </ul>
                         </li>
                     </ul>
