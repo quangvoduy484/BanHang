@@ -40,7 +40,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                             }
                             else
                             {
-                                return RedirectToAction("Index", "Dashboard");
+                                return RedirectToAction("Index", "Admin");
                             }
                         }
                         else

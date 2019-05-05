@@ -226,6 +226,10 @@
     <Compile Include="Migrations\201905040949376_change-db.Designer.cs">
       <DependentUpon>201905040949376_change-db.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905052102175_Update_coulumn_SoLuongTon_Null.cs" />
+    <Compile Include="Migrations\201905052102175_Update_coulumn_SoLuongTon_Null.Designer.cs">
+      <DependentUpon>201905052102175_Update_coulumn_SoLuongTon_Null.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BanHangContext.cs" />
     <Compile Include="Models\CHITIETDATHANG.cs" />
@@ -6080,6 +6084,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905040949376_change-db.resx">
       <DependentUpon>201905040949376_change-db.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905052102175_Update_coulumn_SoLuongTon_Null.resx">
+      <DependentUpon>201905052102175_Update_coulumn_SoLuongTon_Null.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

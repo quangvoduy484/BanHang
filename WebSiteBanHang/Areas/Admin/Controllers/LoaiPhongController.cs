@@ -15,8 +15,6 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         public ActionResult Index()
         {
             var model = loaiPhongService.ListAll();
-           
-            
             return View(model);
         }
 
