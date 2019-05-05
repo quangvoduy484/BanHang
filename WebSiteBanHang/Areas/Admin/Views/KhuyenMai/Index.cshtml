@@ -29,6 +29,9 @@
                 Ngày bắt đầu
             </th>
             <th>
+                Tên khuyến mãi
+            </th>
+            <th>
                 Ngày kết thúc
             </th>
             <th>
@@ -42,6 +45,9 @@
         @foreach (var item in Model)
         {
         <tr id="data_@item.Id_KhuyenMai">
+            <td>
+                @Html.DisplayFor(modelItem => item.TenKhuyenMai)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NgayBatDau)
             </td>

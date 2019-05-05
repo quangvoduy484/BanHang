@@ -4,43 +4,57 @@
     ViewBag.Title = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
+<style>
 
-<h2>Edit</h2>
+    label {
+        font-weight: initial;
+    }
+
+    h2, h4 {
+        padding-left: 10px;
+    }
+
+    .QuayLai {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+</style>
+<h2>CHỈNH SỬA</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>LOAIPHONG</h4>
+        <h4>LOẠI PHÒNG</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id_LoaiPhong)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.TenLoaiPhong, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+        <div class="form-group QuayLai">
+            @Html.LabelFor(model => model.TenLoaiPhong,"Tên khuyến mãi", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
                 @Html.EditorFor(model => model.TenLoaiPhong, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TenLoaiPhong, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.HinhAnh, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+        <div class="form-group QuayLai">
+            @Html.LabelFor(model => model.HinhAnh,"Hình ảnh", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
                 @Html.EditorFor(model => model.HinhAnh, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.HinhAnh, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group QuayLai">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Cập nhật" class="btn btn-primary" />
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+<div class="QuayLai">
+    @Html.ActionLink("<< Quay lại danh sách", "Index")
 </div>

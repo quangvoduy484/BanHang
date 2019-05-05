@@ -10,6 +10,7 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
     {
         [Key]
         public int MaSanPham { get; set; }
+        [Required]
         public string TenSanPham { get; set; }
         public int MaLoai { get; set; }
         public string TenLoai { get; set; }

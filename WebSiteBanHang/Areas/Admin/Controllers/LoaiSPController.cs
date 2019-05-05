@@ -95,7 +95,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         public ActionResult Create()
         {
             var loaiphongs = iplCate.GetAllLoaiPhong();
-            SelectList listPhong = new SelectList(loaiphongs, "MaPhong", "TenPhong");
+            SelectList listPhong = new SelectList(loaiphongs, "Id_LoaiPhong", "TenLoaiPhong");
             ViewBag.LoaiPhong = listPhong;
             return View();
         }
@@ -131,7 +131,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                 return HttpNotFound();
             }
             var loaiphongs = iplCate.GetAllLoaiPhong();
-            SelectList listPhong = new SelectList(loaiphongs, "MaPhong", "TenPhong");
+            SelectList listPhong = new SelectList(loaiphongs, "Id_LoaiPhong", "TenLoaiPhong");
             ViewBag.LoaiPhong = listPhong;
 
             return View(LoaiSP);
