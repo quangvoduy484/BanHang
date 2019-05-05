@@ -34,6 +34,13 @@ namespace WebSiteBanHang.Models
         public DbSet<SANPHAM> SANPHAMs { get; set; }
         public DbSet<MAUPHONG> MAUPHONGs { get; set; }
         public DbSet<CHITIETMAUPHONG> CHITIETMAUPHONGs { get; set; }
+        public DbSet<NHACUNGCAP> NHACUNGCAPs { get;  set; }
+        public DbSet<PHIEUDATHANG_NCC> PHIEUDATHANG_NCCs { get; set; }
+        public DbSet<CT_PHIEUDATNCC> CT_PHIEUDATNCCs { get; set; }
+        public DbSet<PHIEUNHAP_NCC> PHIEUNHAP_NCCs { get; set; }
+        public DbSet<CTPHIEUNHAP_NCC> CTPHIEUNHAP_NCCs { get; set; }
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
