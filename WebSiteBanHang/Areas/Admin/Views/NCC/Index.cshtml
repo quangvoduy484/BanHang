@@ -31,7 +31,7 @@
         if (nav.length) {
             var contentNav = nav.offset().top;
         }
-        $(document).on('load', loadGridView(); 
+        $(document).on('load', loadGridView()); 
 
         //config toastr
         toastr.options = {
@@ -114,7 +114,7 @@
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    toastr.error(rrorThrown);
+                    toastr.error(errorThrown);
                 }
             });
         }

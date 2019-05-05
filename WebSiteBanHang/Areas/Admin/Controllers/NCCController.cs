@@ -10,6 +10,7 @@ using WebSiteBanHang.Services;
 
 namespace WebSiteBanHang.Areas.Admin.Controllers
 {
+    [Authorize] //bat user phải login
     public class NCCController : Controller
     {
         NCCService NCCService = new NCCService();
@@ -100,14 +101,16 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         //}
 
         // POST: Admin/NCC/Delete/5
+        // Bien truyen vao o day phai ten la Id
+        // vi router config e de la Id
         [HttpPost]
-        public ActionResult Delete(int mancc)
+        public ActionResult Delete(int id)
         {
             var result = new ReponseMessage();
             try
             {
                 // TODO: Add delete logic here
-                var kq = NCCService.Delete(mancc);
+                var kq = NCCService.Delete(id);
                 if (kq == false)
                 {
                     result.Message = "Không tìm thấy loại phòng";
