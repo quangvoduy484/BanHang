@@ -41,6 +41,9 @@
     <script src="~/Content/Template/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
     <script src="~/Content/Template/bower_components/fastclick/lib/fastclick.js"></script>
+    <!--table-->
+    <script src="~/Content/Template/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/Template/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/Content/Template/dist/js/adminlte.min.js"></script>
     @*<script src="~/Scripts/he.js"></script>*@
@@ -54,7 +57,7 @@
 </head>
 <!-- ADD THE CLASS fixed TO GET A FIXED HEADER AND SIDEBAR LAYOUT -->
 <!-- the fixed layout is not compatible with sidebar-mini -->
-<body class="hold-transition skin-green sidebar-mini fixed">
+<body class="hold-transition skin-blue sidebar-mini fixed">
     <!-- Site wrapper -->
     <div class="wrapper">
         <header class="main-header">
@@ -81,7 +84,7 @@
                             <ul class="dropdown-menu user-menu user" role="menu">
                                 <li><a href="#">@System.Web.HttpContext.Current.User.Identity.Name.ToUpper()</a> </li>
                                 <li><a href="/Login/Logout">Đăng xuất</a></li>
-
+                                s
                             </ul>
                         </li>
                     </ul>
@@ -97,28 +100,50 @@
         <!-- =============================================== -->
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            @RenderBody()
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                @*<ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> y</a></li>
+                    <li class="active">Dashboard</li>
+                </ol>*@
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    @RenderBody()
+                </div>
+            </section>
+            <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer no-print">
+        <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Version</b> 1.0.0
+                <b>create by</b> anhtrinhthi
             </div>
-            <strong>Copyright &copy; 2018 <a href="#">VinPearl</a>.</strong> All rights
-            reserved.
+            <strong>Copyright &copy; 2019-2020 <a href="#">vananh@gmail.com</a>.</strong>
         </footer>
         <!-- Add the sidebar's background. This div must be placed
-             immediately after the control sidebar -->
+     immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
     </div>
 
     <script>
         $(document).ready(function () {
-            var p = $('.sidebar-menu li.active');
-            var position = p.position();
-            if (position.top >= $(window).height() - 69) {
-                $('.sidebar').slimScroll({ scrollTo: position.top });
-            }
+            //var p = $('.sidebar-menu li.active');
+            //var position = p.position();
+            //if (position.top >= $(window).height() - 69) {
+            //    $('.sidebar').slimScroll({ scrollTo: position.top });
+            //}
+            var url = window.location;
+            // for sidebar menu but not for treeview submenu
+            $('ul.sidebar-menu a').filter(function () {
+                return this.href == url;
+            }).parent().siblings().removeClass('active').end().addClass('active');
+            //for treeview which is like a submenu
+            $('ul.treeview-menu a').filter(function () {
+                return this.href == url;
+            }).parentsUntil(".sidebar-menu > .treeview-menu").siblings().removeClass('active menu-open').end().addClass('active menu-open');
         });
     </script>
 </body>

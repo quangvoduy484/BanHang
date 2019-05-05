@@ -1,6 +1,8 @@
 ﻿@model WebSiteBanHang.Models.KHUYENMAI
 
 @{
+    /**/
+
     ViewBag.Title = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
@@ -17,10 +19,10 @@
     label {
         font-weight: initial;
     }
-    h2, h4{
+
+    h2, h4 {
         color: blue;
     }
-
 </style>
 <h2>THÊM MỚI</h2>
 
@@ -32,8 +34,15 @@
         <h4>Loại khuyến mãi</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group QuayLai">
+            @Html.LabelFor(model => model.TenKhuyenMai, "Tên khuyến mãi", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.TenKhuyenMai, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TenKhuyenMai, "", new { @class = "text-danger", })
+            </div>
+        </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.NgayBatDau,"Ngày bắt đầu", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.NgayBatDau, "Ngày bắt đầu", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-6">
 
                 @Html.TextBoxFor(model => model.NgayBatDau, new { @class = "form-control dt1", placeholder = "__/__/____" })
@@ -42,7 +51,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NgayKetThuc, "Ngày kết thúc",htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.NgayKetThuc, "Ngày kết thúc", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-6">
                 @Html.TextBoxFor(model => model.NgayKetThuc, new { @class = "form-control dt2", placeholder = "__/__/____" })
                 @Html.ValidationMessageFor(model => model.NgayKetThuc, "", new { @class = "text-danger" })
@@ -50,7 +59,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.GiaTriKhuyenMai,"Giá trị khuyến mãi", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.GiaTriKhuyenMai, "Giá trị khuyến mãi", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-6">
                 @Html.EditorFor(model => model.GiaTriKhuyenMai, new { htmlAttributes = new { @class = "form-control", placeholder = "Gía trị khuyến mãi" } })
                 @Html.ValidationMessageFor(model => model.GiaTriKhuyenMai, "", new { @class = "text-danger" })
@@ -86,9 +95,9 @@
             }
         });
 
-         $.validator.methods.date = function (value, element) {
+        $.validator.methods.date = function (value, element) {
             return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
         }
-      
+
     });
 </script>

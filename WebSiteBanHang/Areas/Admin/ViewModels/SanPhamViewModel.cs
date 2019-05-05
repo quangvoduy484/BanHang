@@ -10,12 +10,13 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
     {
         [Key]
         public int MaSanPham { get; set; }
+        [Required]
         public string TenSanPham { get; set; }
         public int MaLoai { get; set; }
         public string TenLoai { get; set; }
         public int? MaKM { get; set; }
         public string XuatXu { get; set; }
-        public int SoLuongTon { get; set; }
+        public int? SoLuongTon { get; set; }
 
         public string DVT { get; set; }
 
