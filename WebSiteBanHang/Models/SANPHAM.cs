@@ -21,7 +21,7 @@ namespace WebSiteBanHang.Models
         public bool? TrangThai { get; set; }
         //public DateTime NgayBatDauBaoHanh { get; set; }
         public string BaoHanh { get; set; }
-        public int SoLuongTon { get; set; }
+        public int? SoLuongTon { get; set; }
         public string XuatXu { get; set; }
 
         [StringLength(20)]

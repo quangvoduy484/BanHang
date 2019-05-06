@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using System.Web.Optimization;
+using System.Web.Routing;
 
 namespace WebSiteBanHang.Areas.Admin
 {
@@ -18,9 +19,9 @@ namespace WebSiteBanHang.Areas.Admin
             context.MapRoute(
                 "Admin_default",
                 "Admin/{controller}/{action}/{id}",
-               defaults:  new { controller = "Dashboard", action = "Index", id = UrlParameter.Optional }
+               defaults: new { controller = "Dashboard", action = "Index", id = UrlParameter.Optional }
             );
-            //BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+      
     }
 }
