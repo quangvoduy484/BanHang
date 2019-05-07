@@ -6202,8 +6202,6 @@
     <Content Include="Views\Shared\Header.cshtml" />
     <Content Include="Views\Homepage\Index.cshtml" />
     <Content Include="Views\ProductDetails\getDetailProduct.cshtml" />
-    <Content Include="scripts\jquery-3.4.1.slim.min.map" />
-    <Content Include="scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201904231741032_InitialCreate.resx">
