@@ -78,7 +78,7 @@
                 success: function (data) {
                     if (data.StatusCode === 200) {
                         var a = "#data_" + maKM;
-                        $(a).remove();
+                        $(a).ajax.reload();
                         toastr.success("Xóa thành công");
                     } else {
                         toastr.error(data.Message);

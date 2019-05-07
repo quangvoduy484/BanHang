@@ -62,28 +62,33 @@
 
     </table>
 </div>
-<script type="text/javascript">
-    function xoaPhong(maPhong) {
-        if (window.confirm("Bạn có muốn xoá không?")) { //ok
-            $.ajax({
-                method: "POST",
-                url: "/Admin/LoaiPhong/Delete/" + maPhong,
-                contentType: 'application/json',
-                success: function (data) {
-                    if (data.StatusCode === 200) {
-                        var a = "#data_" + maPhong;
-                        $(a).remove();
-                        toastr.success("Xóa thành công");
-                    } else {
-                        toastr.error(data.Message);
+
+
+<script>
+    $(document).ready(function () {
+        function xoaPhong(maPhong) {
+            if (window.confirm("Bạn có muốn xoá không?")) { //ok
+                $.ajax({
+                    method: "POST",
+                    url: "/Admin/LoaiPhong/Delete/"+maPhong,
+                    contentType: 'application/json',
+                    success: function (data) {
+                        if (data.StatusCode === 200) {
+                            var a = "#data_" + maPhong;
+                            $(a
+                            toastr.success("Xóa thành công");
+                        } else {
+                            toastr.error(data.Message);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        toastr.error(rrorThrown);
                     }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    toastr.error(rrorThrown);
-                }
-            });
-            
+                });
+
+            }
         }
-    }
+    });
 </script>
+
 

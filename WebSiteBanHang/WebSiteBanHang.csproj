@@ -46,12 +46,21 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="moment.net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\moment.net.1.0.0\lib\netstandard1.1\moment.net.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -174,16 +183,24 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\BundleConfig.cs" />
+    <Compile Include="Areas\Admin\Controllers\CT_PhieuDatHangNCCController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\DatHangKHController.cs" />
     <Compile Include="Areas\Admin\Controllers\GiaSanPhamController.cs" />
+    <Compile Include="Areas\Admin\Controllers\KhachHangController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhuyenMaiController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiPhongController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiSPController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NCCController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PhieuDatHang_NCCController.cs" />
     <Compile Include="Areas\Admin\Controllers\SanPhamController.cs" />
+    <Compile Include="Areas\Admin\ViewModels\CT_PhieuDatHangNCCViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\DataTableAjaxPostModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\KhachHangViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\DatHangKHViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\LoaiSPViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\NhaCungCapViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\PhieuDatHang_NCCViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ReponseMessage.cs" />
     <Compile Include="Areas\Admin\ViewModels\SanPhamViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -236,11 +253,21 @@
     <Compile Include="Migrations\201905051009467_add-TenKM.Designer.cs">
       <DependentUpon>201905051009467_add-TenKM.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905050834508_add-NCC.cs" />
+    <Compile Include="Migrations\201905050834508_add-NCC.Designer.cs">
+      <DependentUpon>201905050834508_add-NCC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905051547090_config-db.cs" />
+    <Compile Include="Migrations\201905051547090_config-db.Designer.cs">
+      <DependentUpon>201905051547090_config-db.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BanHangContext.cs" />
     <Compile Include="Models\CHITIETDATHANG.cs" />
     <Compile Include="Models\CHITIETMAUPHONG.cs" />
     <Compile Include="Models\CHITIETPHIEUGIAO.cs" />
+    <Compile Include="Models\CTPHIEUNHAP_NCC.cs" />
+    <Compile Include="Models\CT_PHIEUDATNCC.cs" />
     <Compile Include="Models\DANHGIA.cs" />
     <Compile Include="Models\DATHANG.cs" />
     <Compile Include="Models\GIASANPHAM.cs" />
@@ -253,6 +280,9 @@
     <Compile Include="Models\LOAIPHONG.cs" />
     <Compile Include="Models\LOAISANPHAM.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\NHACUNGCAP.cs" />
+    <Compile Include="Models\PHIEUDATHANG_NCC.cs" />
+    <Compile Include="Models\PHIEUNHAP_NCC.cs" />
     <Compile Include="Models\SANPHAM.cs" />
     <Compile Include="Models\TBL_GROUP.cs" />
     <Compile Include="Models\TBL_GROUP_LOGIN.cs" />
@@ -261,11 +291,15 @@
     <Compile Include="Models\TBL_MENU.cs" />
     <Compile Include="Models\TBL_ROLE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CT_PhieuDatHangNCCService.cs" />
     <Compile Include="Services\DatHangKHService.cs" />
     <Compile Include="Services\GiaSPService.cs" />
+    <Compile Include="Services\KhachHangService.cs" />
     <Compile Include="Services\KhuyenMaiService.cs" />
     <Compile Include="Services\LoaiPhongService.cs" />
     <Compile Include="Services\LoaiSPService.cs" />
+    <Compile Include="Services\NCCService.cs" />
+    <Compile Include="Services\PhieuDatHang_NCCService.cs" />
     <Compile Include="Services\SanPhamService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\MenuRole.cs" />
@@ -5796,6 +5830,9 @@
     <Content Include="scripts\moment-with-locales.min.js" />
     <Content Include="scripts\moment.js" />
     <Content Include="scripts\moment.min.js" />
+    <Content Include="Areas\Admin\Views\NCC\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\NCC\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\KhachHang\Index.cshtml" />
     <Content Include="scripts\toastr.js" />
     <Content Include="scripts\toastr.min.js" />
     <Content Include="Web.config">
@@ -6152,6 +6189,10 @@
     <Content Include="Content\Template\bower_components\jvectormap\converter\simplifier.py" />
     <Content Include="Content\Template\bower_components\jvectormap\jvectormap.jquery.json" />
     <Content Include="Content\Template\bower_components\jvectormap\README.md" />
+    <Content Include="Areas\Admin\Views\NCC\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\KhachHang\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuDatHang_NCC\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CT_PhieuDatHangNCC\Index.cshtml" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -6161,6 +6202,8 @@
     <Content Include="Views\Shared\Header.cshtml" />
     <Content Include="Views\Homepage\Index.cshtml" />
     <Content Include="Views\ProductDetails\getDetailProduct.cshtml" />
+    <Content Include="scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201904231741032_InitialCreate.resx">
@@ -6192,6 +6235,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905051009467_add-TenKM.resx">
       <DependentUpon>201905051009467_add-TenKM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905050834508_add-NCC.resx">
+      <DependentUpon>201905050834508_add-NCC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905051547090_config-db.resx">
+      <DependentUpon>201905051547090_config-db.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
