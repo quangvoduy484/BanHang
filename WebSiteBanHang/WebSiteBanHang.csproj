@@ -5785,6 +5785,14 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="scripts\dropzone\basic.css" />
+    <Content Include="scripts\dropzone\basic.min.css" />
+    <Content Include="scripts\dropzone\dropzone-amd-module.js" />
+    <Content Include="scripts\dropzone\dropzone-amd-module.min.js" />
+    <Content Include="scripts\dropzone\dropzone.css" />
+    <Content Include="scripts\dropzone\dropzone.js" />
+    <Content Include="scripts\dropzone\dropzone.min.css" />
+    <Content Include="scripts\dropzone\dropzone.min.js" />
     <Content Include="scripts\jquery-ui-1.12.1.js" />
     <Content Include="scripts\jquery-ui-1.12.1.min.js" />
     <Content Include="scripts\jquery.validate.min.js" />

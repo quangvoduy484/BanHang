@@ -39,8 +39,8 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         public ActionResult Create()
         {
             var loaiSP = loaiSPService.ListAll();
-            SelectList listloaiSP = new SelectList(loaiSP, "Id_LoaiSanPham", "TenLoai");
-            ViewBag.LoaiSP = listloaiSP;
+            SelectList listloaiSP = new SelectList(loaiSP, "MaLoai", "TenLoai");
+            ViewBag.listloaiSP = listloaiSP;
             return View();
         }
 
@@ -53,8 +53,13 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                 // TODO: Add insert logic here
                if(ModelState.IsValid)
                 {
-                    sanPhamService.Add(collection);
-                    return RedirectToAction("Index");
+                   var result = sanPhamService.Add(collection);
+                    if(result != null)
+                    {
+                        return Json(new {data = result.Id_SanPham }, JsonRequestBehavior.AllowGet);
+                    }
+
+                    return View(collection);
                 }
                 return View(collection);
             }
@@ -69,7 +74,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         {
             var sanpham = sanPhamService.Details(id);
             var loaiSP = loaiSPService.ListAll();
-            SelectList listloaiSP = new SelectList(loaiSP, "Id_LoaiSanPham", "TenLoai");
+            SelectList listloaiSP = new SelectList(loaiSP, "MaLoai", "TenLoai");
             ViewBag.LoaiSP = listloaiSP;
             if (sanpham == null)
             {

@@ -91,20 +91,23 @@ namespace WebSiteBanHang.Services
         {
             return context.LOAISANPHAMs.ToList();
         }
-        public void Add(SanPhamViewModel model)
+        public SANPHAM Add(SanPhamViewModel model)
         {
-            var sanPham = new SANPHAM();
-            sanPham.TenSanPham = model.TenSanPham;
-            sanPham.SoLuongTon = model.SoLuongTon;
-            sanPham.XuatXu = model.XuatXu;
-            sanPham.VatLieu = model.VatLieu;
-            sanPham.Mota = model.MoTa;
-            sanPham.MauSac = model.MauSac;
-            sanPham.Id_LoaiSanPham = model.MaLoai;
-            sanPham.KichThuoc = model.KichThuoc;
-            sanPham.HinhAnh = model.HinhAnh;
+            var sanPham = new SANPHAM
+            {
+                TenSanPham = model.TenSanPham,
+                SoLuongTon = model.SoLuongTon,
+                XuatXu = model.XuatXu,
+                VatLieu = model.VatLieu,
+                Mota = model.MoTa,
+                MauSac = model.MauSac,
+                Id_LoaiSanPham = model.MaLoai,
+                KichThuoc = model.KichThuoc
+            };
+            //sanPham.HinhAnh = model.HinhAnh;
             context.SANPHAMs.Add(sanPham);
             context.SaveChanges();
+            return sanPham;
         }
         public SanPhamViewModel Details(int? id)
         {
