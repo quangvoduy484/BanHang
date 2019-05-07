@@ -175,12 +175,14 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\BundleConfig.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DatHangKHController.cs" />
     <Compile Include="Areas\Admin\Controllers\GiaSanPhamController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhuyenMaiController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiPhongController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiSPController.cs" />
     <Compile Include="Areas\Admin\Controllers\SanPhamController.cs" />
     <Compile Include="Areas\Admin\ViewModels\DataTableAjaxPostModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\DatHangKHViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\LoaiSPViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ReponseMessage.cs" />
     <Compile Include="Areas\Admin\ViewModels\SanPhamViewModel.cs" />
@@ -259,6 +261,7 @@
     <Compile Include="Models\TBL_MENU.cs" />
     <Compile Include="Models\TBL_ROLE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DatHangKHService.cs" />
     <Compile Include="Services\GiaSPService.cs" />
     <Compile Include="Services\KhuyenMaiService.cs" />
     <Compile Include="Services\LoaiPhongService.cs" />
@@ -5814,6 +5817,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\DatHangKH\" />
     <Folder Include="Areas\Admin\Views\GiaSanPham\" />
     <Folder Include="Views\RoomKind\" />
   </ItemGroup>
