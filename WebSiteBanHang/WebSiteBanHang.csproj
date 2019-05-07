@@ -183,6 +183,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\BundleConfig.cs" />
+    <Compile Include="Areas\Admin\Controllers\CT_PhieuDatHangNCCController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\GiaSanPhamController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhachHangController.cs" />
@@ -190,11 +191,14 @@
     <Compile Include="Areas\Admin\Controllers\LoaiPhongController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiSPController.cs" />
     <Compile Include="Areas\Admin\Controllers\NCCController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PhieuDatHang_NCCController.cs" />
     <Compile Include="Areas\Admin\Controllers\SanPhamController.cs" />
+    <Compile Include="Areas\Admin\ViewModels\CT_PhieuDatHangNCCViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\DataTableAjaxPostModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\KhachHangViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\LoaiSPViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\NhaCungCapViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\PhieuDatHang_NCCViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ReponseMessage.cs" />
     <Compile Include="Areas\Admin\ViewModels\SanPhamViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -285,12 +289,14 @@
     <Compile Include="Models\TBL_MENU.cs" />
     <Compile Include="Models\TBL_ROLE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CT_PhieuDatHangNCCService.cs" />
     <Compile Include="Services\GiaSPService.cs" />
     <Compile Include="Services\KhachHangService.cs" />
     <Compile Include="Services\KhuyenMaiService.cs" />
     <Compile Include="Services\LoaiPhongService.cs" />
     <Compile Include="Services\LoaiSPService.cs" />
     <Compile Include="Services\NCCService.cs" />
+    <Compile Include="Services\PhieuDatHang_NCCService.cs" />
     <Compile Include="Services\SanPhamService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\MenuRole.cs" />
@@ -6180,6 +6186,9 @@
     <Content Include="Content\Template\bower_components\jvectormap\jvectormap.jquery.json" />
     <Content Include="Content\Template\bower_components\jvectormap\README.md" />
     <Content Include="Areas\Admin\Views\NCC\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\KhachHang\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuDatHang_NCC\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CT_PhieuDatHangNCC\Index.cshtml" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

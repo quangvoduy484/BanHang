@@ -6,6 +6,9 @@
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
+<div style="padding-bottom: 10px; padding-left: 15px;">
+    <a class="btn btn-success" href="/Admin/NCC/Create">Thêm mới</a>
+</div>
 <div class="col-md-12">
     <table id="ncc" class="table table-bordered table-striped table-admin" role="grid">
         <tr>
@@ -27,10 +30,10 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        var nav = $('.content-nav');
-        if (nav.length) {
-            var contentNav = nav.offset().top;
-        }
+        //var nav = $('.content-nav');
+        //if (nav.length) {
+        //    var contentNav = nav.offset().top;
+        //}
         $(document).on('load', loadGridView()); 
 
         //config toastr

@@ -101,8 +101,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         //}
 
         // POST: Admin/NCC/Delete/5
-        // Bien truyen vao o day phai ten la Id
-        // vi router config e de la Id
+        
         [HttpPost]
         public ActionResult Delete(int id)
         {
@@ -113,7 +112,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                 var kq = NCCService.Delete(id);
                 if (kq == false)
                 {
-                    result.Message = "Không tìm thấy loại phòng";
+                    result.Message = "Không tìm thấy nhà cung cấp nào";
                     result.StatusCode = HttpStatusCode.NotFound;
                     return Json(result);
                 }

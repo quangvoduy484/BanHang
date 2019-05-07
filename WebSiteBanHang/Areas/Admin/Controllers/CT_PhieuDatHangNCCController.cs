@@ -8,40 +8,36 @@ using WebSiteBanHang.Services;
 
 namespace WebSiteBanHang.Areas.Admin.Controllers
 {
-    public class KhachHangController : Controller
+    public class CT_PhieuDatHangNCCController : Controller
     {
-        KhachHangService KHService = new KhachHangService();
-        // GET: Admin/KhachHang
+        // GET: Admin/CT_PhieuDatHangNCC
+        CT_PhieuDatHangNCCService CTPDHService = new CT_PhieuDatHangNCCService();
         public ActionResult Index()
         {
             return View();
         }
-        [HttpPost]
         public ActionResult GetAll(DataTableAjaxPostModel dataModel)
         {
-            var KHs = KHService.GetAll(dataModel);
-
-            return Json(KHs);
-        }
-
-        // GET: Admin/KhachHang/Details/5
-        public ActionResult Details(int id)
-        {
-            var khs = KHService.Details(id);
-            if (khs == null)
+            var ct = CTPDHService.GetAll(dataModel);
+            if (ct == null)
             {
                 return HttpNotFound();
             }
-            return View(khs);
+            return View(ct);
+        }
+        // GET: Admin/CT_PhieuDatHangNCC/Details/5
+        public ActionResult Details(int id)
+        {
+            return View();
         }
 
-        // GET: Admin/KhachHang/Create
+        // GET: Admin/CT_PhieuDatHangNCC/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/KhachHang/Create
+        // POST: Admin/CT_PhieuDatHangNCC/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
@@ -57,13 +53,13 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/KhachHang/Edit/5
+        // GET: Admin/CT_PhieuDatHangNCC/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Admin/KhachHang/Edit/5
+        // POST: Admin/CT_PhieuDatHangNCC/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -79,13 +75,13 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/KhachHang/Delete/5
+        // GET: Admin/CT_PhieuDatHangNCC/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Admin/KhachHang/Delete/5
+        // POST: Admin/CT_PhieuDatHangNCC/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {

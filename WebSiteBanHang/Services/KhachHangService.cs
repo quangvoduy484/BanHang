@@ -37,9 +37,9 @@ namespace WebSiteBanHang.Services
                     model = dirBy == "desc" ? model.OrderByDescending(t => t.TenKhachHang)
                             : model.OrderBy(t => t.TenKhachHang);
                     break;
-                case "LoaiKH":
-                    model = dirBy == "desc" ? model.OrderByDescending(t => t.Id_LoaiKhachHang)
-                            : model.OrderBy(t => t.Id_LoaiKhachHang);
+                case "TenLoaiKH":
+                    model = dirBy == "desc" ? model.OrderByDescending(t => t.LOAIKHACHHANG.TenKhachHang)
+                            : model.OrderBy(t => t.LOAIKHACHHANG.TenKhachHang);
                     break;
                 //case "TenLoai":
                 //    model = dirBy == "desc" ? model.OrderByDescending(t => t.LOAIKHACHHANG.TenKhachHang)
@@ -70,7 +70,7 @@ namespace WebSiteBanHang.Services
                 SDT=t.SoDienThoai,
                 Email=t.Email,
                 LoaiKH=t.Id_LoaiKhachHang,
-               // TenLoaiKH=t.LOAIKHACHHANG.TenKhachHang,
+               TenLoaiKH=t.LOAIKHACHHANG.TenKhachHang,
             }).ToList();
 
             return new
@@ -80,6 +80,29 @@ namespace WebSiteBanHang.Services
                 recordsFiltered = totalRecord,
                 data = data
             };
+        }
+
+        public KhachHangViewModel Details(int? id)
+        {
+            var KHs = context.KHACHHANGs.FirstOrDefault(t => t.TrangThai != false && t.Id_KhachHang == id);
+            if (KHs == null)
+            {
+                return null;
+            }
+            var result = new KhachHangViewModel()
+            {
+               
+                HoTen=KHs.TenKhachHang,
+                NgSinh=KHs.NgaySinh,
+                DC=KHs.DiaChi,
+                SDT=KHs.SoDienThoai,
+                Email=KHs.Email,
+                MK=KHs.PassWord,
+                DiemTichLuy=KHs.DiemTichLuy,
+                TongChi=KHs.TongChi,
+                TenLoaiKH=KHs.TenKhachHang,
+            };
+            return result;
         }
     }
 }

@@ -102,7 +102,7 @@
                 { title: "Tên khách hàng", data: "HoTen" },
                 { title: "Số điện thoại", data: "SDT" },
                 { title: "Email", data: "Email" },
-                { title: "Loại khách hàng", data: "LoaiKH" },
+                { title: "Loại khách hàng", data: "TenLoaiKH" },
                 {
                     title: "Chức năng",
                     data: "MaKH",
@@ -113,12 +113,7 @@
                                      <a class="btn btn-success" href="/Admin/KhachHang/Details/${data}">
                                         <i class="fa fa-search-plus"></i>
                                      </a>
-                                     <a class="btn btn-info" href="/Admin/KhachHang/Edit/${data}">
-                                        <i class="fa fa-edit"></i>
-                                     </a>
-                                     <a class="btn btn-danger" onclick="xoaSanPham(${data})">
-                                         <i class="fa fa-trash-o"></i>
-                                     </a>
+                                   
                                  </div> `
                         }
                     }
@@ -126,26 +121,7 @@
 
             });
         }
-    function xoaSanPham(masp) {
-        if (window.confirm("Bạn có muốn xoá không?")) {
-            $.ajax({
-                method: "POST",
-                url: "/Admin/KhachHang/Delete/" + masp,
-                contentType: 'application/json',
-                success: function (data) {
-                    if (data.StatusCode === 200) {
-                        toastr.success("Xóa thành công");
-                        $('#kh').DataTable().ajax.reload();
-                    } else {
-                        toastr.error(data.Message);
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    toastr.error(rrorThrown);
-                }
-            });
-        }
-    }
+  
 </script>
 
 
