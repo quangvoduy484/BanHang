@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using WebSiteBanHang.Areas.Admin.ViewModels;
 using WebSiteBanHang.Models;
 
@@ -27,7 +29,7 @@ namespace WebSiteBanHang.Services
         //    }).ToList();
         //}
 
-        public object GetAll(DataTableAjaxPostModel dataModel)
+        public async Task<object> GetAllAsync(DataTableAjaxPostModel dataModel)
         {
             var sortBy = dataModel.columns[dataModel.order[0].column].data; //Lấy cột để sắp xếp
             var dirBy = dataModel.order[0].dir.ToLower(); //Lấy thứ tự tăng/giảm
@@ -40,7 +42,7 @@ namespace WebSiteBanHang.Services
             {
                 model = model.Where(t => t.TenSanPham.Contains(search));
             }
-            var totalRecord = model.Count();
+            var totalRecord = await model.CountAsync();
             //Sorting
             switch (sortBy)
             {
@@ -69,7 +71,7 @@ namespace WebSiteBanHang.Services
 
             if (dataModel.length == 0) dataModel.length = 10;
             model = model.Skip(dataModel.start).Take(dataModel.length);
-            var data = model.Select(t => new SanPhamViewModel()
+            var data = await model.Select(t => new SanPhamViewModel()
             {
                 MaSanPham = t.Id_SanPham,
                 TenLoai = t.LOAISANPHAM.TenLoai,
@@ -77,7 +79,7 @@ namespace WebSiteBanHang.Services
                 TenSanPham = t.TenSanPham,
                 DVT = t.DonViTinh,
                 XuatXu = t.XuatXu,
-            }).ToList();
+            }).ToListAsync();
 
             return new
             {
@@ -163,6 +165,18 @@ namespace WebSiteBanHang.Services
             sanPhamExist.TrangThai = false;
             context.SaveChanges();
             return true;
+        }
+
+
+        public void UpdateImage(int maSanPham, string urlImage)
+        {
+            var hinh = new HINH()
+            {
+                Link = urlImage,
+                Id_SanPham = maSanPham
+            };
+            context.HINHs.Add(hinh);
+            context.SaveChanges();
         }
     }
 }

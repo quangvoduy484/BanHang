@@ -23,15 +23,6 @@
         color: blue;
     }
 
-    #dropZone {
-        background: gray;
-        border: black dashed 3px;
-        width: 200px;
-        padding: 50px;
-        text-align: center;
-        color: white;
-    }
-
     .dz-progress {
         display: none;
     }
@@ -48,7 +39,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TenSanPham, "Tên sản phẩm", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-6">
-                @Html.EditorFor(model => model.TenSanPham, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.TenSanPham, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
                 @Html.ValidationMessageFor(model => model.TenSanPham, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -153,7 +144,7 @@
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10" style="padding-top:15px">
-                    <input type="button" onclick="createSP()" value="Thêm mới" class="btn btn-primary" />
+                    <input id="sb" type="button" onclick="createSP()" value="Thêm mới" class="btn btn-primary" />
                 </div>
             </div>
 
@@ -186,6 +177,7 @@
     function createSP() {
         var dom = document.getElementById("create");
         var formData = new FormData(dom);
+        $("#sb").attr("disabled", true);
         $.ajax({
             method: "POST",
             url: "/Admin/SanPham/Create",
@@ -198,12 +190,15 @@
                 if (data && data.Id > 0) {
                     toastr.success("Thêm thành công");
                     uploadFile(data.Id);
+                    window.location.href = "/admin/sanpham/index";
                 } else {
                     toastr.error("Có lỗi trong quá trình xử lý");
+                    $("#sb").attr("disabled", false);
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 toastr.error(errorThrown);
+                $("#sb").attr("disabled", false);
             }
         });
     }
@@ -214,7 +209,7 @@
         addRemoveLinks: true,
         autoProcessQueue: false,
         dictRemoveFile: 'Xóa ảnh',
-        acceptedFiles: 'image/jpeg, images/jpg, image/png, image/gif',
+        acceptedFiles: 'image/jpeg, images/jpg, image/png, image/gif'
     });
     Dropzone.autoDiscover = false;
 

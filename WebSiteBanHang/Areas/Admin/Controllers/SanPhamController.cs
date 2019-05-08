@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebSiteBanHang.Areas.Admin.ViewModels;
 using WebSiteBanHang.Services;
-
+using Newtonsoft.Json;
 namespace WebSiteBanHang.Areas.Admin.Controllers
 {
     [Authorize]
@@ -23,9 +23,9 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult GetAll(DataTableAjaxPostModel dataModel)
+        public async Task<object> GetAll(DataTableAjaxPostModel dataModel)
         {
-            var sanPhams = sanPhamService.GetAll(dataModel);
+            var sanPhams = await sanPhamService.GetAllAsync(dataModel);
 
             return Json(sanPhams);
         }
@@ -137,7 +137,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public void UpLoadImage(int id)
+        public async Task UpLoadImage(int id)
         {
             try
             {
@@ -146,22 +146,26 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                 {
                     HttpPostedFileBase file = Request.Files[fileName];
                     var ms = StreamToByteArray(file.InputStream);
+
                     var client = new RestClient(ConfigurationManager.AppSettings["urlUpload"].ToString());
                     var request = new RestRequest(Method.POST);
                     request.AddHeader("cache-control", "no-cache");
                     request.AddHeader("Connection", "keep-alive");
-                    request.AddHeader("content-length", "209");
-                    request.AddHeader("content-type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW");
                     request.AddHeader("accept-encoding", "gzip, deflate");
-                    request.AddHeader("Host", "api.imgur.com");
-                    request.AddHeader("Postman-Token", "e4734b34-44af-4c20-aac2-19d0cd71134c,8e60bfd7-00d3-4c94-8e5e-9c25921c9c55");
                     request.AddHeader("Cache-Control", "no-cache");
                     request.AddHeader("Accept", "*/*");
-                    request.AddHeader("Authorization", "Bearer " + ConfigurationManager.AppSettings["token"].ToString());
-                    request.AddParameter("multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW", "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"image\"\r\n\r\nhttp://www.nhaxinh.com/photo/1000-tu-tivi-vic.jpg\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--", ParameterType.RequestBody);
-                    IRestResponse response = client.Execute(request);
+                    request.AddHeader("Authorization", "Bearer " + ConfigurationManager.AppSettings["tokenUpload"].ToString());
+                    request.AddHeader("content-type", "multipart/form-data");
+                    request.AddParameter("application/octet-stream", ms, ParameterType.RequestBody);
 
+                    var response = await client.ExecuteTaskAsync(request);
+                    var result = JsonConvert.DeserializeObject<ResponseUploadImageModel>(response.Content);
+                    if (result != null && result.Status == HttpStatusCode.OK)
+                    {
+                        sanPhamService.UpdateImage(id, result.Data.Link);
+                    }
                 }
+
             }
             catch (Exception ex)
             {

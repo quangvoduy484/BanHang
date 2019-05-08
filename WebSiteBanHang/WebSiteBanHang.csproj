@@ -188,6 +188,7 @@
     <Compile Include="Areas\Admin\ViewModels\DataTableAjaxPostModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\LoaiSPViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ReponseMessage.cs" />
+    <Compile Include="Areas\Admin\ViewModels\ResponseUploadImageModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\SanPhamViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomepageController.cs" />
