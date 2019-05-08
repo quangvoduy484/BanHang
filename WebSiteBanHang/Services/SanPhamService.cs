@@ -91,7 +91,7 @@ namespace WebSiteBanHang.Services
         {
             return context.LOAISANPHAMs.ToList();
         }
-        public SANPHAM Add(SanPhamViewModel model)
+        public int Add(SanPhamViewModel model)
         {
             var sanPham = new SANPHAM
             {
@@ -107,7 +107,7 @@ namespace WebSiteBanHang.Services
             //sanPham.HinhAnh = model.HinhAnh;
             context.SANPHAMs.Add(sanPham);
             context.SaveChanges();
-            return sanPham;
+            return sanPham.Id_SanPham;
         }
         public SanPhamViewModel Details(int? id)
         {
