@@ -104,5 +104,9 @@ namespace WebSiteBanHang.Services
             };
             return result;
         }
+        public List<KHACHHANG> ListAll()
+        {
+            return context.KHACHHANGs.OrderBy(t => t.TenKhachHang).ToList();
+        }
     }
 }

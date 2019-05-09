@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using WebSiteBanHang.Areas.Admin.ViewModels;
-using WebSiteBanHang.Models;
 using WebSiteBanHang.Services;
 
 namespace WebSiteBanHang.Areas.Admin.Controllers
@@ -12,7 +7,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
     public class DatHangKHController : Controller
     {
         DatHangKHService datHang = new DatHangKHService();
-
+        KhachHangService khachHang = new KhachHangService();
         // GET: Admin/DatHangKH
         public ActionResult Index()
         {
@@ -20,30 +15,43 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        
+        public ActionResult GetAll(DataTableAjaxPostModel dataModel)
+        {
+            var datHangs = datHang.GetAll(dataModel);
+
+            return Json(datHangs);
+        }
 
 
         // GET: Admin/DatHangKH/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var detail = datHang.GetChiTietDatHangs(id);
+            return View(detail);
         }
 
         // GET: Admin/DatHangKH/Create
         public ActionResult Create()
         {
+            var tenKH = khachHang.ListAll();
+            SelectList ListTenKH = new SelectList(tenKH, "Id_KhachHang", "TenKhachHang");
+            ViewBag.tenKH = ListTenKH;
             return View();
         }
 
         // POST: Admin/DatHangKH/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(DatHangKHViewModel collection)
         {
             try
             {
                 // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    datHang.Add(collection);
+                    return RedirectToAction("Index");
+                }
+                return View(collection);
             }
             catch
             {

@@ -194,6 +194,8 @@
     <Compile Include="Areas\Admin\Controllers\NCCController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhieuDatHang_NCCController.cs" />
     <Compile Include="Areas\Admin\Controllers\SanPhamController.cs" />
+    <Compile Include="Areas\Admin\Helpers\Constant.cs" />
+    <Compile Include="Areas\Admin\ViewModels\ChiTietDatHangViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\CT_PhieuDatHangNCCViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\DataTableAjaxPostModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\KhachHangViewModel.cs" />
@@ -260,6 +262,18 @@
     <Compile Include="Migrations\201905051547090_config-db.cs" />
     <Compile Include="Migrations\201905051547090_config-db.Designer.cs">
       <DependentUpon>201905051547090_config-db.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905081435230_edit-trangthaiDH.cs" />
+    <Compile Include="Migrations\201905081435230_edit-trangthaiDH.Designer.cs">
+      <DependentUpon>201905081435230_edit-trangthaiDH.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905081520445_edit-table-CtDH.cs" />
+    <Compile Include="Migrations\201905081520445_edit-table-CtDH.Designer.cs">
+      <DependentUpon>201905081520445_edit-table-CtDH.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905081549155_add-trangthai-ctdh.cs" />
+    <Compile Include="Migrations\201905081549155_add-trangthai-ctdh.Designer.cs">
+      <DependentUpon>201905081549155_add-trangthai-ctdh.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BanHangContext.cs" />
@@ -5854,7 +5868,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\DatHangKH\" />
     <Folder Include="Areas\Admin\Views\GiaSanPham\" />
     <Folder Include="Views\RoomKind\" />
   </ItemGroup>
@@ -6193,6 +6206,8 @@
     <Content Include="Areas\Admin\Views\KhachHang\Details.cshtml" />
     <Content Include="Areas\Admin\Views\PhieuDatHang_NCC\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CT_PhieuDatHangNCC\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\DatHangKH\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\DatHangKH\Details.cshtml" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -6239,6 +6254,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905051547090_config-db.resx">
       <DependentUpon>201905051547090_config-db.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905081435230_edit-trangthaiDH.resx">
+      <DependentUpon>201905081435230_edit-trangthaiDH.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905081520445_edit-table-CtDH.resx">
+      <DependentUpon>201905081520445_edit-table-CtDH.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905081549155_add-trangthai-ctdh.resx">
+      <DependentUpon>201905081549155_add-trangthai-ctdh.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

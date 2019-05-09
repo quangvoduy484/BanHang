@@ -22,6 +22,7 @@
     h2, h4 {
         color: blue;
     }
+    
 </style>
 <h2>CHỈNH SỬA</h2>
 
@@ -85,15 +86,15 @@
         $(".dt1").datepicker({
             dateFormat: "dd/mm/yy",
             onSelect: function (selected) {
-                var dt = $(this).datepicker('getDate'); //lay ngay da chon
-                $(".dt2").datepicker("option", "minDate", dt); //set ngay toi thieu cho Datepicker 2
+                var dt = $(this).datepicker('getDate');
+                $(".dt2").datepicker("option", "minDate", dt);
             }
         });
         $(".dt2").datepicker({
             dateFormat: "dd/mm/yy",
             onSelect: function (selected) {
                 var dt = $(this).datepicker('getDate');
-                $(".dt1").datepicker("option", "maxDate", dt); //set ngay toi da cho Datepicker 1
+                $(".dt1").datepicker("option", "maxDate", dt);
             }
         });
 

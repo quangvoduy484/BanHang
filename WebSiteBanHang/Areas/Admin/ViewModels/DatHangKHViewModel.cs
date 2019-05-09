@@ -10,11 +10,14 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
     {
         [Key]
         public int MaDatHang { get; set; }
-        public DateTime? NgayDatHang { get; set; }
-        public string GhiChu { get; set; }
-        public double TongTien { get; set; }
-        public int? TrangThai { get; set; }
         public int MaKhachHang { get; set; }
         public string TenKhachHang { get; set; }
+        public DateTime? NgayDatHang { get; set; }
+        public string DiaChiGiao { get; set; }
+        public string SoDienThoai { get; set; }
+        public double TongTien { get; set; }
+        public string TrangThai { get; set; }
+        public string GhiChu { get; set; }
+        public List<ChiTietDatHangViewModel> ChiTietDatHangs { get; set; }
     }
 }

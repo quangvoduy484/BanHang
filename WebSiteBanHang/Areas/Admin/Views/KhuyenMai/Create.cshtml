@@ -45,7 +45,7 @@
             @Html.LabelFor(model => model.NgayBatDau, "Ngày bắt đầu", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-6">
 
-                @Html.TextBoxFor(model => model.NgayBatDau, new { @class = "form-control dt1", placeholder = "__/__/____" })
+                @Html.TextBoxFor(model => model.NgayBatDau, new { @class = "form-control dt1",placeholder = "dd/mm/yyyy" })
                 @Html.ValidationMessageFor(model => model.NgayBatDau, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -53,7 +53,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.NgayKetThuc, "Ngày kết thúc", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-6">
-                @Html.TextBoxFor(model => model.NgayKetThuc, new { @class = "form-control dt2", placeholder = "__/__/____" })
+                @Html.TextBoxFor(model => model.NgayKetThuc, new { @class = "form-control dt2", placeholder = "dd/mm/yyyy" })
                 @Html.ValidationMessageFor(model => model.NgayKetThuc, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -61,7 +61,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.GiaTriKhuyenMai, "Giá trị khuyến mãi", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-6">
-                @Html.EditorFor(model => model.GiaTriKhuyenMai, new { htmlAttributes = new { @class = "form-control", placeholder = "Gía trị khuyến mãi" } })
+                @Html.EditorFor(model => model.GiaTriKhuyenMai, new { htmlAttributes = new { @class = "form-control",@id= "intLimitTextBox", placeholder = "Gía trị khuyến mãi" } })
                 @Html.ValidationMessageFor(model => model.GiaTriKhuyenMai, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -81,17 +81,17 @@
 <script type="text/javascript">
     $(function () { // will trigger when the document is ready
         $(".dt1").datepicker({
-            dateformat: "dd/mm/yy",
-            onselect: function (selected) {
-                var dt = $(this).datepicker('getdate');
-                $(".dt2").datepicker("option", "mindate", dt);
+            dateFormat: "dd/mm/yy",
+            onSelect: function (selected) {
+                var dt = $(this).datepicker('getDate');
+                $(".dt2").datepicker("option", "minDate", dt);
             }
         });
         $(".dt2").datepicker({
-            dateformat: "dd/mm/yy",
-            onselect: function (selected) {
-                var dt = $(this).datepicker('getdate');
-                $(".dt1").datepicker("option", "maxdate", dt);
+            dateFormat: "dd/mm/yy",
+            onSelect: function (selected) {
+                var dt = $(this).datepicker('getDate');
+                $(".dt1").datepicker("option", "maxDate", dt);
             }
         });
 
@@ -99,5 +99,22 @@
             return this.optional(element) || moment(value, "DD/MM/YYYY", true).isValid();
         }
 
+        $.fn.inputFilter = function (inputFilter) {
+            return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function () {
+                if (inputFilter(this.value)) {
+                    this.oldValue = this.value;
+                    this.oldSelectionStart = this.selectionStart;
+                    this.oldSelectionEnd = this.selectionEnd;
+                } else if (this.hasOwnProperty("oldValue")) {
+                    this.value = this.oldValue;
+                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                }
+            });
+        };
+
+        //chi nhap so khuyen mai
+        $("#intLimitTextBox").inputFilter(function (value) {
+            return /^\d*$/.test(value) && (value === "" || (parseInt(value) >= 1 && parseInt(value) <= 100));
+        });
     });
 </script>
