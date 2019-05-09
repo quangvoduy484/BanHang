@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using WebSiteBanHang.Areas.Admin.ViewModels;
 using WebSiteBanHang.Models;
 
 namespace WebSiteBanHang.Services
@@ -12,9 +13,15 @@ namespace WebSiteBanHang.Services
             context = new BanHangContext();
 
         }
-        public List<LOAISANPHAM> ListAll()
+        public List<LoaiSPViewModel> ListAll()
         {
-            return context.LOAISANPHAMs.OrderBy(t => t.TenLoai).ToList();
+            return context.LOAISANPHAMs.OrderBy(t => t.TenLoai)
+                 .Select(t=> new LoaiSPViewModel
+                 {
+                     MaLoai = t.Id_LoaiPhong,
+                     TenLoai = t.TenLoai
+                 })
+                .ToList();
         }
         public List<LOAIPHONG> GetAllLoaiPhong()
         {
