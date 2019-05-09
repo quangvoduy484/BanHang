@@ -113,7 +113,9 @@ namespace WebSiteBanHang.Services
         }
         public SanPhamViewModel Details(int? id)
         {
-            var SanPham = context.SANPHAMs.FirstOrDefault(t => t.TrangThai != false && t.Id_SanPham == id);
+            var SanPham = context.SANPHAMs
+                .Include(t => t.HINHs)
+                .FirstOrDefault(t => t.TrangThai != false && t.Id_SanPham == id);
             if (SanPham == null)
             {
                 return null;
@@ -132,7 +134,7 @@ namespace WebSiteBanHang.Services
                 TenLoai = SanPham.LOAISANPHAM.TenLoai,
                 HinhAnh = SanPham.HinhAnh,
                 BaoHanh = SanPham.BaoHanh,
-                MoTa = SanPham.Mota
+                MoTa = SanPham.Mota,
             };
             return result;
         }
@@ -152,6 +154,7 @@ namespace WebSiteBanHang.Services
             sanPham.Id_LoaiSanPham = model.MaLoai;
             sanPham.KichThuoc = model.KichThuoc;
             sanPham.HinhAnh = model.HinhAnh;
+            sanPham.DonViTinh = model.DVT;
             context.SaveChanges();
             return true;
         }
@@ -167,6 +170,71 @@ namespace WebSiteBanHang.Services
             return true;
         }
 
+        public bool DeleteImage(int id)
+        {
+            var hinh = context.HINHs.Find(id);
+            if (hinh == null)
+            {
+                return false;
+            }
+
+            context.HINHs.Remove(hinh);
+            context.SaveChanges();
+            return true;
+        }
+
+        public bool DeletePrimaryImage(int? idSanPham)
+        {
+            var sanPham = context.SANPHAMs.SingleOrDefault(t => t.Id_SanPham == idSanPham && t.TrangThai != false);
+            if (sanPham == null)
+            {
+                return false;
+            }
+            sanPham.HinhAnh = string.Empty;
+            context.SaveChanges();
+            return true;
+        }
+
+        public List<HinhAnhViewModel> getHinhAnhs(int maSanPham)
+        {
+            var images = new List<HinhAnhViewModel>();
+            var sanPham = context.SANPHAMs
+                 .Include(t => t.HINHs)
+                .FirstOrDefault(t => t.TrangThai != false && t.Id_SanPham == maSanPham);
+            if (sanPham == null)
+            {
+                return null;
+            }
+
+            if (!string.IsNullOrWhiteSpace(sanPham.HinhAnh))
+            {
+                images.Add(new HinhAnhViewModel()
+                {
+                    Name = sanPham.TenSanPham + ".png",
+                    Link = sanPham.HinhAnh,
+                    IsPrimary = true
+                });
+            }
+            if (sanPham.HINHs?.Count > 0)
+            {
+                int i = 1;
+                sanPham.HINHs.ToList().ForEach(t =>
+                {
+                    var image = new HinhAnhViewModel()
+                    {
+
+                        Name = sanPham.TenSanPham + "_" + i++ + ".png",
+                        Link = t.Link,
+                        IsPrimary = false,
+                        IdHinhAnh = t.Id_Hinh
+                    };
+                    images.Add(image);
+                });
+
+            }
+            return images;
+
+        }
 
         public void UpdateImage(int maSanPham, string urlImage)
         {

@@ -49,6 +49,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             return View();
         }
 
+
         // POST: Admin/SanPham/Create
         [HttpPost]
         public ActionResult Create(SanPhamViewModel collection)
@@ -94,13 +95,17 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         {
             try
             {
-                // TODO: Add update logic here
-                var result = sanPhamService.Update(collection);
-                if (result == false)
+                if (ModelState.IsValid)
                 {
-                    return HttpNotFound();
+                    // TODO: Add update logic here
+                    var result = sanPhamService.Update(collection);
+                    if (result == false)
+                    {
+                        return HttpNotFound();
+                    }
+                    return Json("success");
                 }
-                return RedirectToAction("Index");
+                return View(collection);
             }
             catch
             {
@@ -182,6 +187,45 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                 input.CopyTo(ms, length);
                 return ms.ToArray();
             }
+        }
+
+        public ActionResult GetImages(int id)
+        {
+            return Json(sanPhamService.getHinhAnhs(id), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteImage(int? idHinhAnh, int? idSanPham)
+        {
+            var result = new ReponseMessage();
+            try
+            {
+                // TODO: Add delete logic here
+                bool kq = false;
+                if (idSanPham.HasValue && idSanPham.Value > 0)
+                {
+                    kq = sanPhamService.DeletePrimaryImage(idSanPham);
+                }
+                else if (idHinhAnh.HasValue && idHinhAnh.Value > 0)
+                {
+                    kq = sanPhamService.DeleteImage(idHinhAnh.Value);
+                }
+                if (kq == false)
+                {
+                    result.Message = "Không tìm thấy hình ảnh";
+                    result.StatusCode = HttpStatusCode.NotFound;
+                    return Json(result);
+                }
+                result.StatusCode = HttpStatusCode.OK;
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Có lỗi trong quá trình xử lý";
+                result.StatusCode = HttpStatusCode.ExpectationFailed;
+                return Json(result);
+            }
+
         }
     }
 

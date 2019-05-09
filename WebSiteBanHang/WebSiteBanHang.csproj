@@ -186,6 +186,7 @@
     <Compile Include="Areas\Admin\Controllers\LoaiSPController.cs" />
     <Compile Include="Areas\Admin\Controllers\SanPhamController.cs" />
     <Compile Include="Areas\Admin\ViewModels\DataTableAjaxPostModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\HinhAnhViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\LoaiSPViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ReponseMessage.cs" />
     <Compile Include="Areas\Admin\ViewModels\ResponseUploadImageModel.cs" />
@@ -239,6 +240,10 @@
     <Compile Include="Migrations\201905051009467_add-TenKM.cs" />
     <Compile Include="Migrations\201905051009467_add-TenKM.Designer.cs">
       <DependentUpon>201905051009467_add-TenKM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905090149492_required-tenloai.cs" />
+    <Compile Include="Migrations\201905090149492_required-tenloai.Designer.cs">
+      <DependentUpon>201905090149492_required-tenloai.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BanHangContext.cs" />
@@ -7157,6 +7162,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905051009467_add-TenKM.resx">
       <DependentUpon>201905051009467_add-TenKM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905090149492_required-tenloai.resx">
+      <DependentUpon>201905090149492_required-tenloai.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
