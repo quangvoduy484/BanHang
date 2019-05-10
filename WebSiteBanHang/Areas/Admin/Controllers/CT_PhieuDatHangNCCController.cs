@@ -18,12 +18,9 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         }
         public ActionResult GetAll(DataTableAjaxPostModel dataModel)
         {
-            var ct = CTPDHService.GetAll(dataModel);
-            if (ct == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ct);
+            var ctpdh = CTPDHService.GetAll(dataModel);
+
+            return Json(ctpdh);
         }
         // GET: Admin/CT_PhieuDatHangNCC/Details/5
         public ActionResult Details(int id)

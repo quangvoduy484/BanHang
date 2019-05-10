@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using WebSiteBanHang.Areas.Admin.ViewModels;
@@ -15,7 +16,6 @@ namespace WebSiteBanHang.Services
             context = new BanHangContext();
 
         }
-
         public object GetAll(DataTableAjaxPostModel dataModel)
         {
             var sortBy = dataModel.columns[dataModel.order[0].column].data; //Lấy cột để sắp xếp
@@ -37,18 +37,27 @@ namespace WebSiteBanHang.Services
                     model = dirBy == "desc" ? model.OrderByDescending(t => t.MAPHIEUDAT)
                             : model.OrderBy(t => t.MAPHIEUDAT);
                     break;
-                case "TenNCC":
-                    model = dirBy == "desc" ? model.OrderByDescending(t => t.SANPHAM.TenSanPham)
-                            : model.OrderBy(t => t.SANPHAM.TenSanPham);
+                case "MaCTPD":
+                    model = dirBy == "desc" ? model.OrderByDescending(t => t.MACTPD)
+                            : model.OrderBy(t => t.MACTPD);
                     break;
-                case "NguoiDat":
+                case "MaSP":
+                    model = dirBy == "desc" ? model.OrderByDescending(t => t.MASANPHAM)
+                            : model.OrderBy(t => t.MASANPHAM);
+                    break;
+                case "TenNguoiDat":
                     model = dirBy == "desc" ? model.OrderByDescending(t => t.NGUOIDAT)
                             : model.OrderBy(t => t.NGUOIDAT);
                     break;
-                case "GhiChu":
-                    model = dirBy == "desc" ? model.OrderByDescending(t => t.PHIEUDATHANG_NCC.GHICHU)
-                            : model.OrderBy(t => t.PHIEUDATHANG_NCC.GHICHU);
-                    break;
+                //case "TenNCC":
+                //    model = dirBy == "desc" ? model.OrderByDescending(t => t.NHACUNGCAP.TENNCC)
+                //            : model.OrderBy(t => t.NHACUNGCAP.TENNCC);
+                //    break;
+                //case "NgayDat":
+                //    model = dirBy == "desc" ? model.OrderByDescending(t => t.NGAYDAT)
+                //            : model.OrderBy(t => t.NGAYDAT);
+                //    break;
+
                 default:
                     model = model.OrderBy(t => t.MAPHIEUDAT);
                     break;
@@ -58,15 +67,18 @@ namespace WebSiteBanHang.Services
 
             if (dataModel.length == 0) dataModel.length = 10;
             model = model.Skip(dataModel.start).Take(dataModel.length);
-            var data = model.Select(t => new CT_PhieuDatHangNCCViewModel()
+            var data = model
+                .Include(t => t.SANPHAM)
+                .AsEnumerable()
+                .Select(t => new CT_PhieuDatHangNCCViewModel()
             {
-
                 MaPhieuDat = t.MAPHIEUDAT,
-                MaSP=t.MASANPHAM,
-                SL=t.SOLUONG,
-                TenNguoiDat=t.NGUOIDAT,
-                NgayDat=t.PHIEUDATHANG_NCC.NGAYDAT,
-                GhiChu=t.PHIEUDATHANG_NCC.GHICHU,
+               MaCTPD=t.MACTPD,
+               TenSP=t.SANPHAM.TenSanPham,
+               SL =t.SOLUONG,
+               TenNguoiDat=t.NGUOIDAT,
+               NgayDat=t.PHIEUDATHANG_NCC.NGAYDAT,
+               GhiChu=t.PHIEUDATHANG_NCC.GHICHU,
 
             }).ToList();
 

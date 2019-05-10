@@ -55,7 +55,9 @@ namespace WebSiteBanHang.Services
 
             if (dataModel.length == 0) dataModel.length = 10;
             model = model.Skip(dataModel.start).Take(dataModel.length);
-            var data = model.Select(t => new PhieuDatHang_NCCViewModel()
+            var data = model
+                
+                .Select(t => new PhieuDatHang_NCCViewModel()
             {
                 MaPhieuDat=t.MAPHIEUDAT,
                 TenNCC=t.NHACUNGCAP.TENNCC,

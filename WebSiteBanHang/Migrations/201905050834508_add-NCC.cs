@@ -19,17 +19,15 @@ namespace WebSiteBanHang.Migrations
                         SOLUONGNHAP = c.Int(),
                         GIANHAP = c.Decimal(precision: 18, scale: 2),
                         THANHTIEN = c.Decimal(precision: 18, scale: 2),
-                        NGUOINHAP = c.String(),
-                        SANPHAM_Id_SanPham = c.Int(),
-                        TBL_LOGIN_USERNAME = c.String(maxLength: 20),
+                        NGUOINHAP = c.String(maxLength: 20),
                     })
                 .PrimaryKey(t => t.MACTPN)
                 .ForeignKey("dbo.PHIEUNHAP_NCC", t => t.MAPHIEUNHAP, cascadeDelete: true)
-                .ForeignKey("dbo.SANPHAM", t => t.SANPHAM_Id_SanPham)
-                .ForeignKey("dbo.TBL_LOGIN", t => t.TBL_LOGIN_USERNAME)
+                .ForeignKey("dbo.SANPHAM", t => t.MASANPHAM)
+                .ForeignKey("dbo.TBL_LOGIN", t => t.NGUOINHAP)
                 .Index(t => t.MAPHIEUNHAP)
-                .Index(t => t.SANPHAM_Id_SanPham)
-                .Index(t => t.TBL_LOGIN_USERNAME);
+                .Index(t => t.MASANPHAM)
+                .Index(t => t.NGUOINHAP);
             
             CreateTable(
                 "dbo.PHIEUNHAP_NCC",
@@ -37,7 +35,6 @@ namespace WebSiteBanHang.Migrations
                     {
                         MAPHIEUNHAP = c.Int(nullable: false, identity: true),
                         MAPHIEUDAT = c.Int(nullable: false),
-                        MANHANVIEN = c.Int(nullable: false),
                         NGAYNHAP = c.DateTime(),
                         TONGTIEN = c.Decimal(precision: 18, scale: 2),
                         GHICHU = c.String(maxLength: 50),
@@ -67,17 +64,15 @@ namespace WebSiteBanHang.Migrations
                         MAPHIEUDAT = c.Int(nullable: false),
                         MASANPHAM = c.Int(nullable: false),
                         SOLUONG = c.Int(),
-                        NGUOIDAT = c.String(),
-                        SANPHAM_Id_SanPham = c.Int(),
-                        TBL_LOGIN_USERNAME = c.String(maxLength: 20),
-                    })
+                        NGUOIDAT = c.String(maxLength: 20),
+                })
                 .PrimaryKey(t => t.MACTPD)
                 .ForeignKey("dbo.PHIEUDATHANG_NCC", t => t.MAPHIEUDAT, cascadeDelete: true)
-                .ForeignKey("dbo.SANPHAM", t => t.SANPHAM_Id_SanPham)
-                .ForeignKey("dbo.TBL_LOGIN", t => t.TBL_LOGIN_USERNAME)
+                .ForeignKey("dbo.SANPHAM", t => t.MASANPHAM)
+                .ForeignKey("dbo.TBL_LOGIN", t => t.NGUOIDAT)
                 .Index(t => t.MAPHIEUDAT)
-                .Index(t => t.SANPHAM_Id_SanPham)
-                .Index(t => t.TBL_LOGIN_USERNAME);
+                .Index(t => t.MASANPHAM)
+                .Index(t => t.NGUOIDAT);
             
             CreateTable(
                 "dbo.NHACUNGCAP",
@@ -91,10 +86,7 @@ namespace WebSiteBanHang.Migrations
                     })
                 .PrimaryKey(t => t.MANCC);
             
-            AlterColumn("dbo.SANPHAM", "Id_KhuyenMai", c => c.Int(nullable: true));
-            AlterColumn("dbo.SANPHAM", "SoLuongTon", c => c.Int(nullable: true));
-            CreateIndex("dbo.SANPHAM", "Id_KhuyenMai");
-            AddForeignKey("dbo.SANPHAM", "Id_KhuyenMai", "dbo.KHUYENMAI", "Id_KhuyenMai", cascadeDelete: true);
+            
         }
         
         public override void Down()

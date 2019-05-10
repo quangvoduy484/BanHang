@@ -17,7 +17,8 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
         public DateTime? NgayDat { get; set;}
         public int? SL { get; set;}
         public int MaSP { get; set; }
-       
-        
+        public string TenSP { get; set; }
+
+
     }
 }

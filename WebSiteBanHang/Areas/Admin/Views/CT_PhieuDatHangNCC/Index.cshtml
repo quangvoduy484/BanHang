@@ -21,20 +21,18 @@
                 Mã phiếu đặt hàng
             </th>
             <th>
-                Mã sản phẩm
+                Mã chi tiết đơn đặt
             </th>
+            <th>
+            Mã sản phẩm
+        </th>
             <th>
                 Số lượng
             </th>
             <th>
-                Tên người đặt
+                Người đặt
             </th>
-            <th>
-                Ngày đặt
-            </th>
-            <th>
-                Ghi chú
-            </th>
+
             <th>Chức năng</th>
         </tr>
         <tbody class="tbody"> </tbody>
@@ -72,7 +70,7 @@
 
             serverSide: true,
             ajax: {
-                url: "/Admin/CT_PhieuDatHang/getall",
+                url: "/Admin/CT_PhieuDatHangNCC/getall",
                 type: "POST",
                 dataType: "JSON",
             },
@@ -88,20 +86,18 @@
             columns: [
 
                 { title: " Mã phiếu đặt hàng", data: "MaPhieuDat" },
-                { title: "Mã sản phẩm", data: "MaSP" },
+                { title: " Mã chi tiết đơn đặt", data: "MaCTPD" },
+                { title: "Mã sản phẩm", data: "TenSP" },
                 { title: "Số lượng", data: "SL" },
-                { title: "Tên người đặt", data: "TenNguoiDat" },
-                { title: "Ngày đặt", data: "NgayDat" },
-                { title: "Ghi chú", data: "GhiChu" },
-                
+                { title: "Người đặt", data: "TenNguoiDat" },
                 {
                     title: "Chức năng",
-                    data: "MaPhieuDat",
+                    data: "MaCTPN",
                     searchable: false,
                     sortable: false,
                     render: function (data, type, full, meta) {
                         return `<div>
-                                     <a class="btn btn-success" href="/Admin/NCC/Details/${data}">
+                                     <a class="btn btn-success" href="/Admin/NCC/Index/${data}">
                                         <i class="fa fa-search-plus"></i>
                                      </a>
                                      <a class="btn btn-info" href="/Admin/NCC/Edit/${data}">
@@ -114,7 +110,7 @@
 
                     }
                 }
-           ],
+            ],
 
         });
     }
