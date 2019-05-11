@@ -33,6 +33,10 @@ namespace WebSiteBanHang.Models
         public bool? Inactive { get; set; }
         public virtual ICollection<TBL_GROUP_LOGIN> TBL_GROUP_LOGINs { get; set; }
 
+        public virtual ICollection<CTPHIEUNHAP_NCC> CTPHIEUNHAP_NCCs { get; set; }
+
+        public virtual ICollection<CT_PHIEUDATNCC> GetCT_PHIEUDATNCCs { get; set; }
+
 
     }
 }

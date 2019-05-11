@@ -1,0 +1,84 @@
+﻿@model IEnumerable<WebSiteBanHang.Areas.Admin.ViewModels.ChiTietDatHangViewModel>
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+<style>
+    .table-admin {
+        border: 1px solid #ddd;
+    }
+
+        .table-admin td, .table-admin th {
+            border: 1px solid #ddd !important;
+        }
+
+    .TieuDe p {
+        font-family: initial;
+        font-size: 35px;
+        color: #00020c;
+    }
+
+    .TieuDe a {
+        width: 50px;
+    }
+
+    h2 {
+        text-align: center;
+        color: #4169E1;
+    }
+    .Bang {
+        background: none;
+        border-top: none;
+    }
+</style>
+<h2>CHI TIẾT ĐẶT HÀNG</h2>
+<div class="col-md-12">
+    <div class="box Bang">
+
+        <table class="table table-bordered table-striped table-admin" role="grid">
+            <tr>
+                <th>
+                    Tên sản phẩm
+                </th>
+                <th>
+                   Số lượng
+                <th>
+                    Giá bán
+                </th>
+                <th>
+                   Thành tiền
+                </th>
+                <th>Chức năng</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TenSanPham)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SoLuong)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GiaBan)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ThanhTien)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.MaChiTiet })
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+    </div>
+
+    <div class="CanhLe">
+        @Html.ActionLink("<< Quay lại danh sách", "Index")
+    </div>
+</div>

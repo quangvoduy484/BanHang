@@ -27,63 +27,25 @@
         text-align: center;
         color: #4169E1;
     }
+
+    .Bang {
+        background: none;
+        border-top: none;
+    }
 </style>
 <h2>DANH SÁCH SẢN PHẨM</h2>
 
 <div style="padding-bottom: 10px; padding-left: 15px;">
     <a class="btn btn-success" href="/Admin/SanPham/Create">Thêm mới</a>
+
 </div>
 <div class="col-md-12">
-    <table id="sp" class="table table-bordered table-striped table-admin" role="grid">
+    <div class="box Bang">
+        <table id="sp" class="table table-bordered table-striped table-admin" role="grid">
+            <tbody class="tbody"></tbody>
+        </table>
+    </div>
 
-        <tr>
-
-            <th>
-                Tên sản phẩm
-            </th>
-            <th>
-                Tên loại
-            </th>
-            <th>
-                Đơn vị tính
-            </th>
-            <th>
-                Kích thước
-            </th>
-            <th>Chức năng</th>
-        </tr>
-        <tbody class="tbody"></tbody>
-
-        @*@foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TenSanPham)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TenLoai)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DVT)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.KichThuoc)
-                </td>
-                <td>
-                    <a class="btn btn-success" href="/Admin/SanPham/Detail/@item.MaSanPham">
-                        <i class="fa fa-search-plus"></i>
-                    </a>
-                    <a class="btn btn-info" href="/Admin/SanPham/Edit/@item.MaSanPham">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                    <a class="btn btn-danger" onclick="xoaSP(@item.MaSanPham)">
-                        <i class="fa fa-trash-o"></i>
-                    </a>
-                </td>
-            </tr>
-        }*@
-
-    </table>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -169,7 +131,7 @@
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    toastr.error(rrorThrown);
+					toastr.error(errorThrown);
                 }
             });
         }

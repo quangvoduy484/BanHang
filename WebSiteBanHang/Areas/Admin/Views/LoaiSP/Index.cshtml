@@ -16,15 +16,10 @@
             border: 1px solid #ddd !important;
         }
 
-    /*.table-admin td {
-            color: #0e0e0e;
-        }
-
-        .table-admin th {
-            font-size: 20px;
-            font-family: initial;
-            color: #0e0e0e;
-        }*/
+    .Bang {
+        background: none;
+        border-top: none;
+    }
 
     .TieuDe p {
         font-family: initial;
@@ -35,24 +30,31 @@
     .TieuDe a {
         width: 50px;
     }
+    h2{
+        text-align:center;
+        color:blue;
+    }
 </style>
 <div class="TieuDe">
-    <p>DANH SÁCH LOẠI SẢN PHẨM</p>
+    <h2>DANH SÁCH LOẠI SẢN PHẨM</h2>
 </div>
 <div style="padding-bottom: 10px; padding-left: 15px;">
     <a class="btn btn-success" href="/Admin/LoaiSP/Create">Thêm mới</a>
 </div>
 <div class="col-md-12">
-    <table id="loaisp" class="table table-bordered table-striped table-admin" role="grid">
-        <thead>
-            <tr>
-                <th>Tên loại</th>
-                <th>Tên phòng</th>
-                <th>Chức năng</th>
-            </tr>
-        </thead>
-        <tbody class="tbody"></tbody>
-    </table>
+    <div class="box Bang">
+        <table id="loaisp" class="table table-bordered table-striped table-admin" role="grid">
+            <thead>
+                <tr>
+                    <th>Tên loại</th>
+                    <th>Tên phòng</th>
+                    <th>Chức năng</th>
+                </tr>
+            </thead>
+            <tbody class="tbody"></tbody>
+        </table>
+    </div>
+  
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
