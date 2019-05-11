@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using WebSiteBanHang.Areas.Admin.ViewModels;
 using WebSiteBanHang.Models;
+using static WebSiteBanHang.Areas.Admin.Helpers.Constant;
 
 namespace WebSiteBanHang.Services
 {
@@ -27,7 +29,7 @@ namespace WebSiteBanHang.Services
             //serch
             if (!string.IsNullOrWhiteSpace(search))
             {
-                model = model.Where(t => t.GHICHU.Contains(search));
+                model = model.Where(t => t.NHACUNGCAP.TENNCC.Contains(search));
             }
             var totalRecord = model.Count();
             //Sorting
@@ -41,11 +43,19 @@ namespace WebSiteBanHang.Services
                     model = dirBy == "desc" ? model.OrderByDescending(t => t.NHACUNGCAP.TENNCC)
                             : model.OrderBy(t => t.NHACUNGCAP.TENNCC);
                     break;
+                case "NguoiDat":
+                    model = dirBy == "desc" ? model.OrderByDescending(t => t.NGUOIDAT)
+                            : model.OrderBy(t => t.NHACUNGCAP.TENNCC);
+                    break;
+                case "TrangThai":
+                    model = dirBy == "desc" ? model.OrderByDescending(t => t.TRANGTHAI)
+                            : model.OrderBy(t => t.NHACUNGCAP.TRANGTHAI);
+                    break;
                 case "NgayDat":
                     model = dirBy == "desc" ? model.OrderByDescending(t => t.NGAYDAT)
                             : model.OrderBy(t => t.NGAYDAT);
                     break;
-               
+
                 default:
                     model = model.OrderBy(t => t.MAPHIEUDAT);
                     break;
@@ -55,14 +65,18 @@ namespace WebSiteBanHang.Services
 
             if (dataModel.length == 0) dataModel.length = 10;
             model = model.Skip(dataModel.start).Take(dataModel.length);
-            var data = model.Select(t => new PhieuDatHang_NCCViewModel()
-            {
-                MaPhieuDat=t.MAPHIEUDAT,
-                TenNCC=t.NHACUNGCAP.TENNCC,
-                NgayDat=t.NGAYDAT,
-                GhiChu=t.GHICHU,
-               
-            }).ToList();
+            var data = model.
+                Select(t => new PhieuDatHang_NCCViewModel()
+                {
+                    MaPhieuDat = t.MAPHIEUDAT,
+                    TenNCC = t.NHACUNGCAP.TENNCC,
+                    TongTien = t.TONGTIEN,
+                    NguoiDat = t.NGUOIDAT,
+                    NgayDat = t.NGAYDAT,
+                    TrangThai = t.TRANGTHAI == 0 ? TinhTrangDatHang.DaHuy :
+                                    (t.TRANGTHAI == 1 ? TinhTrangDatHang.DangXyLy : TinhTrangDatHang.DaNhan)
+
+                }).ToList();
 
             return new
             {
@@ -71,6 +85,59 @@ namespace WebSiteBanHang.Services
                 recordsFiltered = totalRecord,
                 data = data
             };
+        }
+
+        //internal void Add(PhieuDatHang_NCCViewModel collection)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public List<CT_PhieuDatHangNCCViewModel> GETCTDH_NCC(int id)
+        {
+
+            var chiTiets = context.CT_PHIEUDATNCCs.Where(t => t.MAPHIEUDAT == id)
+                .Select(t => new CT_PhieuDatHangNCCViewModel()
+                {
+                    TenSanPham = t.SANPHAM.TenSanPham,
+                    SL = t.SOLUONG,
+                    MaSP = t.SANPHAM.Id_SanPham,
+                    //TenNguoiDat = Session["USERNAME"];
+
+
+                }).ToList();
+            return chiTiets;
+        }
+       
+        public List<NHACUNGCAP> GetAllNCC()
+        {
+            return context.NHACUNGCAPs.ToList();
+        }
+
+        private int ConvertToTrangThaiInt(string trangThai)
+        {
+            if (trangThai == TinhTrangDatHang.DaHuy)
+            {
+                return 0;
+            }
+            if (trangThai == TinhTrangDatHang.DangXyLy)
+            {
+                return 1;
+            }
+            return 2;
+        }
+        public void Add(PhieuDatHang_NCCViewModel model)
+        {
+            var dathang = new PHIEUDATHANG_NCC
+            {
+                MANCC = model.MaNCC,
+                NGAYDAT = DateTime.Now,
+                NGUOIDAT = HttpContext.Current.User.Identity.Name,
+                TRANGTHAI = 1
+                
+
+            };
+            context.PHIEUDATHANG_NCCs.Add(dathang);
+            context.SaveChanges();
         }
     }
 }

@@ -114,6 +114,17 @@ namespace WebSiteBanHang.Services
         {
             return context.LOAISANPHAMs.ToList();
         }
+        public List<SanPhamViewModel> GetTenSP()
+        {
+
+            return context.SANPHAMs.OrderBy(t => t.TenSanPham)
+                 .Select(t => new SanPhamViewModel
+                 {
+                     MaSanPham = t.Id_SanPham,
+                     TenSanPham = t.TenSanPham,
+                 })
+                    .ToList();
+        }
         public int Add(SanPhamViewModel model)
         {
             var sanPham = new SANPHAM
