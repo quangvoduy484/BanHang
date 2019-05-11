@@ -17,6 +17,7 @@ namespace WebSiteBanHang.Services
             return context.KHUYENMAIs.ToList().Select(t => new KHUYENMAI()
             {
                 Id_KhuyenMai = t.Id_KhuyenMai,
+                TenKhuyenMai=t.TenKhuyenMai,
                 NgayBatDau = t.NgayBatDau,
                 NgayKetThuc = t.NgayKetThuc,
                 GiaTriKhuyenMai = t.GiaTriKhuyenMai
@@ -35,6 +36,7 @@ namespace WebSiteBanHang.Services
             {
                 return false;
             }
+            khuyenMaiExist.TenKhuyenMai = khuyenMai.TenKhuyenMai;
             khuyenMaiExist.NgayBatDau = khuyenMai.NgayBatDau;
             khuyenMaiExist.NgayKetThuc = khuyenMai.NgayKetThuc;
             khuyenMaiExist.GiaTriKhuyenMai = khuyenMai.GiaTriKhuyenMai;

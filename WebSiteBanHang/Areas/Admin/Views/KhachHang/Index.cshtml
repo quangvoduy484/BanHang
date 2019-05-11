@@ -1,0 +1,127 @@
+﻿@model IEnumerable<WebSiteBanHang.Areas.Admin.ViewModels.KhachHangViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+<style>
+    .table-admin {
+        border: 1px solid #ddd;
+    }
+
+        .table-admin td, .table-admin th {
+            border: 1px solid #ddd !important;
+        }
+
+    .TieuDe p {
+        font-family: initial;
+        font-size: 35px;
+        color: #00020c;
+    }
+
+    .TieuDe a {
+        width: 50px;
+    }
+
+    h2 {
+        text-align: center;
+        color: #4169E1;
+    }
+</style>
+<h2>DANH SÁCH KHÁCH HÀNG</h2>
+
+<div style="padding-bottom: 10px; padding-left: 15px;">
+    <a class="btn btn-success" href="/Admin/KhachHang/Create">Thêm mới</a>
+</div>
+<div class="col-md-12">
+    <table id="kh" class="table table-bordered table-striped table-admin" role="grid">
+
+        <tr>
+
+            <th>
+                Tên khách hàng
+            </th>
+            <th>
+                Số điện thoại
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Loại khách hàng
+            </th>
+            <th>Chức năng</th>
+        </tr>
+        <tbody class="tbody"></tbody>
+
+    </table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        loadGridView();
+
+        //config toastr
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "2000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    });
+    function loadGridView() {
+        $('#kh').DataTable({
+
+            serverSide: true,
+            ajax: {
+                url: "/Admin/KhachHang/getall",
+                type: "POST",
+                dataType: "JSON",
+            },
+            language: {
+                lengthMenu: "Hiển thị _MENU_ mục",
+                zeroRecords: "Không tìm thấy ",
+                info: "Hiển thị trang _PAGE_ đến _PAGES_ của _MAX_ mục",
+                infoEmpty: "Không có dữ liệu",
+                infoFiltered: "(lọc từ _MAX_ tổng mục)",
+                search: "Tìm kiếm",
+                searchPlaceholder: "Search...",
+            },
+            columns: [
+                { title: "Tên khách hàng", data: "HoTen" },
+                { title: "Số điện thoại", data: "SDT" },
+                { title: "Email", data: "Email" },
+                { title: "Loại khách hàng", data: "TenLoaiKH" },
+                {
+                    title: "Chức năng",
+                    data: "MaKH",
+                    searchable: false,
+                    sortable: false,
+                    render: function (data, type, full, meta) {
+                        return `<div>
+                                     <a class="btn btn-success" href="/Admin/KhachHang/Details/${data}">
+                                        <i class="fa fa-search-plus"></i>
+                                     </a>
+                                   
+                                 </div> `
+                        }
+                    }
+                ],
+
+            });
+        }
+  
+</script>
+
+

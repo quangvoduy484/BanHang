@@ -1,0 +1,133 @@
+﻿@model IEnumerable<WebSiteBanHang.Areas.Admin.ViewModels.DatHangKHViewModel>
+
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+<h2>ĐƠN ĐẶT HÀNG</h2>
+<style>
+    .table-admin {
+        border: 1px solid #ddd;
+    }
+
+        .table-admin td, .table-admin th {
+            border: 1px solid #ddd !important;
+        }
+
+    .TieuDe p {
+        font-family: initial;
+        font-size: 35px;
+        color: #00020c;
+    }
+
+    .TieuDe a {
+        width: 50px;
+    }
+
+    h2 {
+        text-align: center;
+        color: #4169E1;
+    }
+</style>
+<div class="col-md-12">
+    <div style="padding:10px">
+        <table id="dh" class="table table-bordered table-striped table-admin" role="grid">
+            <tbody class="tbody"></tbody>
+        </table>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        loadGridView();
+
+        //config toastr
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "2000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    });
+
+    function loadGridView() {
+        $('#dh').DataTable({
+            serverSide: true,
+            ajax: {
+                url: "/Admin/DatHangKH/getall",
+                type: "POST",
+                dataType: "JSON",
+            },
+            language: {
+                lengthMenu: "Hiển thị _MENU_ mục",
+                zeroRecords: "Không tìm thấy ",
+                info: "Hiển thị trang _PAGE_ đến _PAGES_ của _MAX_ mục",
+                infoEmpty: "Không có dữ liệu",
+                infoFiltered: "(lọc từ _MAX_ tổng mục)",
+                search: "Tìm kiếm",
+                searchPlaceholder: "Search...",
+            },
+            columns: [
+                { title: "Mã đặt hàng", data: "MaDatHang" },
+                { title: "Tên Khách hàng", data: "TenKhachHang" },
+                {
+                    title: "Ngày đặt",
+                    data: "NgayDatHang",
+                    render: function (data, type, full, meta) {
+                        data = new Date(parseInt(data.replace("/Date(", "").replace(")/", ""), 10));
+                        var dd = data.getDate();
+                        var mm = data.getMonth() + 1; //January is 0!
+                        var yyyy = data.getFullYear();
+                        if (dd < 10) {
+                            dd = '0' + dd;
+                        }
+                        if (mm < 10) {
+                            mm = '0' + mm;
+                        }
+                        var formatted_date = dd + '/' + mm + '/' + yyyy;
+                        return formatted_date;
+                    }
+                },
+                { title: "Ghi chú", data: "GhiChu" },
+                { title: "Tổng tiền", data: "TongTien" },
+                { title: "Trạng thái", data: "TrangThai" },
+                {
+                    title: "Chức năng",
+                    data: "MaDatHang",
+                    searchable: false,
+                    sortable: false,
+                    render: function (data, type, full, meta) {
+                        return `<div>
+                                     <a class="btn btn-success" href="/Admin/DatHangKH/Details/${data}">
+                                        <i class="fa fa-search-plus"></i>
+                                     </a>
+                                     <a class="btn btn-info" href="/Admin/DatHangKH/Edit/${data}">
+                                        <i class="fa fa-edit"></i>
+                                     </a>
+                                     <a class="btn btn-danger" onclick="xoaDatHangKH(${data})">
+                                         <i class="fa fa-trash-o"></i>
+                                     </a>
+                                 </div> `
+                    }
+                }
+            ],
+
+        });
+    }
+</script>

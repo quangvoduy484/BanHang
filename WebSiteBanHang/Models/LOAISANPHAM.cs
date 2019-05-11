@@ -11,6 +11,7 @@ namespace WebSiteBanHang.Models
   {
     [Key]
     public int Id_LoaiSanPham { get; set; }
+    [Required]
     public string TenLoai { get; set; }
     public int Id_LoaiPhong { get; set; }
     public bool? TrangThai { get; set; }

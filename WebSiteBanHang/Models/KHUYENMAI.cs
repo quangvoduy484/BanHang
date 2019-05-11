@@ -6,14 +6,16 @@ using System.Web;
 
 namespace WebSiteBanHang.Models
 {
-  public class KHUYENMAI
-  {
-    [Key]
-    public int Id_KhuyenMai { get; set; }
-    public  DateTime? NgayBatDau { get; set; }
-    public DateTime? NgayKetThuc { get; set; }
-    public double GiaTriKhuyenMai { get; set; }
-    public ICollection<SANPHAM> SANPHAMs { get; set; }
+    public class KHUYENMAI
+    {
+        [Key]
+        public int Id_KhuyenMai { get; set; }
+        [StringLength(1000)]
+        public string TenKhuyenMai { get; set; }
+        public DateTime? NgayBatDau { get; set; }
+        public DateTime? NgayKetThuc { get; set; }
+        public double GiaTriKhuyenMai { get; set; }
+        public ICollection<SANPHAM> SANPHAMs { get; set; }
 
-  }
+    }
 }

@@ -6,11 +6,19 @@
 }
 <style>
     * {
-        font-size: 16px;
+        font-size: 14px;
     }
 
     label {
         font-weight: initial;
+    }
+    h2, h4 {
+        padding-left: 10px;
+    }
+
+    .QuayLai {
+        padding-left: 10px;
+        padding-right: 10px;
     }
 </style>
 <h2>THÊM MỚI</h2>
@@ -23,23 +31,23 @@
         <h4>Loại phòng</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.TenLoaiPhong, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group QuayLai">
+            @Html.LabelFor(model => model.TenLoaiPhong,"Tên loại phòng", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-6">
                 @Html.EditorFor(model => model.TenLoaiPhong, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TenLoaiPhong, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.HinhAnh, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group QuayLai">
+            @Html.LabelFor(model => model.HinhAnh,"Hình ảnh", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-6">
                 @Html.EditorFor(model => model.HinhAnh, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.HinhAnh, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group QuayLai">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Thêm mới" class="btn btn-primary" />
             </div>
@@ -47,6 +55,6 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Quay lại danh sách", "Index")
+<div class="QuayLai">
+    @Html.ActionLink("<< Quay lại danh sách", "Index")
 </div>

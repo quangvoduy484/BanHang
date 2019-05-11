@@ -8,15 +8,19 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
 {
     public class SanPhamViewModel
     {
+        public SanPhamViewModel()
+        {
+            HinhAnhs = new List<HinhAnhViewModel>();
+        }
         [Key]
         public int MaSanPham { get; set; }
+        [Required]
         public string TenSanPham { get; set; }
         public int MaLoai { get; set; }
         public string TenLoai { get; set; }
         public int? MaKM { get; set; }
         public string XuatXu { get; set; }
         public int? SoLuongTon { get; set; }
-
         public string DVT { get; set; }
 
         public string MauSac { get; set; }
@@ -24,9 +28,9 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
         public string VatLieu { get; set; }
 
         public string KichThuoc { get; set; }
-
         public string HinhAnh { get; set; }
         public string BaoHanh { get; set; }
         public string MoTa { get; set; }
+        public List<HinhAnhViewModel> HinhAnhs { get; set; }
     }
 }
