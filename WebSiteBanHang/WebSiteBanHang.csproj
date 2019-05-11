@@ -188,7 +188,6 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\BundleConfig.cs" />
-    <Compile Include="Areas\Admin\Controllers\CT_PhieuDatHangNCCController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\DatHangKHController.cs" />
     <Compile Include="Areas\Admin\Controllers\GiaSanPhamController.cs" />
@@ -258,13 +257,13 @@
     <Compile Include="Migrations\201905041116221_modify-slton-id-km.Designer.cs">
       <DependentUpon>201905041116221_modify-slton-id-km.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201905051009467_add-TenKM.cs" />
-    <Compile Include="Migrations\201905051009467_add-TenKM.Designer.cs">
-      <DependentUpon>201905051009467_add-TenKM.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201905050834508_add-NCC.cs" />
     <Compile Include="Migrations\201905050834508_add-NCC.Designer.cs">
       <DependentUpon>201905050834508_add-NCC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905051009467_add-TenKM.cs" />
+    <Compile Include="Migrations\201905051009467_add-TenKM.Designer.cs">
+      <DependentUpon>201905051009467_add-TenKM.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201905051547090_config-db.cs" />
     <Compile Include="Migrations\201905051547090_config-db.Designer.cs">
@@ -298,6 +297,10 @@
     <Compile Include="Migrations\201905110427555_reslove-conflic.Designer.cs">
       <DependentUpon>201905110427555_reslove-conflic.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905110544551_update-PDH.cs" />
+    <Compile Include="Migrations\201905110544551_update-PDH.Designer.cs">
+      <DependentUpon>201905110544551_update-PDH.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BanHangContext.cs" />
     <Compile Include="Models\CHITIETDATHANG.cs" />
@@ -328,7 +331,6 @@
     <Compile Include="Models\TBL_MENU.cs" />
     <Compile Include="Models\TBL_ROLE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\CT_PhieuDatHangNCCService.cs" />
     <Compile Include="Services\DatHangKHService.cs" />
     <Compile Include="Services\GiaSPService.cs" />
     <Compile Include="Services\KhachHangService.cs" />
@@ -6912,7 +6914,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -6977,9 +6981,11 @@
     <Content Include="Areas\Admin\Views\NCC\Index.cshtml" />
     <Content Include="Areas\Admin\Views\KhachHang\Details.cshtml" />
     <Content Include="Areas\Admin\Views\PhieuDatHang_NCC\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\CT_PhieuDatHangNCC\Index.cshtml" />
     <Content Include="Areas\Admin\Views\DatHangKH\Index.cshtml" />
     <Content Include="Areas\Admin\Views\DatHangKH\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuDatHang_NCC\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\DatHangKH\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuDatHang_NCC\Create.cshtml" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -7018,14 +7024,14 @@
     <EmbeddedResource Include="Migrations\201905041116221_modify-slton-id-km.resx">
       <DependentUpon>201905041116221_modify-slton-id-km.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905050834508_add-NCC.resx">
+      <DependentUpon>201905050834508_add-NCC.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905051009467_add-TenKM.resx">
       <DependentUpon>201905051009467_add-TenKM.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905090149492_required-tenloai.resx">
       <DependentUpon>201905090149492_required-tenloai.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905050834508_add-NCC.resx">
-      <DependentUpon>201905050834508_add-NCC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905051547090_config-db.resx">
       <DependentUpon>201905051547090_config-db.cs</DependentUpon>
@@ -7047,6 +7053,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905110427555_reslove-conflic.resx">
       <DependentUpon>201905110427555_reslove-conflic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905110544551_update-PDH.resx">
+      <DependentUpon>201905110544551_update-PDH.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

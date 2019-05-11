@@ -8,13 +8,11 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
     public class CT_PhieuDatHangNCCViewModel
     {
         public int MaPhieuDat { get; set; }
-        public int MaCTPN { get; set; }
+        public int MaCTPhieuDat { get; set; }
         public int MaSP { get; set; }
-        public string TenSP { get; set; }
+        public string TenSanPham { get; set; }
         public int? SL { get; set; }
         public string TenNguoiDat { get; set; }
-        public string TenNCC { get; set; }
-        public DateTime? NgayDat { get; set; }
-        public string GhiChu { get; set; }
+        public List<SanPhamViewModel> sanPhamViewModels { get; set; }
     }
 }

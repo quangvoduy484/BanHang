@@ -12,6 +12,8 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
     {
         // GET: Admin/PhieuDatHang_NCC
         PhieuDatHang_NCCService PDHService = new PhieuDatHang_NCCService();
+        NCCService NCCService = new NCCService();
+        SanPhamService SPService = new SanPhamService();
         public ActionResult Index()
         {
             return View();
@@ -28,29 +30,43 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         // GET: Admin/PhieuDatHang_NCC/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var detail = PDHService.GETCTDH_NCC(id);
+            return View(detail);
         }
 
         // GET: Admin/PhieuDatHang_NCC/Create
         public ActionResult Create()
-        {
+        { 
+            // Láy tên NCC
+            var NCC = NCCService.GetAllNcc();
+            SelectList listNCC = new SelectList(NCC, "MaNCC", "TenNCC");
+            ViewBag.listNCC = listNCC;
+            // Lấy tên SP
+            var SP = SPService.GetTenSP();
+            SelectList listSP = new SelectList(SP, "MaSanPham", "TenSanPham");
+            ViewBag.listSP = listSP;
             return View();
         }
 
         // POST: Admin/PhieuDatHang_NCC/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(PhieuDatHang_NCCViewModel collection)
         {
             try
             {
                 // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    PDHService.Add(collection);
+                    return RedirectToAction("Index");
+                }
+                return View(collection);
             }
             catch
             {
                 return View();
             }
+            
         }
 
         // GET: Admin/PhieuDatHang_NCC/Edit/5

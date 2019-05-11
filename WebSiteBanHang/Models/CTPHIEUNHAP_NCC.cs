@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -21,11 +22,10 @@ namespace WebSiteBanHang.Models
 
         public decimal? THANHTIEN { get; set; }
 
-        public string NGUOINHAP { get; set; }
-        public virtual TBL_LOGIN TBL_LOGIN { get; set; }
 
         public virtual PHIEUNHAP_NCC PHIEUNHAP_NCC { get; set; }
 
+        [ForeignKey("MASANPHAM")]
         public virtual SANPHAM SANPHAM { get; set; }
     }
 }
