@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using WebSiteBanHang.Areas.Admin.ViewModels;
 using WebSiteBanHang.Models;
 
@@ -27,7 +29,7 @@ namespace WebSiteBanHang.Services
         //    }).ToList();
         //}
 
-        public object GetAll(DataTableAjaxPostModel dataModel)
+        public async Task<object> GetAllAsync(DataTableAjaxPostModel dataModel)
         {
             var sortBy = dataModel.columns[dataModel.order[0].column].data; //Lấy cột để sắp xếp
             var dirBy = dataModel.order[0].dir.ToLower(); //Lấy thứ tự tăng/giảm
@@ -40,7 +42,7 @@ namespace WebSiteBanHang.Services
             {
                 model = model.Where(t => t.TenSanPham.Contains(search));
             }
-            var totalRecord = model.Count();
+            var totalRecord = await model.CountAsync();
             //Sorting
             switch (sortBy)
             {
@@ -69,7 +71,7 @@ namespace WebSiteBanHang.Services
 
             if (dataModel.length == 0) dataModel.length = 10;
             model = model.Skip(dataModel.start).Take(dataModel.length);
-            var data = model.Select(t => new SanPhamViewModel()
+            var data = await model.Select(t => new SanPhamViewModel()
             {
                 MaSanPham = t.Id_SanPham,
                 TenLoai = t.LOAISANPHAM.TenLoai,
@@ -77,7 +79,7 @@ namespace WebSiteBanHang.Services
                 TenSanPham = t.TenSanPham,
                 DVT = t.DonViTinh,
                 XuatXu = t.XuatXu,
-            }).ToList();
+            }).ToListAsync();
 
             return new
             {
@@ -91,24 +93,29 @@ namespace WebSiteBanHang.Services
         {
             return context.LOAISANPHAMs.ToList();
         }
-        public void Add(SanPhamViewModel model)
+        public int Add(SanPhamViewModel model)
         {
-            var sanPham = new SANPHAM();
-            sanPham.TenSanPham = model.TenSanPham;
-            sanPham.SoLuongTon = model.SoLuongTon;
-            sanPham.XuatXu = model.XuatXu;
-            sanPham.VatLieu = model.VatLieu;
-            sanPham.Mota = model.MoTa;
-            sanPham.MauSac = model.MauSac;
-            sanPham.Id_LoaiSanPham = model.MaLoai;
-            sanPham.KichThuoc = model.KichThuoc;
-            sanPham.HinhAnh = model.HinhAnh;
+            var sanPham = new SANPHAM
+            {
+                TenSanPham = model.TenSanPham,
+                SoLuongTon = model.SoLuongTon,
+                XuatXu = model.XuatXu,
+                VatLieu = model.VatLieu,
+                Mota = model.MoTa,
+                MauSac = model.MauSac,
+                Id_LoaiSanPham = model.MaLoai,
+                KichThuoc = model.KichThuoc
+            };
+            //sanPham.HinhAnh = model.HinhAnh;
             context.SANPHAMs.Add(sanPham);
             context.SaveChanges();
+            return sanPham.Id_SanPham;
         }
         public SanPhamViewModel Details(int? id)
         {
-            var SanPham = context.SANPHAMs.FirstOrDefault(t => t.TrangThai != false && t.Id_SanPham == id);
+            var SanPham = context.SANPHAMs
+                .Include(t => t.HINHs)
+                .FirstOrDefault(t => t.TrangThai != false && t.Id_SanPham == id);
             if (SanPham == null)
             {
                 return null;
@@ -127,7 +134,7 @@ namespace WebSiteBanHang.Services
                 TenLoai = SanPham.LOAISANPHAM.TenLoai,
                 HinhAnh = SanPham.HinhAnh,
                 BaoHanh = SanPham.BaoHanh,
-                MoTa = SanPham.Mota
+                MoTa = SanPham.Mota,
             };
             return result;
         }
@@ -147,6 +154,7 @@ namespace WebSiteBanHang.Services
             sanPham.Id_LoaiSanPham = model.MaLoai;
             sanPham.KichThuoc = model.KichThuoc;
             sanPham.HinhAnh = model.HinhAnh;
+            sanPham.DonViTinh = model.DVT;
             context.SaveChanges();
             return true;
         }
@@ -160,6 +168,83 @@ namespace WebSiteBanHang.Services
             sanPhamExist.TrangThai = false;
             context.SaveChanges();
             return true;
+        }
+
+        public bool DeleteImage(int id)
+        {
+            var hinh = context.HINHs.Find(id);
+            if (hinh == null)
+            {
+                return false;
+            }
+
+            context.HINHs.Remove(hinh);
+            context.SaveChanges();
+            return true;
+        }
+
+        public bool DeletePrimaryImage(int? idSanPham)
+        {
+            var sanPham = context.SANPHAMs.SingleOrDefault(t => t.Id_SanPham == idSanPham && t.TrangThai != false);
+            if (sanPham == null)
+            {
+                return false;
+            }
+            sanPham.HinhAnh = string.Empty;
+            context.SaveChanges();
+            return true;
+        }
+
+        public List<HinhAnhViewModel> getHinhAnhs(int maSanPham)
+        {
+            var images = new List<HinhAnhViewModel>();
+            var sanPham = context.SANPHAMs
+                 .Include(t => t.HINHs)
+                .FirstOrDefault(t => t.TrangThai != false && t.Id_SanPham == maSanPham);
+            if (sanPham == null)
+            {
+                return null;
+            }
+
+            if (!string.IsNullOrWhiteSpace(sanPham.HinhAnh))
+            {
+                images.Add(new HinhAnhViewModel()
+                {
+                    Name = sanPham.TenSanPham + ".png",
+                    Link = sanPham.HinhAnh,
+                    IsPrimary = true
+                });
+            }
+            if (sanPham.HINHs?.Count > 0)
+            {
+                int i = 1;
+                sanPham.HINHs.ToList().ForEach(t =>
+                {
+                    var image = new HinhAnhViewModel()
+                    {
+
+                        Name = sanPham.TenSanPham + "_" + i++ + ".png",
+                        Link = t.Link,
+                        IsPrimary = false,
+                        IdHinhAnh = t.Id_Hinh
+                    };
+                    images.Add(image);
+                });
+
+            }
+            return images;
+
+        }
+
+        public void UpdateImage(int maSanPham, string urlImage)
+        {
+            var hinh = new HINH()
+            {
+                Link = urlImage,
+                Id_SanPham = maSanPham
+            };
+            context.HINHs.Add(hinh);
+            context.SaveChanges();
         }
     }
 }

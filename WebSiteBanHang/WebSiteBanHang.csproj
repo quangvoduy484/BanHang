@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -14,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebSiteBanHang</RootNamespace>
     <AssemblyName>WebSiteBanHang</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -25,6 +26,8 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,21 +49,31 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="moment.net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\moment.net.1.0.0\lib\netstandard1.1\moment.net.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp, Version=106.6.9.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.6.9\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
@@ -102,6 +115,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -174,15 +188,29 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\BundleConfig.cs" />
+    <Compile Include="Areas\Admin\Controllers\CT_PhieuDatHangNCCController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DatHangKHController.cs" />
     <Compile Include="Areas\Admin\Controllers\GiaSanPhamController.cs" />
+    <Compile Include="Areas\Admin\Controllers\KhachHangController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhuyenMaiController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiPhongController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiSPController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NCCController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PhieuDatHang_NCCController.cs" />
     <Compile Include="Areas\Admin\Controllers\SanPhamController.cs" />
+    <Compile Include="Areas\Admin\Helpers\Constant.cs" />
+    <Compile Include="Areas\Admin\ViewModels\ChiTietDatHangViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\CT_PhieuDatHangNCCViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\DataTableAjaxPostModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\KhachHangViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\DatHangKHViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\HinhAnhViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\LoaiSPViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\NhaCungCapViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\PhieuDatHang_NCCViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ReponseMessage.cs" />
+    <Compile Include="Areas\Admin\ViewModels\ResponseUploadImageModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\SanPhamViewModel.cs" />
     <Compile Include="Component\DayMonthYear.cs" />
     <Compile Include="Controllers\CartController.cs" />
@@ -231,9 +259,49 @@
     <Compile Include="Migrations\201905040949376_change-db.Designer.cs">
       <DependentUpon>201905040949376_change-db.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905041116221_modify-slton-id-km.cs" />
+    <Compile Include="Migrations\201905041116221_modify-slton-id-km.Designer.cs">
+      <DependentUpon>201905041116221_modify-slton-id-km.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905051009467_add-TenKM.cs" />
+    <Compile Include="Migrations\201905051009467_add-TenKM.Designer.cs">
+      <DependentUpon>201905051009467_add-TenKM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905050834508_add-NCC.cs" />
+    <Compile Include="Migrations\201905050834508_add-NCC.Designer.cs">
+      <DependentUpon>201905050834508_add-NCC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905051547090_config-db.cs" />
+    <Compile Include="Migrations\201905051547090_config-db.Designer.cs">
+      <DependentUpon>201905051547090_config-db.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905081435230_edit-trangthaiDH.cs" />
+    <Compile Include="Migrations\201905081435230_edit-trangthaiDH.Designer.cs">
+      <DependentUpon>201905081435230_edit-trangthaiDH.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905081520445_edit-table-CtDH.cs" />
+    <Compile Include="Migrations\201905081520445_edit-table-CtDH.Designer.cs">
+      <DependentUpon>201905081520445_edit-table-CtDH.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905081549155_add-trangthai-ctdh.cs" />
+    <Compile Include="Migrations\201905081549155_add-trangthai-ctdh.Designer.cs">
+      <DependentUpon>201905081549155_add-trangthai-ctdh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905090149492_required-tenloai.cs" />
+    <Compile Include="Migrations\201905090149492_required-tenloai.Designer.cs">
+      <DependentUpon>201905090149492_required-tenloai.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905091333531_modify-data.cs" />
+    <Compile Include="Migrations\201905091333531_modify-data.Designer.cs">
+      <DependentUpon>201905091333531_modify-data.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201905052102175_Update_coulumn_SoLuongTon_Null.cs" />
     <Compile Include="Migrations\201905052102175_Update_coulumn_SoLuongTon_Null.Designer.cs">
       <DependentUpon>201905052102175_Update_coulumn_SoLuongTon_Null.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905110427555_reslove-conflic.cs" />
+    <Compile Include="Migrations\201905110427555_reslove-conflic.Designer.cs">
+      <DependentUpon>201905110427555_reslove-conflic.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201905061704021_ID_KhuyenMai_SanPham_IsNull.cs" />
     <Compile Include="Migrations\201905061704021_ID_KhuyenMai_SanPham_IsNull.Designer.cs">
@@ -244,6 +312,8 @@
     <Compile Include="Models\CHITIETDATHANG.cs" />
     <Compile Include="Models\CHITIETMAUPHONG.cs" />
     <Compile Include="Models\CHITIETPHIEUGIAO.cs" />
+    <Compile Include="Models\CTPHIEUNHAP_NCC.cs" />
+    <Compile Include="Models\CT_PHIEUDATNCC.cs" />
     <Compile Include="Models\DANHGIA.cs" />
     <Compile Include="Models\DATHANG.cs" />
     <Compile Include="Models\GIASANPHAM.cs" />
@@ -256,6 +326,9 @@
     <Compile Include="Models\LOAIPHONG.cs" />
     <Compile Include="Models\LOAISANPHAM.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\NHACUNGCAP.cs" />
+    <Compile Include="Models\PHIEUDATHANG_NCC.cs" />
+    <Compile Include="Models\PHIEUNHAP_NCC.cs" />
     <Compile Include="Models\SANPHAM.cs" />
     <Compile Include="Models\TBL_GROUP.cs" />
     <Compile Include="Models\TBL_GROUP_LOGIN.cs" />
@@ -264,10 +337,15 @@
     <Compile Include="Models\TBL_MENU.cs" />
     <Compile Include="Models\TBL_ROLE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CT_PhieuDatHangNCCService.cs" />
+    <Compile Include="Services\DatHangKHService.cs" />
     <Compile Include="Services\GiaSPService.cs" />
+    <Compile Include="Services\KhachHangService.cs" />
     <Compile Include="Services\KhuyenMaiService.cs" />
     <Compile Include="Services\LoaiPhongService.cs" />
     <Compile Include="Services\LoaiSPService.cs" />
+    <Compile Include="Services\NCCService.cs" />
+    <Compile Include="Services\PhieuDatHang_NCCService.cs" />
     <Compile Include="Services\SanPhamService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\Customer.cs" />
@@ -281,14 +359,17 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Login\login-register.css" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker.css" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker.css.map" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker.min.css" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker.standalone.css" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker.standalone.css.map" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker.standalone.min.css" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker3.css" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker3.css.map" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker3.min.css" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker3.standalone.css" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker3.standalone.css.map" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker3.standalone.min.css" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\js\bootstrap-datepicker.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\js\bootstrap-datepicker.min.js" />
@@ -307,6 +388,7 @@
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.de.min.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.el.min.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.en-AU.min.js" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.en-CA.min.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.en-GB.min.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.en-IE.min.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.en-NZ.min.js" />
@@ -343,7 +425,6 @@
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.mk.min.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.mn.min.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.ms.min.js" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.nb.min.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.nl-BE.min.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.nl.min.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.no.min.js" />
@@ -366,6 +447,7 @@
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.ta.min.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.tg.min.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.th.min.js" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.tk.min.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.tr.min.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.uk.min.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.uz-cyrl.min.js" />
@@ -373,6 +455,17 @@
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.vi.min.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.zh-CN.min.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\locales\bootstrap-datepicker.zh-TW.min.js" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\conf.py" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\events.rst" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\i18n.rst" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\index.rst" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\keyboard.rst" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\make.bat" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\Makefile" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\markup.rst" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\methods.rst" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\options.rst" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\README.md" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\requirements.txt" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\_screenshots\demo_head.html" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\_screenshots\markup_component.html" />
@@ -426,6 +519,7 @@
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.de.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.el.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.en-AU.js" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.en-CA.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.en-GB.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.en-IE.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.en-NZ.js" />
@@ -462,7 +556,6 @@
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.mk.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.mn.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.ms.js" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.nb.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.nl-BE.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.nl.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.no.js" />
@@ -485,6 +578,7 @@
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.ta.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.tg.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.th.js" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.tk.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.tr.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.uk.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.uz-cyrl.js" />
@@ -492,6 +586,11 @@
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.vi.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.zh-CN.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\locales\bootstrap-datepicker.zh-TW.js" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\less\datepicker.less" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\less\datepicker3.less" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\LICENSE" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\package.json" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\README.md" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\tests\assets\coverage.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\tests\assets\jquery-1.7.1.min.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\tests\assets\mock.js" />
@@ -499,6 +598,7 @@
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\tests\assets\qunit.css" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\tests\assets\qunit.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\tests\assets\utils.js" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\tests\README.md" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\tests\suites\calendar-weeks.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\tests\suites\component.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\tests\suites\data-api.js" />
@@ -519,8 +619,11 @@
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\tests\suites\touch_navigation\all.js" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\tests\tests.html" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\tests\timezone.html" />
+    <Content Include="Content\Template\bower_components\bootstrap-datepicker\yarn.lock" />
+    <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\bower.json" />
     <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\daterangepicker.css" />
     <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\daterangepicker.js" />
+    <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\daterangepicker.scss" />
     <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\demo.html" />
     <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\drp.png" />
     <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\example\amd\index.html" />
@@ -529,33 +632,60 @@
     <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\example\browserify\bundle.js" />
     <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\example\browserify\index.html" />
     <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\example\browserify\main.js" />
+    <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\example\browserify\README.md" />
     <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\package.js" />
+    <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\package.json" />
+    <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\README.md" />
     <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\website\index.html" />
     <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\website\website.css" />
     <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\website\website.js" />
-    <Content Include="Content\Template\bower_components\bootstrap-duallistbox\bootstrap-duallistbox.css" />
-    <Content Include="Content\Template\bower_components\bootstrap-duallistbox\bootstrap-duallistbox.min.css" />
-    <Content Include="Content\Template\bower_components\bootstrap-duallistbox\jquery.bootstrap-duallistbox.js" />
-    <Content Include="Content\Template\bower_components\bootstrap-duallistbox\jquery.bootstrap-duallistbox.min.js" />
     <Content Include="Content\Template\bower_components\bootstrap-slider\bootstrap-slider.js" />
+    <Content Include="Content\Template\bower_components\bootstrap-slider\bower.json" />
     <Content Include="Content\Template\bower_components\bootstrap-slider\locks.png" />
+    <Content Include="Content\Template\bower_components\bootstrap-slider\README.md" />
     <Content Include="Content\Template\bower_components\bootstrap-slider\slider.css" />
+    <Content Include="Content\Template\bower_components\bootstrap-timepicker\bower.json" />
+    <Content Include="Content\Template\bower_components\bootstrap-timepicker\CHANGELOG.md" />
+    <Content Include="Content\Template\bower_components\bootstrap-timepicker\css\timepicker.less" />
     <Content Include="Content\Template\bower_components\bootstrap-timepicker\js\bootstrap-timepicker.js" />
+    <Content Include="Content\Template\bower_components\bootstrap-timepicker\LICENSE" />
+    <Content Include="Content\Template\bower_components\bootstrap-timepicker\README.md" />
+    <Content Include="Content\Template\bower_components\bootstrap\bower.json" />
+    <Content Include="Content\Template\bower_components\bootstrap\CHANGELOG.md" />
     <Content Include="Content\Template\bower_components\bootstrap\dist\css\bootstrap-theme.css" />
+    <Content Include="Content\Template\bower_components\bootstrap\dist\css\bootstrap-theme.css.map" />
     <Content Include="Content\Template\bower_components\bootstrap\dist\css\bootstrap-theme.min.css" />
+    <Content Include="Content\Template\bower_components\bootstrap\dist\css\bootstrap-theme.min.css.map" />
     <Content Include="Content\Template\bower_components\bootstrap\dist\css\bootstrap.css" />
+    <Content Include="Content\Template\bower_components\bootstrap\dist\css\bootstrap.css.map" />
     <Content Include="Content\Template\bower_components\bootstrap\dist\css\bootstrap.min.css" />
+    <Content Include="Content\Template\bower_components\bootstrap\dist\css\bootstrap.min.css.map" />
+    <Content Include="Content\Template\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\Template\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\Template\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\Template\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\Template\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\Template\bower_components\bootstrap\dist\js\bootstrap.js" />
     <Content Include="Content\Template\bower_components\bootstrap\dist\js\bootstrap.min.js" />
     <Content Include="Content\Template\bower_components\bootstrap\dist\js\npm.js" />
+    <Content Include="Content\Template\bower_components\bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\Template\bower_components\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\Template\bower_components\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\Template\bower_components\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\Template\bower_components\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\Template\bower_components\bootstrap\Gemfile" />
+    <Content Include="Content\Template\bower_components\bootstrap\Gemfile.lock" />
     <Content Include="Content\Template\bower_components\bootstrap\Gruntfile.js" />
+    <Content Include="Content\Template\bower_components\bootstrap\grunt\browsers.js" />
     <Content Include="Content\Template\bower_components\bootstrap\grunt\bs-commonjs-generator.js" />
     <Content Include="Content\Template\bower_components\bootstrap\grunt\bs-glyphicons-data-generator.js" />
     <Content Include="Content\Template\bower_components\bootstrap\grunt\bs-lessdoc-parser.js" />
     <Content Include="Content\Template\bower_components\bootstrap\grunt\bs-raw-files-generator.js" />
     <Content Include="Content\Template\bower_components\bootstrap\grunt\change-version.js" />
+    <Content Include="Content\Template\bower_components\bootstrap\grunt\configBridge.json" />
+    <Content Include="Content\Template\bower_components\bootstrap\grunt\generate-sri.js" />
+    <Content Include="Content\Template\bower_components\bootstrap\grunt\karma.conf.js" />
+    <Content Include="Content\Template\bower_components\bootstrap\ISSUE_TEMPLATE.md" />
     <Content Include="Content\Template\bower_components\bootstrap\js\affix.js" />
     <Content Include="Content\Template\bower_components\bootstrap\js\alert.js" />
     <Content Include="Content\Template\bower_components\bootstrap\js\button.js" />
@@ -568,10 +698,100 @@
     <Content Include="Content\Template\bower_components\bootstrap\js\tab.js" />
     <Content Include="Content\Template\bower_components\bootstrap\js\tooltip.js" />
     <Content Include="Content\Template\bower_components\bootstrap\js\transition.js" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\alerts.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\badges.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\bootstrap.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\breadcrumbs.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\button-groups.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\buttons.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\carousel.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\close.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\code.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\component-animations.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\dropdowns.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\forms.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\glyphicons.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\grid.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\input-groups.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\jumbotron.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\labels.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\list-group.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\media.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\alerts.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\background-variant.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\border-radius.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\buttons.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\center-block.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\clearfix.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\forms.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\gradients.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\grid-framework.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\grid.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\hide-text.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\image.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\labels.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\list-group.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\nav-divider.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\nav-vertical-align.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\opacity.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\pagination.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\panels.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\progress-bar.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\reset-filter.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\reset-text.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\resize.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\responsive-visibility.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\size.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\tab-focus.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\table-row.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\text-emphasis.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\text-overflow.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\vendor-prefixes.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\modals.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\navbar.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\navs.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\normalize.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\pager.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\pagination.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\panels.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\popovers.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\print.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\progress-bars.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\responsive-embed.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\responsive-utilities.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\scaffolding.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\tables.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\theme.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\thumbnails.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\tooltip.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\type.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\utilities.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\variables.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\less\wells.less" />
+    <Content Include="Content\Template\bower_components\bootstrap\LICENSE" />
+    <Content Include="Content\Template\bower_components\bootstrap\nuget\bootstrap.less.nuspec" />
+    <Content Include="Content\Template\bower_components\bootstrap\nuget\bootstrap.nuspec" />
+    <Content Include="Content\Template\bower_components\bootstrap\nuget\MyGet.ps1" />
     <Content Include="Content\Template\bower_components\bootstrap\package.js" />
+    <Content Include="Content\Template\bower_components\bootstrap\package.json" />
+    <Content Include="Content\Template\bower_components\bootstrap\README.md" />
+    <Content Include="Content\Template\bower_components\chart.js\bower.json" />
     <Content Include="Content\Template\bower_components\chart.js\Chart.js" />
     <Content Include="Content\Template\bower_components\chart.js\Chart.min.js" />
+    <Content Include="Content\Template\bower_components\chart.js\CONTRIBUTING.md" />
+    <Content Include="Content\Template\bower_components\chart.js\docs\00-Getting-Started.md" />
+    <Content Include="Content\Template\bower_components\chart.js\docs\01-Line-Chart.md" />
+    <Content Include="Content\Template\bower_components\chart.js\docs\02-Bar-Chart.md" />
+    <Content Include="Content\Template\bower_components\chart.js\docs\03-Radar-Chart.md" />
+    <Content Include="Content\Template\bower_components\chart.js\docs\04-Polar-Area-Chart.md" />
+    <Content Include="Content\Template\bower_components\chart.js\docs\05-Pie-Doughnut-Chart.md" />
+    <Content Include="Content\Template\bower_components\chart.js\docs\06-Advanced.md" />
+    <Content Include="Content\Template\bower_components\chart.js\docs\07-Notes.md" />
     <Content Include="Content\Template\bower_components\chart.js\gulpfile.js" />
+    <Content Include="Content\Template\bower_components\chart.js\LICENSE.md" />
+    <Content Include="Content\Template\bower_components\chart.js\package.json" />
+    <Content Include="Content\Template\bower_components\chart.js\README.md" />
     <Content Include="Content\Template\bower_components\chart.js\samples\bar.html" />
     <Content Include="Content\Template\bower_components\chart.js\samples\doughnut.html" />
     <Content Include="Content\Template\bower_components\chart.js\samples\line-customTooltips.html" />
@@ -586,8 +806,12 @@
     <Content Include="Content\Template\bower_components\chart.js\src\Chart.Line.js" />
     <Content Include="Content\Template\bower_components\chart.js\src\Chart.PolarArea.js" />
     <Content Include="Content\Template\bower_components\chart.js\src\Chart.Radar.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\.npm\assets\ckeditor4.png" />
     <Content Include="Content\Template\bower_components\ckeditor\adapters\jquery.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\bower.json" />
+    <Content Include="Content\Template\bower_components\ckeditor\CHANGES.md" />
     <Content Include="Content\Template\bower_components\ckeditor\ckeditor.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\composer.json" />
     <Content Include="Content\Template\bower_components\ckeditor\config.js" />
     <Content Include="Content\Template\bower_components\ckeditor\contents.css" />
     <Content Include="Content\Template\bower_components\ckeditor\lang\af.js" />
@@ -661,6 +885,8 @@
     <Content Include="Content\Template\bower_components\ckeditor\lang\zh-cn.js" />
     <Content Include="Content\Template\bower_components\ckeditor\lang\zh.js" />
     <Content Include="Content\Template\bower_components\ckeditor\lang\_translationstatus.txt" />
+    <Content Include="Content\Template\bower_components\ckeditor\LICENSE.md" />
+    <Content Include="Content\Template\bower_components\ckeditor\package.json" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\a11yhelp\dialogs\a11yhelp.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\a11yhelp\dialogs\lang\af.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\a11yhelp\dialogs\lang\ar.js" />
@@ -673,6 +899,7 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\a11yhelp\dialogs\lang\de-ch.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\a11yhelp\dialogs\lang\de.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\a11yhelp\dialogs\lang\el.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\a11yhelp\dialogs\lang\en-au.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\a11yhelp\dialogs\lang\en-gb.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\a11yhelp\dialogs\lang\en.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\a11yhelp\dialogs\lang\eo.js" />
@@ -731,11 +958,17 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\about\dialogs\logo_ckeditor.png" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\adobeair\plugin.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\ajax\plugin.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\autocomplete\plugin.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\autocomplete\skins\default.css" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\az.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\bg.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\ca.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\cs.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\da.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\de-ch.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\de.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\el.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\en-au.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\en.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\eo.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\es-mx.js" />
@@ -750,6 +983,7 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\km.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\ko.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\ku.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\lv.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\mk.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\nb.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\nl.js" />
@@ -757,12 +991,15 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\pl.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\pt-br.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\pt.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\ro.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\ru.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\sk.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\sq.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\sv.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\tr.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\ug.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\uk.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\vi.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\zh-cn.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\lang\zh.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\autoembed\plugin.js" />
@@ -776,6 +1013,11 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\balloonpanel\skins\moono\balloonpanel.css" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\balloonpanel\skins\moono\images\close.png" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\balloonpanel\skins\moono\images\hidpi\close.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\balloontoolbar\plugin.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\balloontoolbar\skins\default.css" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\balloontoolbar\skins\kama\balloontoolbar.css" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\balloontoolbar\skins\moono-lisa\balloontoolbar.css" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\balloontoolbar\skins\moono\balloontoolbar.css" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\bbcode\plugin.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\bidi\icons\bidiltr.png" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\bidi\icons\bidirtl.png" />
@@ -852,6 +1094,8 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\bidi\lang\zh-cn.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\bidi\lang\zh.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\bidi\plugin.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\clipboard\dialogs\paste.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\cloudservices\plugin.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippetgeshi\plugin.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\dialogs\codesnippet.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\icons\codesnippet.png" />
@@ -865,6 +1109,7 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\lang\de-ch.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\lang\de.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\lang\el.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\lang\en-au.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\lang\en-gb.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\lang\en.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\lang\eo.js" />
@@ -909,7 +1154,10 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\lang\vi.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\lang\zh-cn.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\lang\zh.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\lib\highlight\CHANGES.md" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\lib\highlight\highlight.pack.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\lib\highlight\LICENSE" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\lib\highlight\README.ru.md" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\lib\highlight\styles\arta.css" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\lib\highlight\styles\ascetic.css" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\lib\highlight\styles\atelier-dune.dark.css" />
@@ -1137,6 +1385,7 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\devtools\lang\de-ch.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\devtools\lang\de.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\devtools\lang\el.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\devtools\lang\en-au.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\devtools\lang\en-gb.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\devtools\lang\en.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\devtools\lang\eo.js" />
@@ -1337,13 +1586,34 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\docprops\lang\zh-cn.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\docprops\lang\zh.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\docprops\plugin.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\easyimage\dialogs\easyimagealt.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\easyimage\icons\easyimagealigncenter.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\easyimage\icons\easyimagealignleft.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\easyimage\icons\easyimagealignright.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\easyimage\icons\easyimagealt.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\easyimage\icons\easyimagefull.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\easyimage\icons\easyimageside.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\easyimage\icons\easyimageupload.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\easyimage\icons\hidpi\easyimagealigncenter.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\easyimage\icons\hidpi\easyimagealignleft.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\easyimage\icons\hidpi\easyimagealignright.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\easyimage\icons\hidpi\easyimagealt.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\easyimage\icons\hidpi\easyimagefull.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\easyimage\icons\hidpi\easyimageside.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\easyimage\icons\hidpi\easyimageupload.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\easyimage\lang\en.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\easyimage\plugin.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\easyimage\styles\easyimage.css" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\dialogs\embedbase.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\ar.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\az.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\bg.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\ca.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\cs.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\da.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\de-ch.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\de.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\en-au.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\en.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\eo.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\es-mx.js" />
@@ -1358,14 +1628,17 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\ja.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\ko.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\ku.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\lv.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\nb.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\nl.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\oc.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\pl.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\pt-br.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\pt.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\ro.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\ru.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\sk.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\sq.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\sv.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\tr.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embedbase\lang\ug.js" />
@@ -1379,42 +1652,13 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embed\icons\embed.png" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embed\icons\hidpi\embed.png" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\embed\plugin.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\az.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\ca.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\cs.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\da.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\de-ch.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\de.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\en.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\eo.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\es-mx.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\es.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\eu.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\fr.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\gl.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\hr.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\hu.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\id.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\it.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\ja.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\km.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\ko.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\ku.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\nb.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\nl.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\oc.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\pl.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\pt-br.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\pt.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\ru.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\sk.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\sv.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\tr.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\ug.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\uk.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\zh-cn.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\zh.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\filetools\plugin.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\emoji\assets\iconsall.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\emoji\assets\iconsall.svg" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\emoji\icons\emojipanel.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\emoji\icons\hidpi\emojipanel.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\emoji\lang\en.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\emoji\plugin.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\emoji\skins\default.css" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\find\dialogs\find.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\find\icons\find-rtl.png" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\find\icons\find.png" />
@@ -1895,6 +2139,9 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\image2\lang\zh-cn.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\image2\lang\zh.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\image2\plugin.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\imagebase\lang\en.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\imagebase\plugin.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\imagebase\styles\imagebase.css" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\image\dialogs\image.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\image\images\noimage.png" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\indentblock\plugin.js" />
@@ -1906,76 +2153,6 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\icons\justifycenter.png" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\icons\justifyleft.png" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\icons\justifyright.png" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\af.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\ar.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\az.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\bg.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\bn.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\bs.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\ca.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\cs.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\cy.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\da.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\de-ch.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\de.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\el.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\en-au.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\en-ca.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\en-gb.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\en.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\eo.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\es-mx.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\es.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\et.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\eu.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\fa.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\fi.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\fo.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\fr-ca.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\fr.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\gl.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\gu.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\he.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\hi.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\hr.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\hu.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\id.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\is.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\it.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\ja.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\ka.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\km.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\ko.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\ku.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\lt.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\lv.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\mk.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\mn.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\ms.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\nb.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\nl.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\no.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\oc.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\pl.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\pt-br.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\pt.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\ro.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\ru.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\si.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\sk.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\sl.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\sq.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\sr-latn.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\sr.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\sv.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\th.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\tr.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\tt.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\ug.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\uk.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\vi.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\zh-cn.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\zh.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\justify\plugin.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\icons\hidpi\language.png" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\icons\language.png" />
@@ -1989,11 +2166,13 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\de-ch.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\de.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\el.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\en-au.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\en-gb.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\en.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\eo.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\es-mx.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\es.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\et.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\eu.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\fa.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\fi.js" />
@@ -2009,6 +2188,7 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\km.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\ko.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\ku.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\lv.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\nb.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\nl.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\no.js" />
@@ -2016,6 +2196,7 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\pl.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\pt-br.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\pt.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\ro.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\ru.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\sk.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\sl.js" />
@@ -2029,7 +2210,6 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\zh-cn.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\lang\zh.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\language\plugin.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\lineutils\plugin.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\link\dialogs\anchor.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\link\dialogs\link.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\link\images\anchor.png" />
@@ -2125,11 +2305,13 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\de-ch.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\de.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\el.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\en-au.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\en-gb.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\en.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\eo.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\es-mx.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\es.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\et.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\eu.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\fa.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\fi.js" />
@@ -2145,6 +2327,7 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\ko.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\ku.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\lt.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\lv.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\nb.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\nl.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\no.js" />
@@ -2166,6 +2349,7 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\zh-cn.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\lang\zh.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\mathjax\plugin.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\mentions\plugin.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\newpage\icons\hidpi\newpage-rtl.png" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\newpage\icons\hidpi\newpage.png" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\newpage\icons\newpage-rtl.png" />
@@ -2241,7 +2425,6 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\newpage\lang\zh-cn.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\newpage\lang\zh.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\newpage\plugin.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\notificationaggregator\plugin.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\pagebreak\icons\hidpi\pagebreak-rtl.png" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\pagebreak\icons\hidpi\pagebreak.png" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\pagebreak\icons\pagebreak-rtl.png" />
@@ -2334,6 +2517,7 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\placeholder\lang\de-ch.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\placeholder\lang\de.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\placeholder\lang\el.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\placeholder\lang\en-au.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\placeholder\lang\en-gb.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\placeholder\lang\en.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\placeholder\lang\eo.js" />
@@ -2363,6 +2547,7 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\placeholder\lang\pl.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\placeholder\lang\pt-br.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\placeholder\lang\pt.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\placeholder\lang\ro.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\placeholder\lang\ru.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\placeholder\lang\si.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\placeholder\lang\sk.js" />
@@ -2600,9 +2785,11 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\save\lang\zh-cn.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\save\lang\zh.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\save\plugin.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\scayt\CHANGELOG.md" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\scayt\dialogs\dialog.css" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\scayt\dialogs\options.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\scayt\dialogs\toolbar.css" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\scayt\LICENSE.md" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\scayt\skins\moono-lisa\scayt.css" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\selectall\icons\hidpi\selectall.png" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\selectall\icons\selectall.png" />
@@ -3000,6 +3187,7 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\specialchar\dialogs\lang\pl.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\specialchar\dialogs\lang\pt-br.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\specialchar\dialogs\lang\pt.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\specialchar\dialogs\lang\ro.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\specialchar\dialogs\lang\ru.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\specialchar\dialogs\lang\si.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\specialchar\dialogs\lang\sk.js" />
@@ -3102,6 +3290,8 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\templates\templates\images\template1.gif" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\templates\templates\images\template2.gif" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\templates\templates\images\template3.gif" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\textmatch\plugin.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\textwatcher\plugin.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\uicolor\dialogs\uicolor.css" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\uicolor\dialogs\uicolor.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\uicolor\icons\hidpi\uicolor.png" />
@@ -3117,6 +3307,7 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\uicolor\lang\de-ch.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\uicolor\lang\de.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\uicolor\lang\el.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\uicolor\lang\en-au.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\uicolor\lang\en-gb.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\uicolor\lang\en.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\uicolor\lang\eo.js" />
@@ -3147,6 +3338,7 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\uicolor\lang\pl.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\uicolor\lang\pt-br.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\uicolor\lang\pt.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\uicolor\lang\ro.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\uicolor\lang\ru.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\uicolor\lang\si.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\uicolor\lang\sk.js" />
@@ -3163,105 +3355,16 @@
     <Content Include="Content\Template\bower_components\ckeditor\plugins\uicolor\lang\_translationstatus.txt" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\uicolor\plugin.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadfile\plugin.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadimage\plugin.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\az.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\ca.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\cs.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\da.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\de-ch.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\de.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\el.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\en.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\eo.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\es-mx.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\es.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\eu.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\fr.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\gl.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\hr.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\hu.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\id.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\it.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\ja.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\km.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\ko.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\ku.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\nb.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\nl.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\no.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\oc.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\pl.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\pt-br.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\pt.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\ru.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\sk.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\sv.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\tr.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\ug.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\uk.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\zh-cn.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\zh.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\plugin.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widgetselection\plugin.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\images\handle.png" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\af.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\ar.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\az.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\bg.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\ca.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\cs.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\cy.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\da.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\de-ch.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\de.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\el.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\en-gb.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\en.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\eo.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\es-mx.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\es.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\eu.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\fa.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\fi.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\fr.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\gl.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\he.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\hr.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\hu.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\id.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\it.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\ja.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\km.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\ko.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\ku.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\lv.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\nb.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\nl.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\no.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\oc.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\pl.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\pt-br.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\pt.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\ru.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\sk.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\sl.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\sq.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\sv.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\tr.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\tt.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\ug.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\uk.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\vi.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\zh-cn.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\zh.js" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\widget\plugin.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\wsc\dialogs\ciframe.html" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\wsc\dialogs\tmpFrameset.html" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\wsc\dialogs\wsc.css" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\wsc\dialogs\wsc.js" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\wsc\dialogs\wsc_ie.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\plugins\wsc\LICENSE.md" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\wsc\skins\moono-lisa\wsc.css" />
     <Content Include="Content\Template\bower_components\ckeditor\plugins\xml\plugin.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\README.md" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\css\samples.css" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\img\500-ban-an-chamcha-liveegde-86666-1.jpg" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\img\500-ban-tofu.gif" />
@@ -3277,9 +3380,9 @@
     <Content Include="Content\Template\bower_components\ckeditor\samples\img\header-bg.png" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\img\header-separator.png" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\img\logo.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\img\logo.svg" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\img\navigation-tip.png" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\img\nha-xinh-banner-thietketrongoi-21-2.jpg" />
-    <Content Include="Content\Template\bower_components\ckeditor\samples\img\shop-01-128.png" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\index.html" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\js\sample.js" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\js\sf.js" />
@@ -3291,6 +3394,9 @@
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\assets\posteddata.php" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\assets\sample.jpg" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\assets\uilanguages\languages.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\old\autocomplete\customview.html" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\old\autocomplete\smiley.html" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\old\autocomplete\utils.js" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\autogrow\autogrow.html" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\bbcode\bbcode.html" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\codesnippet\codesnippet.html" />
@@ -3301,7 +3407,10 @@
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\divarea\divarea.html" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\divreplace.html" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\docprops\docprops.html" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\old\easyimage\easyimage.html" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\old\emoji\emoji.html" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\enterkey\enterkey.html" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\old\htmlwriter\assets\outputforflash\outputforflash.fla" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\htmlwriter\assets\outputforflash\outputforflash.swf" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\htmlwriter\assets\outputforflash\swfobject.js" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\htmlwriter\outputforflash.html" />
@@ -3316,6 +3425,7 @@
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\jquery.html" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\magicline\magicline.html" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\mathjax\mathjax.html" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\old\mentions\mentions.html" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\placeholder\placeholder.html" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\readonly.html" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\replacebyclass.html" />
@@ -3336,7 +3446,11 @@
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\wysiwygarea\fullpage.html" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\old\xhtmlstyle.html" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\css\fontello.css" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\font\config.json" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\font\fontello.eot" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\font\fontello.svg" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\font\fontello.ttf" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\font\fontello.woff" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\font\LICENSE.txt" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\index.html" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\js\abstracttoolbarmodifier.js" />
@@ -3346,6 +3460,7 @@
     <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\lib\codemirror\codemirror.css" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\lib\codemirror\codemirror.js" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\lib\codemirror\javascript.js" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\lib\codemirror\neo.css" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\lib\codemirror\show-hint.css" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\lib\codemirror\show-hint.js" />
@@ -3369,6 +3484,7 @@
     <Content Include="Content\Template\bower_components\ckeditor\skins\kama\images\sprites.png" />
     <Content Include="Content\Template\bower_components\ckeditor\skins\kama\images\sprites_ie6.png" />
     <Content Include="Content\Template\bower_components\ckeditor\skins\kama\images\toolbar_start.gif" />
+    <Content Include="Content\Template\bower_components\ckeditor\skins\kama\readme.md" />
     <Content Include="Content\Template\bower_components\ckeditor\skins\kama\skin.js" />
     <Content Include="Content\Template\bower_components\ckeditor\skins\moono-lisa\dialog.css" />
     <Content Include="Content\Template\bower_components\ckeditor\skins\moono-lisa\dialog_ie.css" />
@@ -3391,6 +3507,7 @@
     <Content Include="Content\Template\bower_components\ckeditor\skins\moono-lisa\images\lock.png" />
     <Content Include="Content\Template\bower_components\ckeditor\skins\moono-lisa\images\refresh.png" />
     <Content Include="Content\Template\bower_components\ckeditor\skins\moono-lisa\images\spinner.gif" />
+    <Content Include="Content\Template\bower_components\ckeditor\skins\moono-lisa\readme.md" />
     <Content Include="Content\Template\bower_components\ckeditor\skins\moono\dialog.css" />
     <Content Include="Content\Template\bower_components\ckeditor\skins\moono\dialog_ie.css" />
     <Content Include="Content\Template\bower_components\ckeditor\skins\moono\dialog_ie7.css" />
@@ -3416,21 +3533,124 @@
     <Content Include="Content\Template\bower_components\ckeditor\skins\moono\images\lock.png" />
     <Content Include="Content\Template\bower_components\ckeditor\skins\moono\images\refresh.png" />
     <Content Include="Content\Template\bower_components\ckeditor\skins\moono\images\spinner.gif" />
+    <Content Include="Content\Template\bower_components\ckeditor\skins\moono\readme.md" />
     <Content Include="Content\Template\bower_components\ckeditor\skins\moono\skin.js" />
     <Content Include="Content\Template\bower_components\ckeditor\styles.js" />
+    <Content Include="Content\Template\bower_components\datatables.net-bs\bower.json" />
     <Content Include="Content\Template\bower_components\datatables.net-bs\css\dataTables.bootstrap.css" />
     <Content Include="Content\Template\bower_components\datatables.net-bs\css\dataTables.bootstrap.min.css" />
     <Content Include="Content\Template\bower_components\datatables.net-bs\js\dataTables.bootstrap.js" />
     <Content Include="Content\Template\bower_components\datatables.net-bs\js\dataTables.bootstrap.min.js" />
     <Content Include="Content\Template\bower_components\datatables.net-bs\License.txt" />
+    <Content Include="Content\Template\bower_components\datatables.net-bs\Readme.md" />
+    <Content Include="Content\Template\bower_components\datatables.net\bower.json" />
     <Content Include="Content\Template\bower_components\datatables.net\js\jquery.dataTables.js" />
     <Content Include="Content\Template\bower_components\datatables.net\js\jquery.dataTables.min.js" />
     <Content Include="Content\Template\bower_components\datatables.net\License.txt" />
+    <Content Include="Content\Template\bower_components\datatables.net\Readme.md" />
+    <Content Include="Content\Template\bower_components\eve-raphael\e.html" />
+    <Content Include="Content\Template\bower_components\eve-raphael\eve.js" />
+    <Content Include="Content\Template\bower_components\fastclick\bower.json" />
     <Content Include="Content\Template\bower_components\fastclick\lib\fastclick.js" />
+    <Content Include="Content\Template\bower_components\fastclick\LICENSE" />
+    <Content Include="Content\Template\bower_components\fastclick\README.md" />
+    <Content Include="Content\Template\bower_components\Flot\examples\ajax\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\annotating\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\axes-interacting\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\axes-multiple\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\axes-time-zones\date.js" />
+    <Content Include="Content\Template\bower_components\Flot\examples\axes-time-zones\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\axes-time\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\background.png" />
+    <Content Include="Content\Template\bower_components\Flot\examples\basic-options\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\basic-usage\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\canvas\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\categories\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\examples.css" />
+    <Content Include="Content\Template\bower_components\Flot\examples\image\hs-2004-27-a-large-web.jpg" />
+    <Content Include="Content\Template\bower_components\Flot\examples\image\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\interacting\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\navigate\arrow-down.gif" />
+    <Content Include="Content\Template\bower_components\Flot\examples\navigate\arrow-left.gif" />
+    <Content Include="Content\Template\bower_components\Flot\examples\navigate\arrow-right.gif" />
+    <Content Include="Content\Template\bower_components\Flot\examples\navigate\arrow-up.gif" />
+    <Content Include="Content\Template\bower_components\Flot\examples\navigate\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\percentiles\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\realtime\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\resize\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\selection\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\series-errorbars\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\series-pie\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\series-toggle\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\series-types\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\shared\jquery-ui\jquery-ui.min.css" />
+    <Content Include="Content\Template\bower_components\Flot\examples\stacking\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\symbols\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\threshold\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\tracking\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\visitors\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\examples\zooming\index.html" />
+    <Content Include="Content\Template\bower_components\Flot\excanvas.js" />
+    <Content Include="Content\Template\bower_components\Flot\excanvas.min.js" />
+    <Content Include="Content\Template\bower_components\Flot\jquery.colorhelpers.js" />
+    <Content Include="Content\Template\bower_components\Flot\jquery.flot.canvas.js" />
+    <Content Include="Content\Template\bower_components\Flot\jquery.flot.categories.js" />
+    <Content Include="Content\Template\bower_components\Flot\jquery.flot.crosshair.js" />
+    <Content Include="Content\Template\bower_components\Flot\jquery.flot.errorbars.js" />
+    <Content Include="Content\Template\bower_components\Flot\jquery.flot.fillbetween.js" />
+    <Content Include="Content\Template\bower_components\Flot\jquery.flot.image.js" />
+    <Content Include="Content\Template\bower_components\Flot\jquery.flot.js" />
+    <Content Include="Content\Template\bower_components\Flot\jquery.flot.navigate.js" />
+    <Content Include="Content\Template\bower_components\Flot\jquery.flot.pie.js" />
+    <Content Include="Content\Template\bower_components\Flot\jquery.flot.resize.js" />
+    <Content Include="Content\Template\bower_components\Flot\jquery.flot.selection.js" />
+    <Content Include="Content\Template\bower_components\Flot\jquery.flot.stack.js" />
+    <Content Include="Content\Template\bower_components\Flot\jquery.flot.symbol.js" />
+    <Content Include="Content\Template\bower_components\Flot\jquery.flot.threshold.js" />
+    <Content Include="Content\Template\bower_components\Flot\jquery.flot.time.js" />
+    <Content Include="Content\Template\bower_components\Flot\jquery.js" />
+    <Content Include="Content\Template\bower_components\Flot\LICENSE.txt" />
+    <Content Include="Content\Template\bower_components\font-awesome\bower.json" />
     <Content Include="Content\Template\bower_components\font-awesome\css\font-awesome.css" />
+    <Content Include="Content\Template\bower_components\font-awesome\css\font-awesome.css.map" />
     <Content Include="Content\Template\bower_components\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\Template\bower_components\font-awesome\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\Template\bower_components\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Template\bower_components\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Template\bower_components\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Template\bower_components\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\Template\bower_components\font-awesome\fonts\FontAwesome.otf" />
     <Content Include="Content\Template\bower_components\font-awesome\HELP-US-OUT.txt" />
+    <Content Include="Content\Template\bower_components\font-awesome\less\animated.less" />
+    <Content Include="Content\Template\bower_components\font-awesome\less\bordered-pulled.less" />
+    <Content Include="Content\Template\bower_components\font-awesome\less\core.less" />
+    <Content Include="Content\Template\bower_components\font-awesome\less\fixed-width.less" />
+    <Content Include="Content\Template\bower_components\font-awesome\less\font-awesome.less" />
+    <Content Include="Content\Template\bower_components\font-awesome\less\icons.less" />
+    <Content Include="Content\Template\bower_components\font-awesome\less\larger.less" />
+    <Content Include="Content\Template\bower_components\font-awesome\less\list.less" />
+    <Content Include="Content\Template\bower_components\font-awesome\less\mixins.less" />
+    <Content Include="Content\Template\bower_components\font-awesome\less\path.less" />
+    <Content Include="Content\Template\bower_components\font-awesome\less\rotated-flipped.less" />
+    <Content Include="Content\Template\bower_components\font-awesome\less\screen-reader.less" />
+    <Content Include="Content\Template\bower_components\font-awesome\less\stacked.less" />
+    <Content Include="Content\Template\bower_components\font-awesome\less\variables.less" />
+    <Content Include="Content\Template\bower_components\font-awesome\scss\font-awesome.scss" />
+    <Content Include="Content\Template\bower_components\font-awesome\scss\_animated.scss" />
+    <Content Include="Content\Template\bower_components\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="Content\Template\bower_components\font-awesome\scss\_core.scss" />
+    <Content Include="Content\Template\bower_components\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="Content\Template\bower_components\font-awesome\scss\_icons.scss" />
+    <Content Include="Content\Template\bower_components\font-awesome\scss\_larger.scss" />
+    <Content Include="Content\Template\bower_components\font-awesome\scss\_list.scss" />
+    <Content Include="Content\Template\bower_components\font-awesome\scss\_mixins.scss" />
+    <Content Include="Content\Template\bower_components\font-awesome\scss\_path.scss" />
+    <Content Include="Content\Template\bower_components\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="Content\Template\bower_components\font-awesome\scss\_screen-reader.scss" />
+    <Content Include="Content\Template\bower_components\font-awesome\scss\_stacked.scss" />
+    <Content Include="Content\Template\bower_components\font-awesome\scss\_variables.scss" />
+    <Content Include="Content\Template\bower_components\inputmask\bower.json" />
     <Content Include="Content\Template\bower_components\inputmask\dist\inputmask\bindings\inputmask.binding.js" />
     <Content Include="Content\Template\bower_components\inputmask\dist\inputmask\dependencyLibs\inputmask.dependencyLib.jqlite.js" />
     <Content Include="Content\Template\bower_components\inputmask\dist\inputmask\dependencyLibs\inputmask.dependencyLib.jquery.js" />
@@ -3458,10 +3678,26 @@
     <Content Include="Content\Template\bower_components\inputmask\dist\min\inputmask\inputmask.regex.extensions.min.js" />
     <Content Include="Content\Template\bower_components\inputmask\dist\min\inputmask\jquery.inputmask.min.js" />
     <Content Include="Content\Template\bower_components\inputmask\dist\min\jquery.inputmask.bundle.min.js" />
+    <Content Include="Content\Template\bower_components\ion.rangeSlider\css\ion.rangeSlider.css" />
+    <Content Include="Content\Template\bower_components\ion.rangeSlider\css\ion.rangeSlider.min.css" />
+    <Content Include="Content\Template\bower_components\ion.rangeSlider\js\ion.rangeSlider.js" />
+    <Content Include="Content\Template\bower_components\ion.rangeSlider\js\ion.rangeSlider.min.js" />
+    <Content Include="Content\Template\bower_components\ion.rangeSlider\_tmp\logo-ion-range-slider.png" />
+    <Content Include="Content\Template\bower_components\Ionicons\bower.json" />
     <Content Include="Content\Template\bower_components\Ionicons\cheatsheet.html" />
+    <Content Include="Content\Template\bower_components\Ionicons\component.json" />
+    <Content Include="Content\Template\bower_components\Ionicons\composer.json" />
     <Content Include="Content\Template\bower_components\Ionicons\css\ionicons.css" />
     <Content Include="Content\Template\bower_components\Ionicons\css\ionicons.min.css" />
+    <Content Include="Content\Template\bower_components\Ionicons\fonts\ionicons.eot" />
     <Content Include="Content\Template\bower_components\Ionicons\fonts\ionicons.svg" />
+    <Content Include="Content\Template\bower_components\Ionicons\fonts\ionicons.ttf" />
+    <Content Include="Content\Template\bower_components\Ionicons\fonts\ionicons.woff" />
+    <Content Include="Content\Template\bower_components\Ionicons\less\ionicons.less" />
+    <Content Include="Content\Template\bower_components\Ionicons\less\_ionicons-font.less" />
+    <Content Include="Content\Template\bower_components\Ionicons\less\_ionicons-icons.less" />
+    <Content Include="Content\Template\bower_components\Ionicons\less\_ionicons-variables.less" />
+    <Content Include="Content\Template\bower_components\Ionicons\LICENSE" />
     <Content Include="Content\Template\bower_components\Ionicons\png\512\alert-circled.png" />
     <Content Include="Content\Template\bower_components\Ionicons\png\512\alert.png" />
     <Content Include="Content\Template\bower_components\Ionicons\png\512\android-add-contact.png" />
@@ -4063,6 +4299,11 @@
     <Content Include="Content\Template\bower_components\Ionicons\png\512\woman.png" />
     <Content Include="Content\Template\bower_components\Ionicons\png\512\wrench.png" />
     <Content Include="Content\Template\bower_components\Ionicons\png\512\xbox.png" />
+    <Content Include="Content\Template\bower_components\Ionicons\readme.md" />
+    <Content Include="Content\Template\bower_components\Ionicons\scss\ionicons.scss" />
+    <Content Include="Content\Template\bower_components\Ionicons\scss\_ionicons-font.scss" />
+    <Content Include="Content\Template\bower_components\Ionicons\scss\_ionicons-icons.scss" />
+    <Content Include="Content\Template\bower_components\Ionicons\scss\_ionicons-variables.scss" />
     <Content Include="Content\Template\bower_components\Ionicons\src\alert-circled.svg" />
     <Content Include="Content\Template\bower_components\Ionicons\src\alert.svg" />
     <Content Include="Content\Template\bower_components\Ionicons\src\android-add-circle.svg" />
@@ -4796,11 +5037,17 @@
     <Content Include="Content\Template\bower_components\Ionicons\src\woman.svg" />
     <Content Include="Content\Template\bower_components\Ionicons\src\wrench.svg" />
     <Content Include="Content\Template\bower_components\Ionicons\src\xbox.svg" />
+    <Content Include="Content\Template\bower_components\jquery-knob\bower.json" />
     <Content Include="Content\Template\bower_components\jquery-knob\dist\jquery.knob.min.js" />
     <Content Include="Content\Template\bower_components\jquery-knob\excanvas.js" />
     <Content Include="Content\Template\bower_components\jquery-knob\index.html" />
     <Content Include="Content\Template\bower_components\jquery-knob\js\jquery.knob.js" />
+    <Content Include="Content\Template\bower_components\jquery-knob\knob.jquery.json" />
+    <Content Include="Content\Template\bower_components\jquery-knob\LICENSE" />
+    <Content Include="Content\Template\bower_components\jquery-knob\package.json" />
+    <Content Include="Content\Template\bower_components\jquery-knob\README.md" />
     <Content Include="Content\Template\bower_components\jquery-knob\secretplan.jpg" />
+    <Content Include="Content\Template\bower_components\jquery-slimscroll\bower.json" />
     <Content Include="Content\Template\bower_components\jquery-slimscroll\examples\allow-page-scroll.html" />
     <Content Include="Content\Template\bower_components\jquery-slimscroll\examples\chaining.html" />
     <Content Include="Content\Template\bower_components\jquery-slimscroll\examples\disable-fade-out.html" />
@@ -4821,10 +5068,40 @@
     <Content Include="Content\Template\bower_components\jquery-slimscroll\examples\style.css" />
     <Content Include="Content\Template\bower_components\jquery-slimscroll\jquery.slimscroll.js" />
     <Content Include="Content\Template\bower_components\jquery-slimscroll\jquery.slimscroll.min.js" />
+    <Content Include="Content\Template\bower_components\jquery-slimscroll\package.json" />
+    <Content Include="Content\Template\bower_components\jquery-slimscroll\README.md" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\Changelog.txt" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\dist\jquery.sparkline.js" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\dist\jquery.sparkline.min.js" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\minheader.txt" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\src\base.js" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\src\chart-bar.js" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\src\chart-box.js" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\src\chart-bullet.js" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\src\chart-discrete.js" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\src\chart-line.js" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\src\chart-pie.js" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\src\chart-tristate.js" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\src\defaults.js" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\src\footer.js" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\src\header.js" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\src\interact.js" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\src\rangemap.js" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\src\simpledraw.js" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\src\utils.js" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\src\vcanvas-base.js" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\src\vcanvas-canvas.js" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\src\vcanvas-vml.js" />
+    <Content Include="Content\Template\bower_components\jquery-sparkline\version.txt" />
     <Content Include="Content\Template\bower_components\jquery-ui\AUTHORS.txt" />
+    <Content Include="Content\Template\bower_components\jquery-ui\bower.json" />
+    <Content Include="Content\Template\bower_components\jquery-ui\component.json" />
+    <Content Include="Content\Template\bower_components\jquery-ui\composer.json" />
     <Content Include="Content\Template\bower_components\jquery-ui\jquery-ui.js" />
     <Content Include="Content\Template\bower_components\jquery-ui\jquery-ui.min.js" />
     <Content Include="Content\Template\bower_components\jquery-ui\LICENSE.txt" />
+    <Content Include="Content\Template\bower_components\jquery-ui\package.json" />
+    <Content Include="Content\Template\bower_components\jquery-ui\README.md" />
     <Content Include="Content\Template\bower_components\jquery-ui\themes\base\accordion.css" />
     <Content Include="Content\Template\bower_components\jquery-ui\themes\base\all.css" />
     <Content Include="Content\Template\bower_components\jquery-ui\themes\base\autocomplete.css" />
@@ -5526,15 +5803,20 @@
     <Content Include="Content\Template\bower_components\jquery-ui\ui\tooltip.js" />
     <Content Include="Content\Template\bower_components\jquery-ui\ui\widget.js" />
     <Content Include="Content\Template\bower_components\jquery\AUTHORS.txt" />
+    <Content Include="Content\Template\bower_components\jquery\bower.json" />
     <Content Include="Content\Template\bower_components\jquery\dist\core.js" />
     <Content Include="Content\Template\bower_components\jquery\dist\jquery.js" />
     <Content Include="Content\Template\bower_components\jquery\dist\jquery.min.js" />
+    <Content Include="Content\Template\bower_components\jquery\dist\jquery.min.map" />
     <Content Include="Content\Template\bower_components\jquery\dist\jquery.slim.js" />
     <Content Include="Content\Template\bower_components\jquery\dist\jquery.slim.min.js" />
+    <Content Include="Content\Template\bower_components\jquery\dist\jquery.slim.min.map" />
     <Content Include="Content\Template\bower_components\jquery\external\sizzle\dist\sizzle.js" />
     <Content Include="Content\Template\bower_components\jquery\external\sizzle\dist\sizzle.min.js" />
+    <Content Include="Content\Template\bower_components\jquery\external\sizzle\dist\sizzle.min.map" />
     <Content Include="Content\Template\bower_components\jquery\external\sizzle\LICENSE.txt" />
     <Content Include="Content\Template\bower_components\jquery\LICENSE.txt" />
+    <Content Include="Content\Template\bower_components\jquery\README.md" />
     <Content Include="Content\Template\bower_components\jquery\src\ajax.js" />
     <Content Include="Content\Template\bower_components\jquery\src\ajax\jsonp.js" />
     <Content Include="Content\Template\bower_components\jquery\src\ajax\load.js" />
@@ -5553,6 +5835,7 @@
     <Content Include="Content\Template\bower_components\jquery\src\callbacks.js" />
     <Content Include="Content\Template\bower_components\jquery\src\core.js" />
     <Content Include="Content\Template\bower_components\jquery\src\core\access.js" />
+    <Content Include="Content\Template\bower_components\jquery\src\core\camelCase.js" />
     <Content Include="Content\Template\bower_components\jquery\src\core\DOMEval.js" />
     <Content Include="Content\Template\bower_components\jquery\src\core\init.js" />
     <Content Include="Content\Template\bower_components\jquery\src\core\nodeName.js" />
@@ -5562,6 +5845,7 @@
     <Content Include="Content\Template\bower_components\jquery\src\core\readyException.js" />
     <Content Include="Content\Template\bower_components\jquery\src\core\stripAndCollapse.js" />
     <Content Include="Content\Template\bower_components\jquery\src\core\support.js" />
+    <Content Include="Content\Template\bower_components\jquery\src\core\toType.js" />
     <Content Include="Content\Template\bower_components\jquery\src\core\var\rsingleTag.js" />
     <Content Include="Content\Template\bower_components\jquery\src\css.js" />
     <Content Include="Content\Template\bower_components\jquery\src\css\addGetHookIf.js" />
@@ -5573,7 +5857,7 @@
     <Content Include="Content\Template\bower_components\jquery\src\css\var\cssExpand.js" />
     <Content Include="Content\Template\bower_components\jquery\src\css\var\getStyles.js" />
     <Content Include="Content\Template\bower_components\jquery\src\css\var\isHiddenWithinTree.js" />
-    <Content Include="Content\Template\bower_components\jquery\src\css\var\rmargin.js" />
+    <Content Include="Content\Template\bower_components\jquery\src\css\var\rboxStyle.js" />
     <Content Include="Content\Template\bower_components\jquery\src\css\var\rnumnonpx.js" />
     <Content Include="Content\Template\bower_components\jquery\src\css\var\swap.js" />
     <Content Include="Content\Template\bower_components\jquery\src\data.js" />
@@ -5628,6 +5912,8 @@
     <Content Include="Content\Template\bower_components\jquery\src\var\getProto.js" />
     <Content Include="Content\Template\bower_components\jquery\src\var\hasOwn.js" />
     <Content Include="Content\Template\bower_components\jquery\src\var\indexOf.js" />
+    <Content Include="Content\Template\bower_components\jquery\src\var\isFunction.js" />
+    <Content Include="Content\Template\bower_components\jquery\src\var\isWindow.js" />
     <Content Include="Content\Template\bower_components\jquery\src\var\ObjectFunctionString.js" />
     <Content Include="Content\Template\bower_components\jquery\src\var\pnum.js" />
     <Content Include="Content\Template\bower_components\jquery\src\var\push.js" />
@@ -5637,14 +5923,6 @@
     <Content Include="Content\Template\bower_components\jquery\src\var\support.js" />
     <Content Include="Content\Template\bower_components\jquery\src\var\toString.js" />
     <Content Include="Content\Template\bower_components\jquery\src\wrap.js" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\.gitignore" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\index.html" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\ajax-loader.gif" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\fonts\slick.svg" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\slick-theme.css" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\slick.css" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\slick.js" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\slick.min.js" />
     <Content Include="Content\Template\dist\css\AdminLTE.css" />
     <Content Include="Content\Template\dist\css\AdminLTE.min.css" />
     <Content Include="Content\Template\dist\css\alt\AdminLTE-bootstrap-social.css" />
@@ -5722,12 +6000,72 @@
     <Content Include="Content\Template\dist\js\demo.js" />
     <Content Include="Content\Template\dist\js\pages\dashboard.js" />
     <Content Include="Content\Template\dist\js\pages\dashboard2.js" />
+    <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Content\themes\base\all.css" />
+    <Content Include="Content\themes\base\autocomplete.css" />
+    <Content Include="Content\themes\base\base.css" />
+    <Content Include="Content\themes\base\button.css" />
+    <Content Include="Content\themes\base\core.css" />
+    <Content Include="Content\themes\base\datepicker.css" />
+    <Content Include="Content\themes\base\dialog.css" />
+    <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\menu.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="scripts\dropzone\basic.css" />
+    <Content Include="scripts\dropzone\basic.min.css" />
+    <Content Include="scripts\dropzone\dropzone-amd-module.js" />
+    <Content Include="scripts\dropzone\dropzone-amd-module.min.js" />
+    <Content Include="scripts\dropzone\dropzone.css" />
+    <Content Include="scripts\dropzone\dropzone.js" />
+    <Content Include="scripts\dropzone\dropzone.min.css" />
+    <Content Include="scripts\dropzone\dropzone.min.js" />
+    <Content Include="scripts\jquery-ui-1.12.1.js" />
+    <Content Include="scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="scripts\jquery.validate.min.js" />
+    <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="scripts\moment-with-locales.js" />
+    <Content Include="scripts\moment-with-locales.min.js" />
+    <Content Include="scripts\moment.js" />
+    <Content Include="scripts\moment.min.js" />
+    <Content Include="Areas\Admin\Views\NCC\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\NCC\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\KhachHang\Index.cshtml" />
     <Content Include="scripts\toastr.js" />
     <Content Include="scripts\toastr.min.js" />
     <Content Include="Web.config">
@@ -5750,8 +6088,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\GiaSanPham\" />
-    <Folder Include="Views\Registration\" />
-    <Folder Include="Views\Registraton\" />
     <Folder Include="Views\RoomKind\" />
   </ItemGroup>
   <ItemGroup>
@@ -5763,300 +6099,9 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\bower.json" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\build\build.less" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\build\build3.less" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\build\build_standalone.less" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\build\build_standalone3.less" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\CHANGELOG.md" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\CODE_OF_CONDUCT.md" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\composer.json" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\CONTRIBUTING.md" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker.css.map" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker.standalone.css.map" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker3.css.map" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker3.standalone.css.map" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\conf.py" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\events.rst" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\i18n.rst" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\index.rst" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\keyboard.rst" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\make.bat" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\Makefile" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\markup.rst" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\methods.rst" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\options.rst" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\docs\README.md" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\grunt\_jshintrc" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\_jscsrc" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\js\_jshintrc" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\less\datepicker.less" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\less\datepicker3.less" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\less\_csslintrc" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\LICENSE" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\package.json" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\README.md" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\tests\README.md" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\yarn.lock" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\_bower.json" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\_editorconfig" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\_gitignore" />
-    <Content Include="Content\Template\bower_components\bootstrap-datepicker\_travis.yml" />
-    <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\bower.json" />
-    <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\daterangepicker.scss" />
-    <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\example\browserify\README.md" />
-    <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\package.json" />
-    <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\README.md" />
-    <Content Include="Content\Template\bower_components\bootstrap-daterangepicker\_bower.json" />
-    <Content Include="Content\Template\bower_components\bootstrap-slider\bower.json" />
-    <Content Include="Content\Template\bower_components\bootstrap-slider\README.md" />
-    <Content Include="Content\Template\bower_components\bootstrap-slider\_bower.json" />
-    <Content Include="Content\Template\bower_components\bootstrap-timepicker\bower.json" />
-    <Content Include="Content\Template\bower_components\bootstrap-timepicker\CHANGELOG.md" />
-    <Content Include="Content\Template\bower_components\bootstrap-timepicker\css\timepicker.less" />
-    <Content Include="Content\Template\bower_components\bootstrap-timepicker\LICENSE" />
-    <Content Include="Content\Template\bower_components\bootstrap-timepicker\README.md" />
-    <Content Include="Content\Template\bower_components\bootstrap-timepicker\_bower.json" />
-    <Content Include="Content\Template\bower_components\chart.js\bower.json" />
-    <Content Include="Content\Template\bower_components\chart.js\CONTRIBUTING.md" />
-    <Content Include="Content\Template\bower_components\chart.js\docs\00-Getting-Started.md" />
-    <Content Include="Content\Template\bower_components\chart.js\docs\01-Line-Chart.md" />
-    <Content Include="Content\Template\bower_components\chart.js\docs\02-Bar-Chart.md" />
-    <Content Include="Content\Template\bower_components\chart.js\docs\03-Radar-Chart.md" />
-    <Content Include="Content\Template\bower_components\chart.js\docs\04-Polar-Area-Chart.md" />
-    <Content Include="Content\Template\bower_components\chart.js\docs\05-Pie-Doughnut-Chart.md" />
-    <Content Include="Content\Template\bower_components\chart.js\docs\06-Advanced.md" />
-    <Content Include="Content\Template\bower_components\chart.js\docs\07-Notes.md" />
-    <Content Include="Content\Template\bower_components\chart.js\LICENSE.md" />
-    <Content Include="Content\Template\bower_components\chart.js\package.json" />
-    <Content Include="Content\Template\bower_components\chart.js\README.md" />
-    <Content Include="Content\Template\bower_components\chart.js\_bower.json" />
-    <Content Include="Content\Template\bower_components\chart.js\_gitignore" />
-    <Content Include="Content\Template\bower_components\chart.js\_travis.yml" />
-    <Content Include="Content\Template\bower_components\ckeditor\bower.json" />
-    <Content Include="Content\Template\bower_components\ckeditor\CHANGES.md" />
-    <Content Include="Content\Template\bower_components\ckeditor\composer.json" />
-    <Content Include="Content\Template\bower_components\ckeditor\LICENSE.md" />
-    <Content Include="Content\Template\bower_components\ckeditor\package.json" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\lib\highlight\CHANGES.md" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\lib\highlight\LICENSE" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\codesnippet\lib\highlight\README.ru.md" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\find\icons\hidpi\Thumbs.db" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\scayt\CHANGELOG.md" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\scayt\LICENSE.md" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\smiley\images\Thumbs.db" />
-    <Content Include="Content\Template\bower_components\ckeditor\plugins\wsc\LICENSE.md" />
-    <Content Include="Content\Template\bower_components\ckeditor\README.md" />
-    <Content Include="Content\Template\bower_components\ckeditor\samples\old\htmlwriter\assets\outputforflash\outputforflash.fla" />
-    <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\font\config.json" />
-    <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\font\fontello.eot" />
-    <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\font\fontello.ttf" />
-    <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\font\fontello.woff" />
-    <Content Include="Content\Template\bower_components\ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
-    <Content Include="Content\Template\bower_components\ckeditor\skins\kama\readme.md" />
-    <Content Include="Content\Template\bower_components\ckeditor\skins\moono-lisa\readme.md" />
-    <Content Include="Content\Template\bower_components\ckeditor\skins\moono\readme.md" />
-    <Content Include="Content\Template\bower_components\ckeditor\_bower.json" />
-    <Content Include="Content\Template\bower_components\datatables.net-bs\bower.json" />
-    <Content Include="Content\Template\bower_components\datatables.net-bs\Readme.md" />
-    <Content Include="Content\Template\bower_components\datatables.net-bs\_bower.json" />
-    <Content Include="Content\Template\bower_components\datatables.net\bower.json" />
-    <Content Include="Content\Template\bower_components\datatables.net\Readme.md" />
-    <Content Include="Content\Template\bower_components\datatables.net\_bower.json" />
-    <Content Include="Content\Template\bower_components\fastclick\bower.json" />
-    <Content Include="Content\Template\bower_components\fastclick\LICENSE" />
-    <Content Include="Content\Template\bower_components\fastclick\README.md" />
-    <Content Include="Content\Template\bower_components\fastclick\_bower.json" />
-    <Content Include="Content\Template\bower_components\font-awesome\bower.json" />
-    <Content Include="Content\Template\bower_components\font-awesome\css\font-awesome.css.map" />
-    <Content Include="Content\Template\bower_components\font-awesome\fonts\fontawesome-webfont.eot" />
-    <Content Include="Content\Template\bower_components\font-awesome\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Content\Template\bower_components\font-awesome\fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\Template\bower_components\font-awesome\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Content\Template\bower_components\font-awesome\fonts\FontAwesome.otf" />
-    <Content Include="Content\Template\bower_components\font-awesome\less\animated.less" />
-    <Content Include="Content\Template\bower_components\font-awesome\less\bordered-pulled.less" />
-    <Content Include="Content\Template\bower_components\font-awesome\less\core.less" />
-    <Content Include="Content\Template\bower_components\font-awesome\less\fixed-width.less" />
-    <Content Include="Content\Template\bower_components\font-awesome\less\font-awesome.less" />
-    <Content Include="Content\Template\bower_components\font-awesome\less\icons.less" />
-    <Content Include="Content\Template\bower_components\font-awesome\less\larger.less" />
-    <Content Include="Content\Template\bower_components\font-awesome\less\list.less" />
-    <Content Include="Content\Template\bower_components\font-awesome\less\mixins.less" />
-    <Content Include="Content\Template\bower_components\font-awesome\less\path.less" />
-    <Content Include="Content\Template\bower_components\font-awesome\less\rotated-flipped.less" />
-    <Content Include="Content\Template\bower_components\font-awesome\less\screen-reader.less" />
-    <Content Include="Content\Template\bower_components\font-awesome\less\stacked.less" />
-    <Content Include="Content\Template\bower_components\font-awesome\less\variables.less" />
-    <Content Include="Content\Template\bower_components\font-awesome\scss\font-awesome.scss" />
-    <Content Include="Content\Template\bower_components\font-awesome\scss\_animated.scss" />
-    <Content Include="Content\Template\bower_components\font-awesome\scss\_bordered-pulled.scss" />
-    <Content Include="Content\Template\bower_components\font-awesome\scss\_core.scss" />
-    <Content Include="Content\Template\bower_components\font-awesome\scss\_fixed-width.scss" />
-    <Content Include="Content\Template\bower_components\font-awesome\scss\_icons.scss" />
-    <Content Include="Content\Template\bower_components\font-awesome\scss\_larger.scss" />
-    <Content Include="Content\Template\bower_components\font-awesome\scss\_list.scss" />
-    <Content Include="Content\Template\bower_components\font-awesome\scss\_mixins.scss" />
-    <Content Include="Content\Template\bower_components\font-awesome\scss\_path.scss" />
-    <Content Include="Content\Template\bower_components\font-awesome\scss\_rotated-flipped.scss" />
-    <Content Include="Content\Template\bower_components\font-awesome\scss\_screen-reader.scss" />
-    <Content Include="Content\Template\bower_components\font-awesome\scss\_stacked.scss" />
-    <Content Include="Content\Template\bower_components\font-awesome\scss\_variables.scss" />
-    <Content Include="Content\Template\bower_components\font-awesome\_bower.json" />
-    <Content Include="Content\Template\bower_components\font-awesome\_gitignore" />
-    <Content Include="Content\Template\bower_components\font-awesome\_npmignore" />
-    <Content Include="Content\Template\bower_components\inputmask\bower.json" />
-    <Content Include="Content\Template\bower_components\inputmask\_bower.json" />
-    <Content Include="Content\Template\bower_components\Ionicons\bower.json" />
-    <Content Include="Content\Template\bower_components\Ionicons\component.json" />
-    <Content Include="Content\Template\bower_components\Ionicons\composer.json" />
-    <Content Include="Content\Template\bower_components\Ionicons\fonts\ionicons.eot" />
-    <Content Include="Content\Template\bower_components\Ionicons\fonts\ionicons.ttf" />
-    <Content Include="Content\Template\bower_components\Ionicons\fonts\ionicons.woff" />
-    <Content Include="Content\Template\bower_components\Ionicons\less\ionicons.less" />
-    <Content Include="Content\Template\bower_components\Ionicons\less\_ionicons-font.less" />
-    <Content Include="Content\Template\bower_components\Ionicons\less\_ionicons-icons.less" />
-    <Content Include="Content\Template\bower_components\Ionicons\less\_ionicons-variables.less" />
-    <Content Include="Content\Template\bower_components\Ionicons\LICENSE" />
-    <Content Include="Content\Template\bower_components\Ionicons\png\512\Thumbs.db" />
-    <Content Include="Content\Template\bower_components\Ionicons\readme.md" />
-    <Content Include="Content\Template\bower_components\Ionicons\scss\ionicons.scss" />
-    <Content Include="Content\Template\bower_components\Ionicons\scss\_ionicons-font.scss" />
-    <Content Include="Content\Template\bower_components\Ionicons\scss\_ionicons-icons.scss" />
-    <Content Include="Content\Template\bower_components\Ionicons\scss\_ionicons-variables.scss" />
-    <Content Include="Content\Template\bower_components\Ionicons\_bower.json" />
-    <Content Include="Content\Template\bower_components\jquery-knob\bower.json" />
-    <Content Include="Content\Template\bower_components\jquery-knob\knob.jquery.json" />
-    <Content Include="Content\Template\bower_components\jquery-knob\LICENSE" />
-    <Content Include="Content\Template\bower_components\jquery-knob\package.json" />
-    <Content Include="Content\Template\bower_components\jquery-knob\README.md" />
-    <Content Include="Content\Template\bower_components\jquery-knob\_bower.json" />
-    <Content Include="Content\Template\bower_components\jquery-knob\_gitignore" />
-    <Content Include="Content\Template\bower_components\jquery-slimscroll\bower.json" />
-    <Content Include="Content\Template\bower_components\jquery-slimscroll\package.json" />
-    <Content Include="Content\Template\bower_components\jquery-slimscroll\README.md" />
-    <Content Include="Content\Template\bower_components\jquery-slimscroll\_bower.json" />
-    <Content Include="Content\Template\bower_components\jquery-ui\bower.json" />
-    <Content Include="Content\Template\bower_components\jquery-ui\component.json" />
-    <Content Include="Content\Template\bower_components\jquery-ui\composer.json" />
-    <Content Include="Content\Template\bower_components\jquery-ui\package.json" />
-    <Content Include="Content\Template\bower_components\jquery-ui\README.md" />
-    <Content Include="Content\Template\bower_components\jquery-ui\ui\_jshintrc" />
-    <Content Include="Content\Template\bower_components\jquery-ui\_bower.json" />
-    <Content Include="Content\Template\bower_components\jquery-ui\_gitignore" />
-    <Content Include="Content\Template\bower_components\jquery\bower.json" />
-    <Content Include="Content\Template\bower_components\jquery\dist\jquery.min.map" />
-    <Content Include="Content\Template\bower_components\jquery\dist\jquery.slim.min.map" />
-    <Content Include="Content\Template\bower_components\jquery\external\sizzle\dist\sizzle.min.map" />
-    <Content Include="Content\Template\bower_components\jquery\README.md" />
-    <Content Include="Content\Template\bower_components\jquery\src\_eslintrc.json" />
-    <Content Include="Content\Template\bower_components\jquery\_bower.json" />
     <Content Include="Content\Template\dist\css\adminlte.css.map" />
     <Content Include="Content\Template\dist\css\adminlte.min.css.map" />
     <Content Include="Content\Template\dist\img\Thumbs.db" />
-    <Content Include="Content\Template\bower_components\bootstrap\bower.json" />
-    <Content Include="Content\Template\bower_components\bootstrap\CHANGELOG.md" />
-    <Content Include="Content\Template\bower_components\bootstrap\dist\css\bootstrap-theme.css.map" />
-    <Content Include="Content\Template\bower_components\bootstrap\dist\css\bootstrap-theme.min.css.map" />
-    <Content Include="Content\Template\bower_components\bootstrap\dist\css\bootstrap.css.map" />
-    <Content Include="Content\Template\bower_components\bootstrap\dist\css\bootstrap.min.css.map" />
-    <Content Include="Content\Template\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\Template\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\Template\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\Template\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="Content\Template\bower_components\bootstrap\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\Template\bower_components\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\Template\bower_components\bootstrap\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\Template\bower_components\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="Content\Template\bower_components\bootstrap\Gemfile" />
-    <Content Include="Content\Template\bower_components\bootstrap\Gemfile.lock" />
-    <Content Include="Content\Template\bower_components\bootstrap\grunt\configBridge.json" />
-    <Content Include="Content\Template\bower_components\bootstrap\grunt\npm-shrinkwrap.json" />
-    <Content Include="Content\Template\bower_components\bootstrap\grunt\sauce_browsers.yml" />
-    <Content Include="Content\Template\bower_components\bootstrap\grunt\_jshintrc" />
-    <Content Include="Content\Template\bower_components\bootstrap\ISSUE_TEMPLATE.md" />
-    <Content Include="Content\Template\bower_components\bootstrap\js\_jscsrc" />
-    <Content Include="Content\Template\bower_components\bootstrap\js\_jshintrc" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\alerts.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\badges.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\bootstrap.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\breadcrumbs.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\button-groups.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\buttons.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\carousel.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\close.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\code.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\component-animations.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\dropdowns.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\forms.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\glyphicons.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\grid.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\input-groups.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\jumbotron.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\labels.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\list-group.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\media.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\alerts.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\background-variant.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\border-radius.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\buttons.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\center-block.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\clearfix.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\forms.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\gradients.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\grid-framework.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\grid.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\hide-text.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\image.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\labels.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\list-group.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\nav-divider.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\nav-vertical-align.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\opacity.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\pagination.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\panels.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\progress-bar.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\reset-filter.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\reset-text.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\resize.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\responsive-visibility.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\size.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\tab-focus.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\table-row.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\text-emphasis.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\text-overflow.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\mixins\vendor-prefixes.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\modals.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\navbar.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\navs.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\normalize.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\pager.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\pagination.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\panels.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\popovers.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\print.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\progress-bars.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\responsive-embed.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\responsive-utilities.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\scaffolding.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\tables.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\theme.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\thumbnails.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\tooltip.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\type.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\utilities.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\variables.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\wells.less" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\_csscomb.json" />
-    <Content Include="Content\Template\bower_components\bootstrap\less\_csslintrc" />
-    <Content Include="Content\Template\bower_components\bootstrap\LICENSE" />
-    <Content Include="Content\Template\bower_components\bootstrap\nuget\bootstrap.less.nuspec" />
-    <Content Include="Content\Template\bower_components\bootstrap\nuget\bootstrap.nuspec" />
-    <Content Include="Content\Template\bower_components\bootstrap\nuget\MyGet.ps1" />
-    <Content Include="Content\Template\bower_components\bootstrap\package.json" />
-    <Content Include="Content\Template\bower_components\bootstrap\README.md" />
-    <Content Include="Content\Template\bower_components\bootstrap\_bower.json" />
     <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
     <Content Include="Areas\Admin\Views\KhuyenMai\Create.cshtml" />
@@ -6079,23 +6124,6 @@
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
     <Content Include="Areas\Admin\Views\Login\Login.cshtml" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\bower.json" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\component.json" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\CONTRIBUTING.markdown" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\ISSUE_TEMPLATE.md" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\LICENSE" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\Makefile" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\package.json" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\README.markdown" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\slick.jquery.json" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\config.rb" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\fonts\slick.eot" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\fonts\slick.ttf" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\fonts\slick.woff" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\slick-theme.less" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\slick-theme.scss" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\slick.less" />
-    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\slick.scss" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -6138,18 +6166,49 @@
     <EmbeddedResource Include="Migrations\201905040949376_change-db.resx">
       <DependentUpon>201905040949376_change-db.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905041116221_modify-slton-id-km.resx">
+      <DependentUpon>201905041116221_modify-slton-id-km.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905051009467_add-TenKM.resx">
+      <DependentUpon>201905051009467_add-TenKM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905090149492_required-tenloai.resx">
+      <DependentUpon>201905090149492_required-tenloai.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905050834508_add-NCC.resx">
+      <DependentUpon>201905050834508_add-NCC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905051547090_config-db.resx">
+      <DependentUpon>201905051547090_config-db.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905081435230_edit-trangthaiDH.resx">
+      <DependentUpon>201905081435230_edit-trangthaiDH.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905081520445_edit-table-CtDH.resx">
+      <DependentUpon>201905081520445_edit-table-CtDH.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905081549155_add-trangthai-ctdh.resx">
+      <DependentUpon>201905081549155_add-trangthai-ctdh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905091333531_modify-data.resx">
+      <DependentUpon>201905091333531_modify-data.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905052102175_Update_coulumn_SoLuongTon_Null.resx">
       <DependentUpon>201905052102175_Update_coulumn_SoLuongTon_Null.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905061704021_ID_KhuyenMai_SanPham_IsNull.resx">
-      <DependentUpon>201905061704021_ID_KhuyenMai_SanPham_IsNull.cs</DependentUpon>
-    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Content\Template\bower_components\moment\moment.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
