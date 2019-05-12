@@ -15,36 +15,247 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
 
-    <link href="~/Content/Template/dist/css/page/TrangChu.css" rel="stylesheet" />
+
+
     <link href="~/Content/Template/dist/css/page/Header.css" rel="stylesheet" />
+
+    <link href="~/Content/Template/dist/css/page/Slickslides.css" rel="stylesheet" />
+    <link href="~/Content/Template/dist/css/page/TrangChu.css" rel="stylesheet" />
     <link href="~/Content/Template/dist/css/page/ProductDetail.css" rel="stylesheet" />
+    <link href="~/Content/Template/dist/css/page/ModalCart.css" rel="stylesheet" />
+    <link href="~/Content/Template/dist/css/page/ProductCart.css" rel="stylesheet" />
+    <link href="~/Content/Template/bower_components/slick-1.8.1/slick/slick.css" rel="stylesheet" />
+    <link href="~/Content/Template/bower_components/slick-1.8.1/slick/slick-theme.css" rel="stylesheet" />
     @*<link rel="stylesheet" href="~/Content/Template/dist/css/skins/skin-red.min.css">*@
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
     <!-- Google Font -->
     @*<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,400,600,700,300italic,400italic,600italic">*@
     <!-- ./wrapper -->
     <!-- jQuery 3 -->
     <script src="~/Content/Template/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="~/Content/Template/bower_components/slick-1.8.1/slick/slick.min.js"></script>
     <!-- Bootstrap 3.3.7 -->
     <script src="~/Content/Template/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <style>
+
+        .slider-for {
+            width: 550px;
+        }
+
+        @@media (min-width: 768px) {#deleteMoadalItem .modal-dialog
+                                    {
+            width: 400px;
+            margin: 150px auto;
+        }
+
+            @@media (min-width: 768px) {
+                #deleteMoadalAll .modal-dialog {
+                    width: 400px;
+                    margin: 150px auto;
+                }
+            }
+                .draggable {
+                    padding: 0px;
+                }
     </style>
 </head>
 <!-- ADD THE CLASS fixed TO GET A FIXED HEADER AND SIDEBAR LAYOUT -->
 <!-- the fixed layout is not compatible with sidebar-mini -->
 <body>
+    <div class="modal fade" id="cartModal" role="dialog" @*data-url="@Url.Action("PartialViewLogin","User")"*@>
+        @Html.Partial("~/Views/Cart/PartialProduct.cshtml")
+    </div>
+
+    <div class="modal fade" id="loginModal" role="dialog">
+        @* @{ Html.RenderPartial("~/Views/User/PartialViewLogin.cshtml", ViewModel.CustomerLogin);}*@
+        @{Html.RenderPartial("~/Views/User/PartialViewLogin.cshtml");}
+    </div>
+
+    <div class="modal fade" id="deleteMoadalItem">
+        @* @{ Html.RenderPartial("~/Views/User/PartialViewLogin.cshtml", ViewModel.CustomerLogin);}*@
+        @{Html.RenderPartial("~/Views/Cart/PartialDeleteItem.cshtml");}
+
+    </div>
+
+    <div class="modal fade" id="deleteMoadalAll">
+        @* @{ Html.RenderPartial("~/Views/User/PartialViewLogin.cshtml", ViewModel.CustomerLogin);}*@
+        @{Html.RenderPartial("~/Views/Cart/PartialDeleteAll.cshtml");}
+    </div>
+
     <div class="container-fluid">
         @RenderPage("Header.cshtml")
     </div>
     <div class="container-fluid">
         @RenderBody()
     </div>
+
     <script src="/Content/Template/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+    @*đăng nhập*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#btn").click(function () {
+                $("#loginModal").modal('show');
+            });
+
+            $("#btnLogin").click(function () {
+                var name = $('#EmailorPhone').val();
+                var pass = $('#Password').val();
+                $('.modal-body #loaderror').html("");
+                $('.modal-body #loaderror').css("background-color", "white");
+                $.ajax({
+                    url: '/User/UserLogin',
+                    data: { name, pass },
+                    type: 'post',
+                    success: function (data) {
+
+                        if (data.listError.length > 0) {
+                            $('.modal-body #loaderror').css("background-color", "antiquewhite");
+                            $.each(data, function (i, item) {
+                                var row = `<span style='color:red'> ${item}</span>`
+                                $('.modal-body #loaderror').append(row);
+                            });
+                        }
+                        else {
+                            $("#myModal").modal('hide');
+                        }
+                    },
+                    error: function (e) {
+
+                    }
+
+                });
+            });
+        })
+    </script>
+
+
+    @*thêm sản phẩm vào giỏ hàng*@
+    <script>
+        $(document).ready(function () {
+
+            var total = 0;
+            $("#add-cart").click(function () {
+
+                $("#cartModal").modal('show');
+
+                var id = $('#id_sanpham').val();
+                $('#new-cart').html('');
+                $('#totalQuantity').text();
+                $.ajax({
+                    async: false,
+                    url: '/Cart/createProduct',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { id },
+                    success: function (data) {
+                        var row = `<span style='color:#4caf50;font-size: 18px;'> 1 sản phẩm mới đã được thêm vào giỏ hàng </span>
+                                                               <div class="cart-item" style='postion:relative;bottom:5px'>
+                                                                    <div class='cart-item-left'><img width='80px' height='80px' src='${data.productCart.HinhAnh}'/></div>
+                                                                    <div class='cart-item-right'>
+                                                                         <p>${data.productCart.TenSanPham}</p>
+                                                                         <p class="relate-info"><span>${data.productCart.loaisp}</span>,<span>${data.productCart.KichThuoc}</span>,<span>${data.productCart.MauSac}</span></p>
+                                                                         <p style='color:orange;'>${data.productCart.giagiam} đ</p>
+                                                                         <p><span class='price' >${data.productCart.giagoc} đ</span>,<span>-${data.productCart.phantramgiamgia}%</span></p>
+
+                                                                    </div>
+                                                                </div>`;
+
+                        $('#new-cart').append(row);
+
+                        if (data.productCart.phantramgiamgia == 0) {
+                            $('.cart-item-right p').last().hide();
+                        }
+
+                        if (data.totalQuantity > 0) {
+
+                            $('#totalQuantity').text(data.totalQuantity);
+                        }
+
+                    }, error: function (e) {
+
+                    }
+                });
+
+
+                $('#load-cart').html("");
+                $.ajax({
+                    async: false,
+                    url: '/Cart/stateProductCars',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        var row = `<p style='font-size:18px;'> Giỏ hàng của bạn hiện tại có :<span >${data.quantity} sản phẩm<span> </p>
+                                                            <p ><span style='font-size:12px;line-height: 16px;color: #757575;'> Tạm tính<span>:<span class="temporary-price"> ${data.money.format()} đ</span></p>
+                                                            <p> Tổng tiền:<span class='total'> ${data.money.format()} đ</span></p>
+
+                                                           `;
+                        $('#load-cart').append(row);
+                    }, error: function (e) {
+
+                    }
+
+                });
+            });
+
+            // load right when add
+            $.ajax({
+                async: false,
+                url: '/Cart/stateProductCars',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#totalQuantity').text();
+                    if (data.quantity > 0) {
+
+                        $('#totalQuantity').text(data.quantity);
+                    }
+                }, error: function (e) {
+
+                }
+
+            });
+
+        });
+
+    </script>
+
+
+    @*xóa sản phẩm khỏi giỏ hàng*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.delete-item').click(function () {
+                $("#deleteMoadalItem").modal('show');
+            });
+
+            $('#delete-all').click(function () {
+                $("#deleteMoadalAll").modal('show');
+            });
+
+
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            Number.prototype.format = function (n, x) {
+                var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+                return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+            };
+        });
+
+    </script>
+
     @RenderSection("ScriptSection", false)
 </body>
 </html>

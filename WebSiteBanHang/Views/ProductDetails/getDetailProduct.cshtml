@@ -1,4 +1,4 @@
-﻿@model WebSiteBanHang.Models.SANPHAM
+﻿@model WebSiteBanHang.ViewModel.ProductDetail
 
 @{
     ViewBag.Title = "getDetailProduct";
@@ -8,22 +8,69 @@
     <div id="product_detail_title">
         <a>Sản phẩm mới ></a> <span style="color:orange">@Model.TenSanPham</span>
     </div>
-    <div id="product_detail_top" >
+    <div id="product_detail_top">
         Bạn cần trợ giúp ? <b>Gọi ngay 1800 7200</b>
     </div>
     <div id="product_detail_content">
         <div id="product_image">
-            <img src="@Url.Content("/Content/Template/bower_components/ckeditor/samples/img/"+Model.HinhAnh)" />
-        </div>
+            <div class='slider-for'>
+                @foreach (var hinh in Model.Hinhs)
+                {
+                     <div class="slick-current @(hinh.Replace(':', ' ').Replace('/',' ').ToString() == @Model.HinhAnh.Replace(':', ' ').Replace('/',' ').ToString() ? "slick-active": " ")"><img  style='width:400px' src="@hinh.ToString()" /> </div>
+                  
+                }
+            </div>
+            <div class="slider-area slider">
+                @foreach (var hinh in Model.Hinhs)
+                {
+                    <div class="col-md-4"><img width="100px" src="@hinh.ToString()" /></div>
+
+                }
+            </div>
+
+
+            </div>
         <div id="product_info">
             <span>@Model.TenSanPham</span><br />
-            <b>Giá Tiền:</b> <span style="color:orange">139.000.000<br /></span><br />
+            <b>
+                Giá Tiền:
+                
+                <span style="color:orange">@String.Format("{0:0,00}", Model.GiaBan)đ<br /></span>
+             
+            </b>
+            <br />
+            <input hidden value="@Model.Id_SanPham"  id="id_sanpham"/>
             <b>Đơn vị tính:</b><span>@Model.DonViTinh<br /></span><br />
             <b>Kích thước:</b><span>@Model.KichThuoc<br /></span><br />
             <b>Vật liệu:</b><span>@Model.VatLieu<br /></span><br />
             <b>Màu sắc:</b><span>@Model.MauSac<br /></span><br />
-            <button type="button" style="padding:10px 110px 10px 110px" class="btn btn-warning btn-lg">MUA NGAY</button>
-            <a style="padding:0px 20px 0px 80px;top:10px;position:relative;color:orange" href="#">Xem Giỏ Hàng Của Bạn</a>
+            <button type="button" style="padding:10px 110px 10px 110px" id="add-cart" class="btn btn-warning btn-lg">MUA NGAY</button>
+            @Html.ActionLink("Thêm vào giỏ hàng", "createProduct", "Cart", new { id = Model.Id_SanPham }, new { @style = "padding:0px 20px 0px 80px;top:10px;position:relative;color:orange;" })
+
         </div>
     </div>
 </div>
+<script  type="text/javascript">
+    
+        $('.slider-for').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: false,
+            fade: true,
+            asNavFor: '.slider'
+        });
+
+
+        $('.slider').slick({
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            asNavFor: '.slider-for',
+            dots: true,
+            centerMode: true,
+            focusOnSelect: true
+        });
+
+
+
+
+</script>

@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
+using WebSiteBanHang.ViewModel;
 
 namespace WebSiteBanHang.Models
 {
@@ -44,7 +45,7 @@ namespace WebSiteBanHang.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-
+                
             modelBuilder.Entity<TBL_GROUP>()
               .HasMany(e => e.TBL_GROUP_ROLEs)
               .WithRequired(e => e.TBL_GROUP)
@@ -71,5 +72,7 @@ namespace WebSiteBanHang.Models
 
 
         }
+
+       
     }
 }

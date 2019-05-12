@@ -1,0 +1,48 @@
+﻿
+
+
+.cart-item-left {
+    float: left;
+    width: 100px;
+}
+
+
+.cart-item-right {
+    float: left;
+    width: 300px;
+}
+.price {
+    color: #757575;
+    margin-bottom: 8px;
+    text-decoration: line-through;
+    margin-right: 5px;
+    font-size: 14px;
+    line-height: 16px;
+    display: inline-block;
+}
+
+.relate-info {
+    margin: 16px 0 8px;
+    font-size: 12px;
+    line-height: 16px;
+    color: #757575;
+}
+.temporary-price {
+    font-size: 12px;
+    color: black;
+    letter-spacing: 0;
+    text-align: right;
+    line-height: 35px;
+    position: absolute;
+    right: 30px;
+}
+
+.total {
+    font-weight: 400;
+    font-size: 16px;
+    color: orange;
+    text-align: right;
+    position: absolute;
+    right: 30px;
+}
+

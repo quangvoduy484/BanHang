@@ -1,3 +1,4 @@
+
 <div class="clearfix" style="background-color:#808080;color:white">
     <div class="float-left  d-block" style="width: 150px;margin: 15px 15px 15px 15px;">
         <span class="fa fa-phone mr-1" style="color: orange;"></span>Hotline:0914318762
@@ -13,25 +14,33 @@
             </button>
         </div>
         <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav navbar-left">
-            <li class="nav-item">
-              <a class="nav-link" href="#">Gioi Thieu<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Tim Cua Hang</a>
-            </li>
-            <li class="nav-item ">
-              <a class="nav-link" href="#">Khuyen Mai</a>
-            </li>
-          </ul>
+            <ul class="nav navbar-nav navbar-left">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Gioi Thieu<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Tim Cua Hang</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="#">Khuyen Mai</a>
+                </li>
+            </ul>
             <ul class="nav navbar-nav navbar-center">
                 <li class="nav-item logo ">
                     <a class="nav-link" href="/Homepage/Index"><img src="/Content/Template/bower_components/ckeditor/samples/img/nha-xinh-logo.jpg" alt="Nhà Xinh"></a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="nav-item"><a class="nav-link" href="#">Right</a></li>
-                <li class="nav-item" ><a  class="nav-link" href="#">Right</a></li>
+                <li class="nav-item">
+                    <a href="/Cart/renderProductCarts">
+                        <img src="~/Content/Template/bower_components/ckeditor/samples/img/shop-01-128.png" width="25px" height="20px" />
+
+                            <span id="totalQuantity"></span>
+
+                    </a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="/User/Registor">Dang ki</a></li>
+                <li class="nav-item"><a class="nav-link btn" id="btn">Dang nhap</a></li>
             </ul>
 
         </div>
@@ -40,19 +49,19 @@
 </div>
 <div>
     <ul class="nav navbar-nav menu-kindroom">
-      @{
-          using (WebSiteBanHang.Models.BanHangContext db = new WebSiteBanHang.Models.BanHangContext())
-          {
-            var LoaiPhong = db.LOAIPHONGs.Where(x => x.TrangThai == true).OrderBy(x => x.Id_LoaiPhong).AsEnumerable();
-            foreach (var item in LoaiPhong)
+        @{
+            using (WebSiteBanHang.Models.BanHangContext db = new WebSiteBanHang.Models.BanHangContext())
             {
-                <li class="nav-item">
-                    @Html.ActionLink(item.TenLoaiPhong.ToUpper(), "LoadByRoomKind", "RoomKind", new { id = item.Id_LoaiPhong, Type = item.Type }, new { @class= "nav-link" })
-                </li>
+                var LoaiPhong = db.LOAIPHONGs.Where(x => x.TrangThai == true).OrderBy(x => x.Id_LoaiPhong).AsEnumerable();
+                foreach (var item in LoaiPhong)
+                {
+                    <li class="nav-item">
+                        @Html.ActionLink(item.TenLoaiPhong.ToUpper(), "LoadByRoomKind", "RoomKind", new { id = item.Id_LoaiPhong, Type = item.Type }, new { @class = "nav-link" })
+                    </li>
+                }
             }
-          }
 
-      }
+        }
 
     </ul>
 </div>

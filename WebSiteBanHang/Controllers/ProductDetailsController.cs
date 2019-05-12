@@ -6,6 +6,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebSiteBanHang.Models;
+using WebSiteBanHang.ViewModel;
 
 namespace WebSiteBanHang.Controllers
 {
@@ -13,19 +14,44 @@ namespace WebSiteBanHang.Controllers
     {
         BanHangContext db = new BanHangContext();
         // GET: ProductDetails
-        public ActionResult getDetailProduct(int? id)
+        public ActionResult GetDetailProduct(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var product = db.SANPHAMs.Include(x => x.HINHs).Where(x => x.TrangThai != false && x.Id_SanPham == id).SingleOrDefault();
+            var product = db.SANPHAMs
+                    .Include(t => t.HINHs)
+                    .Include(t => t.GIASANPHAMs)
+                    .SingleOrDefault(t => t.Id_SanPham == id && t.TrangThai != false);
             if (product == null)
             {
                 return HttpNotFound();
             }
-            return View(product);
+            var result = new ProductDetail()
+            {
+                Id_SanPham = product.Id_SanPham,
+                TenSanPham = product.TenSanPham,
+                GiaBan = product.GIASANPHAMs.Where(g => g.TrangThai != false).OrderByDescending(g => g.NgayLap)
+                                        .Select(g => g.GiaBan).FirstOrDefault(),
+                KichThuoc = product.KichThuoc,
+                VatLieu = product.VatLieu,
+                MauSac = product.MauSac,
+                XuatXu = product.XuatXu,
+                HinhAnh = product.HinhAnh
+            };
+            if (!string.IsNullOrWhiteSpace(product.HinhAnh))
+            {
+                result.Hinhs.Add(product.HinhAnh);
+            }
+            if (product.HINHs.Count > 0)
+            {
+                result.Hinhs.AddRange(product.HINHs
+                    .Select(t => t.Link).
+                    Where(t => !string.IsNullOrEmpty(t)));
+            }
+            return View(result);
         }
     }
 }

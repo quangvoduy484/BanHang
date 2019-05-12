@@ -12,7 +12,9 @@ namespace WebSiteBanHang.Controllers
         public ActionResult Index()
         {
             // lưu trữ thông tin của khách hàng qua IPrincipal
-            ViewBag.user = System.Web.HttpContext.Current.User.Identity.AuthenticationType;
+            //Httcontext là nơi chứa tất cả giao thử Http
+
+            ViewBag.user = System.Web.HttpContext.Current.User.Identity.Name;
             return View();
        
         }

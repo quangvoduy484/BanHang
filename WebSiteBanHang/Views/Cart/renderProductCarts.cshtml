@@ -1,0 +1,243 @@
+﻿@model IEnumerable<WebSiteBanHang.ViewModel.ProductCart>
+@{
+    ViewBag.Title = "renderProductCarts";
+    Layout = "~/Views/Shared/TrangChu.cshtml";
+}
+
+<div class="root container-fluid" style="margin:auto;">
+    <div class="left-product-cart col-md-8">
+        <div class="header-product">
+            <div style="display:inline-block">
+                <input type="checkbox" id="check-all"
+                       name="check-all">
+                <label for="check-all">CHỌN TẤT CẢ (@Model.Count())</label>
+            </div>
+            <div style="display:inline-block;position:relative;left:550px">
+                <button id="delete-all"><i class="fa fa-trash" aria-hidden="true"></i>XÓA</button>
+            </div>
+
+        </div>
+        @foreach (var product in Model)
+        {
+            <div class="item-product-cart">
+                <input id="value-product" value="@product.Id_SanPham" hidden />
+                <div class="item-left">
+                    <div style="display: inline-block;">
+                        <input type="checkbox" class="check-item"
+                               name="check-item" value="@product.Id_SanPham">
+
+                    </div>
+                    <img src="@product.HinhAnh" style="max-width:130px" />
+                    <div style="padding-left: 15px; display: inline-block;">
+                        <a href="/ProductDetails/GetDetailProduct/@product.Id_SanPham"><span style="font-size: 14px;color: #212121;line-height: 16px;">@product.TenSanPham</span></a>
+                        <p style="font-size: 12px;line-height: 16px;color: #757575;"><span>@product.loaisp</span>,<span>@product.KichThuoc</span></p>
+                    </div>
+                </div>
+                <div class="item-middle">
+                    <span style="color:#f57224;font-size:18px;line-height:28px;font-weight:500;margin-bottom:2px">@String.Format("{0:0,00}", product.giagiam) đ</span><br />
+                    <span style="font-size: 14px;line-height: 16px;color: #757575;margin-bottom: 2px;text-decoration: line-through;">@String.Format("{0:0,00}", product.giagoc) đ</span><br />
+                    <span style="margin-bottom:2px">-@product.phantramgiamgia%</span><br />
+                    <button class="delete-item"><i class="fa fa-trash" aria-hidden="true"></i></button>
+
+                </div>
+                <div class="item-right">
+                    <input value="-" class="down" type="button" />
+                    <input style="width:30px;text-align:center" value="@product.soluong" />
+                    <input value="+" class="up" type="button" />
+                </div>
+            </div>
+            <div style="height:25px"></div>
+        }
+
+    </div>
+    <div class="right-product-cart col-md-4">
+        <div class="card card-default">
+            <div class="card-header">
+                Thông tin đơn  hàng
+            </div>
+            <div class="card-body">
+                <div style="margin-bottom:5px;font-size: 14px;color: #757575;letter-spacing: 0;line-height: 16px;"><span>Tạm tính: &nbsp;</span><span class="totatQuantity"></span><span class="currentTotal" style="float:right"></span></div>
+                <div style="margin-bottom:5px;font-size: 14px;color: #757575;letter-spacing: 0;line-height: 16px;"><span>Phí giao hàng:</span><span class="giaohang" style='float:right'></span></div>
+                <div style="margin-bottom:5px"><span>Tổng cộng:</span><span class="sumTotal" style='float:right;font-size: 18px;color: #f57224;'></span></div>
+                <a href='#' class='btn btn-success'>Xác nhận đơn hàng</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+       
+        var count = 0;
+        
+        // chọn sản phẩm vào đơn hàng
+        $('.item-product-cart').each(function () {
+            count++;
+
+        })
+        $('#check-all').click(function () {
+            $('.totatQuantity').html("");
+            $('.currentTotal').html("");
+            $('.giaohang').html("");
+            $('.sumTotal').html("");
+
+            if (this.checked) {
+                $('.item-product-cart').each(function () {
+                    $('input[type = "checkbox"]').prop('checked', true);
+                  
+                })
+            }
+            else {
+                $('.item-product-cart').each(function () {
+                    $('input[type = "checkbox"]').prop('checked', false);
+                   
+
+                })
+            }
+            setTimeout(currentProductCart(), 5000);
+            
+            
+        });
+
+        $('.check-item').click( function () {
+            var countcheck = 0;
+            $('.totatQuantity').html("");
+            $('.currentTotal').html("");
+            $('.giaohang').html("");
+            $('.sumTotal').html("");
+            $('.item-product-cart input[type = "checkbox"]').each( function () {
+                if (this.checked == true) {
+                    countcheck++;
+                }
+            });
+            if (countcheck === count) {
+                $('#check-all').prop('checked', true);
+            }
+            else {
+                $('#check-all').prop('checked', false);
+            }
+
+            setTimeout(currentProductCart(), 5000);
+        })
+
+        function currentProductCart() {
+            var totalCheck = 0;
+            var id = '';
+            $('.item-product-cart input[type = "checkbox"]').each( function () {
+                if (this.checked) {
+                    totalCheck++;           
+                    id += $(this).val() + ',';
+                }
+            })
+
+
+           
+            if (totalCheck > 0) {
+                $.ajax({
+                    async: false,
+                    url: '/Cart/currentProductCarts',
+                    data: { id, totalCheck },
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        var totatQuantity = `(${data.totatQuantity} sản phẩm)`;
+                        var currentTotal = `${data.currentTotal.format()} đ`;
+                        var giaohang = `${data.giaohang} đ`;
+                        var sumTotal = `${data.sumTotal.format()} đ`;
+                        $('.totatQuantity').html(totatQuantity);
+                        $('.currentTotal').html(currentTotal);
+                        $('.giaohang').html(giaohang);
+                        $('.sumTotal').html(sumTotal);
+                    }, error: function (e) {
+
+                    }
+
+                })
+            }
+        }
+
+        // tăng giảm sản phẩm
+
+        $('.down').click(function () {
+            var productID = $('#value-product').val();
+            var action = $('.down').val();
+            $.ajax({
+                async: false,
+                url: '/Cart/upordownProducCarts',
+                data: { productID, action },
+                type: 'POST',
+                success: function () {
+                    location.reload();
+                }, error: function (e) {
+
+                }
+            });
+
+        });
+
+        $('.up').click(function () {
+            var productID = $('#value-product').val();
+            var action = $('.up').val();
+            $.ajax({
+                async: false,
+                url: '/Cart/upordownProducCarts',
+                data: { productID, action },
+                type: 'POST',
+                success: function () {
+                    location.reload();
+                }, error: function (e) {
+
+                }
+            });
+
+        });
+
+        // xóa một xóa nhiều 
+
+        $('#btnDeleleItem').click(function () {
+            var Id = $('#value-product').val();
+            var listId = '';
+            $.ajax({
+                async: false,
+                url: '/Cart/deleteProducCarts',
+                data: { Id, listId },
+                type: 'POST',
+                success: function () {
+                    location.reload();
+                }, error: function (e) {
+
+                }
+            });
+
+        });
+
+        $('#btnDeleleAll').click(function () {
+            var totalCheck = 0;
+            var listId = '';
+            $('.item-product-cart input[type = "checkbox"]').each(function () {
+                if (this.checked) {
+                    totalCheck++;
+                    listId += $(this).val() + ',';
+                }
+            });
+            var id = '';
+            if (totalCheck > 0) {
+                $.ajax({
+                    async: false,
+                    url: '/Cart/deleteProducCarts',
+                    data: { listId,id },
+                    type: 'POST',
+                    success: function () {
+                        location.reload();
+                    }, error: function (e) {
+
+                    }
+                });
+            }
+        });
+
+
+    });
+</script>
+
+
