@@ -35,7 +35,7 @@ namespace WebSiteBanHang.Models
         [Column(Order = 1)]
         public int Id_LoaiSanPham { get; set; }
         [Column(Order = 2)]
-        public int Id_KhuyenMai { get; set; }
+        public int? Id_KhuyenMai { get; set; }
 
         public virtual KHUYENMAI KHUYENMAI { get; set; }
         public virtual LOAISANPHAM LOAISANPHAM { get; set; }

@@ -24,7 +24,7 @@ namespace WebSiteBanHang.Controllers
                 {
                     Id = x.Id_SanPham,
                     Ten = x.TenSanPham,
-                    Hinh = "/Content/Template/bower_components/ckeditor/samples/img/" + x.HinhAnh
+                    Hinh = x.HinhAnh
 
                 }).Take(6).ToList();
                 return Json(sanphams, JsonRequestBehavior.AllowGet);

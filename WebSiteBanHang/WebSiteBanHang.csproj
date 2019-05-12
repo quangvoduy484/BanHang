@@ -184,11 +184,16 @@
     <Compile Include="Areas\Admin\ViewModels\LoaiSPViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ReponseMessage.cs" />
     <Compile Include="Areas\Admin\ViewModels\SanPhamViewModel.cs" />
+    <Compile Include="Component\DayMonthYear.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomepageController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Controllers\ProductDetailsController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\RoomKindController.cs" />
+    <Compile Include="Helper\GenHash.cs" />
+    <Compile Include="Helper\SessionUser.cs" />
     <Compile Include="Helper\UserRole.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -230,6 +235,10 @@
     <Compile Include="Migrations\201905052102175_Update_coulumn_SoLuongTon_Null.Designer.cs">
       <DependentUpon>201905052102175_Update_coulumn_SoLuongTon_Null.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905061704021_ID_KhuyenMai_SanPham_IsNull.cs" />
+    <Compile Include="Migrations\201905061704021_ID_KhuyenMai_SanPham_IsNull.Designer.cs">
+      <DependentUpon>201905061704021_ID_KhuyenMai_SanPham_IsNull.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BanHangContext.cs" />
     <Compile Include="Models\CHITIETDATHANG.cs" />
@@ -261,13 +270,18 @@
     <Compile Include="Services\LoaiSPService.cs" />
     <Compile Include="Services\SanPhamService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModel\Customer.cs" />
+    <Compile Include="ViewModel\CustomerLogin.cs" />
     <Compile Include="ViewModel\MenuRole.cs" />
+    <Compile Include="ViewModel\ProductCart.cs" />
+    <Compile Include="ViewModel\ProductDetail.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Login\login-register.css" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker.css" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker.min.css" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker.standalone.css" />
@@ -3259,11 +3273,13 @@
     <Content Include="Content\Template\bower_components\ckeditor\samples\img\banner-web-2.jpg" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\img\banner-web-cua-hang.jpg" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\img\github-top.png" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\img\Groceries-256.png" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\img\header-bg.png" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\img\header-separator.png" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\img\logo.png" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\img\navigation-tip.png" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\img\nha-xinh-banner-thietketrongoi-21-2.jpg" />
+    <Content Include="Content\Template\bower_components\ckeditor\samples\img\shop-01-128.png" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\index.html" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\js\sample.js" />
     <Content Include="Content\Template\bower_components\ckeditor\samples\js\sf.js" />
@@ -5621,6 +5637,14 @@
     <Content Include="Content\Template\bower_components\jquery\src\var\support.js" />
     <Content Include="Content\Template\bower_components\jquery\src\var\toString.js" />
     <Content Include="Content\Template\bower_components\jquery\src\wrap.js" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\.gitignore" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\index.html" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\ajax-loader.gif" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\fonts\slick.svg" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\slick-theme.css" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\slick.css" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\slick.js" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\slick.min.js" />
     <Content Include="Content\Template\dist\css\AdminLTE.css" />
     <Content Include="Content\Template\dist\css\AdminLTE.min.css" />
     <Content Include="Content\Template\dist\css\alt\AdminLTE-bootstrap-social.css" />
@@ -5632,7 +5656,10 @@
     <Content Include="Content\Template\dist\css\alt\AdminLTE-without-plugins.css" />
     <Content Include="Content\Template\dist\css\alt\AdminLTE-without-plugins.min.css" />
     <Content Include="Content\Template\dist\css\page\Header.css" />
+    <Content Include="Content\Template\dist\css\page\ModalCart.css" />
+    <Content Include="Content\Template\dist\css\page\ProductCart.css" />
     <Content Include="Content\Template\dist\css\page\ProductDetail.css" />
+    <Content Include="Content\Template\dist\css\page\Slickslides.css" />
     <Content Include="Content\Template\dist\css\page\TrangChu.css" />
     <Content Include="Content\Template\dist\css\skins\skin-black-light.css" />
     <Content Include="Content\Template\dist\css\skins\skin-black-light.min.css" />
@@ -5723,6 +5750,8 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\GiaSanPham\" />
+    <Folder Include="Views\Registration\" />
+    <Folder Include="Views\Registraton\" />
     <Folder Include="Views\RoomKind\" />
   </ItemGroup>
   <ItemGroup>
@@ -6050,6 +6079,23 @@
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
     <Content Include="Areas\Admin\Views\Login\Login.cshtml" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\bower.json" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\component.json" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\CONTRIBUTING.markdown" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\ISSUE_TEMPLATE.md" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\LICENSE" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\Makefile" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\package.json" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\README.markdown" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\slick.jquery.json" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\config.rb" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\fonts\slick.eot" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\fonts\slick.ttf" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\fonts\slick.woff" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\slick-theme.less" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\slick-theme.scss" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\slick.less" />
+    <Content Include="Content\Template\bower_components\slick-1.8.1\slick\slick.scss" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -6059,6 +6105,13 @@
     <Content Include="Views\Shared\Header.cshtml" />
     <Content Include="Views\Homepage\Index.cshtml" />
     <Content Include="Views\ProductDetails\getDetailProduct.cshtml" />
+    <Content Include="Views\User\Registor.cshtml" />
+    <Content Include="Views\User\PartialViewLogin.cshtml" />
+    <Content Include="Views\Cart\PartialProduct.cshtml" />
+    <Content Include="Views\Cart\renderProductCarts.cshtml" />
+    <Content Include="Views\Cart\PartialIcon.cshtml" />
+    <Content Include="Views\Cart\PartialDeleteItem.cshtml" />
+    <Content Include="Views\Cart\PartialDeleteAll.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201904231741032_InitialCreate.resx">
@@ -6087,6 +6140,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905052102175_Update_coulumn_SoLuongTon_Null.resx">
       <DependentUpon>201905052102175_Update_coulumn_SoLuongTon_Null.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905061704021_ID_KhuyenMai_SanPham_IsNull.resx">
+      <DependentUpon>201905061704021_ID_KhuyenMai_SanPham_IsNull.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
