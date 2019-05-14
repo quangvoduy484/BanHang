@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Net;
+using System.Web.Mvc;
 using WebSiteBanHang.Areas.Admin.ViewModels;
 using WebSiteBanHang.Services;
 
@@ -8,6 +10,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
     {
         DatHangKHService datHang = new DatHangKHService();
         KhachHangService khachHang = new KhachHangService();
+        
         // GET: Admin/DatHangKH
         public ActionResult Index()
         {
@@ -29,7 +32,6 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             var detail = datHang.GetChiTietDatHangs(id);
             return View(detail);
         }
-
         // GET: Admin/DatHangKH/Create
         public ActionResult Create()
         {
@@ -62,17 +64,26 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         // GET: Admin/DatHangKH/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var dathang = datHang.findbyId(id);
+            if (dathang == null)
+            {
+                return HttpNotFound();
+            }
+            return View(dathang);
         }
 
         // POST: Admin/DatHangKH/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, DatHangKHViewModel collection)
         {
             try
             {
                 // TODO: Add update logic here
-
+                var result = datHang.UpdateDHKH(collection);
+                if (!result)
+                {
+                    return HttpNotFound();
+                }
                 return RedirectToAction("Index");
             }
             catch
@@ -81,21 +92,77 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/DatHangKH/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
 
-        // POST: Admin/DatHangKH/Delete/5
+        // POST: Admin/DatHangKH/DeleteChiTiet/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult DeleteDetail(int id)
         {
+            var result = new ReponseMessage();
             try
             {
                 // TODO: Add delete logic here
+                var kq = datHang.DeleteDetail(id);
+                if (kq == false)
+                {
+                    result.Message = "Không tìm thấy dữ liệu";
+                    result.StatusCode = HttpStatusCode.NotFound;
+                    return Json(result);
+                }
+                result.StatusCode = HttpStatusCode.OK;
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Có lỗi trong quá trình xử lý";
+                result.StatusCode = HttpStatusCode.ExpectationFailed;
+                return Json(result);
+            }
+        }
 
-                return RedirectToAction("Index");
+        //-------Xoá đơn đặt hàng------------//
+        // POST: Admin/DatHangKH/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            var result = new ReponseMessage();
+            try
+            {
+                // TODO: Add delete logic here
+                var kq = datHang.DeleteDatHangKH(id);
+                if (kq == false)
+                {
+                    result.Message = "Không tìm thấy dữ liệu";
+                    result.StatusCode = HttpStatusCode.NotFound;
+                    return Json(result);
+                }
+                result.StatusCode = HttpStatusCode.OK;
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Có lỗi trong quá trình xử lý";
+                result.StatusCode = HttpStatusCode.ExpectationFailed;
+                return Json(result);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult UpdatectDatHang(int id, ChiTietDatHangViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid && model?.SoLuong>0)
+                {
+                    // TODO: Add update logic here
+                    model.MaChiTiet = id;
+                    var result = datHang.UpdateCTDH(model);
+                    if (result == false)
+                    {
+                        return HttpNotFound();
+                    }
+                    return Json("success");
+                }
+                return View(model);
             }
             catch
             {
