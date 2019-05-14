@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebSiteBanHang.Areas.Admin.ViewModels.ChiTietDatHangViewModel>
+﻿@model WebSiteBanHang.Areas.Admin.ViewModels.DatHangKHViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -28,57 +28,221 @@
         text-align: center;
         color: #4169E1;
     }
-    .Bang {
+
+    /*.Bang {
         background: none;
         border-top: none;
+    }*/
+    .title {
+        color: #0b77d6;
+        font-size: 16px;
+        text-align: center;
+        font-weight: bold;
     }
 </style>
-<h2>CHI TIẾT ĐẶT HÀNG</h2>
+<h2>CHI TIẾT ĐƠN HÀNG</h2>
+<div style="padding-bottom: 10px; padding-left: 15px;">
+    <a class="btn btn-success" href="#">Xuất hoá đơn</a>
+</div>
 <div class="col-md-12">
-    <div class="box Bang">
 
-        <table class="table table-bordered table-striped table-admin" role="grid">
-            <tr>
-                <th>
-                    Tên sản phẩm
-                </th>
-                <th>
-                   Số lượng
-                <th>
-                    Giá bán
-                </th>
-                <th>
-                   Thành tiền
-                </th>
-                <th>Chức năng</th>
-            </tr>
+    <div class="box box-primary">
+        <div class="box-header">
+        </div>
+        <div class="box-body">
+            <div class="col-md-6 ">
 
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TenSanPham)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SoLuong)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.GiaBan)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ThanhTien)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Delete", "Delete", new { id = item.MaChiTiet })
-                    </td>
-                </tr>
-            }
+                <div class="form-group">
+                    <label class="col-md-4 col-xs-4 ">Mã đặt hàng:  </label>
+                    <p class="col-md-8">@Model.MaDatHang </p>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 col-xs-4 ">Địa chỉ giao: </label>
+                    <p class="col-md-8">@Model.DiaChiGiao </p>
+                </div>
+            </div>
+            <div class="col-md-6">
 
-        </table>
+                <div class="form-group">
+                    <label class="col-md-4 col-xs-4 ">Tên khách hàng:  </label>
+                    <p class="col-md-8">@Model.TenKhachHang </p>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 col-xs-4 ">Số điện thoại:  </label>
+                    <p class="col-md-8">@Model.SoDienThoai</p>
+                </div>
+
+            </div>
+        </div>
+
 
     </div>
+</div>
+<div class="col-md-12">
 
+    <div class="box Bang">
+        <div class="box-body">
+            <table class="table table-bordered table-striped table-admin" role="grid">
+                <tr>
+                    <th>
+                        Tên sản phẩm
+                    </th>
+                    <th>
+                        Số lượng
+                    <th>
+                        Giá bán
+                    </th>
+                    <th>
+                        Thành tiền
+                    </th>
+                    <th>Chức năng</th>
+                </tr>
+
+                @foreach (var item in Model.ChiTietDatHangs)
+                {
+                    <tr id="data_@item.MaChiTiet">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TenSanPham)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SoLuong)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GiaBan)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ThanhTien)
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" onclick="xoaCTDH(@item.MaChiTiet)">Xoá</button>
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal"
+                                    data-machitiet="@item.MaChiTiet"
+                                    data-sanpham=" @item.TenSanPham"
+                                    data-soluong="@item.SoLuong"
+                                    data-giaban="@item.GiaBan"
+                                    data-thanhtien="@item.ThanhTien">
+                                Sửa
+                            </button>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title title" id="exampleModalLabel">CHỈNH SỬA </h5>
+                </div>
+                <div class="modal-body">
+                    <form id="myForm">
+                        <div class="form-group">
+                            <label for="soluong" class="col-form-label">Số lượng</label>
+                            <input type="number" min="1" class="form-control" id="soluong" name="soluong">
+                        </div>
+                        <div class="form-group">
+                            <label for="giaban" class="col-form-label">Gía bán</label>
+                            <input type="text" disabled="disabled" class="form-control" id="giaban">
+                        </div>
+                        <div class="form-group">
+                            <label for="thanhtien" class="col-form-label">Thành tiền</label>
+                            <input type="text" disabled="disabled" class="form-control" id="thanhtien">
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" disabled="disabled" class="form-control" id="maChiTiet">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
+                    <button type="button" id="submit" onclick="suaChiTiet()" class="btn btn-primary">Cập nhật</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="CanhLe">
         @Html.ActionLink("<< Quay lại danh sách", "Index")
     </div>
 </div>
+<script type="text/javascript">
+    function xoaCTDH(maCTDH) {
+        if (window.confirm("Bạn có muốn xoá không?")) { //ok
+            $.ajax({
+                method: "POST",
+                url: "/Admin/DatHangKH/DeleteDetail/" + maCTDH,
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data.StatusCode === 200) {
+                        var a = "#data_" + maCTDH;
+                        $(a).remove();
+                        toastr.success("Xóa thành công");
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(rrorThrown);
+                }
+            });
+
+        }
+    }
+    $('#myModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var sanPham = button.data('sanpham') // Extract info from data-* attributes
+        var soLuong = button.data('soluong')
+        var giaBan = button.data('giaban')
+        var maChiTiet = button.data('machitiet')
+
+        var thanhTien = soLuong * giaBan
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        //modal.find('.modal-title').text('Chỉnh sửa ' + sanPham)
+        modal.find('#soluong').val(soLuong)
+        modal.find('#giaban').val(giaBan)
+        modal.find('#thanhtien').val(thanhTien)
+        modal.find('#maChiTiet').val(maChiTiet)
+    })
+    $('#soluong').on('input', function () {
+        var sl = $('#soluong').val()
+        var gia = $('#giaban').val()
+        $('#thanhtien').val(sl * gia)
+    });
+    function suaChiTiet() {
+        var dom = document.getElementById("myForm")
+        var formData = new FormData(dom)
+        var maChiTiet = $('#maChiTiet').val()
+        $("#submit").attr("disabled", true);
+        $.ajax({
+            method: "POST",
+            url: "/Admin/DatHangKH/UpdatectDatHang/" + maChiTiet,
+            //contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: formData,
+            processData: false,
+            contentType: false,
+
+            success: function (data) {
+                if (data) {
+                    toastr.success("Sửa thành công");
+                    $("#submit").attr("disabled", false);
+                    $('#myModal').modal('hide')
+                    //uploadFile(data.Id);
+                    window.location.reload();
+                    //window.location.href = "/admin/sanpham/index";
+                } else {
+                    toastr.error("Có lỗi trong quá trình xử lý");
+                    $("#submit").attr("disabled", false);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                toastr.error(errorThrown);
+                $("#submit").attr("disabled", false);
+            }
+        });
+    }
+</script>

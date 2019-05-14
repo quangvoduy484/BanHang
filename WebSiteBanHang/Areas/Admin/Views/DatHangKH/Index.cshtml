@@ -32,11 +32,14 @@
         color: #4169E1;
     }
 </style>
+
 <div class="col-md-12">
     <div style="padding:10px">
         <table id="dh" class="table table-bordered table-striped table-admin" role="grid">
             <tbody class="tbody"></tbody>
+
         </table>
+
     </div>
 
 </div>
@@ -104,7 +107,24 @@
                         return formatted_date;
                     }
                 },
-                { title: "Ghi chú", data: "GhiChu" },
+                {
+                    title: "Ngày giao hàng",
+                    data: "NgayGiao",
+                    //render: function (data, type, full, meta) {
+                    //    data = new Date(parseInt(data.replace("/Date(", "").replace(")/", ""), 10));
+                    //    var dd = data.getDate();
+                    //    var mm = data.getMonth() + 1; //January is 0!
+                    //    var yyyy = data.getFullYear();
+                    //    if (dd < 10) {
+                    //        dd = '0' + dd;
+                    //    }
+                    //    if (mm < 10) {
+                    //        mm = '0' + mm;
+                    //    }
+                    //    var formatted_date = dd + '/' + mm + '/' + yyyy;
+                    //    return formatted_date;
+                    //}
+                },
                 { title: "Tổng tiền", data: "TongTien" },
                 { title: "Trạng thái", data: "TrangThai" },
                 {
@@ -129,5 +149,25 @@
             ],
 
         });
+    }
+    function xoaDatHangKH(maDatHang) {
+        if (window.confirm("Bạn có muốn huỷ đơn hàng này không?")) {
+            $.ajax({
+                method: "POST",
+                url: "/Admin/DatHangKH/Delete/" + maDatHang,
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data.StatusCode === 200) {
+                        toastr.success("Xóa thành công");
+                        $('#dh').DataTable().ajax.reload();
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(errorThrown);
+                }
+            });
+        }
     }
 </script>

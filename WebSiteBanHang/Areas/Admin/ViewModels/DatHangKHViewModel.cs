@@ -11,9 +11,15 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
         [Key]
         public int MaDatHang { get; set; }
         public int MaKhachHang { get; set; }
+        public DateTime? NgayGiao { get; set; }
         public string TenKhachHang { get; set; }
         public DateTime? NgayDatHang { get; set; }
+        [Required]
+        [StringLength(225)]
         public string DiaChiGiao { get; set; }
+        [StringLength(10)]
+        [MinLength(10)]
+        [Required]
         public string SoDienThoai { get; set; }
         public double TongTien { get; set; }
         public string TrangThai { get; set; }

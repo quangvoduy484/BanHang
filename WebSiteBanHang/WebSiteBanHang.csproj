@@ -48,6 +48,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="moment.net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\moment.net.1.0.0\lib\netstandard1.1\moment.net.dll</HintPath>
@@ -192,6 +195,7 @@
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\DatHangKHController.cs" />
     <Compile Include="Areas\Admin\Controllers\GiaSanPhamController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HoaDonGiaoHangController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhachHangController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhuyenMaiController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiPhongController.cs" />
@@ -299,13 +303,9 @@
     <Compile Include="Migrations\201905052102175_Update_coulumn_SoLuongTon_Null.Designer.cs">
       <DependentUpon>201905052102175_Update_coulumn_SoLuongTon_Null.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201905110427555_reslove-conflic.cs" />
-    <Compile Include="Migrations\201905110427555_reslove-conflic.Designer.cs">
-      <DependentUpon>201905110427555_reslove-conflic.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905061704021_ID_KhuyenMai_SanPham_IsNull.cs" />
-    <Compile Include="Migrations\201905061704021_ID_KhuyenMai_SanPham_IsNull.Designer.cs">
-      <DependentUpon>201905061704021_ID_KhuyenMai_SanPham_IsNull.cs</DependentUpon>
+    <Compile Include="Migrations\201905120826109_add-ngaygiao.cs" />
+    <Compile Include="Migrations\201905120826109_add-ngaygiao.Designer.cs">
+      <DependentUpon>201905120826109_add-ngaygiao.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BanHangContext.cs" />
@@ -340,6 +340,7 @@
     <Compile Include="Services\CT_PhieuDatHangNCCService.cs" />
     <Compile Include="Services\DatHangKHService.cs" />
     <Compile Include="Services\GiaSPService.cs" />
+    <Compile Include="Services\HoaDonGiaoHang.cs" />
     <Compile Include="Services\KhachHangService.cs" />
     <Compile Include="Services\KhuyenMaiService.cs" />
     <Compile Include="Services\LoaiPhongService.cs" />
@@ -6088,6 +6089,16 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\GiaSanPham\" />
+    <Folder Include="Areas\Admin\Views\HoaDonGiaoHang\" />
+    <Folder Include="Content\Template\bower_components\bootstrap-duallistbox\" />
+    <Folder Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\" />
+    <Folder Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\" />
+    <Folder Include="Content\Template\bower_components\ckeditor\plugins\lineutils\" />
+    <Folder Include="Content\Template\bower_components\ckeditor\plugins\notificationaggregator\" />
+    <Folder Include="Content\Template\bower_components\ckeditor\plugins\uploadimage\" />
+    <Folder Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\" />
+    <Folder Include="Content\Template\bower_components\ckeditor\plugins\widgetselection\" />
+    <Folder Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\" />
     <Folder Include="Views\RoomKind\" />
   </ItemGroup>
   <ItemGroup>
@@ -6124,6 +6135,19 @@
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
     <Content Include="Areas\Admin\Views\Login\Login.cshtml" />
+    <Content Include="Content\Template\bower_components\jvectormap\.bower.json" />
+    <Content Include="Content\Template\bower_components\jvectormap\build.sh" />
+    <Content Include="Content\Template\bower_components\jvectormap\converter\converter.py" />
+    <Content Include="Content\Template\bower_components\jvectormap\converter\simplifier.py" />
+    <Content Include="Content\Template\bower_components\jvectormap\jvectormap.jquery.json" />
+    <Content Include="Content\Template\bower_components\jvectormap\README.md" />
+    <Content Include="Areas\Admin\Views\NCC\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\KhachHang\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuDatHang_NCC\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CT_PhieuDatHangNCC\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\DatHangKH\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\DatHangKH\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\DatHangKH\Edit.cshtml" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -6192,6 +6216,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905091333531_modify-data.resx">
       <DependentUpon>201905091333531_modify-data.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905120826109_add-ngaygiao.resx">
+      <DependentUpon>201905120826109_add-ngaygiao.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905052102175_Update_coulumn_SoLuongTon_Null.resx">
       <DependentUpon>201905052102175_Update_coulumn_SoLuongTon_Null.cs</DependentUpon>
