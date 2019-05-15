@@ -195,6 +195,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\BundleConfig.cs" />
+    <Compile Include="Areas\Admin\Controllers\CT_PhieuDatHangNCCController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\DatHangKHController.cs" />
     <Compile Include="Areas\Admin\Controllers\GiaSanPhamController.cs" />
@@ -204,6 +205,8 @@
     <Compile Include="Areas\Admin\Controllers\LoaiPhongController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiSPController.cs" />
     <Compile Include="Areas\Admin\Controllers\NCCController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NhanVienController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PhanNhomNVController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhieuDatHang_NCCController.cs" />
     <Compile Include="Areas\Admin\Controllers\SanPhamController.cs" />
     <Compile Include="Areas\Admin\Helpers\Constant.cs" />
@@ -216,6 +219,8 @@
     <Compile Include="Areas\Admin\ViewModels\KhuyenMaiViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\LoaiSPViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\NhaCungCapViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\NhanVienViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\PhanNhomNVViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PhieuDatHang_NCCViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ReponseMessage.cs" />
     <Compile Include="Areas\Admin\ViewModels\ResponseUploadImageModel.cs" />
@@ -346,6 +351,7 @@
     <Compile Include="Models\TBL_MENU.cs" />
     <Compile Include="Models\TBL_ROLE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CT_PhieuDatHangNCCService.cs" />
     <Compile Include="Services\DatHangKHService.cs" />
     <Compile Include="Services\GiaSPService.cs" />
     <Compile Include="Services\HoaDonGiaoHang.cs" />
@@ -354,6 +360,8 @@
     <Compile Include="Services\LoaiPhongService.cs" />
     <Compile Include="Services\LoaiSPService.cs" />
     <Compile Include="Services\NCCService.cs" />
+    <Compile Include="Services\NhanVienService.cs" />
+    <Compile Include="Services\PhanNhomNVService.cs" />
     <Compile Include="Services\PhieuDatHang_NCCService.cs" />
     <Compile Include="Services\SanPhamService.cs" />
     <Compile Include="Startup.cs" />
@@ -6163,6 +6171,11 @@
     <Content Include="Areas\Admin\Views\PhieuDatHang_NCC\Details.cshtml" />
     <Content Include="Areas\Admin\Views\DatHangKH\Create.cshtml" />
     <Content Include="Areas\Admin\Views\PhieuDatHang_NCC\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CT_PhieuDatHangNCC\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\NhanVien\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PhanNhomNV\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\NhanVien\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\NhanVien\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\DatHangKH\Edit.cshtml" />
     <Content Include="App_Browsers\qt.browser" />
     <Content Include="libman.json" />

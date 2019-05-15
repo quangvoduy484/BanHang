@@ -10,9 +10,15 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
         public int MaPhieuDat { get; set; }
         public int MaCTPhieuDat { get; set; }
         public int MaSP { get; set; }
+        public int MaNCC { get; set; }
         public string TenSanPham { get; set; }
-        public int? SL { get; set; }
+        public int SL { get; set; }
+        public decimal GiaNhap { get; set;}
+        public decimal ThanhTien { get; set; }
+        public decimal TongTien { get; set; }
         public string TenNguoiDat { get; set; }
+        public DateTime? NgayDat { get; set; }
+        public string TenNCC { get; set; }
         public List<SanPhamViewModel> sanPhamViewModels { get; set; }
     }
 }

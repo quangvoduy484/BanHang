@@ -56,9 +56,15 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             try
             {
                 // TODO: Add insert logic here
+               
+                //var ct = (List<CT_PhieuDatHangNCCViewModel>)chiTietDH;
+                //foreach(var item in ct)
+                //{
+
+                //}
                 if (ModelState.IsValid)
                 {
-                    PDHService.Add(collection);
+                    //PDHService.Add(collection);
                     return RedirectToAction("Index");
                 }
                 return View(collection);
