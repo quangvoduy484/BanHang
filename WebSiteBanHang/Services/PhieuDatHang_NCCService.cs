@@ -98,10 +98,16 @@ namespace WebSiteBanHang.Services
             var chiTiets = context.CT_PHIEUDATNCCs.Where(t => t.MAPHIEUDAT == id)
                 .Select(t => new CT_PhieuDatHangNCCViewModel()
                 {
+                    NgayDat=t.PHIEUDATHANG_NCC.NGAYDAT,
+                    TenNguoiDat=t.PHIEUDATHANG_NCC.NGUOIDAT,
                     TenSanPham = t.SANPHAM.TenSanPham,
                     SL = t.SOLUONG,
+                    GiaNhap=t.GIANHAP,
+                    ThanhTien=t.THANHTIEN,
+                    TongTien=t.PHIEUDATHANG_NCC.TONGTIEN,
                     MaSP = t.SANPHAM.Id_SanPham,
-                    //TenNguoiDat = Session["USERNAME"];
+                    MaNCC=t.PHIEUDATHANG_NCC.MANCC,
+
 
 
                 }).ToList();
@@ -125,19 +131,37 @@ namespace WebSiteBanHang.Services
             }
             return 2;
         }
-        public void Add(PhieuDatHang_NCCViewModel model)
-        {
-            var dathang = new PHIEUDATHANG_NCC
-            {
-                MANCC = model.MaNCC,
-                NGAYDAT = DateTime.Now,
-                NGUOIDAT = HttpContext.Current.User.Identity.Name,
-                TRANGTHAI = 1
-                
+        //public long Add(PhieuDatHang_NCCViewModel model)
+        //{
+        //    var dathang = new PHIEUDATHANG_NCC
+        //    {
+        //        MANCC = model.MaNCC,
+        //        NGAYDAT = DateTime.Now,
+        //        NGUOIDAT = HttpContext.Current.User.Identity.Name,
+        //        TRANGTHAI = 1
 
-            };
-            context.PHIEUDATHANG_NCCs.Add(dathang);
+
+        //    };
+        //    context.PHIEUDATHANG_NCCs.Add(dathang);
+        //    context.SaveChanges();
+        //    return model.MaPhieuDat;
+        //}
+
+        public bool Update(PhieuDatHang_NCCViewModel model)
+        {
+
+            PHIEUDATHANG_NCC pdh = context.PHIEUDATHANG_NCCs.FirstOrDefault(t => t.MAPHIEUDAT == model.MaPhieuDat);
+
+            if (pdh == null)
+            {
+                return false;
+            }
+            pdh.MANCC = model.MaNCC;
+
             context.SaveChanges();
+            return true;
         }
+
+
     }
 }

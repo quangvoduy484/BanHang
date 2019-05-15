@@ -1,0 +1,82 @@
+﻿@model IEnumerable<WebSiteBanHang.Models.TBL_LOGIN>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+<style>
+    .table .middle {
+        vertical-align: middle;
+    }
+
+    .table-admin {
+        border: 1px solid #ddd;
+    }
+
+        .table-admin td, .table-admin th {
+            border: 1px solid #ddd !important;
+        }
+
+    h2, h4 {
+        padding-left: 10px;
+    }
+
+    .Bang {
+        background: none;
+        border-top: none;
+    }
+</style>
+<h2>Danh sách account</h2>
+
+<div style="padding-bottom: 10px; padding-left: 15px;">
+    <a class="btn btn-success" href="/Admin/NhanVien/Create">Thêm mới</a>
+   
+</div>
+<div class="col-md-12">
+    <div class="box Bang">
+        <table class="table table-bordered table-striped table-admin" style="width:100%" role="grid">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.USERNAME)
+                </th>
+                
+                <th>
+                    @Html.DisplayNameFor(model => model.EMAIL)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PHONE)
+                </th>
+
+                <th>Chức năng</th>
+            </tr>
+
+@foreach (var item in Model) {
+            <tr id="row_@item.USERNAME">
+                <td>
+                    @Html.DisplayFor(modelItem => item.USERNAME)
+                </td>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.EMAIL)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PHONE)
+                </td>
+                <td class="middle">
+
+                    <a class="btn btn-primary" href="/Admin/NhanVien/Edit/@item.USERNAME">Sửa</a>
+                    <a class="btn btn-success" href="/Admin/PhanNhomNV/Index">Phân nhóm </a>
+                    @*<button class="btn btn-danger" href="/Admin/NhanVien/Delete/@item.USERNAME">Xoá</button>*@
+                    @Ajax.ActionLink("Xóa","Delete",new {@id= item.USERNAME},new AjaxOptions
+               {
+                   Confirm="Bạn có muốn xóa không?",
+                   OnComplete="$('#row_"+ @item.USERNAME+ "').Delete()",
+                   HttpMethod="Post"
+               })
+                </td>
+
+            </tr>
+}
+
+</table>
+

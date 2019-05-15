@@ -37,34 +37,59 @@
     <h2>CHI TIẾT ĐẶT HÀNG</h2>
     <div class="col-md-12">
         <div class="box Bang">
+            <div class="form-control">
 
+                <h3> Chi tiết phiếu nhập</h3>
+                <table class="table detail-kh" cellspacing="200" cellpadding="200" />
+                <tr>
+                    <th>Tên nhà cung cấp</th>
+                    <td><input type="text" class="form-control" readonly="readonly" value="" /></td>
+                    <th>Ngày đặt</th>
+                    <td><input type="datetime" class="form-control" readonly="readonly" value="@*Model.NgSinh*@" /></td>
+                    <th>Người đặt</th>
+
+                    <th>Thành tiền đặt</th>
+                </tr>
+                </table>
+            </div>
             <table class="table table-bordered table-striped table-admin" role="grid">
                 <tr>
-                    
+
                     <th>
                         Tên sản phẩm
                     </th>
                     <th>
                         Số lượng
-
+                    </th>
+                    <th>
+                        Đơn giá
+                    </th>
+                    <th>
+                        Thành tiền
+                    </th>
                     <th>Chức năng</th>
                 </tr>
 
                 @foreach (var item in Model)
                 {
-                <tr>
-                   
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TenSanPham)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SL)
-                    </td>
+                    <tr>
 
-                    <td>
-                        @Html.ActionLink("Delete", "Delete", new { id = item.MaPhieuDat })
-                    </td>
-                </tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TenSanPham)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SL)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GiaNhap)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ThanhTien)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Delete", "Delete", new { id = item.MaPhieuDat })
+                        </td>
+                    </tr>
                 }
 
             </table>
