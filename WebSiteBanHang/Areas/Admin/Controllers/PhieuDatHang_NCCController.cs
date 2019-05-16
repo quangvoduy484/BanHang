@@ -8,6 +8,7 @@ using WebSiteBanHang.Services;
 
 namespace WebSiteBanHang.Areas.Admin.Controllers
 {
+    [Authorize]
     public class PhieuDatHang_NCCController : Controller
     {
         // GET: Admin/PhieuDatHang_NCC

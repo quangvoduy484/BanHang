@@ -8,6 +8,7 @@ using WebSiteBanHang.Services;
 
 namespace WebSiteBanHang.Areas.Admin.Controllers
 {
+    [Authorize]
     public class KhachHangController : Controller
     {
         KhachHangService KHService = new KhachHangService();

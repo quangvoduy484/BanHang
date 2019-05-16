@@ -7,6 +7,7 @@ using System.IO;
 
 namespace WebSiteBanHang.Areas.Admin.Controllers
 {
+    [Authorize]
     public class DatHangKHController : Controller
     {
         DatHangKHService datHang = new DatHangKHService();
@@ -176,7 +177,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             try
             {
                 var datHang = this.datHang.GetChiTietDatHangs(id);
-                if(datHang == null)
+                if (datHang == null)
                 {
                     return HttpNotFound();
                 }
@@ -189,7 +190,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                 string error = ex.Message;
                 return Json(error, JsonRequestBehavior.AllowGet);
             }
-         
+
         }
 
     }
