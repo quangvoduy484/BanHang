@@ -93,37 +93,43 @@
                     title: "Ngày đặt",
                     data: "NgayDatHang",
                     render: function (data, type, full, meta) {
-                        data = new Date(parseInt(data.replace("/Date(", "").replace(")/", ""), 10));
-                        var dd = data.getDate();
-                        var mm = data.getMonth() + 1; //January is 0!
-                        var yyyy = data.getFullYear();
-                        if (dd < 10) {
-                            dd = '0' + dd;
+                        if (data) {
+                            data = new Date(parseInt(data.replace("/Date(", "").replace(")/", ""), 10));
+                            var dd = data.getDate();
+                            var mm = data.getMonth() + 1; //January is 0!
+                            var yyyy = data.getFullYear();
+                            if (dd < 10) {
+                                dd = '0' + dd;
+                            }
+                            if (mm < 10) {
+                                mm = '0' + mm;
+                            }
+                            var formatted_date = dd + '/' + mm + '/' + yyyy;
+                            return formatted_date;
                         }
-                        if (mm < 10) {
-                            mm = '0' + mm;
-                        }
-                        var formatted_date = dd + '/' + mm + '/' + yyyy;
-                        return formatted_date;
+                        return ''   
                     }
                 },
                 {
                     title: "Ngày giao hàng",
                     data: "NgayGiao",
-                    //render: function (data, type, full, meta) {
-                    //    data = new Date(parseInt(data.replace("/Date(", "").replace(")/", ""), 10));
-                    //    var dd = data.getDate();
-                    //    var mm = data.getMonth() + 1; //January is 0!
-                    //    var yyyy = data.getFullYear();
-                    //    if (dd < 10) {
-                    //        dd = '0' + dd;
-                    //    }
-                    //    if (mm < 10) {
-                    //        mm = '0' + mm;
-                    //    }
-                    //    var formatted_date = dd + '/' + mm + '/' + yyyy;
-                    //    return formatted_date;
-                    //}
+                    render: function (data, type, full, meta) {
+                        if (data) {
+                            data = new Date(parseInt(data.replace("/Date(", "").replace(")/", ""), 10));
+                            var dd = data.getDate();
+                            var mm = data.getMonth() + 1; //January is 0!
+                            var yyyy = data.getFullYear();
+                            if (dd < 10) {
+                                dd = '0' + dd;
+                            }
+                            if (mm < 10) {
+                                mm = '0' + mm;
+                            }
+                            var formatted_date = dd + '/' + mm + '/' + yyyy;
+                            return formatted_date;
+                        }
+                        return ''
+                    } 
                 },
                 { title: "Tổng tiền", data: "TongTien" },
                 { title: "Trạng thái", data: "TrangThai" },
@@ -137,10 +143,10 @@
                                      <a class="btn btn-success" href="/Admin/DatHangKH/Details/${data}">
                                         <i class="fa fa-search-plus"></i>
                                      </a>
-                                     <a class="btn btn-info" href="/Admin/DatHangKH/Edit/${data}">
+                                     <a class="btn btn-info" onclick ="suaDonHang(this)">
                                         <i class="fa fa-edit"></i>
                                      </a>
-                                     <a class="btn btn-danger" onclick="xoaDatHangKH(${data})">
+                                     <a class="btn btn-danger" onclick="xoaDatHangKH(this)">
                                          <i class="fa fa-trash-o"></i>
                                      </a>
                                  </div> `
@@ -150,15 +156,33 @@
 
         });
     }
-    function xoaDatHangKH(maDatHang) {
+
+
+    function suaDonHang(data) {
+        var table = $('#dh').DataTable();
+        var data_row = table.row($(data).closest('tr')).data();
+        if (data_row.TrangThai !== "Đang xử lý") {
+            toastr.error("Đơn hàng này không thể sửa");
+            return;
+        }
+        window.location.href = "/Admin/DatHangKH/Edit/" + data_row.MaDatHang;
+    }
+    function xoaDatHangKH(data) {
+        var table = $('#dh').DataTable();
+        var data_row = table.row($(data).closest('tr')).data();
+        if (data_row.TrangThai !== "Đang xử lý") {
+            toastr.error("Đơn hàng này không thể xóa");
+            return;
+        }
         if (window.confirm("Bạn có muốn huỷ đơn hàng này không?")) {
+
             $.ajax({
                 method: "POST",
-                url: "/Admin/DatHangKH/Delete/" + maDatHang,
+                url: "/Admin/DatHangKH/Delete/" + data_row.maDatHang,
                 contentType: 'application/json',
                 success: function (data) {
                     if (data.StatusCode === 200) {
-                        toastr.success("Xóa thành công");
+                        toastr.success("Huỷ đơn hàng thành công");
                         $('#dh').DataTable().ajax.reload();
                     } else {
                         toastr.error(data.Message);

@@ -4,6 +4,12 @@
     ViewBag.Title = "Chi tiết sản phẩm";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
+<head>
+    <link href="~/Content/Template/bower_components/slick-1.8.1/slick/slick.css" rel="stylesheet" />
+    <link href="~/Content/Template/bower_components/slick-1.8.1/slick/slick-theme.css" rel="stylesheet" />
+
+    <script src="~/Content/Template/bower_components/slick-1.8.1/slick/slick.min.js"></script>
+</head>
 <style>
     .image {
         border-top: solid 1PX #d6d0c7;
@@ -22,13 +28,32 @@
     h2{
         padding-left: 10px;
     }
+
 </style>
 
 <h2>Chi tiết sản phẩm</h2>
 <div class="col-md-12">
     <div style="padding: 0 10px;">
         <div class="image col-md-6">
-            <img src="@Model.HinhAnh " />
+            <div class='slider-for'>
+                @foreach (var hinh in Model.HinhAnhs)
+                {
+                    <div class="slick-current @(hinh.Link.Replace(':', ' ').Replace('/',' ').ToString()
+                    == @Model.HinhAnh.Replace(':', ' ').Replace('/',' ').ToString() ? "slick-active": " ")">
+                        <img width="500" src="@hinh.Link.ToString()" />
+                </div>
+
+
+                }
+
+            </div>
+            <div class="slider-area slider" style="margin-top:10px">
+                @foreach (var hinh in Model.HinhAnhs)
+                {
+                    <div class="col-md-4"><img width="100" src="@hinh.Link.ToString()" /></div>
+
+                }
+            </div>
         </div>
         <div class="detail col-md-6">
             <p>@Model.TenSanPham</p>
@@ -59,3 +84,22 @@
     </div>
 
 </div>
+<script>
+       $('.slider-for').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: false,
+            fade: true,
+            asNavFor: '.slider'
+        });
+
+
+        $('.slider').slick({
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            asNavFor: '.slider-for',
+            dots: true,
+            centerMode: true,
+            focusOnSelect: true
+        });
+</script>

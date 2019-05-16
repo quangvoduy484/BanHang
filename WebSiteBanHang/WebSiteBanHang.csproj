@@ -61,6 +61,10 @@
     <Reference Include="RestSharp, Version=106.6.9.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.6.9\lib\net452\RestSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.1.7.3\lib\net461\Rotativa.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
@@ -6048,6 +6052,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Rotativa\help-wkhtmltoimage.txt" />
+    <Content Include="Rotativa\help-wkhtmltopdf.txt" />
+    <Content Include="Rotativa\wkhtmltoimage.exe" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="scripts\dropzone\basic.css" />
     <Content Include="scripts\dropzone\basic.min.css" />
     <Content Include="scripts\dropzone\dropzone-amd-module.js" />
@@ -6148,6 +6156,9 @@
     <Content Include="Areas\Admin\Views\DatHangKH\Index.cshtml" />
     <Content Include="Areas\Admin\Views\DatHangKH\Details.cshtml" />
     <Content Include="Areas\Admin\Views\DatHangKH\Edit.cshtml" />
+    <Content Include="App_Browsers\qt.browser" />
+    <Content Include="libman.json" />
+    <Content Include="fonts\ARIAL.TTF" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

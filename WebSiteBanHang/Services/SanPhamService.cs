@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using WebSiteBanHang.Areas.Admin.ViewModels;
 using WebSiteBanHang.Models;
 
@@ -104,7 +105,9 @@ namespace WebSiteBanHang.Services
                 Mota = model.MoTa,
                 MauSac = model.MauSac,
                 Id_LoaiSanPham = model.MaLoai,
-                KichThuoc = model.KichThuoc
+                KichThuoc = model.KichThuoc,
+                CREATED_DATE = DateTime.Now,
+                CREATED_BY = HttpContext.Current.User.Identity.Name
             };
             //sanPham.HinhAnh = model.HinhAnh;
             context.SANPHAMs.Add(sanPham);
@@ -132,10 +135,24 @@ namespace WebSiteBanHang.Services
                 KichThuoc = SanPham.KichThuoc,
                 XuatXu = SanPham.XuatXu,
                 TenLoai = SanPham.LOAISANPHAM.TenLoai,
-                HinhAnh = SanPham.HinhAnh,
+                HinhAnh = SanPham.HinhAnh ?? string.Empty,
                 BaoHanh = SanPham.BaoHanh,
                 MoTa = SanPham.Mota,
             };
+            if (!string.IsNullOrEmpty(SanPham.HinhAnh))
+            {
+                result.HinhAnhs.Add(new HinhAnhViewModel()
+                {
+                    Link = SanPham.HinhAnh
+                });
+            }
+            if(SanPham.HINHs?.Count>0)
+            {
+                result.HinhAnhs.AddRange(SanPham.HINHs.Select(t => new HinhAnhViewModel()
+                {
+                    Link = t.Link,
+                }));
+            }
             return result;
         }
         public bool Update(SanPhamViewModel model)
@@ -155,6 +172,8 @@ namespace WebSiteBanHang.Services
             sanPham.KichThuoc = model.KichThuoc;
             sanPham.HinhAnh = model.HinhAnh;
             sanPham.DonViTinh = model.DVT;
+            sanPham.UPDATED_BY = HttpContext.Current.User.Identity.Name;
+            sanPham.UPDATED_DATE = DateTime.Now;
             context.SaveChanges();
             return true;
         }

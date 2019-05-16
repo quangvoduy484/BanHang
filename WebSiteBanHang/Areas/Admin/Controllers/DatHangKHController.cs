@@ -3,6 +3,7 @@ using System.Net;
 using System.Web.Mvc;
 using WebSiteBanHang.Areas.Admin.ViewModels;
 using WebSiteBanHang.Services;
+using System.IO;
 
 namespace WebSiteBanHang.Areas.Admin.Controllers
 {
@@ -10,7 +11,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
     {
         DatHangKHService datHang = new DatHangKHService();
         KhachHangService khachHang = new KhachHangService();
-        
+
         // GET: Admin/DatHangKH
         public ActionResult Index()
         {
@@ -131,7 +132,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                 var kq = datHang.DeleteDatHangKH(id);
                 if (kq == false)
                 {
-                    result.Message = "Không tìm thấy dữ liệu";
+                    result.Message = "Đơn hàng này không thể huỷ";
                     result.StatusCode = HttpStatusCode.NotFound;
                     return Json(result);
                 }
@@ -151,7 +152,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         {
             try
             {
-                if (ModelState.IsValid && model?.SoLuong>0)
+                if (ModelState.IsValid && model?.SoLuong > 0)
                 {
                     // TODO: Add update logic here
                     model.MaChiTiet = id;
@@ -169,5 +170,27 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                 return View();
             }
         }
+
+        public ActionResult PrintPdf(int id)
+        {
+            try
+            {
+                var datHang = this.datHang.GetChiTietDatHangs(id);
+                if(datHang == null)
+                {
+                    return HttpNotFound();
+                }
+                var abyte = this.datHang.PrepareDatHang(datHang);
+                return File(abyte, "application/pdf");
+            }
+            catch (Exception ex)
+            {
+
+                string error = ex.Message;
+                return Json(error, JsonRequestBehavior.AllowGet);
+            }
+         
+        }
+
     }
 }
