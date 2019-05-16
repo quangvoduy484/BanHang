@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;
+using WebSiteBanHang.Areas.Admin.Helpers;
 using WebSiteBanHang.Areas.Admin.ViewModels;
 using WebSiteBanHang.Models;
 using static WebSiteBanHang.Areas.Admin.Helpers.Constant;
@@ -256,6 +257,21 @@ namespace WebSiteBanHang.Services
             return true;
 
         }
+        public void UpdateTrangThaiDonHang(int maDatHang)
+        {
+            DATHANG datHang = context.DATHANGs.
+                FirstOrDefault(t => t.Id_DatHang == maDatHang && t.TrangThai == 1);
+            if (datHang == null)
+            {
+                return;
+            }
+            datHang.TrangThai = 2;
+            datHang.NgayGiao = DateTime.Now;
+            //update Diem tich luy
+            int diemTichLuy = (int) datHang.TongTien / Constant.DiemNhan;
+            datHang.KHACHHANG.DiemTichLuy += diemTichLuy;
+            context.SaveChanges();
+        }
         public DatHangKHViewModel findbyId(int id)
         {
             return context.DATHANGs
@@ -369,7 +385,6 @@ namespace WebSiteBanHang.Services
             #endregion
             this.ReportHeader();
             this.ReportBody();
-            _pdfTable.HeaderRows = 2;
             _document.Add(_pdfTable);
         }
         private void RenderDatHang()
@@ -416,7 +431,7 @@ namespace WebSiteBanHang.Services
             _pdfTable.CompleteRow();
 
             AddRowDatHang("Ngày giao:");
-            AddRowDatHang(DateTime.Now.ToString("dd/MM/yyyy"));
+            AddRowDatHang(_datHang.NgayGiao?.ToString("dd/MM/yyyy"));
             AddRowDatHang("Tổng tiền:");
             AddRowDatHang(_datHang.TongTien.ToString());
 

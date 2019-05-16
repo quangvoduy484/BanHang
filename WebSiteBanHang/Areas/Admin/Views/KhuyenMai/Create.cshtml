@@ -1,4 +1,4 @@
-﻿@model WebSiteBanHang.Models.KHUYENMAI
+﻿@model WebSiteBanHang.Areas.Admin.ViewModels.KhuyenMaiViewModel
 
 @{
     /**/
@@ -10,10 +10,17 @@
     <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/moment.min.js"></script>
+    <!-- Select2 -->
+    <link rel="stylesheet" href="~/Content/Template/bower_components/select2/dist/css/select2.min.css">
+
+    <link rel="stylesheet" href="/Content/Template/dist/css/AdminLTE.min.css">
+    <!-- Select2 -->
+    <script src="~/Content/Template/bower_components/select2/dist/js/select2.full.min.js"></script>
+
 </head>
 <style>
     * {
-        font-size: 16px;
+        font-size: 14px;
     }
 
     label {
@@ -45,7 +52,7 @@
             @Html.LabelFor(model => model.NgayBatDau, "Ngày bắt đầu", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-6">
 
-                @Html.TextBoxFor(model => model.NgayBatDau, new { @class = "form-control dt1",placeholder = "dd/mm/yyyy" })
+                @Html.TextBoxFor(model => model.NgayBatDau, new { @class = "form-control dt1", placeholder = "dd/mm/yyyy" })
                 @Html.ValidationMessageFor(model => model.NgayBatDau, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -61,11 +68,18 @@
         <div class="form-group">
             @Html.LabelFor(model => model.GiaTriKhuyenMai, "Giá trị khuyến mãi", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-6">
-                @Html.EditorFor(model => model.GiaTriKhuyenMai, new { htmlAttributes = new { @class = "form-control",@id= "intLimitTextBox", placeholder = "Gía trị khuyến mãi" } })
+                @Html.EditorFor(model => model.GiaTriKhuyenMai, new { htmlAttributes = new { @class = "form-control", @id = "intLimitTextBox", placeholder = "Gía trị khuyến mãi" } })
                 @Html.ValidationMessageFor(model => model.GiaTriKhuyenMai, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <div class="form-group">
+            <label class="control-label col-md-2">Sản phẩm</label>
+            <div class="col-md-6">
+                <select class="form-control select2" name="SanPhams" multiple="multiple" data-placeholder="Chọn sản phẩm áp dụng" style="width: 100%">
+                    <option value="999" selected>va</option>
+                </select>
+            </div>
+        </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Thêm mới" class="btn btn-primary" />
@@ -115,6 +129,33 @@
         //chi nhap so khuyen mai
         $("#intLimitTextBox").inputFilter(function (value) {
             return /^\d*$/.test(value) && (value === "" || (parseInt(value) >= 1 && parseInt(value) <= 100));
+        });
+
+
+        //select 2
+        $('.select2').select2({
+            ajax: {
+                delay: 100,
+                url: function (params) {
+                    var baseURL = '/admin/sanpham/getsanphams';
+                    if (params && params.term) {
+                        baseURL += "?search=" + params.term;
+                    }
+                    return baseURL;
+                },
+                data: function (params) {
+                    var query = {
+                        search: params.term,
+                    }
+                },
+                dataType: 'json',
+                processResults: function (data) {
+                    // Tranforms the top-level key of the response object from 'items' to 'results'
+                    return {
+                        results: data
+                    };
+                }
+            }
         });
     });
 </script>

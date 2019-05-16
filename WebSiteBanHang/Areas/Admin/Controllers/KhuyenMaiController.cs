@@ -31,7 +31,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
 
         // POST: Admin/KhuyenMai/Create
         [HttpPost]
-        public ActionResult Create(KHUYENMAI collection)
+        public ActionResult Create(KhuyenMaiViewModel collection)
         {
             try
             {
@@ -57,6 +57,8 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+            SelectList sanPhams = new SelectList(khuyenMai.SanPhamDropdowns, "id", "text");
+            ViewBag.SanPhamList = sanPhams;
             return View(khuyenMai);
         }
 

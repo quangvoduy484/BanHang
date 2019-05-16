@@ -176,12 +176,13 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         {
             try
             {
-                var datHang = this.datHang.GetChiTietDatHangs(id);
-                if (datHang == null)
+                datHang.UpdateTrangThaiDonHang(id);
+                var datHangKH = this.datHang.GetChiTietDatHangs(id);
+                if (datHangKH == null)
                 {
                     return HttpNotFound();
                 }
-                var abyte = this.datHang.PrepareDatHang(datHang);
+                var abyte = this.datHang.PrepareDatHang(datHangKH);
                 return File(abyte, "application/pdf");
             }
             catch (Exception ex)

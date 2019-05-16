@@ -214,11 +214,13 @@
     <Compile Include="Areas\Admin\ViewModels\KhachHangViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\DatHangKHViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\HinhAnhViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\KhuyenMaiViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\LoaiSPViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\NhaCungCapViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PhieuDatHang_NCCViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ReponseMessage.cs" />
     <Compile Include="Areas\Admin\ViewModels\ResponseUploadImageModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\SanPhamDropDownViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\SanPhamViewModel.cs" />
     <Compile Include="Component\DayMonthYear.cs" />
     <Compile Include="Controllers\CartController.cs" />

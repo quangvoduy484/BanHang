@@ -90,6 +90,26 @@ namespace WebSiteBanHang.Services
                 data = data
             };
         }
+
+        public List<SanPhamDropDownViewModel> GetAllDropDownList(string search)
+        {
+            var sanPhams = context.SANPHAMs.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                sanPhams = sanPhams.Where(t => t.TenSanPham.Contains(search));
+
+            }
+            var result = sanPhams.OrderBy(t => t.TenSanPham)
+                .Take(30)
+                .Select(t => new SanPhamDropDownViewModel()
+                {
+                    id = t.Id_SanPham,
+                    text = t.TenSanPham
+                }).ToList();
+
+            return result;
+        }
+
         public List<LOAISANPHAM> GetAllLoaiSP()
         {
             return context.LOAISANPHAMs.ToList();
@@ -146,7 +166,7 @@ namespace WebSiteBanHang.Services
                     Link = SanPham.HinhAnh
                 });
             }
-            if(SanPham.HINHs?.Count>0)
+            if (SanPham.HINHs?.Count > 0)
             {
                 result.HinhAnhs.AddRange(SanPham.HINHs.Select(t => new HinhAnhViewModel()
                 {
