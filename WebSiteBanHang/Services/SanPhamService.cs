@@ -138,27 +138,36 @@ namespace WebSiteBanHang.Services
         {
             var SanPham = context.SANPHAMs
                 .Include(t => t.HINHs)
-                .FirstOrDefault(t => t.TrangThai != false && t.Id_SanPham == id);
+                .OrderByDescending(t => t.KHUYENMAI.NgayBatDau)
+                .FirstOrDefault(t => t.TrangThai != false && t.Id_SanPham == id /*&& t.KHUYENMAI.NgayKetThuc >= DateTime.Now && t.KHUYENMAI.NgayBatDau <= DateTime.Now*/);
             if (SanPham == null)
             {
                 return null;
             }
-            var result = new SanPhamViewModel()
+            var result = new SanPhamViewModel();
+
+            if (SanPham.KHUYENMAI?.NgayBatDau <= DateTime.Now && SanPham.KHUYENMAI?.NgayKetThuc >= DateTime.Now)
             {
-                MaSanPham = SanPham.Id_SanPham,
-                MaLoai = SanPham.Id_LoaiSanPham,
-                TenSanPham = SanPham.TenSanPham,
-                DVT = SanPham.DonViTinh,
-                MauSac = SanPham.MauSac,
-                VatLieu = SanPham.VatLieu,
-                SoLuongTon = SanPham.SoLuongTon,
-                KichThuoc = SanPham.KichThuoc,
-                XuatXu = SanPham.XuatXu,
-                TenLoai = SanPham.LOAISANPHAM.TenLoai,
-                HinhAnh = SanPham.HinhAnh ?? string.Empty,
-                BaoHanh = SanPham.BaoHanh,
-                MoTa = SanPham.Mota,
-            };
+                result.GiaTriKhuyenMai = SanPham.KHUYENMAI.GiaTriKhuyenMai;
+                result.TenKhuyenMai = SanPham.KHUYENMAI.TenKhuyenMai;
+            }
+
+            result.MaSanPham = SanPham.Id_SanPham;
+            result.MaLoai = SanPham.Id_LoaiSanPham;
+            result.TenSanPham = SanPham.TenSanPham;
+            result.DVT = SanPham.DonViTinh;
+            result.MauSac = SanPham.MauSac;
+            result.VatLieu = SanPham.VatLieu;
+            result.SoLuongTon = SanPham.SoLuongTon;
+            result.KichThuoc = SanPham.KichThuoc;
+            result.XuatXu = SanPham.XuatXu;
+            result.TenLoai = SanPham.LOAISANPHAM.TenLoai;
+            result.HinhAnh = SanPham.HinhAnh ?? string.Empty;
+            result.BaoHanh = SanPham.BaoHanh;
+            result.MoTa = SanPham.Mota;
+
+
+
             if (!string.IsNullOrEmpty(SanPham.HinhAnh))
             {
                 result.HinhAnhs.Add(new HinhAnhViewModel()
