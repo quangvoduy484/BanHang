@@ -93,7 +93,7 @@ namespace WebSiteBanHang.Services
 
         public List<SanPhamDropDownViewModel> GetAllDropDownList(string search)
         {
-            var sanPhams = context.SANPHAMs.AsQueryable();
+            var sanPhams = context.SANPHAMs.Where(t=>t.TrangThai != false);
             if (!string.IsNullOrWhiteSpace(search))
             {
                 sanPhams = sanPhams.Where(t => t.TenSanPham.Contains(search));

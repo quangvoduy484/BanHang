@@ -39,19 +39,39 @@ namespace WebSiteBanHang.Services
 
             if (model.SanPhams?.Count > 0)
             {
-                foreach (var item in model.SanPhams)
-                {
-                    var sanPham = context.SANPHAMs.FirstOrDefault(t => t.Id_SanPham == item && t.TrangThai != false);
-                    if (sanPham == null) continue;
-                    sanPham.Id_KhuyenMai = khuyenMai.Id_KhuyenMai;
-                }
+                //foreach (var item in model.SanPhams)
+                //{
+                //    var sanPham = context.SANPHAMs.FirstOrDefault(t => t.Id_SanPham == item && t.TrangThai != false);
+                //    if (sanPham == null) continue;
+                //    sanPham.Id_KhuyenMai = khuyenMai.Id_KhuyenMai;
+                //}
+                UpdateKhuyenMaiForSanPham(model.SanPhams, khuyenMai.Id_KhuyenMai, true);
             }
             context.SaveChanges();
         }
-        public bool Update(KHUYENMAI khuyenMai)
+        public void UpdateKhuyenMaiForSanPham(List<int> sanPhams, int id_KhuyenMai, bool status)
+        {
+            foreach (var item in sanPhams)
+            {
+                var sanPham = context.SANPHAMs.FirstOrDefault(t => t.Id_SanPham == item && t.TrangThai != false);
+                if (sanPham == null) continue;
+                if (status) // true : add new
+                {
+                    sanPham.Id_KhuyenMai = id_KhuyenMai;
+
+                }
+                else  // false : remove old
+                {
+                    sanPham.Id_KhuyenMai = null;
+                }
+            }
+        }
+        public bool Update(KhuyenMaiViewModel khuyenMai)
         {
 
-            KHUYENMAI khuyenMaiExist = context.KHUYENMAIs.Find(khuyenMai.Id_KhuyenMai);
+            KHUYENMAI khuyenMaiExist = context.KHUYENMAIs
+                .Include(t=>t.SANPHAMs)
+                .FirstOrDefault(t=>t.Id_KhuyenMai == khuyenMai.Id_KhuyenMai);
             if (khuyenMaiExist == null)
             {
                 return false;
@@ -60,6 +80,26 @@ namespace WebSiteBanHang.Services
             khuyenMaiExist.NgayBatDau = khuyenMai.NgayBatDau;
             khuyenMaiExist.NgayKetThuc = khuyenMai.NgayKetThuc;
             khuyenMaiExist.GiaTriKhuyenMai = khuyenMai.GiaTriKhuyenMai;
+
+            //update san pham apply
+
+            var existSanPhamIds = khuyenMaiExist.SANPHAMs.Where(t => t.TrangThai != false)
+                .Select(t => t.Id_SanPham).ToList();
+            // New 
+            var newIds = khuyenMai.SanPhams.Except(existSanPhamIds).ToList();
+
+            if (newIds.Count > 0)
+            {
+                UpdateKhuyenMaiForSanPham(newIds, khuyenMai.Id_KhuyenMai, true);
+            }
+            // remove old
+
+            var removeIds = existSanPhamIds.Except(khuyenMai.SanPhams).ToList();
+            if (removeIds.Count > 0)
+            {
+                UpdateKhuyenMaiForSanPham(removeIds, khuyenMai.Id_KhuyenMai, false);
+            }
+
             context.SaveChanges();
             return true;
         }

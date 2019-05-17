@@ -64,12 +64,12 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
 
         // POST: Admin/KhuyenMai/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, KHUYENMAI collection)
+        public ActionResult Edit( KhuyenMaiViewModel model)
         {
             try
             {
                 // TODO: Add update logic here
-                var result = KMService.Update(collection);
+                var result = KMService.Update(model);
                 if (!result)
                 {
                     return HttpNotFound();
