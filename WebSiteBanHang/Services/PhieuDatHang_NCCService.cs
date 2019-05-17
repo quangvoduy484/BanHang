@@ -107,9 +107,8 @@ namespace WebSiteBanHang.Services
                     TongTien=t.PHIEUDATHANG_NCC.TONGTIEN,
                     MaSP = t.SANPHAM.Id_SanPham,
                     MaNCC=t.PHIEUDATHANG_NCC.MANCC,
-
-
-
+                 
+ 
                 }).ToList();
             return chiTiets;
         }
@@ -131,21 +130,21 @@ namespace WebSiteBanHang.Services
             }
             return 2;
         }
-        //public long Add(PhieuDatHang_NCCViewModel model)
-        //{
-        //    var dathang = new PHIEUDATHANG_NCC
-        //    {
-        //        MANCC = model.MaNCC,
-        //        NGAYDAT = DateTime.Now,
-        //        NGUOIDAT = HttpContext.Current.User.Identity.Name,
-        //        TRANGTHAI = 1
+        public int Add(CT_PhieuDatHangNCCViewModel model)
+        {
+            var sanPham = new CT_PHIEUDATNCC
+            {
+                MASANPHAM=model.MaSP,
+                SOLUONG=model.SL,
+                GIANHAP=model.GiaNhap,
+                THANHTIEN=model.ThanhTien,
 
-
-        //    };
-        //    context.PHIEUDATHANG_NCCs.Add(dathang);
-        //    context.SaveChanges();
-        //    return model.MaPhieuDat;
-        //}
+               
+            };
+            context.CT_PHIEUDATNCCs.Add(sanPham);
+            context.SaveChanges();
+            return sanPham.MACTPD;
+        }
 
         public bool Update(PhieuDatHang_NCCViewModel model)
         {

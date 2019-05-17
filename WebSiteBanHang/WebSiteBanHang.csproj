@@ -198,12 +198,13 @@
     <Compile Include="Areas\Admin\Controllers\LoaiSPController.cs" />
     <Compile Include="Areas\Admin\Controllers\NCCController.cs" />
     <Compile Include="Areas\Admin\Controllers\NhanVienController.cs" />
-    <Compile Include="Areas\Admin\Controllers\PhanNhomNVController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhieuDatHang_NCCController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PhieuNhapHangNCCController.cs" />
     <Compile Include="Areas\Admin\Controllers\SanPhamController.cs" />
     <Compile Include="Areas\Admin\Helpers\Constant.cs" />
     <Compile Include="Areas\Admin\ViewModels\ChiTietDatHangViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\CT_PhieuDatHangNCCViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\CT_PhieuNhapHangNCCViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\DataTableAjaxPostModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\KhachHangViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\DatHangKHViewModel.cs" />
@@ -213,6 +214,7 @@
     <Compile Include="Areas\Admin\ViewModels\NhanVienViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PhanNhomNVViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PhieuDatHang_NCCViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\PhieuNhapHang_NCCViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ReponseMessage.cs" />
     <Compile Include="Areas\Admin\ViewModels\ResponseUploadImageModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\SanPhamViewModel.cs" />
@@ -345,8 +347,8 @@
     <Compile Include="Services\LoaiSPService.cs" />
     <Compile Include="Services\NCCService.cs" />
     <Compile Include="Services\NhanVienService.cs" />
-    <Compile Include="Services\PhanNhomNVService.cs" />
     <Compile Include="Services\PhieuDatHang_NCCService.cs" />
+    <Compile Include="Services\PhieuNhaphang_NCCService.cs" />
     <Compile Include="Services\SanPhamService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\MenuRole.cs" />
@@ -6996,9 +6998,9 @@
     <Content Include="Areas\Admin\Views\PhieuDatHang_NCC\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CT_PhieuDatHangNCC\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\NhanVien\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\PhanNhomNV\Index.cshtml" />
     <Content Include="Areas\Admin\Views\NhanVien\Create.cshtml" />
     <Content Include="Areas\Admin\Views\NhanVien\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuNhapHangNCC\Index.cshtml" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

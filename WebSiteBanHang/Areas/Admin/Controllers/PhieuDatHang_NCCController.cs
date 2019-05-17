@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebSiteBanHang.Areas.Admin.ViewModels;
+using WebSiteBanHang.Models;
 using WebSiteBanHang.Services;
 
 namespace WebSiteBanHang.Areas.Admin.Controllers
@@ -14,6 +15,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         PhieuDatHang_NCCService PDHService = new PhieuDatHang_NCCService();
         NCCService NCCService = new NCCService();
         SanPhamService SPService = new SanPhamService();
+        BanHangContext db = new BanHangContext();
         public ActionResult Index()
         {
             return View();
@@ -50,23 +52,24 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
 
         // POST: Admin/PhieuDatHang_NCC/Create
         [HttpPost]
-        public ActionResult Create(PhieuDatHang_NCCViewModel collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(List<CT_PhieuDatHangNCCViewModel> ct)
         {
             try
             {
-                // TODO: Add insert logic here
-               
-                //var ct = (List<CT_PhieuDatHangNCCViewModel>)chiTietDH;
-                //foreach(var item in ct)
-                //{
-
-                //}
                 if (ModelState.IsValid)
                 {
-                    //PDHService.Add(collection);
-                    return RedirectToAction("Index");
+                    foreach (var i in ct)
+                    {
+                        PDHService.Add(i);
+                    }
+
+                    ViewBag.Message = "Thành công";
+                    ModelState.Clear();
+                    ct = new List<CT_PhieuDatHangNCCViewModel> { new CT_PhieuDatHangNCCViewModel {MaSP=0,SL=0 ,GiaNhap=0,ThanhTien=0, } };
+                    
                 }
-                return View(collection);
+                return View(ct);
             }
             catch
             {
@@ -75,8 +78,12 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             
         }
 
-        // GET: Admin/PhieuDatHang_NCC/Edit/5
-        public ActionResult Edit(int id)
+      
+       
+       
+
+    // GET: Admin/PhieuDatHang_NCC/Edit/5
+    public ActionResult Edit(int id)
         {
             return View();
         }

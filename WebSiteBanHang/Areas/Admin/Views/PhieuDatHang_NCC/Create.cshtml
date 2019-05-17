@@ -8,97 +8,131 @@
     <script src="~/scripts/moment.min.js"></script>
 
 </head>
-<h2>Create</h2>
+<style>
+    .table-admin {
+        border: 1px solid #ddd;
+    }
 
+        .table-admin td, .table-admin th {
+            border: 1px solid #ddd !important;
+        }
 
-<form>
-    <div class="col-md-12">
-        <div class="box">
-            <div class="box-header with-border">
-                <h3>Tạo phiếu đặt hàng mới</h3>
-            </div>
-            <div class="box-body">
+    .TieuDe p {
+        font-family: initial;
+        font-size: 35px;
+        color: #00020c;
+    }
 
-                <div class="form-horizontal">
+    .TieuDe a {
+        width: 50px;
+    }
 
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    h2 {
+        text-align: center;
+        color: #4169E1;
+    }
 
+    .Bang {
+        background: none;
+        border-top: none;
+    }
+</style>
+<h2>LẬP PHIẾU ĐẶT HÀNG </h2>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.MaNCC, "Nhà cung cấp", htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownList("MANCC", (IEnumerable<SelectListItem>)ViewBag.listNCC, htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.MaNCC, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.NgayDat, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            <input type="datetime" value='@DateTime.Now.ToString("dd/MM/yyyy")' class="form-control" disabled />
-                        </div>
-                    </div>
+@*@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    if (ViewBag.Message != null)
+    {
+        @ViewBag.Message
+    }*@
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.TongTien, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.TongTien, new { htmlAttributes = new { @class = "form-control tong-tien", @readonly = "readonly", @type = "number" } })
-                            @Html.ValidationMessageFor(model => model.TongTien, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-
+<div class="col-md-12">
+    <div class="box Bang">
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.MaNCC, "Mã nhà cung cấp", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.DropDownList("MANCC", (IEnumerable<SelectListItem>)ViewBag.listNCC, htmlAttributes: new { @class = "form-control col-md-6" })
+                    @Html.ValidationMessageFor(model => model.MaNCC, "", new { @class = "text-danger" })
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="col-md-12">
-
-        <div class="box">
-            <div class="box-body">
-                <table class="table-striped" style="width:100%" id="chiTietDH">
-
-                    <thead>
-                        <tr>
-                            <th>Tên sản phẩm</th>
-                            <th>Số lượng</th>
-                            <th>Đơn giá</th>
-                            <th>Thành tiền</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @*<tr id="chiTiet">
-                                <th>@Html.DropDownList("MASANPHAM", (IEnumerable<SelectListItem>)ViewBag.listSP, htmlAttributes: new { @class = "form-control" })</th>
-                                <th> <input type="number" min="1"  name="soLuong"/></th>
-                                <th> <input type="number"  name="donGia"/></th>
-                                <th> <input type="text"  name="thanhTien" disabled /></th>
-                                <th><input type="button" value="X"  class="btn btn-danger" onclick="remove()"/></th>
-                            </tr>*@
-                    </tbody>
-
-                </table>
 
 
-                <div class="form-group">
-                    <div class="col-md-offset-5 col-md-10">
-
-                        <input type="button" value="Thêm sản phẩm" class="btn btn-primary" id="ThemSP" onclick="themChiTietDatHang()" />
-                    </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.NgayDat, "Ngày đặt", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    <input type="datetime" value="@DateTime.Now" />
                 </div>
             </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TongTien, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.EditorFor(model => model.TongTien, new { htmlAttributes = new { @class = "form-control tong-tien", @readonly = "readonly", @type = "number" } })
+                    @Html.ValidationMessageFor(model => model.TongTien, "", new { @class = "text-danger" })
+                </div>
+            </div>
+           
         </div>
     </div>
-</form>
+    <div class="container">
+
+        <div class="details">
+            <h2>Danh sách sản phẩm</h2>
+            <table class="table table-responsive" id="chiTietDH">
+                <tr>
+
+                    <td>Tên Sản phẩm</td>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                    <th>Chức năng</th>
+                </tr>
+                <tr class="mycontainer" id="mainrow">
 
 
-<div class="form-group">
-    <div class="col-md-offset-5 col-md-10">
-        <input type="button" value="Lưu" class="btn btn-primary" id="Create" />
+                    <td>
+                        <select id="TenSP" class=" pc form-control ">
+                            <option>Select</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" id="sl" class="quantity form-control" />
+                    </td>
+                    <td>
+                        <input type="text" id="dg" class="quantity form-control" />
+                    </td>
+                    <td>
+                        <input type="text" id="tt" class="quantity form-control" readonly="readonly" />
+                    </td>
+                    <td>
+                    
+                        <input type="button" value="X" class="btn btn-danger" onclick="remove(this)" />
+                        <input type="button" value="Add" class="btn btn-primary" id="ThemSP" onclick="themChiTietDatHang()" />
+                        </td>
+                </tr>
+            </table>
+
+            <div>
+               
+                <input id="Create" type="submit" value="Xác nhận" class="col-md-offset-5 col-md-2 btn btn-warning " style="padding:10px 20px" />
+
+            </div>
+
+        </div>
     </div>
 </div>
+
+   
 <div>
     @Html.ActionLink("Back to List", "Index")
+
+
 </div>
+}
 <script>
 
     function changeSoLuong(atr) {
@@ -140,22 +174,23 @@
             var id = 'chiTiet_' + row;
 
             table.append(`
-                <tr id="${id} ">
-                            <th>@Html.DropDownList("MASANPHAM", (IEnumerable<SelectListItem>)ViewBag.listSP, htmlAttributes: new { @class = "form-control" })</th>
-                            <th> <input id= 'sl_${row}'  type="number" min="1" name="soLuong" onChange=changeSoLuong(this) /></th>
-                            <th> <input id= 'dg_${row}'  type="number"  name="donGia" min = "0"  onChange=changeDonGia(this) /></th>
-                            <th> <input id= 'tt_${row}' class="thanh-tien" type="text"  name="thanhTien" disabled onChange=changeThanhTien() /></th>
-                            <th><input type="button" value="X"  class="btn btn-danger" onclick="remove(this)"/></th>
+                <tr id="${id}" >
+                            <th>@Html.DropDownList("MASANPHAM", (IEnumerable<SelectListItem>)ViewBag.listSP, htmlAttributes: new { @class = " form-control " ,style="width:90%"})</th>
+                            <th > <input id= 'sl_${row}'  type="number" min="1" name="soLuong" onChange=changeSoLuong(this)  style="width:40%" /></th>
+                            <th> <input id= 'dg_${row}'  type="number"  name="donGia" min = "0"  onChange=changeDonGia(this) style="width:60%"  /></th>
+                            <th> <input id= 'tt_${row}' class="thanh-tien" type="text"  name="thanhTien" disabled onChange=changeThanhTien() style="width:80%" /></th>
+                            <th><input type="button" value="X"  class="btn btn-danger" onclick="remove(this)"/> 
+                                 <input type="button" value="Thêm" class="btn btn-primary" id="ThemSP" onclick="themChiTietDatHang()" />
+                        </th>
                         </tr>
             `)
 
         }
     function remove(tr) {
-        var row = tr.parentNode.parentNode;
+       var row = tr.parentNode.parentNode;
         row.parentNode.removeChild(row);
         changeThanhTien();
     }
-   
-                  
 
 </script>
+

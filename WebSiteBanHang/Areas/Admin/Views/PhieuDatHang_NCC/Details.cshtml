@@ -1,102 +1,110 @@
 ﻿@model IEnumerable<WebSiteBanHang.Areas.Admin.ViewModels.CT_PhieuDatHangNCCViewModel>
 
-    @{
-        ViewBag.Title = "Details";
-        Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+// TextBox chỉ cho xem k cho sửa
+// Sau khi click Edit Button, cho sửa và khi click Save mới lưu.
+// Lập phiếu hàng button: link tới trang lập phiếu nhận hàng (cho show,edit, delete như phiếu đặt)
+// Sau khi lập phiếu nhập, cần qtam SL tồn của SP +=SL nhập. 
+<style>
+    .table-admin {
+        border: 1px solid #ddd;
     }
 
-    <style>
-        .table-admin {
-            border: 1px solid #ddd;
+        .table-admin td, .table-admin th {
+            border: 1px solid #ddd !important;
         }
 
-            .table-admin td, .table-admin th {
-                border: 1px solid #ddd !important;
-            }
+    .TieuDe p {
+        font-family: initial;
+        font-size: 35px;
+        color: #00020c;
+    }
 
-        .TieuDe p {
-            font-family: initial;
-            font-size: 35px;
-            color: #00020c;
-        }
+    .TieuDe a {
+        width: 50px;
+    }
 
-        .TieuDe a {
-            width: 50px;
-        }
+    h2 {
+        text-align: center;
+        color: #4169E1;
+    }
 
-        h2 {
-            text-align: center;
-            color: #4169E1;
-        }
-
-        .Bang {
-            background: none;
-            border-top: none;
-        }
-    </style>
-    <h2>CHI TIẾT ĐẶT HÀNG</h2>
-    <div class="col-md-12">
+    .Bang {
+        background: none;
+        border-top: none;
+    }
+</style>
+<h2>CHI TIẾT ĐẶT HÀNG</h2>
+<div class="col-sm-12">
+    <div class="form-group" >
+        <div class=" col-md-12" style="padding-bottom:10px">
+            <input type="submit" value="Lập phiếu nhập" class="btn btn-danger" /> //Lập phiếu nhập hàng vào kho
+            <input type="submit" value="Xuất đơn đặt hàng" class="btn btn-success" /> // xuất file Excel
+        </div>
         <div class="box Bang">
-            <div class="form-control">
 
-                <h3> Chi tiết phiếu nhập</h3>
-                <table class="table detail-kh" cellspacing="200" cellpadding="200" />
-                <tr>
-                    <th>Tên nhà cung cấp</th>
-                    <td><input type="text" class="form-control" readonly="readonly" value="" /></td>
-                    <th>Ngày đặt</th>
-                    <td><input type="datetime" class="form-control" readonly="readonly" value="@*Model.NgSinh*@" /></td>
-                    <th>Người đặt</th>
-
-                    <th>Thành tiền đặt</th>
-                </tr>
-                </table>
-            </div>
-            <table class="table table-bordered table-striped table-admin" role="grid">
-                <tr>
-
-                    <th>
-                        Tên sản phẩm
-                    </th>
-                    <th>
-                        Số lượng
-                    </th>
-                    <th>
-                        Đơn giá
-                    </th>
-                    <th>
-                        Thành tiền
-                    </th>
-                    <th>Chức năng</th>
-                </tr>
-
-                @foreach (var item in Model)
-                {
+            <div>
+                <table class="table table-bordered table-striped table-admin" role="grid">
                     <tr>
 
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TenSanPham)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.SL)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.GiaNhap)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ThanhTien)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Delete", "Delete", new { id = item.MaPhieuDat })
-                        </td>
+                        <th>
+                            Tên sản phẩm
+                        </th>
+                        <th>
+                            Số lượng
+                        </th>
+
+                        <th>
+                            Đơn giá
+                        </th>
+                        <th>
+                            Thành tiền
+                        </th>
+                        <th>Chức năng</th>
                     </tr>
-                }
 
-            </table>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
 
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TenSanPham)
+                            </td>
+
+                            <td>
+                                @Html.EditorFor(modelItem => item.SL)
+                            </td>
+
+                            <td>
+                                @Html.TextBoxFor(modelItem => item.GiaNhap)
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(modelItem => item.ThanhTien)
+                            </td>
+                            <td>
+                                <input type="button" value="Edit" class="btn btn-info"  />
+                                
+                                
+                                <input type="button" value="X" class="btn btn-danger" />
+ 
+                            </td>
+                        </tr>
+
+                    }
+
+                </table>
+
+
+            </div>
+
+            <div class="col-md-offset-5 col-md-10">
+                <input type="submit" value="Save" class="btn btn-dropbox" />
+            </div>
+            <div class="CanhLe">
+                @Html.ActionLink("<< Quay lại danh sách", "Index")
+            </div>
         </div>
 
-        <div class="CanhLe">
-            @Html.ActionLink("<< Quay lại danh sách", "Index")
-        </div>
-    </div>

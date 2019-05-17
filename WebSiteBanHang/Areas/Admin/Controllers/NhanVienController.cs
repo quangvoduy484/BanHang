@@ -20,8 +20,6 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             var model = nv.ListAll();
             return View(model);
         }
-       
-
 
         // GET: Admin/NhanVien/Create
         public ActionResult Create()
@@ -31,7 +29,8 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             ViewBag.loainvSelect = loainvSelect;
             return View();
         }
-
+        // GET: Admin/NhanVien/Details
+        
         // POST: Admin/NhanVien/Create
         [HttpPost]
         public ActionResult Create(TBL_LOGIN collection)
