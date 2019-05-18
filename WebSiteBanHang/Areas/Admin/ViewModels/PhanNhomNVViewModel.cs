@@ -11,7 +11,10 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
         public int MaNhom { get; set;}
         public string TenNV { get; set;}
         public string TenNhom { get; set; }
-       public bool Active { get; set; }
+        public string PassWord { get; set; }
+        public string Email { get; set; }
+        public string SDT { get; set; }
+        public bool Active { get; set; }
         public List<TBL_GROUP> TBL_GROUPs { get; set;}
         public List<TBL_LOGIN> TBL_LOGINs { get; set; }
     }

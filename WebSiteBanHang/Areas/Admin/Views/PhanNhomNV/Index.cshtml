@@ -1,0 +1,68 @@
+﻿@model IEnumerable<WebSiteBanHang.Models.TBL_GROUP>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+ 
+<style>
+    .table .middle {
+        vertical-align: middle;
+    }
+
+    .table-admin {
+        border: 1px solid #ddd;
+    }
+
+        .table-admin td, .table-admin th {
+            border: 1px solid #ddd !important;
+        }
+
+    h2, h4 {
+        padding-left: 10px;
+    }
+
+    .Bang {
+        background: none;
+        border-top: none;
+    }
+</style>
+
+<h2>Danh sách nhóm</h2>
+<div class="col-md-12">
+    <div class="box Bang">
+        @*<div>
+            <input type="button" class="btn btn-default" value="..." href="/Admin/PhanNhomNV/CreateNhom" data-toggle="collapse" data-target="#demo" />
+        </div>
+        <div id="demo" class="collapse">
+            <input type="text" value="" id="" />
+        </div>*@
+        <table class="table table-bordered table-striped table-admin" style="width:100%" role="grid">
+            <tr>
+                <th>
+                    Tên nhóm
+                </th>
+
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GROUPNAME)
+                    </td>
+
+                    <td>
+                        <a class="btn btn-primary" href="/Admin/PhanNhomNV/Details/@item.ID">Nhân viên </a>
+                        <a class="btn btn-primary" href="/Admin/PhanNhomNV/Create/@item.ID">Thêm nhân viên</a>
+
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
