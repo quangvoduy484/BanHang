@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -18,6 +19,11 @@ namespace WebSiteBanHang
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            //DbMigrationsConfiguration.AutomaticMigrationsEnabled; 
+
+          
+
 
           var context = new BanHangContext();
           var initializeMigrations = new MigrateDatabaseToLatestVersion<BanHangContext, Migrations.Configuration>();
