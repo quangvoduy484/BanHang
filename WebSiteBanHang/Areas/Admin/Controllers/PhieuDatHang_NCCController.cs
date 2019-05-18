@@ -53,24 +53,15 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
 
         // POST: Admin/PhieuDatHang_NCC/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(List<CT_PhieuDatHangNCCViewModel> ct)
+        public ActionResult Create(PhieuDatHang_NCCViewModel model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    foreach (var i in ct)
-                    {
-                        PDHService.Add(i);
-                    }
-
-                    ViewBag.Message = "Thành công";
-                    ModelState.Clear();
-                    ct = new List<CT_PhieuDatHangNCCViewModel> { new CT_PhieuDatHangNCCViewModel {MaSP=0,SL=0 ,GiaNhap=0,ThanhTien=0, } };
                     
                 }
-                return View(ct);
+                return View();
             }
             catch
             {
