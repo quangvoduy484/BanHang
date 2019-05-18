@@ -20,9 +20,9 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             return View(pn);
         }
         [HttpPost]
-        public ActionResult GetAll(DataTableAjaxPostModel dataModel,int id)
+        public ActionResult GetAll(DataTableAjaxPostModel dataModel)
         {
-            var NVs = PNService.GetAll(dataModel,1);
+            var NVs = PNService.GetAll(dataModel);
 
             return Json(NVs);
         }
