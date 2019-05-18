@@ -19,13 +19,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             var pn = PNService.getNhom();
             return View(pn);
         }
-        [HttpPost]
-        public ActionResult GetAll(DataTableAjaxPostModel dataModel)
-        {
-            var NVs = PNService.GetAll(dataModel);
-
-            return Json(NVs);
-        }
+        
         // GET: Admin/PhanNhomNV/Details/5
         public ActionResult Details(int id)
         {

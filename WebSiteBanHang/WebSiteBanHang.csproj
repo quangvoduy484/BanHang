@@ -205,6 +205,7 @@
     <Compile Include="Areas\Admin\Controllers\LoaiPhongController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiSPController.cs" />
     <Compile Include="Areas\Admin\Controllers\NCCController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NhanVienController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhanNhomNVController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhieuDatHang_NCCController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhieuNhapHangNCCController.cs" />
@@ -361,6 +362,7 @@
     <Compile Include="Services\LoaiPhongService.cs" />
     <Compile Include="Services\LoaiSPService.cs" />
     <Compile Include="Services\NCCService.cs" />
+    <Compile Include="Services\NhanVienService.cs" />
     <Compile Include="Services\PhanNhomNVService.cs" />
     <Compile Include="Services\PhieuDatHang_NCCService.cs" />
     <Compile Include="Services\PhieuNhaphang_NCCService.cs" />
@@ -6184,6 +6186,7 @@
     <Content Include="Areas\Admin\Views\PhanNhomNV\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PhanNhomNV\Create.cshtml" />
     <Content Include="Areas\Admin\Views\PhanNhomNV\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\NhanVien\Index.cshtml" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

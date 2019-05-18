@@ -1,0 +1,132 @@
+﻿@model IEnumerable<WebSiteBanHang.Areas.Admin.ViewModels.PhanNhomNVViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+<div style="padding-bottom: 10px; padding-left: 15px;">
+    <a class="btn btn-success" href="/Admin/NCC/Create">Thêm mới</a>
+</div>
+<div class="col-md-12">
+    <table id="pnnv" class="table table-bordered table-striped table-admin" role="grid">
+        <tr>
+
+            <th>
+                Tên nhân viên
+            </th>
+            <th>
+                Số điện thoại
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Mật khẩu
+            </th>
+
+            <th>Chức năng</th>
+        </tr>
+        <tbody class="tbody"> </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //var nav = $('.content-nav');
+        //if (nav.length) {
+        //    var contentNav = nav.offset().top;
+        //}
+        $(document).on('load', loadGridView());
+
+        //config toastr
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "2000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    });
+    function loadGridView() {
+        $('#pnnv').DataTable({
+
+            serverSide: true,
+            ajax: {
+                url: "/Admin/NhanVien/getall",
+                type: "POST",
+                dataType: "JSON",
+            },
+            language: {
+                lengthMenu: "Hiển thị _MENU_ mục",
+                zeroRecords: "Không tìm thấy ",
+                info: "Hiển thị trang _PAGE_ đến _PAGES_ của _MAX_ mục",
+                infoEmpty: "Không có dữ liệu",
+                infoFiltered: "(lọc từ _MAX_ tổng mục)",
+                search: "Tìm kiếm",
+                searchPlaceholder: "Search...",
+            },
+            columns: [
+
+                { title: "Tên nhân viên", data: "TenNV" },
+                { title: "Số điện thoại", data: "SDT" },
+                { title: "Email", data: "Email" },
+                { title: "Mật khẩu", data: "PassWord" },
+                {
+                    title: "Chức năng",
+                    data: function (data, type, dataToSet) {
+                        return data.MaNhom + "," + data.TenNV;
+                    },
+
+                    searchable: false,
+                    sortable: false,
+                    render: function (data, type, full, meta) {
+                        return `<div>
+                                     <a class="btn btn-success" href="/Admin/NCC/Details/${data}">
+                                        <i class="fa fa-search-plus"></i>
+                                     </a>
+                                     <a class="btn btn-info" href="/Admin/NCC/Edit/${data}">
+                                        <i class="fa fa-edit"></i>
+                                     </a>
+                                     <a class="btn btn-danger" onclick="xoaNhaCungCap(${data})">
+                                         <i class="fa fa-trash-o"></i>
+                                     </a>
+                                 </div> `
+
+                    }
+                }
+            ],
+
+        });
+    }
+    function xoaNhaCungCap(mancc) {
+        if (window.confirm("Bạn có muốn xoá không?")) {
+            $.ajax({
+                method: "POST",
+                url: "/Admin/NCC/Delete/" + mancc,
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data.StatusCode === 200) {
+                        toastr.success("Xóa thành công");
+                        $('#ncc').DataTable().ajax.reload();
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(errorThrown);
+                }
+            });
+        }
+    }
+
+</script>
