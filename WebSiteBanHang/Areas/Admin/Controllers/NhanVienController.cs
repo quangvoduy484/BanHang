@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebSiteBanHang.Areas.Admin.ViewModels;
@@ -11,17 +12,24 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
     public class NhanVienController : Controller
     {
         NhanVienService nv = new NhanVienService();
-        // GET: Admin/NhanVien
-        public ActionResult Index()
+        // GET: Admin/NhanVien/i
+        public ActionResult Index(int id)
         {
+            ViewBag.ID_Group = id;
             return View();
         }
         [HttpPost]
-        public ActionResult GetAll(DataTableAjaxPostModel dataModel)
+        public ActionResult GetAll(int id,DataTableAjaxPostModel dataModel)
         {
-            var NVs = nv.GetAll(dataModel);
+            var NVs = nv.GetAll(dataModel,id);
 
             return Json(NVs);
+        }
+
+        public ActionResult GetNhanViens(string search,int id)
+        {
+            var sanPhams = nv.GetAllDropDownList(search,id);
+            return Json(sanPhams, JsonRequestBehavior.AllowGet);
         }
         // GET: Admin/NhanVien/Details/5
         public ActionResult Details(int id)
@@ -37,13 +45,18 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
 
         // POST: Admin/NhanVien/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(PhanNhomNVViewModel collection)
         {
             try
             {
                 // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    nv.Add(collection);
+                    return RedirectToAction("Index");
+                }
+                return View(collection);
             }
             catch
             {
@@ -74,24 +87,35 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         }
 
         // GET: Admin/NhanVien/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        //public ActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
 
         // POST: Admin/NhanVien/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id,string manv)
         {
+            var result = new ReponseMessage();
             try
             {
+                var kq = nv.Delete(id,manv);
+                if (kq == false)
+                {
+                    result.Message = "Không tìm thấy nhân viên";
+                    result.StatusCode = HttpStatusCode.NotFound;
+                    return Json(result);
+                }
+                result.StatusCode = HttpStatusCode.OK;
+                return Json(result);
                 // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                result.Message = "Có lỗi trong quá trình xử lý";
+                result.StatusCode = HttpStatusCode.ExpectationFailed;
+                return Json(result);
             }
         }
     }

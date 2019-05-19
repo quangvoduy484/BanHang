@@ -4,13 +4,13 @@
     ViewBag.Title = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
-
-<h2>Create</h2>
-
-@using (Html.BeginForm()) 
+<center>
+    <h2>Create</h2>
+</center>
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>NHACUNGCAP</h4>
         <hr />

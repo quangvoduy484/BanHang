@@ -30,7 +30,29 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             }
             return View(details);
         }
+        [HttpPost]
+        public ActionResult AddGroup(TBL_GROUP collection)
+        {
+            try
+            {
+                // TODO: Add insert logic here
 
+                if (ModelState.IsValid)
+                {
+                    PNService.AddGroup(collection);
+
+                    return Json("Thêm thành công");
+                       
+
+                }
+                return Json("Thêm thất bại");
+            }
+            catch (Exception ex)
+            {
+                string er = ex.Message;
+                return Json(er);
+            }
+        }
         // GET: Admin/PhanNhomNV/Create
         public ActionResult Create(int id)
         {
@@ -40,12 +62,13 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             var nhom = PNService.getNhom();
             SelectList listNhom = new SelectList(nhom, "ID", "GROUPNAME");
             ViewBag.listNhom = listNhom;
+            ViewBag.idgroup = id;
             return View();
         }
 
         // POST: Admin/PhanNhomNV/Create
         [HttpPost]
-        public ActionResult Create(TBL_GROUP_LOGIN collection,int id)
+        public ActionResult Create(int id, PhanNhomNVViewModel collection)
         {
             try
             {
@@ -53,20 +76,25 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    PNService.Add(collection,id);
-                    ViewBag.Message("Thêm thành công");
-                   return RedirectToAction("Index");
+                    PNService.Add(id, collection);
+                    //var nv = PNService.GetNV();
+                    //SelectList listNV = new SelectList(nv, "USERNAME", "USERNAME");
+                    //ViewBag.listNV = listNV;
+                    return RedirectToAction("Index");
+
                 }
                 return View(collection);
             }
-            catch
+            catch (Exception ex)
             {
+                string er = ex.Message;
                 return View();
             }
         }
 
+        
         [HttpPost]
-        public ActionResult CreateGroup (TBL_GROUP collection)
+        public ActionResult CreateAccount(PhanNhomNVViewModel collection)
         {
             try
             {
@@ -74,7 +102,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    PNService.AddGroup(collection);
+                    PNService.AddAccount(collection);
                     ViewBag.Message("Thêm thành công");
                     return RedirectToAction("Index");
                 }

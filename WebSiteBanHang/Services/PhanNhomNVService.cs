@@ -21,43 +21,98 @@ namespace WebSiteBanHang.Services
         {
             return context.TBL_GROUPs.Where(t => t.ACTIVATE == true).ToList().Select(t => new TBL_GROUP()
             {
-                ID=t.ID,
-                GROUPNAME=t.GROUPNAME,
+                ID = t.ID,
+                GROUPNAME = t.GROUPNAME,
 
             }).ToList();
         }
-       
+         
 
         //Lấy danh sách nhân viên theo nhóm
         public List<TBL_LOGIN> GetNV(int idgroup)
         {
-            return context.TBL_LOGINs.Include(t =>t.TBL_GROUP_LOGINs)
-                .Where(t=>t.ACTIVATE !=false)
-                .Where(t=>t.TBL_GROUP_LOGINs.All(x=>x.ID_GROUP!= idgroup && x.ACTIVATE!=false ) ).ToList();
+            return context.TBL_LOGINs.Include(t => t.TBL_GROUP_LOGINs)
+                .Where(t => t.ACTIVATE != false)
+                .Where(t => t.TBL_GROUP_LOGINs.All(x => x.ID_GROUP != idgroup && x.ACTIVATE != false)).ToList();
         }
 
-        //Thêm nhân viên mới vào nhóm
-        public void Add(TBL_GROUP_LOGIN model,int idgroup)
-        {
-            var phannhom = new TBL_GROUP_LOGIN
-            {
-                ID_GROUP = idgroup,
-                USERNAME = model.USERNAME,
-                ACTIVATE = true,
-            };
-            context.TBL_GROUP_LOGINs.Add(phannhom);
-            context.SaveChanges();
-        }
-        // Thêm nhóm mới
+        //Thêm account mới vào nhóm
         public void AddGroup(TBL_GROUP model)
         {
-            var nhom = new TBL_GROUP
-            {
-                ID=model.ID,
-                GROUPNAME=model.GROUPNAME,
-            };
-            context.TBL_GROUPs.Add(nhom);
+            model.ACTIVATE = true;
+            
+            context.TBL_GROUPs.Add(model);
             context.SaveChanges();
         }
+
+        //Thêm account mới vào nhóm
+        //public void AddGroup(TBL_GROUP model)
+        //{
+        //    model.ACTIVATE = true;
+
+        //    context.TBL_GROUPs.Add(model);
+        //    context.SaveChanges();
+        //}
+
+        // Thêm account mới vào nhóm -final
+        public bool Add(int id, PhanNhomNVViewModel model)
+        {
+
+            if (model.NhanViens?.Count > 0)
+            {
+                foreach (var username in model.NhanViens)
+                {
+                    var grouplogin = new TBL_GROUP_LOGIN
+                    {
+                        ID_GROUP = id,
+                        USERNAME = username,
+                        ACTIVATE = true
+                    };
+                    context.TBL_GROUP_LOGINs.Add(grouplogin);
+                }
+
+            }
+            
+            context.SaveChanges();
+            return true;
+        }
+
+        //Thêm account mới
+        public void AddAccount(PhanNhomNVViewModel model)
+        {
+            var newemp = new TBL_LOGIN
+            {
+                USERNAME = model.TenNV,
+                PHONE = model.SDT,
+                EMAIL = model.Email,
+                PASSWORD = model.PassWord,
+                ISADMIN = false,
+                ACTIVATE = true,
+                CREATED_DATE = DateTime.Now,
+                CREATED_BY = HttpContext.Current.User.Identity.Name
+            };
+
+            context.TBL_LOGINs.Add(newemp);
+            context.SaveChanges();
+        }
+
+        //public PhanNhomNVViewModel FindById(int? id)
+        //{
+        //    var nv= context.TBL_LOGINs
+        //        .Include(t => t.TBL_GROUP_LOGINs)
+        //        .Where(t => t.ACTIVATE != false)
+        //        .Where(t => t.TBL_GROUP_LOGINs.All(x => x.ID_GROUP != id && x.ACTIVATE != false))
+        //         .Select(t => new PhanNhomNVViewModel()
+        //         {
+        //             TenNV=t.USERNAME,
+
+        //             NhanVienDropdowns = t.TBL_GROUP_LOGINs.Select(x => new NhanVienDropDownViewModel()
+        //             {
+        //                 id = x.USERNAME,
+        //                 text = x.USERNAME,
+        //             }).ToList()
+        //         }).FirstOrDefault();
+        //    return nv;
+        //}
     }
 }

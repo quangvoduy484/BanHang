@@ -221,6 +221,7 @@
     <Compile Include="Areas\Admin\ViewModels\KhuyenMaiViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\LoaiSPViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\NhaCungCapViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\NhanVienDropDownViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PhanNhomNVViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PhieuDatHang_NCCViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PhieuNhapHang_NCCViewModel.cs" />
@@ -6180,8 +6181,6 @@
     <Content Include="Areas\Admin\Views\PhieuDatHang_NCC\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CT_PhieuDatHangNCC\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\NhanVien\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\NhanVien\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\NhanVien\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\DatHangKH\Edit.cshtml" />
     <Content Include="App_Browsers\qt.browser" />
     <Content Include="libman.json" />
@@ -6190,7 +6189,7 @@
     <Content Include="Areas\Admin\Views\PhanNhomNV\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PhanNhomNV\Create.cshtml" />
     <Content Include="Areas\Admin\Views\PhanNhomNV\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\NhanVien\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\NhanVien\Create.cshtml" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

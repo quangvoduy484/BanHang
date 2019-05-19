@@ -57,12 +57,13 @@
             "hideMethod": "fadeOut"
         };
     });
+    var id=@ViewBag.ID_Group;
     function loadGridView() {
         $('#pnnv').DataTable({
 
             serverSide: true,
             ajax: {
-                url: "/Admin/NhanVien/getall",
+                url: "/Admin/NhanVien/getall/"+id,
                 type: "POST",
                 dataType: "JSON",
             },
@@ -86,18 +87,15 @@
                     data: function (data, type, dataToSet) {
                         return data.MaNhom + "," + data.TenNV;
                     },
-
+                    //var abc = split;
+                    //var manhom = abc[0];
+                    //var userName = abc[1];
                     searchable: false,
                     sortable: false,
                     render: function (data, type, full, meta) {
                         return `<div>
-                                     <a class="btn btn-success" href="/Admin/NCC/Details/${data}">
-                                        <i class="fa fa-search-plus"></i>
-                                     </a>
-                                     <a class="btn btn-info" href="/Admin/NCC/Edit/${data}">
-                                        <i class="fa fa-edit"></i>
-                                     </a>
-                                     <a class="btn btn-danger" onclick="xoaNhaCungCap(${data})">
+                                    
+                                     <a class="btn btn-danger" onclick="DeleteAccFromGroup(${data})">
                                          <i class="fa fa-trash-o"></i>
                                      </a>
                                  </div> `
@@ -117,7 +115,7 @@
                 success: function (data) {
                     if (data.StatusCode === 200) {
                         toastr.success("Xóa thành công");
-                        $('#ncc').DataTable().ajax.reload();
+                        $('#ncc').remove();
                     } else {
                         toastr.error(data.Message);
                     }

@@ -5,7 +5,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
 
- 
+
 <style>
     .table .middle {
         vertical-align: middle;
@@ -28,41 +28,100 @@
         border-top: none;
     }
 </style>
+<center>
+    <h2>DANH SÁCH NHÓM</h2>
+</center>
 
-<h2>Danh sách nhóm</h2>
 <div class="col-md-12">
     <div class="box Bang">
-        @*<div>
-            <input type="button" class="btn btn-default" value="..." href="/Admin/PhanNhomNV/CreateNhom" data-toggle="collapse" data-target="#demo" />
+        <div style="padding-bottom: 10px; padding-left: 15px;">
+
+            <a class="btn btn-success" data-toggle="modal" data-target="#myModalGroup">Thêm Account</a>
+            <a class="btn btn-warning" data-toggle="modal" data-target="#myModalUser">Thêm Nhân viên</a>
         </div>
-        <div id="demo" class="collapse">
-            <input type="text" value="" id="" />
-        </div>*@
-        <table class="table table-bordered table-striped table-admin" style="width:100%" role="grid">
+    </div>
+
+
+
+    <table class="table table-bordered table-striped table-admin" style="width:100%" role="grid" id="groupname">
+        <tr>
+            <th>
+                Tên nhóm
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
             <tr>
-                <th>
-                    Tên nhóm
-                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GROUPNAME)
+                </td>
 
-                <th></th>
+                <td>
+                    <a class="btn btn-primary" href="/Admin/NhanVien/Index/@item.ID">Nhân viên </a>
+                    <a class="btn btn-primary" href="/Admin/PhanNhomNV/Create/@item.ID">Thêm nhân viên</a>
+
+                </td>
             </tr>
+        }
 
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.GROUPNAME)
-                    </td>
+    </table>
+</div>
 
-                    <td>
-                        <a class="btn btn-primary" href="/Admin/PhanNhomNV/Details/@item.ID">Nhân viên </a>
-                        <a class="btn btn-primary" href="/Admin/PhanNhomNV/Create/@item.ID">Thêm nhân viên</a>
-
-                    </td>
-                </tr>
-            }
-
-        </table>
+<div class="modal fade" id="myModalGroup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title title" id="exampleModalLabel">TÊN NHÓM </h5>
+            </div>
+            <div class="modal-body">
+                <form id="myForm">
+                    <div class="form-group">
+                        <label for="nhom" class="col-form-label">Tên nhóm</label>
+                        <input type="text" class="form-control" id="groupname" name="groupname">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
+                <button type="button" id="submit" onclick="AddGroup()" class="btn btn-primary">Lưu</button>
+            </div>
+        </div>
     </div>
 </div>
 
+
+<script type="text/javascript">
+    function AddGroup(data) {
+        var dom = document.getElementById("myForm")
+        var formData = new FormData(dom)
+        var gia = $('#groupname').val();
+
+        $.ajax({
+            method: "POST",
+            url: "/Admin/PhanNhomNV/AddGroup",
+            //contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: formData,
+            processData: false,
+            contentType: false,
+
+            success: function (data) {
+               
+                    toastr.success("Thêm thành công");
+                $('#myModalGroup').modal('hide')
+                
+                $('#groupname').val(gia)
+                window.location.reload()
+               // window.location.href = "/admin/PhanNhomNV/Index";
+                    
+               
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                toastr.error(errorThrown);
+            }
+        });
+    }
+</script>
