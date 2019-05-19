@@ -323,6 +323,10 @@
     <Compile Include="Migrations\201905110544551_update-PDH.Designer.cs">
       <DependentUpon>201905110544551_update-PDH.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905190017455_update-dvb.cs" />
+    <Compile Include="Migrations\201905190017455_update-dvb.Designer.cs">
+      <DependentUpon>201905190017455_update-dvb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BanHangContext.cs" />
     <Compile Include="Models\CHITIETDATHANG.cs" />
@@ -6262,11 +6266,11 @@
     <EmbeddedResource Include="Migrations\201905052102175_Update_coulumn_SoLuongTon_Null.resx">
       <DependentUpon>201905052102175_Update_coulumn_SoLuongTon_Null.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905110427555_reslove-conflic.resx">
-      <DependentUpon>201905110427555_reslove-conflic.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905110544551_update-PDH.resx">
       <DependentUpon>201905110544551_update-PDH.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905190017455_update-dvb.resx">
+      <DependentUpon>201905190017455_update-dvb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
