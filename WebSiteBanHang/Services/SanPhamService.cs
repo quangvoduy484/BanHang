@@ -93,7 +93,7 @@ namespace WebSiteBanHang.Services
 
         public List<SanPhamDropDownViewModel> GetAllDropDownList(string search)
         {
-            var sanPhams = context.SANPHAMs.Where(t=>t.TrangThai != false);
+            var sanPhams = context.SANPHAMs.Where(t => t.TrangThai != false);
             if (!string.IsNullOrWhiteSpace(search))
             {
                 sanPhams = sanPhams.Where(t => t.TenSanPham.Contains(search));
@@ -117,7 +117,9 @@ namespace WebSiteBanHang.Services
         public List<SanPhamViewModel> GetTenSP()
         {
 
-            return context.SANPHAMs.OrderBy(t => t.TenSanPham)
+            return context.SANPHAMs
+                .Where(t => t.TrangThai != false)
+                .OrderBy(t => t.TenSanPham)
                  .Select(t => new SanPhamViewModel
                  {
                      MaSanPham = t.Id_SanPham,

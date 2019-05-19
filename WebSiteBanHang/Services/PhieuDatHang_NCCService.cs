@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
+using System.Activities.Statements;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -144,6 +145,37 @@ namespace WebSiteBanHang.Services
             context.CT_PHIEUDATNCCs.Add(sanPham);
             context.SaveChanges();
             return sanPham.MACTPD;
+        }
+
+        public bool AddPhieuDatHangNCC(PhieuDatHang_NCCViewModel model)
+        {
+            var tongTien = model.ChiTietPhieuDats.Sum(t => t.SL * t.GiaNhap);
+            var phieuDat = new PHIEUDATHANG_NCC()
+            {
+                MANCC = model.MaNCC,
+                NGAYDAT = DateTime.Now,
+                NGUOIDAT = HttpContext.Current.User.Identity.Name,
+                TONGTIEN = tongTien,
+                TRANGTHAI = 1,
+            };
+
+            context.PHIEUDATHANG_NCCs.Add(phieuDat);
+            context.SaveChanges();
+
+            foreach (var detail in model.ChiTietPhieuDats)
+            {
+                var chiTiet = new CT_PHIEUDATNCC()
+                {
+                    MAPHIEUDAT = phieuDat.MAPHIEUDAT,
+                    MASANPHAM = detail.MaSP,
+                    SOLUONG = detail.SL,
+                    GIANHAP = detail.GiaNhap,
+                    THANHTIEN = detail.SL * detail.GiaNhap,
+                };
+                context.CT_PHIEUDATNCCs.Add(chiTiet);
+            }
+            context.SaveChanges();
+            return true;
         }
 
         public bool Update(PhieuDatHang_NCCViewModel model)

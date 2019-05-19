@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebSiteBanHang.Areas.Admin.ViewModels;
@@ -55,17 +56,32 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Create(PhieuDatHang_NCCViewModel model)
         {
+
+            var result = new ReponseMessage();
             try
             {
-                if (ModelState.IsValid)
+                if(!ModelState.IsValid || model == null || model.ChiTietPhieuDats?.Count == 0)
                 {
-                    
+                    result.Message = "Dữ liệu truyền vào không chính xác";
+                    result.StatusCode = HttpStatusCode.BadRequest;
+                    return Json(result);
+
                 }
-                return View();
+                // TODO: Add delete logic here
+                var kq = PDHService.AddPhieuDatHangNCC(model);
+                if (kq == false)
+                {
+                    result.Message = "Có lỗi trong qúa trình xử lý";
+                    result.StatusCode = HttpStatusCode.BadRequest;
+                }
+                result.StatusCode = HttpStatusCode.OK;
+                return Json(result);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                result.Message = "Có lỗi trong quá trình xử lý";
+                result.StatusCode = HttpStatusCode.ExpectationFailed;
+                return Json(result);
             }
             
         }

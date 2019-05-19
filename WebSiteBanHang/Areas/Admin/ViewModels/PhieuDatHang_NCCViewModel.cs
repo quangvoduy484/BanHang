@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -15,7 +16,8 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
         public string NguoiDat { get; set; }
         public decimal TongTien { get; set;}
         public string TrangThai { get; set; }
-        public List<CT_PhieuDatHangNCCViewModel> CT_PHIEUDATHANGNCCs { get; set; }
+        [Required]
+        public List<CT_PhieuDatHangNCCViewModel> ChiTietPhieuDats { get; set; }
        
         
     }
