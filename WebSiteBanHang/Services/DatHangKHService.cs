@@ -1,8 +1,12 @@
-﻿using System;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Web;
+using WebSiteBanHang.Areas.Admin.Helpers;
 using WebSiteBanHang.Areas.Admin.ViewModels;
 using WebSiteBanHang.Models;
 using static WebSiteBanHang.Areas.Admin.Helpers.Constant;
@@ -97,8 +101,11 @@ namespace WebSiteBanHang.Services
                       TenKhachHang = t.KHACHHANG.TenKhachHang,
                       DiaChiGiao = t.DiaChiGiao,
                       SoDienThoai = t.SoDienThoai,
+                      TongTien = t.TongTien,
+                      NgayGiao = t.NgayGiao,
                       GhiChu = t.GhiChu,
-
+                      TrangThai = t.TrangThai == 0 ? TinhTrangDatHang.DaHuy :
+                        (t.TrangThai == 1 ? TinhTrangDatHang.DangXyLy : TinhTrangDatHang.DaGiao),
                       ChiTietDatHangs = t.CHITIETDATHANGs.Where(k => k.TrangThai != false)
                       .Select(k => new ChiTietDatHangViewModel()
                       {
@@ -237,23 +244,33 @@ namespace WebSiteBanHang.Services
         }
         public bool UpdateDHKH(DatHangKHViewModel model)
         {
-            DATHANG datHang = context.DATHANGs.FirstOrDefault(t => t.Id_DatHang == model.MaDatHang);
+            DATHANG datHang = context.DATHANGs.FirstOrDefault(t => t.Id_DatHang == model.MaDatHang && t.TrangThai == 1);
             if (datHang == null)
             {
                 return false;
             }
-            if (datHang.TrangThai != 1 && datHang != null)
-            {
-                return false;
-            }
-            if (datHang.TrangThai == 1 && datHang != null)
-            {
-                datHang.DiaChiGiao = model.DiaChiGiao;
-                datHang.SoDienThoai = model.SoDienThoai;
-                context.SaveChanges();
-            }
+
+            datHang.DiaChiGiao = model.DiaChiGiao;
+            datHang.SoDienThoai = model.SoDienThoai;
+            context.SaveChanges();
+
             return true;
 
+        }
+        public void UpdateTrangThaiDonHang(int maDatHang)
+        {
+            DATHANG datHang = context.DATHANGs.
+                FirstOrDefault(t => t.Id_DatHang == maDatHang && t.TrangThai == 1);
+            if (datHang == null)
+            {
+                return;
+            }
+            datHang.TrangThai = 2;
+            datHang.NgayGiao = DateTime.Now;
+            //update Diem tich luy
+            int diemTichLuy = (int) datHang.TongTien / Constant.DiemNhan;
+            datHang.KHACHHANG.DiemTichLuy += diemTichLuy;
+            context.SaveChanges();
         }
         public DatHangKHViewModel findbyId(int id)
         {
@@ -265,6 +282,240 @@ namespace WebSiteBanHang.Services
                     DiaChiGiao = t.DiaChiGiao,
                     SoDienThoai = t.SoDienThoai,
                 }).FirstOrDefault();
+        }
+        #region Declaration
+        int _totalColumnDetail = 5;
+        int _totalColumn = 4;
+        Document _document;
+        Font _fontStyle;
+        PdfPTable _pdfTable;
+        PdfPCell _pdfCell;
+        MemoryStream _memoryStream = new MemoryStream();
+        DatHangKHViewModel _datHang;
+        #endregion
+        public byte[] PrepareDatHang(DatHangKHViewModel datHangs)
+        {
+            #region
+            _datHang = datHangs;
+            //_totalColumn = 6;
+            _document = new Document(PageSize.A4, 0f, 0f, 0f, 0f);
+
+            _document.SetPageSize(PageSize.A4);
+            _document.SetMargins(20f, 20f, 20f, 20f);
+
+            BaseFont bf = BaseFont.CreateFont("C:/windows/fonts/Arial.ttf",
+                            BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            _fontStyle = new Font(bf, 12);
+
+            PdfWriter.GetInstance(_document, _memoryStream);
+            _document.Open();
+
+            //render Dathang
+            RenderDatHang();
+
+            //render chi tiet dat hang
+            RenderChiTietDatHang();
+
+            //add description
+            var description = "Cảm ơn quý khách đã chọn mua sản phẩm của chúng tôi." +
+                " Xin quý khách vui lòng kiểm tra lại tên và thiết bị. Nếu có gì sai sót, " +
+                "xin quý khách báo lại cho công ty.";
+            var para = new Paragraph(description, _fontStyle);
+            _document.Add(para);
+
+            // Add signature
+            RenderSignature();
+
+            _document.Close();
+            return _memoryStream.ToArray();
+        }
+
+        private void RenderSignature()
+        {
+            _pdfTable = new PdfPTable(3)
+            {
+                WidthPercentage = 100,
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                SpacingAfter = 10f,
+                SpacingBefore = 10.1f,
+            };
+            _pdfTable.SetWidths(new float[] { 40f, 30f, 30f });
+
+            //render
+            _pdfCell = new PdfPCell(new Phrase("Xác nhận thanh toán", _fontStyle))
+            {
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                Border = 0,
+                BackgroundColor = BaseColor.WHITE,
+            };
+            _pdfTable.AddCell(_pdfCell);
+
+            _pdfCell = new PdfPCell(new Phrase("Người giao hàng", _fontStyle))
+            {
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                Border = 0,
+                BackgroundColor = BaseColor.WHITE,
+            };
+            _pdfTable.AddCell(_pdfCell);
+
+            _pdfCell = new PdfPCell(new Phrase("Người mua hàng", _fontStyle))
+            {
+                Colspan = _totalColumn,
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                Border = 0,
+                BackgroundColor = BaseColor.WHITE,
+            };
+            _pdfTable.AddCell(_pdfCell);
+
+            _pdfTable.CompleteRow();
+            _document.Add(_pdfTable);
+        }
+
+        private void RenderChiTietDatHang()
+        {
+            _pdfTable = new PdfPTable(_totalColumnDetail)
+            {
+                WidthPercentage = 100,
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                SpacingAfter = 10f,
+                SpacingBefore = 10.1f,
+            };
+
+            _pdfTable.SetWidths(new float[] { 10f, 40f, 10f, 20f, 20f });
+            #endregion
+            this.ReportHeader();
+            this.ReportBody();
+            _document.Add(_pdfTable);
+        }
+        private void RenderDatHang()
+        {
+
+            _pdfTable = new PdfPTable(_totalColumn)
+            {
+                WidthPercentage = 100,
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                SpacingAfter = 10f,
+                SpacingBefore = 10.1f,
+            };
+            _pdfTable.DefaultCell.Border = Rectangle.NO_BORDER;
+
+            _pdfTable.SetWidths(new float[] { 20f, 30f, 20f, 30f });
+            _pdfTable.HeaderRows = 2;
+
+            // add header
+            _pdfCell = new PdfPCell(new Phrase("CHI TIẾT ĐƠN HÀNG", _fontStyle))
+            {
+                Colspan = _totalColumn,
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                Border = 0,
+                BackgroundColor = BaseColor.WHITE,
+                ExtraParagraphSpace = 5f,
+                PaddingBottom = 5f,
+            };
+
+            _pdfTable.AddCell(_pdfCell);
+            _pdfTable.CompleteRow();
+
+
+            //add content
+            AddRowDatHang("Mã đặt hàng:");
+            AddRowDatHang(_datHang.MaDatHang.ToString());
+            AddRowDatHang("Tên khách hàng:");
+            AddRowDatHang(_datHang.TenKhachHang.ToString());
+            _pdfTable.CompleteRow();
+
+            AddRowDatHang("Địa chỉ giao:");
+            AddRowDatHang(_datHang.DiaChiGiao.ToString());
+            AddRowDatHang("Số điện thoại:");
+            AddRowDatHang(_datHang.SoDienThoai.ToString());
+            _pdfTable.CompleteRow();
+
+            AddRowDatHang("Ngày giao:");
+            AddRowDatHang(_datHang.NgayGiao?.ToString("dd/MM/yyyy"));
+            AddRowDatHang("Tổng tiền:");
+            AddRowDatHang(_datHang.TongTien.ToString());
+
+
+            _pdfTable.CompleteRow();
+            _document.Add(_pdfTable);
+        }
+
+        private void ReportHeader(/*DatHangKHViewModel mode*/)
+        {
+
+
+            //_pdfCell = new PdfPCell(new Phrase("# CHI TIẾT ĐẶT HÀNG", _fontStyle))
+            //{
+            //    Colspan = _totalColumnDetail,
+            //    HorizontalAlignment = Element.ALIGN_LEFT,
+            //    Border = 0,
+            //    BackgroundColor = BaseColor.WHITE,
+            //    ExtraParagraphSpace = 5f,
+            //    PaddingBottom= 5f,
+            //};
+            //_pdfTable.AddCell(_pdfCell);
+            //_pdfTable.CompleteRow();
+        }
+        private void ReportBody()
+        {
+            #region Table header
+            AddHeader("STT");
+            //AddHeader("Mã đặt hàng");
+            AddHeader("Tên sản phẩm");
+            AddHeader("Số lượng");
+            AddHeader("Giá bán");
+            AddHeader("Thành tiền");
+            _pdfTable.CompleteRow();
+            #endregion
+
+            #region Table Body
+            int serialNumber = 1;
+
+            foreach (var chiTiet in _datHang.ChiTietDatHangs)
+            {
+                AddRowChiTietDatHang(serialNumber++.ToString());
+                //AddRow(chiTiet.MaChiTiet.ToString());
+                AddRowChiTietDatHang(chiTiet.TenSanPham.ToString());
+                AddRowChiTietDatHang(chiTiet.SoLuong.ToString());
+                AddRowChiTietDatHang(chiTiet.GiaBan.ToString());
+                AddRowChiTietDatHang(chiTiet.ThanhTien.ToString());
+                _pdfTable.CompleteRow();
+            }
+            #endregion
+        }
+
+        private void AddHeader(string nameHeader)
+        {
+            _pdfCell = new PdfPCell(new Phrase(nameHeader, _fontStyle))
+            {
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                VerticalAlignment = Element.ALIGN_MIDDLE,
+                BackgroundColor = BaseColor.LIGHT_GRAY
+            };
+            _pdfTable.AddCell(_pdfCell);
+        }
+
+        private void AddRowDatHang(string value)
+        {
+            _pdfCell = new PdfPCell(new Phrase(value, _fontStyle))
+            {
+                HorizontalAlignment = Element.ALIGN_LEFT,
+                VerticalAlignment = Element.ALIGN_LEFT,
+                BackgroundColor = BaseColor.WHITE,
+                Border = 0,
+            };
+            _pdfTable.AddCell(_pdfCell);
+        }
+
+        private void AddRowChiTietDatHang(string value)
+        {
+            _pdfCell = new PdfPCell(new Phrase(value, _fontStyle))
+            {
+                HorizontalAlignment = Element.ALIGN_CENTER,
+                VerticalAlignment = Element.ALIGN_MIDDLE,
+                BackgroundColor = BaseColor.WHITE,
+            };
+            _pdfTable.AddCell(_pdfCell);
         }
     }
 }

@@ -42,7 +42,7 @@
 </style>
 <h2>CHI TIẾT ĐƠN HÀNG</h2>
 <div style="padding-bottom: 10px; padding-left: 15px;">
-    <a class="btn btn-success" href="#">Xuất hoá đơn</a>
+    <a class="btn btn-success" href="/Admin/DatHangKH/PrintPdf/@Model.MaDatHang">Xuất hoá đơn</a>
 </div>
 <div class="col-md-12">
 
@@ -60,6 +60,10 @@
                     <label class="col-md-4 col-xs-4 ">Địa chỉ giao: </label>
                     <p class="col-md-8">@Model.DiaChiGiao </p>
                 </div>
+                <div class="form-group">
+                    <label class="col-md-4 col-xs-4 ">Ngày giao:  </label>
+                    <p class="col-md-8">@Model.NgayGiao</p>
+                </div>
             </div>
             <div class="col-md-6">
 
@@ -71,7 +75,10 @@
                     <label class="col-md-4 col-xs-4 ">Số điện thoại:  </label>
                     <p class="col-md-8">@Model.SoDienThoai</p>
                 </div>
-
+                <div class="form-group">
+                    <label class="col-md-4 col-xs-4 ">Tổng tiền:  </label>
+                    <p class="col-md-8">@Model.TongTien</p>
+                </div>
             </div>
         </div>
 
@@ -114,8 +121,8 @@
                             @Html.DisplayFor(modelItem => item.ThanhTien)
                         </td>
                         <td>
-                            <button class="btn btn-danger" onclick="xoaCTDH(@item.MaChiTiet)">Xoá</button>
-                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal"
+                            <button class="btn btn-danger btn-edit-or-delete" value="@Model.TrangThai" onclick="xoaCTDH(@item.MaChiTiet)">Xoá</button>
+                            <button type="button" class="btn btn-info btn-edit-or-delete" value="@Model.TrangThai" data-toggle="modal" data-target="#myModal"
                                     data-machitiet="@item.MaChiTiet"
                                     data-sanpham=" @item.TenSanPham"
                                     data-soluong="@item.SoLuong"
@@ -245,4 +252,9 @@
             }
         });
     }
+    debugger
+    if ($('.btn-edit-or-delete').val() !== 'Đang xử lý') {
+        $('.btn-edit-or-delete').attr('disabled', true)
+    }
+
 </script>

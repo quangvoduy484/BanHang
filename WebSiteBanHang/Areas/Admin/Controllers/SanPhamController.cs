@@ -29,6 +29,12 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
 
             return Json(sanPhams);
         }
+
+        public ActionResult GetSanPhams(string search)
+        {
+            var sanPhams = sanPhamService.GetAllDropDownList(search);
+            return Json(sanPhams, JsonRequestBehavior.AllowGet);
+        }
         // GET: Admin/SanPham/Details/5
         public ActionResult Details(int? id)
         {
