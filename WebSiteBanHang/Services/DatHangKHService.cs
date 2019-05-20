@@ -260,18 +260,71 @@ namespace WebSiteBanHang.Services
         public void UpdateTrangThaiDonHang(int maDatHang)
         {
             DATHANG datHang = context.DATHANGs.
+                Include(t => t.CHITIETDATHANGs).
                 FirstOrDefault(t => t.Id_DatHang == maDatHang && t.TrangThai == 1);
             if (datHang == null)
             {
                 return;
             }
+            // kiem tra sl ton
+            KiemTraSLTon(datHang);
             datHang.TrangThai = 2;
             datHang.NgayGiao = DateTime.Now;
             //update Diem tich luy
-            int diemTichLuy = (int) datHang.TongTien / Constant.DiemNhan;
-            datHang.KHACHHANG.DiemTichLuy += diemTichLuy;
-            context.SaveChanges();
+            if (datHang.KHACHHANG.Id_LoaiKhachHang == 1)//VIP
+            {
+                int diemTichLuy = (int)datHang.TongTien / Constant.DiemNhanVIP;
+                datHang.KHACHHANG.DiemTichLuy += diemTichLuy;
+                datHang.KHACHHANG.TongChi += datHang.TongTien;
+                context.SaveChanges();
+            }
+            if (datHang.KHACHHANG.Id_LoaiKhachHang == 2)//Thân thiết
+            {
+                int diemTichLuy = (int)datHang.TongTien / Constant.DiemNhan;
+                datHang.KHACHHANG.DiemTichLuy += diemTichLuy;
+                datHang.KHACHHANG.TongChi += datHang.TongTien;
+                context.SaveChanges();
+            }
+            if (datHang.KHACHHANG.Id_LoaiKhachHang == 3)//Ko là thành viên
+            {
+                datHang.KHACHHANG.DiemTichLuy = 0;
+                context.SaveChanges();
+            }
+            //update Loại khách hàng
+            if (datHang.KHACHHANG.TongChi >= Constant.TongChiVIP)
+            {
+                datHang.KHACHHANG.Id_LoaiKhachHang = 1;
+                context.SaveChanges();
+            }
+
+            if (datHang.KHACHHANG.TongChi < Constant.TongChiVIP)
+            {
+                datHang.KHACHHANG.Id_LoaiKhachHang = 2;
+                context.SaveChanges();
+            }
+            if (datHang.KHACHHANG.TongChi < Constant.TongChiThanThiet)
+            {
+                datHang.KHACHHANG.Id_LoaiKhachHang = 3;
+                context.SaveChanges();
+            }
         }
+
+        private void KiemTraSLTon(DATHANG datHang)
+        {
+            var chiTiets = datHang.CHITIETDATHANGs.ToList();
+            foreach (var chiTiet in chiTiets)
+            {
+                int sl = chiTiet.SoLuong;
+                int slTon = chiTiet.SANPHAM.SoLuongTon ?? 0;
+                if (sl > slTon)
+                {
+                    throw new Exception("Số lượng sản phẩm " + chiTiet.SANPHAM.TenSanPham + " không đủ cung cấp");
+                }
+
+                chiTiet.SANPHAM.SoLuongTon = slTon - sl;
+            }
+        }
+
         public DatHangKHViewModel findbyId(int id)
         {
             return context.DATHANGs

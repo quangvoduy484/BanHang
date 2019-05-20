@@ -28,7 +28,10 @@
     h2{
         padding-left: 10px;
     }
-
+    .TenSP{
+        font-size: 16px;
+        color:blue;
+    }
 </style>
 
 <h2>Chi tiết sản phẩm</h2>
@@ -56,17 +59,25 @@
             </div>
         </div>
         <div class="detail col-md-6">
-            <p>@Model.TenSanPham</p>
+            <label class="TenSP">@Model.TenSanPham</label>
 
             <p>
-                <label>Loại: </label>@Model.TenLoai
+                <label > Tên loại sản phẩm: </label> @Model.TenLoai
             </p>
             <p>
-                <label>Kích thước:</label>
+                <label>Giá bán:</label>
+                @Model.GiaSP
+            </p>
+            <p>
+                <label>Số lượng tồn: </label>
+                @Model.SoLuongTon
+            </p>
+            <p>
+                <label>Kích thước: </label>
                 @Model.KichThuoc
             </p>
             <p>
-                <label>Vật liệu:</label>
+                <label>Vật liệu: </label>
                 @Model.VatLieu
             </p>
             <p>

@@ -15,8 +15,9 @@ namespace WebSiteBanHang.Areas.Admin.Helpers
         }
         //etc
         public const int DiemNhan = 100000; //100 000 = 1đ
+        public const int DiemNhanVIP = 50000; //100 000 = 1đ
         public const int DiemQuyDoi = 1000; // 1đ = 1000
-
-
+        public const int TongChiVIP=100000000; // 1đ = 1000
+        public const int TongChiThanThiet = 40000000; // 1đ = 1000
     }
 }

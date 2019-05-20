@@ -93,7 +93,7 @@ namespace WebSiteBanHang.Services
 
         public List<SanPhamDropDownViewModel> GetAllDropDownList(string search)
         {
-            var sanPhams = context.SANPHAMs.Where(t=>t.TrangThai != false);
+            var sanPhams = context.SANPHAMs.Where(t => t.TrangThai != false);
             if (!string.IsNullOrWhiteSpace(search))
             {
                 sanPhams = sanPhams.Where(t => t.TenSanPham.Contains(search));
@@ -138,6 +138,7 @@ namespace WebSiteBanHang.Services
         {
             var SanPham = context.SANPHAMs
                 .Include(t => t.HINHs)
+                .Include(t => t.GIASANPHAMs)
                 .OrderByDescending(t => t.KHUYENMAI.NgayBatDau)
                 .FirstOrDefault(t => t.TrangThai != false && t.Id_SanPham == id /*&& t.KHUYENMAI.NgayKetThuc >= DateTime.Now && t.KHUYENMAI.NgayBatDau <= DateTime.Now*/);
             if (SanPham == null)
@@ -155,6 +156,7 @@ namespace WebSiteBanHang.Services
             result.MaSanPham = SanPham.Id_SanPham;
             result.MaLoai = SanPham.Id_LoaiSanPham;
             result.TenSanPham = SanPham.TenSanPham;
+            result.GiaSP = SanPham.GIASANPHAMs.Where(t => t.TrangThai != false).OrderByDescending(t => t.NgayLap).Select(t => t.GiaBan).FirstOrDefault();
             result.DVT = SanPham.DonViTinh;
             result.MauSac = SanPham.MauSac;
             result.VatLieu = SanPham.VatLieu;
@@ -293,6 +295,24 @@ namespace WebSiteBanHang.Services
             };
             context.HINHs.Add(hinh);
             context.SaveChanges();
+        }
+
+        public bool UpdateGia(double gia, int maSP)
+        {
+            GIASANPHAM giaSP = new GIASANPHAM()
+            {
+                GiaBan = gia,
+                NgayLap = DateTime.Now,
+                Id_SanPham = maSP,
+            };
+            var giaSPexit = context.GIASANPHAMs.Where(t => t.Id_SanPham == maSP && t.TrangThai != false).ToList();
+            foreach (var item in giaSPexit)
+            {
+                item.TrangThai = false;
+            }
+            context.GIASANPHAMs.Add(giaSP);
+            context.SaveChanges();
+            return true;
         }
     }
 }

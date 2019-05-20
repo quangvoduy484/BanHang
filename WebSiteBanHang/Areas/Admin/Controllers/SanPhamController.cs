@@ -233,6 +233,30 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             }
 
         }
+        [HttpPost]
+        public ActionResult UpdateGia(int MASP, double giaSP)
+        {
+            var result = new ReponseMessage();
+            try
+            {
+                // TODO: Add delete logic here
+                var kq = sanPhamService.UpdateGia( giaSP, MASP);
+                if (kq == false)
+                {
+                    result.Message = "Không tìm thấy sản phẩm";
+                    result.StatusCode = HttpStatusCode.NotFound;
+                    return Json(result);
+                }
+                result.StatusCode = HttpStatusCode.OK;
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Có lỗi trong quá trình xử lý";
+                result.StatusCode = HttpStatusCode.ExpectationFailed;
+                return Json(result);
+            }
+        }
     }
-
+  
 }

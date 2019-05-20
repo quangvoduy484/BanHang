@@ -18,6 +18,7 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
         public string TenSanPham { get; set; }
         public int MaLoai { get; set; }
         public string TenLoai { get; set; }
+        public double? GiaSP { get; set; }
         public int? MaKM { get; set; }
         public string TenKhuyenMai { get; set; }
         public double GiaTriKhuyenMai { get; set; }

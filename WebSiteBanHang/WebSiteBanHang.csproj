@@ -219,6 +219,7 @@
     <Compile Include="Areas\Admin\ViewModels\NhaCungCapViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PhieuDatHang_NCCViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ReponseMessage.cs" />
+    <Compile Include="Areas\Admin\ViewModels\ReportDoanhThuViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ResponseUploadImageModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\SanPhamDropDownViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\SanPhamViewModel.cs" />
@@ -344,6 +345,7 @@
     <Compile Include="Models\TBL_ROLE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CT_PhieuDatHangNCCService.cs" />
+    <Compile Include="Services\DardboardService.cs" />
     <Compile Include="Services\DatHangKHService.cs" />
     <Compile Include="Services\GiaSPService.cs" />
     <Compile Include="Services\HoaDonGiaoHang.cs" />
