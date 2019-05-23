@@ -16,7 +16,7 @@ namespace WebSiteBanHang.Controllers
 
             ViewBag.user = System.Web.HttpContext.Current.User.Identity.Name;
             return View();
-       
+
         }
 
         public ActionResult About()

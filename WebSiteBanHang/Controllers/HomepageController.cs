@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebSiteBanHang.Helper;
 using WebSiteBanHang.Models;
 
 namespace WebSiteBanHang.Controllers
@@ -38,5 +39,19 @@ namespace WebSiteBanHang.Controllers
 
         }
 
+
+        public JsonResult getNameLogin()
+        {
+
+            if (SessionUser.GetSession() != null)
+            {
+                return Json(new { hadlogin = "true", name = SessionUser.GetSession().Name }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { hadlogin = "false" }, JsonRequestBehavior.AllowGet);
+
+
+
+
+        }
     }
 }

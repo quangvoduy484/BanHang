@@ -6,18 +6,18 @@ using System.Web.Mvc;
 
 namespace WebSiteBanHang.Controllers
 {
-  public class RoomKindController : Controller
-  {
-    // GET: RoomKind
-    public ActionResult Index()
+    public class RoomKindController : Controller
     {
-      return View();
-    }
+        // GET: RoomKind
+        public ActionResult Index()
+        {
+            return View();
+        }
 
-    public ActionResult LoadByRoomKind(int id,int type)
-    {
-      return View();
-    }
+        public ActionResult LoadByRoomKind(int id, int type)
+        {
+            return View();
+        }
 
-  }
+    }
 }

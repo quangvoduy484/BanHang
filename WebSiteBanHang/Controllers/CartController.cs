@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using WebSiteBanHang.Helper;
 using WebSiteBanHang.Models;
 using WebSiteBanHang.ViewModel;
 
@@ -13,8 +14,10 @@ namespace WebSiteBanHang.Controllers
     {
         BanHangContext db = new BanHangContext();
 
+
         public List<ProductCart> GetProductCarts()
         {
+
             List<ProductCart> productCarts = Session["productCarts"] as List<ProductCart>;
             if (productCarts == null)
             {
@@ -24,12 +27,14 @@ namespace WebSiteBanHang.Controllers
             return productCarts;
         }
 
+
+
         public JsonResult createProduct(int id)
         {
             // lúc này thêm bao nhiêu nữa thì nó cũng thêm vào cái list lưu seesion nên sẽ lấy được 
             var product = db.SANPHAMs.Where(x => x.Id_SanPham == id).SingleOrDefault();
             List<ProductCart> productCarts = GetProductCarts();
-           
+
             // tao moi mot san pham
             ProductCart productCart = new ProductCart();
             if (product != null)
@@ -62,18 +67,18 @@ namespace WebSiteBanHang.Controllers
             else
             {
                 productIncart.soluong += 1;
-             
+
             }
             var totatQuantity = totalQuantity();
 
-            return Json(new { productCart = productCart, totalQuantity= totatQuantity }, JsonRequestBehavior.AllowGet);
+            return Json(new { productCart = productCart, totalQuantity = totatQuantity }, JsonRequestBehavior.AllowGet);
 
         }
 
         public int totalQuantity()
         {
             List<ProductCart> productCarts = GetProductCarts();
-            if(productCarts != null)
+            if (productCarts != null)
                 return productCarts.Sum(x => x.soluong);
             return 0;
         }
@@ -82,7 +87,7 @@ namespace WebSiteBanHang.Controllers
         {
             List<ProductCart> productCarts = GetProductCarts();
             if (productCarts != null)
-                return productCarts.Sum(x => x.giagiam*x.soluong);
+                return productCarts.Sum(x => x.giagiam * x.soluong);
             return 0;
 
         }
@@ -91,7 +96,7 @@ namespace WebSiteBanHang.Controllers
         {
             var quantity = totalQuantity();
             var money = totalMoney();
-            if(quantity !=  0 && money != 0)
+            if (quantity != 0 && money != 0)
             {
                 return Json(new { quantity = quantity, money = money }, JsonRequestBehavior.AllowGet);
 
@@ -101,18 +106,18 @@ namespace WebSiteBanHang.Controllers
         }
 
         // show current ProductCarts
-        public JsonResult currentProductCarts(string id,int totalCheck)
+        public JsonResult currentProductCarts(string id, int? totalCheck)
         {
             List<ProductCart> productCarts = GetProductCarts();
             var quantity = totalQuantity();
             var strimId = id.Trim(',');
             var listId = strimId.Split(',').Select(int.Parse).ToList();
             double currentTotal = 0;
-            foreach(var item in listId)
+            foreach (var item in listId)
             {
-                foreach(var product in productCarts)
+                foreach (var product in productCarts)
                 {
-                    if(item == product.Id_SanPham)
+                    if (item == product.Id_SanPham)
                     {
                         currentTotal += product.giagiam * double.Parse(product.soluong.ToString());
 
@@ -120,10 +125,10 @@ namespace WebSiteBanHang.Controllers
                 }
 
             }
-          
+
             var giaohang = 50;
-            var sumTotal = currentTotal - 50;
-            return Json(new { currentTotal = currentTotal, giaohang = giaohang, sumTotal = sumTotal,totatQuantity= totalCheck }, JsonRequestBehavior.AllowGet);
+            var sumTotal = currentTotal +50;
+            return Json(new { currentTotal = currentTotal, giaohang = giaohang, sumTotal = sumTotal, totatQuantity = totalCheck }, JsonRequestBehavior.AllowGet);
         }
 
         // render ProductCarts
@@ -143,7 +148,7 @@ namespace WebSiteBanHang.Controllers
         // show total quantity ProductCarts
         public ActionResult PartialIcon()
         {
-        
+
             return PartialView();
         }
 
@@ -162,11 +167,11 @@ namespace WebSiteBanHang.Controllers
 
         // upordown item ProductCarts
 
-        public ActionResult upordownProducCarts(int productID,char action)
+        public ActionResult upordownProducCarts(int productID, char action)
         {
             List<ProductCart> productCarts = GetProductCarts();
             var product = productCarts.Where(x => x.Id_SanPham == productID).SingleOrDefault();
-            if(action == '-')
+            if (action == '-')
             {
                 product.soluong -= 1;
             }
@@ -182,11 +187,11 @@ namespace WebSiteBanHang.Controllers
         public ActionResult deleteProducCarts(int? id, string listId)
         {
             List<ProductCart> productCarts = GetProductCarts();
-            if(!string.IsNullOrEmpty(listId))
+            if (!string.IsNullOrEmpty(listId))
             {
                 var list = listId.Trim(',');
                 var listdelete = list.Split(',').Select(int.Parse);
-                foreach(var item in listdelete)
+                foreach (var item in listdelete)
                 {
                     productCarts.RemoveAll(x => x.Id_SanPham == item);
                 }
@@ -198,6 +203,13 @@ namespace WebSiteBanHang.Controllers
             }
             return RedirectToAction("renderProductCarts");
         }
+
+     
+
+
+
+
+
 
     }
 }

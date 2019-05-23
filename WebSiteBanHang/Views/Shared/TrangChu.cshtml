@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8" lang="vi">
+
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -24,6 +24,7 @@
     <link href="~/Content/Template/dist/css/page/ProductDetail.css" rel="stylesheet" />
     <link href="~/Content/Template/dist/css/page/ModalCart.css" rel="stylesheet" />
     <link href="~/Content/Template/dist/css/page/ProductCart.css" rel="stylesheet" />
+    <link href="~/Content/Template/dist/css/page/TabOrder.css" rel="stylesheet" />
     <link href="~/Content/Template/bower_components/slick-1.8.1/slick/slick.css" rel="stylesheet" />
     <link href="~/Content/Template/bower_components/slick-1.8.1/slick/slick-theme.css" rel="stylesheet" />
     @*<link rel="stylesheet" href="~/Content/Template/dist/css/skins/skin-red.min.css">*@
@@ -48,21 +49,37 @@
             width: 550px;
         }
 
-        @@media (min-width: 768px) {#deleteMoadalItem .modal-dialog
-                                    {
-            width: 400px;
-            margin: 150px auto;
+        @@media (min-width: 768px) {
+            #deleteMoadalItem .modal-dialog {
+                width: 400px;
+                margin: 150px auto;
+            }
         }
 
-            @@media (min-width: 768px) {
-                #deleteMoadalAll .modal-dialog {
-                    width: 400px;
-                    margin: 150px auto;
-                }
+        @@media (min-width: 768px) {
+            #deleteMoadalAll .modal-dialog {
+                width: 400px;
+                margin: 150px auto;
             }
-                .draggable {
-                    padding: 0px;
-                }
+        }
+
+        @@media (min-width: 768px) {
+            .navbar-right .dropdown-menu {
+                right: -15px;
+                left: auto;
+            }
+        }
+
+        .draggable {
+            padding: 0px;
+        }
+        #rating span{
+            font-size:25px;
+        }
+        .startcolor
+        {
+            color:orange;
+        }
     </style>
 </head>
 <!-- ADD THE CLASS fixed TO GET A FIXED HEADER AND SIDEBAR LAYOUT -->
@@ -97,6 +114,53 @@
 
     <script src="/Content/Template/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 
+
+
+
+
+
+
+    @*render menu*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                url: '/Homepage/getNameLogin',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.hadlogin == "true") {
+
+                        $('.logout').hide();
+                        $('.login').hide();
+                        var row = ` <li class="dropdown">
+                                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">TÀI KHOẢN ${data.name.toUpperCase()}
+                                                        <ul class="dropdown-menu">
+                                                          <li><a href="#"><span><i class="fa fa-address-book" aria-hidden="true"></i></span>     Quản lý tài khoản</a></li>
+                                                          <li><a href="/OrderManagement/createViewOrder"><span><i class="fa fa-shopping-basket" aria-hidden="true"></i> </span>   Đơn hàng của tôi</a></li>
+                                                          <li><a href="#"><span><i class="fa fa-commenting" aria-hidden="true"></i> </span>   Nhận xét</a></li>
+                                                          <li><a href='/User/Logout'><span><i class="fa fa-sign-out" aria-hidden="true"></i></span>   Đăng xuất</a></li>
+                                                        </ul>
+                                                      </li>`;
+                        $('.navbar-right').prepend(row);
+
+                        // thêm đến một cái nào đó có sẵn rồi dùng .prependTo
+                    }
+                    else {
+                        $('.logout').show();
+                        $('.login').show();
+
+                    }
+                },
+                error: function (e) {
+
+                }
+            });
+
+        });
+    </script>
+
+
+
     @*đăng nhập*@
     <script type="text/javascript">
         $(document).ready(function () {
@@ -124,7 +188,8 @@
                             });
                         }
                         else {
-                            $("#myModal").modal('hide');
+                            $("#loginModal").modal('hide');
+                            location.reload();
                         }
                     },
                     error: function (e) {
@@ -136,76 +201,93 @@
         })
     </script>
 
+    @*format money*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            Number.prototype.format = function (n, x) {
+                var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+                return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+            };
+        });
+
+    </script>
 
     @*thêm sản phẩm vào giỏ hàng*@
     <script>
         $(document).ready(function () {
-
+            //set seession ở controller và lấy session ở view
             var total = 0;
             $("#add-cart").click(function () {
+                var checkLogin = '@Request.RequestContext.HttpContext.Session["user"]';
+                if (checkLogin == '') {
+                    alert("Bạn phải đăng nhập để được mua hàng");
+                }
+                else {
+                    $("#cartModal").modal('show');
 
-                $("#cartModal").modal('show');
+                    var id = $('#id_sanpham').val();
+                    $('#new-cart').html('');
+                    $('#totalQuantity').text();
+                    $.ajax({
+                        async: false,
+                        url: '/Cart/createProduct',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { id },
+                        success: function (data) {
+                            var row = `<span style='color:#4caf50;font-size: 18px;'> 1 sản phẩm mới đã được thêm vào giỏ hàng </span>
+                                                                               <div class="cart-item" style='postion:relative;bottom:5px'>
+                                                                                    <div class='cart-item-left'><img width='80px' height='80px' src='${data.productCart.HinhAnh}'/></div>
+                                                                                    <div class='cart-item-right'>
+                                                                                         <p>${data.productCart.TenSanPham}</p>
+                                                                                         <p class="relate-info"><span>${data.productCart.loaisp}</span>,<span>${data.productCart.KichThuoc}</span>,<span>${data.productCart.MauSac}</span></p>
+                                                                                         <p style='color:orange;'>${data.productCart.giagiam} đ</p>
+                                                                                         <p><span class='price' >${data.productCart.giagoc} đ</span>,<span>-${data.productCart.phantramgiamgia}%</span></p>
 
-                var id = $('#id_sanpham').val();
-                $('#new-cart').html('');
-                $('#totalQuantity').text();
-                $.ajax({
-                    async: false,
-                    url: '/Cart/createProduct',
-                    type: 'GET',
-                    dataType: 'json',
-                    data: { id },
-                    success: function (data) {
-                        var row = `<span style='color:#4caf50;font-size: 18px;'> 1 sản phẩm mới đã được thêm vào giỏ hàng </span>
-                                                               <div class="cart-item" style='postion:relative;bottom:5px'>
-                                                                    <div class='cart-item-left'><img width='80px' height='80px' src='${data.productCart.HinhAnh}'/></div>
-                                                                    <div class='cart-item-right'>
-                                                                         <p>${data.productCart.TenSanPham}</p>
-                                                                         <p class="relate-info"><span>${data.productCart.loaisp}</span>,<span>${data.productCart.KichThuoc}</span>,<span>${data.productCart.MauSac}</span></p>
-                                                                         <p style='color:orange;'>${data.productCart.giagiam} đ</p>
-                                                                         <p><span class='price' >${data.productCart.giagoc} đ</span>,<span>-${data.productCart.phantramgiamgia}%</span></p>
+                                                                                    </div>
+                                                                                </div>`;
 
-                                                                    </div>
-                                                                </div>`;
+                            $('#new-cart').append(row);
 
-                        $('#new-cart').append(row);
+                            if (data.productCart.phantramgiamgia == 0) {
+                                $('.cart-item-right p').last().hide();
+                            }
 
-                        if (data.productCart.phantramgiamgia == 0) {
-                            $('.cart-item-right p').last().hide();
+                            if (data.totalQuantity > 0) {
+
+                                $('#totalQuantity').text(data.totalQuantity);
+                            }
+
+                        }, error: function (e) {
+
+                        }
+                    });
+
+
+                    $('#load-cart').html("");
+                    $.ajax({
+                        async: false,
+                        url: '/Cart/stateProductCars',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (data) {
+                            var row = `<p style='font-size:18px;'> Giỏ hàng của bạn hiện tại có :<span >${data.quantity} sản phẩm<span> </p>
+                                                                            <p ><span style='font-size:12px;line-height: 16px;color: #757575;'> Tạm tính<span>:<span class="temporary-price"> ${data.money.format()} đ</span></p>
+                                                                            <p> Tổng tiền:<span class='total'> ${data.money.format()} đ</span></p>
+
+                                                                           `;
+                            $('#load-cart').append(row);
+                        }, error: function (e) {
+
                         }
 
-                        if (data.totalQuantity > 0) {
+                    });
 
-                            $('#totalQuantity').text(data.totalQuantity);
-                        }
-
-                    }, error: function (e) {
-
-                    }
-                });
-
-
-                $('#load-cart').html("");
-                $.ajax({
-                    async: false,
-                    url: '/Cart/stateProductCars',
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-                        var row = `<p style='font-size:18px;'> Giỏ hàng của bạn hiện tại có :<span >${data.quantity} sản phẩm<span> </p>
-                                                            <p ><span style='font-size:12px;line-height: 16px;color: #757575;'> Tạm tính<span>:<span class="temporary-price"> ${data.money.format()} đ</span></p>
-                                                            <p> Tổng tiền:<span class='total'> ${data.money.format()} đ</span></p>
-
-                                                           `;
-                        $('#load-cart').append(row);
-                    }, error: function (e) {
-
-                    }
-
-                });
+                }
             });
 
-            // load right when add
+            // load số lượng giỏ hàng cho icon
             $.ajax({
                 async: false,
                 url: '/Cart/stateProductCars',
@@ -232,8 +314,17 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
+            var arraydelete = [];
             $('.delete-item').click(function () {
                 $("#deleteMoadalItem").modal('show');
+                var value = $(this).parents(".item-product-cart").children("#value-product").val();
+
+                arraydelete.push(value);
+                if (arraydelete.length > 1) {
+                    arraydelete.shift();
+                }
+                sessionStorage.setItem("item_delete", JSON.stringify(arraydelete));
+
             });
 
             $('#delete-all').click(function () {
@@ -245,16 +336,74 @@
 
     </script>
 
+
+    @*thanh toán*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#btn-payment').click(function () {
+
+                var sumCheck = 0;
+                var id = '';
+                $('.item-product-cart input[type = "checkbox"]').each(function () {
+                    if (this.checked) {
+                        sumCheck++;
+                        id += $(this).val() + ',';
+                    }
+                })
+
+                var bool = false;
+                $('#Accumulated').click(function () {
+                    if (this.checked == true)
+                        bool = true;
+                })
+
+                if (sumCheck > 0) {
+                    window.location.href = "/PayForBill/fillFormCustomer/" + id + "?Accumulated=" + bool;
+                }
+
+
+
+            });
+
+        });
+
+
+    </script>
     <script type="text/javascript">
         $(document).ready(function () {
 
-            Number.prototype.format = function (n, x) {
-                var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
-                return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
-            };
-        });
+            var spansCounts = $('#rating span').length;
+            $('#rating span').each(function () {
+                if ($(this).index < 3) {
+                    $(this).css("color", "orange");
+                }
 
+            });
+
+            $('#rating span').click(function () {
+
+                var a = $(this).index();
+                console.log(a);
+
+                $('#rating span').css({ color: '' });
+
+                for (var i = 0; i < $(this).index() + 1; i++) {
+                    $('#rating span').eq(i).css("color", "orange");
+                }
+
+            });
+
+            $('#addComment').click(function () {
+
+                var a = 2;
+            });
+
+         
+
+        });
     </script>
+
+
 
     @RenderSection("ScriptSection", false)
 </body>
