@@ -1,13 +1,11 @@
-﻿@model IEnumerable<WebSiteBanHang.Areas.Admin.ViewModels.CT_PhieuDatHangNCCViewModel>
+﻿@model WebSiteBanHang.Areas.Admin.ViewModels.PhieuDatHang_NCCViewModel
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
-// TextBox chỉ cho xem k cho sửa
-// Sau khi click Edit Button, cho sửa và khi click Save mới lưu.
-// Lập phiếu hàng button: link tới trang lập phiếu nhận hàng (cho show,edit, delete như phiếu đặt)
-// Sau khi lập phiếu nhập, cần qtam SL tồn của SP +=SL nhập. 
+
+
 <style>
     .table-admin {
         border: 1px solid #ddd;
@@ -32,79 +30,234 @@
         color: #4169E1;
     }
 
-    .Bang {
+    /*.Bang {
         background: none;
         border-top: none;
+    }*/
+    .title {
+        color: #0b77d6;
+        font-size: 16px;
+        text-align: center;
+        font-weight: bold;
     }
 </style>
-<h2>CHI TIẾT ĐẶT HÀNG</h2>
-<div class="col-sm-12">
-    <div class="form-group" >
-        <div class=" col-md-12" style="padding-bottom:10px">
-            <input type="submit" value="Lập phiếu nhập" class="btn btn-danger" /> //Lập phiếu nhập hàng vào kho
-            <input type="submit" value="Xuất đơn đặt hàng" class="btn btn-success" /> // xuất file Excel
+<h2>CHI TIẾT ĐƠN HÀNG</h2>
+@*<div style="padding-bottom: 10px; padding-left: 15px;">
+        <a class="btn btn-success" href="/Admin/DatHangKH/PrintPdf/@Model.MaDatHang">Xuất hoá đơn</a>
+    </div>*@
+<div class="col-md-12">
+
+    <div class="box box-primary">
+        <div class="box-header">
         </div>
-        <div class="box Bang">
+        <div class="box-body">
+            <div class="col-md-6 ">
 
-            <div>
-                <table class="table table-bordered table-striped table-admin" role="grid">
-                    <tr>
+                <div class="form-group">
+                    <label class="col-md-4 col-xs-4 ">Mã phiếu đặt hàng:  </label>
+                    <p class="col-md-8">@Model.MaPhieuDat </p>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 col-xs-4 ">Tên nhà cung cấp: </label>
+                    <p class="col-md-8">@Model.TenNCC </p>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 col-xs-4 ">Người đặt:  </label>
+                    <p class="col-md-8">@Model.NguoiDat</p>
+                </div>
+            </div>
+            <div class="col-md-6">
 
-                        <th>
-                            Tên sản phẩm
-                        </th>
-                        <th>
-                            Số lượng
-                        </th>
+                <div class="form-group">
+                    <label class="col-md-4 col-xs-4 ">Ngày đặt:  </label>
+                    <p class="col-md-8">@Model.NgayDat </p>
+                </div>
 
-                        <th>
-                            Đơn giá
-                        </th>
-                        <th>
-                            Thành tiền
-                        </th>
-                        <th>Chức năng</th>
+                <div class="form-group">
+                    <label class="col-md-4 col-xs-4 ">Tổng tiền:  </label>
+                    <p class="col-md-8">@Model.TongTien</p>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="col-md-12">
+
+    <div class="box Bang">
+        <div class="box-body">
+            <table class="table table-bordered table-striped table-admin" role="grid">
+                <tr>
+                    <th>
+                        Tên sản phẩm
+                    </th>
+                    <th>
+                        Số lượng
+                    <th>
+                        Giá nhập
+                    </th>
+                    <th>
+                        Thành tiền
+                    </th>
+                    <th>Chức năng</th>
+                </tr>
+
+                @foreach (var item in Model.ChiTietPhieuDats)
+                {
+                    <tr id="data_@item.MaCTPhieuDat">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TenSanPham)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SL)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GiaNhap)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ThanhTien)
+                        </td>
+                        <td>
+                            <button class="btn btn-danger btn-edit-or-delete" value="@Model.TrangThai" onclick="xoaCTDH(@item.MaCTPhieuDat)">Xoá</button>
+                            <button type="button" class="btn btn-info btn-edit-or-delete" value="@Model.TrangThai" data-toggle="modal" data-target="#myModalDHNCC"
+                                    data-machitiet="@item.MaCTPhieuDat"
+                                    data-sanpham=" @item.TenSanPham"
+                                    data-soluong="@item.SL"
+                                   data-gianhap="@item.GiaNhap"
+                                    data-thanhtien="@item.ThanhTien">
+                                Sửa
+                            </button>
+                        </td>
                     </tr>
+                }
 
-                    @foreach (var item in Model)
-                    {
-                        <tr>
+            </table>
+        </div>
+    </div>
 
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TenSanPham)
-                            </td>
-
-                            <td>
-                                @Html.EditorFor(modelItem => item.SL)
-                            </td>
-
-                            <td>
-                                @Html.TextBoxFor(modelItem => item.GiaNhap)
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(modelItem => item.ThanhTien)
-                            </td>
-                            <td>
-                                <input type="button" value="Edit" class="btn btn-info"  />
-                                
-                                
-                                <input type="button" value="X" class="btn btn-danger" />
- 
-                            </td>
-                        </tr>
-
-                    }
-
-                </table>
-
-
-            </div>
-
-            <div class="col-md-offset-5 col-md-10">
-                <input type="submit" value="Save" class="btn btn-dropbox" />
-            </div>
-            <div class="CanhLe">
-                @Html.ActionLink("<< Quay lại danh sách", "Index")
+    <div class="modal fade" id="myModalDHNCC" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title title" id="exampleModalLabel">CHỈNH SỬA </h5>
+                </div>
+                <div class="modal-body">
+                    <form id="myFormDHNCC">
+                        <div class="form-group">
+                            <label for="soluong" class="col-form-label">Số lượng</label>
+                            <input type="number" min="1" class="form-control" id="soluong" name="soluong">
+                        </div>
+                        <div class="form-group">
+                            <label for="gianhap" class="col-form-label">Gía nhập</label>
+                            <input type="text" disabled="disabled" class="form-control" id="gianhap">
+                        </div>
+                        <div class="form-group">
+                            <label for="thanhtien" class="col-form-label">Thành tiền</label>
+                            <input type="text" disabled="disabled" class="form-control" id="thanhtien">
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" disabled="disabled" class="form-control" id="maChiTiet">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
+                    <button type="button" id="submit" onclick="suaChiTiet()" class="btn btn-primary">Cập nhật</button>
+                </div>
             </div>
         </div>
+    </div>
+    <div class="CanhLe">
+        @Html.ActionLink("<< Quay lại danh sách", "Index")
+    </div>
+</div>
 
+<script type="text/javascript">
+    function xoaCTDH(maCTDH) {
+        if (window.confirm("Bạn có muốn xoá không?")) { //ok
+            $.ajax({
+                method: "POST",
+                url: "/Admin/PhieuDatHang_NCC/DeleteDetail/" + maCTDH,
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data.StatusCode === 200) {
+                        var a = "#data_" + maCTDH;
+                        $(a).remove();
+                        toastr.success("Xóa thành công");
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(rrorThrown);
+                }
+            });
+
+        }
+    }
+   
+    $('#myModalDHNCC').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var sanPham = button.data('sanpham') // Extract info from data-* attributes
+        var soLuong = button.data('soluong')
+        var giaNhap = button.data('gianhap')
+        var maChiTiet = button.data('machitiet')
+
+        var thanhTien = soLuong * giaNhap
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        //modal.find('.modal-title').text('Chỉnh sửa ' + sanPham)
+        modal.find('#soluong').val(soLuong)
+        modal.find('#gianhap').val(giaNhap)
+        modal.find('#thanhtien').val(thanhTien)
+        modal.find('#maChiTiet').val(maChiTiet)
+    })
+
+    $('#soluong').on('input', function () {
+        var sl = $('#soluong').val()
+        var gia = $('#gianhap').val()
+        $('#thanhtien').val(sl * gia)
+    });
+
+    function suaChiTiet() {
+        var dom = document.getElementById("myFormDHNCC")
+        var formData = new FormData(dom)
+        var maChiTiet = $('#maChiTiet').val()
+        $("#submit").attr("disabled", true);
+        $.ajax({
+            method: "POST",
+            url: "/Admin/PhieuDatHang_NCC/UpdateCtDatHang/" + maChiTiet,
+            //contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: formData,
+            processData: false,
+            contentType: false,
+
+            success: function (data) {
+                if (data) {
+                    toastr.success("Sửa thành công");
+                    $("#submit").attr("disabled", false);
+                    $('#myModalDHNCC').modal('hide')
+                    
+                    window.location.reload();
+                   
+                } else {
+                    toastr.error("Có lỗi trong quá trình xử lý");
+                    $("#submit").attr("disabled", false);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                toastr.error(errorThrown);
+                $("#submit").attr("disabled", false);
+            }
+        });
+    }
+    //debugger
+    if ($('.btn-edit-or-delete').val() !== 'Đang xử lý') {
+        $('.btn-edit-or-delete').attr('disabled', true)
+    }
+
+</script>

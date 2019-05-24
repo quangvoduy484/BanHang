@@ -36,7 +36,7 @@ namespace WebSiteBanHang.Services
                 .Where(t => t.TBL_GROUP_LOGINs.All(x => x.ID_GROUP != idgroup && x.ACTIVATE != false)).ToList();
         }
 
-        //Thêm account mới vào nhóm
+        //Thêm group
         public void AddGroup(TBL_GROUP model)
         {
             model.ACTIVATE = true;
@@ -45,14 +45,8 @@ namespace WebSiteBanHang.Services
             context.SaveChanges();
         }
 
-        //Thêm account mới vào nhóm
-        //public void AddGroup(TBL_GROUP model)
-        //{
-        //    model.ACTIVATE = true;
+        
 
-        //    context.TBL_GROUPs.Add(model);
-        //    context.SaveChanges();
-        //}
 
         // Thêm account mới vào nhóm -final
         public bool Add(int id, PhanNhomNVViewModel model)
@@ -78,41 +72,50 @@ namespace WebSiteBanHang.Services
         }
 
         //Thêm account mới
-        public void AddAccount(PhanNhomNVViewModel model)
+        public void AddAccount(TBL_LOGIN model)
         {
-            var newemp = new TBL_LOGIN
-            {
-                USERNAME = model.TenNV,
-                PHONE = model.SDT,
-                EMAIL = model.Email,
-                PASSWORD = model.PassWord,
-                ISADMIN = false,
-                ACTIVATE = true,
-                CREATED_DATE = DateTime.Now,
-                CREATED_BY = HttpContext.Current.User.Identity.Name
-            };
 
-            context.TBL_LOGINs.Add(newemp);
+            model.ISADMIN = false;
+            model.ACTIVATE = true;
+            model.CREATED_DATE = DateTime.Now;
+            model.CREATED_BY = HttpContext.Current.User.Identity.Name;
+        context.TBL_LOGINs.Add(model);
             context.SaveChanges();
+
+        }
+        public List<QuyenDropDownViewModel> GetAllDropDownList(string search, int idgroup)
+        {
+
+            var Quyens = context.TBL_ROLEs
+                 .Where(t => t.ACTIVATE != false)
+                 .Where(t => t.TBL_GROUP_ROLEs.All(x => x.ID_GROUP != idgroup && x.ACTIVATE != false));
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                Quyens = Quyens.Where(t => t.ROLE_NAME.Contains(search));
+
+            }
+            var result = Quyens.OrderBy(t => t.ROLE_NAME)
+                .Take(30)
+                .Select(t => new QuyenDropDownViewModel()
+                {
+                    id = t.ID,
+                    text = t.ROLE_NAME,
+                }).ToList();
+
+            return result;
         }
 
-        //public PhanNhomNVViewModel FindById(int? id)
-        //{
-        //    var nv= context.TBL_LOGINs
-        //        .Include(t => t.TBL_GROUP_LOGINs)
-        //        .Where(t => t.ACTIVATE != false)
-        //        .Where(t => t.TBL_GROUP_LOGINs.All(x => x.ID_GROUP != id && x.ACTIVATE != false))
-        //         .Select(t => new PhanNhomNVViewModel()
-        //         {
-        //             TenNV=t.USERNAME,
-
-        //             NhanVienDropdowns = t.TBL_GROUP_LOGINs.Select(x => new NhanVienDropDownViewModel()
-        //             {
-        //                 id = x.USERNAME,
-        //                 text = x.USERNAME,
-        //             }).ToList()
-        //         }).FirstOrDefault();
-        //    return nv;
-        //}
+        public bool Delete(int maNhom)
+        {
+            TBL_GROUP groupExist = context.TBL_GROUPs.Find(maNhom);
+            if (groupExist == null)
+            {
+                return false;
+            }
+            context.TBL_GROUPs.Remove(groupExist);
+            context.SaveChanges();
+            return true;
+        }
     }
 }

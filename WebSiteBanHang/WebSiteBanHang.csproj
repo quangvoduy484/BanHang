@@ -199,6 +199,8 @@
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\DatHangKHController.cs" />
     <Compile Include="Areas\Admin\Controllers\GiaSanPhamController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NhomQuyenController.cs" />
+    <Compile Include="Areas\Admin\Controllers\QuyenController.cs" />
     <Compile Include="Areas\Admin\Controllers\HoaDonGiaoHangController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhachHangController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhuyenMaiController.cs" />
@@ -223,8 +225,10 @@
     <Compile Include="Areas\Admin\ViewModels\NhaCungCapViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\NhanVienDropDownViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PhanNhomNVViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\PhanQuyenNVViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PhieuDatHang_NCCViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PhieuNhapHang_NCCViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\QuyenDropDownViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ReponseMessage.cs" />
     <Compile Include="Areas\Admin\ViewModels\ResponseUploadImageModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\SanPhamDropDownViewModel.cs" />
@@ -328,6 +332,10 @@
     <Compile Include="Migrations\201905190017455_update-dvb.Designer.cs">
       <DependentUpon>201905190017455_update-dvb.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905230715210_add-TrangThai-PhieuDatHang.cs" />
+    <Compile Include="Migrations\201905230715210_add-TrangThai-PhieuDatHang.Designer.cs">
+      <DependentUpon>201905230715210_add-TrangThai-PhieuDatHang.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BanHangContext.cs" />
     <Compile Include="Models\CHITIETDATHANG.cs" />
@@ -361,6 +369,8 @@
     <Compile Include="Services\CT_PhieuDatHangNCCService.cs" />
     <Compile Include="Services\DatHangKHService.cs" />
     <Compile Include="Services\GiaSPService.cs" />
+    <Compile Include="Services\NhomQuyenService.cs" />
+    <Compile Include="Services\QuyenService.cs" />
     <Compile Include="Services\HoaDonGiaoHang.cs" />
     <Compile Include="Services\KhachHangService.cs" />
     <Compile Include="Services\KhuyenMaiService.cs" />
@@ -6119,6 +6129,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\GiaSanPham\" />
+    <Folder Include="Areas\Admin\Views\Group\" />
     <Folder Include="Areas\Admin\Views\HoaDonGiaoHang\" />
     <Folder Include="Content\Template\bower_components\bootstrap-duallistbox\" />
     <Folder Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\" />
@@ -6176,7 +6187,6 @@
     <Content Include="Areas\Admin\Views\PhieuDatHang_NCC\Index.cshtml" />
     <Content Include="Areas\Admin\Views\DatHangKH\Index.cshtml" />
     <Content Include="Areas\Admin\Views\DatHangKH\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\PhieuDatHang_NCC\Details.cshtml" />
     <Content Include="Areas\Admin\Views\DatHangKH\Create.cshtml" />
     <Content Include="Areas\Admin\Views\PhieuDatHang_NCC\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CT_PhieuDatHangNCC\Edit.cshtml" />
@@ -6189,7 +6199,10 @@
     <Content Include="Areas\Admin\Views\PhanNhomNV\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PhanNhomNV\Create.cshtml" />
     <Content Include="Areas\Admin\Views\PhanNhomNV\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\NhomQuyen\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\NhomQuyen\Create.cshtml" />
     <Content Include="Areas\Admin\Views\NhanVien\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuDatHang_NCC\Details.cshtml" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -6270,6 +6283,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905190017455_update-dvb.resx">
       <DependentUpon>201905190017455_update-dvb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905230715210_add-TrangThai-PhieuDatHang.resx">
+      <DependentUpon>201905230715210_add-TrangThai-PhieuDatHang.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebSiteBanHang.Areas.Admin.ViewModels;
+using WebSiteBanHang.Models;
 using WebSiteBanHang.Services;
 
 namespace WebSiteBanHang.Areas.Admin.Controllers
@@ -28,8 +29,8 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
 
         public ActionResult GetNhanViens(string search,int id)
         {
-            var sanPhams = nv.GetAllDropDownList(search,id);
-            return Json(sanPhams, JsonRequestBehavior.AllowGet);
+            var nhanViens = nv.GetAllDropDownList(search,id);
+            return Json(nhanViens, JsonRequestBehavior.AllowGet);
         }
         // GET: Admin/NhanVien/Details/5
         public ActionResult Details(int id)
@@ -38,6 +39,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         }
 
         // GET: Admin/NhanVien/Create
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
@@ -54,7 +56,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                 if (ModelState.IsValid)
                 {
                     nv.Add(collection);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index","PhanNhomNV");
                 }
                 return View(collection);
             }
@@ -63,6 +65,8 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                 return View();
             }
         }
+
+
 
         // GET: Admin/NhanVien/Edit/5
         public ActionResult Edit(int id)
@@ -85,6 +89,8 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                 return View();
             }
         }
+
+       
 
         // GET: Admin/NhanVien/Delete/5
         //public ActionResult Delete(int id)

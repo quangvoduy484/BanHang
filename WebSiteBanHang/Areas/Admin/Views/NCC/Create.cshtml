@@ -4,15 +4,28 @@
     ViewBag.Title = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
+<style>
+    * {
+        font-size: 14px;
+    }
+
+    label {
+        font-weight: initial;
+    }
+
+    h2, h4 {
+        color: blue;
+    }
+</style>
 <center>
-    <h2>Create</h2>
+    <h2>Thêm Nhà cung cấp</h2>
 </center>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>NHACUNGCAP</h4>
+       
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">

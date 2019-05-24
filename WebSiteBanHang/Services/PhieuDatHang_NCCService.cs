@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
-
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -50,7 +50,7 @@ namespace WebSiteBanHang.Services
                     break;
                 case "TrangThai":
                     model = dirBy == "desc" ? model.OrderByDescending(t => t.TRANGTHAI)
-                            : model.OrderBy(t => t.NHACUNGCAP.TRANGTHAI);
+                            : model.OrderBy(t => t.TRANGTHAI);
                     break;
                 case "NgayDat":
                     model = dirBy == "desc" ? model.OrderByDescending(t => t.NGAYDAT)
@@ -88,32 +88,41 @@ namespace WebSiteBanHang.Services
             };
         }
 
-        //internal void Add(PhieuDatHang_NCCViewModel collection)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
-        public List<CT_PhieuDatHangNCCViewModel> GETCTDH_NCC(int id)
+
+
+        public PhieuDatHang_NCCViewModel GetChiTietDatHangs(int id)
         {
 
-            var chiTiets = context.CT_PHIEUDATNCCs.Where(t => t.MAPHIEUDAT == id)
-                .Select(t => new CT_PhieuDatHangNCCViewModel()
-                {
-                    NgayDat=t.PHIEUDATHANG_NCC.NGAYDAT,
-                    TenNguoiDat=t.PHIEUDATHANG_NCC.NGUOIDAT,
-                    TenSanPham = t.SANPHAM.TenSanPham,
-                    SL = t.SOLUONG,
-                    GiaNhap=t.GIANHAP,
-                    ThanhTien=t.THANHTIEN,
-                    TongTien=t.PHIEUDATHANG_NCC.TONGTIEN,
-                    MaSP = t.SANPHAM.Id_SanPham,
-                    MaNCC=t.PHIEUDATHANG_NCC.MANCC,
-                 
- 
-                }).ToList();
-            return chiTiets;
+            var datHang = context.PHIEUDATHANG_NCCs
+                  .Where(t => t.MAPHIEUDAT == id)
+                  .Select(t => new PhieuDatHang_NCCViewModel()
+                  {
+                    MaPhieuDat=t.MAPHIEUDAT,
+                    TenNCC=t.NHACUNGCAP.TENNCC,
+                    NgayDat=t.NGAYDAT,
+                    NguoiDat=t.NGUOIDAT,
+                    TongTien=t.TONGTIEN,
+                      //thong tin them
+
+                      TrangThai = t.TRANGTHAI == 0 ? TinhTrangDatHang.DaHuy :
+                        (t.TRANGTHAI == 1 ? TinhTrangDatHang.DangXyLy : TinhTrangDatHang.DaGiao),
+                      ChiTietPhieuDats = t.CT_PHIEUDATNCC.Where(k=> k.TRANGTHAI !=0)
+                      .Select(k => new CT_PhieuDatHangNCCViewModel()
+                      {
+                          TenSanPham = k.SANPHAM.TenSanPham,
+                          MaCTPhieuDat = k.MACTPD,
+                          SL = k.SOLUONG,
+                          GiaNhap = k.GIANHAP,
+                          ThanhTien = k.SOLUONG * k.GIANHAP,
+                      }).ToList(),
+                  })
+                  .FirstOrDefault();
+            if (datHang == null) return null;
+            return datHang;
+
         }
-       
+
         public List<NHACUNGCAP> GetAllNCC()
         {
             return context.NHACUNGCAPs.ToList();
@@ -192,7 +201,83 @@ namespace WebSiteBanHang.Services
             context.SaveChanges();
             return true;
         }
+        //Xóa chi tiết đơn đặt hàng
+        public bool DeleteDetail(int maCTDH)
+        {
+            CT_PHIEUDATNCC CTDHExit = context.CT_PHIEUDATNCCs.FirstOrDefault(t=>t.TRANGTHAI!=0 && t.MACTPD == maCTDH);
+            if (CTDHExit == null)
+            {
+                return false;
+            }
+            CTDHExit.TRANGTHAI = 0;
+            // update tong tien
+            //lay dat hang
 
+            //var datHang = context.PHIEUDATHANG_NCCs
+            //          .Include(t => t.CT_PHIEUDATNCCs)
+            //         .FirstOrDefault(t => t.MAPHIEUDAT == CTDHExit.MACTPD && t.TRANGTHAI != 0);
+            //if (datHang == null)
+            //{
+            //    return false;
+            //}
+
+            ////////tinh tong tien
+
+            //var newTongTien = datHang.CT_PHIEUDATNCC.Where(t => t.TRANGTHAI == 1).
+            //    Sum(t => t.SOLUONG * t.GIANHAP);
+
+            ////update tong tien
+
+            //datHang.TONGTIEN = newTongTien;
+
+            //save
+            context.SaveChanges();
+            return true;
+        }
+        // Cập nhật chi tiết đơn hàng
+        public bool UpdateCTDH(CT_PhieuDatHangNCCViewModel model)
+        {
+            CT_PHIEUDATNCC CTDHExit = context.CT_PHIEUDATNCCs.FirstOrDefault(t => t.TRANGTHAI != 0 && t.MACTPD == model.MaCTPhieuDat);
+            if (CTDHExit == null)
+            {
+                return false;
+            }
+            CTDHExit.SOLUONG = model.SL;
+            CTDHExit.GIANHAP = model.GiaNhap;
+            CTDHExit.THANHTIEN = model.SL * CTDHExit.GIANHAP;
+            var datHang = context.PHIEUDATHANG_NCCs
+                   //.Include(t => t.PHIEUDATHANG_NCC)
+                   .FirstOrDefault(t => t.MAPHIEUDAT == CTDHExit.MAPHIEUDAT && t.TRANGTHAI == 1);
+            if (datHang == null)
+            {
+                return false;
+            }
+
+            //tinh tong tien
+
+            //var newTongTien = datHang.CT_PHIEUDATNCC.Where(t => t.TRANGTHAI != 0).
+            //    Sum(t => t.SOLUONG * t.GIANHAP);
+
+            ////update tong tien
+
+            //datHang.TONGTIEN = newTongTien;
+
+            ////save
+            context.SaveChanges();
+            return true;
+        }
+        // Xóa đơn đặt hàng
+        public bool DeleteDatHangNCC(int maDatHang)
+        {
+            PHIEUDATHANG_NCC datHangExist = context.PHIEUDATHANG_NCCs.FirstOrDefault(t => t.TRANGTHAI == 1 && t.MAPHIEUDAT == maDatHang);
+            if (datHangExist == null)
+            {
+                return false;
+            }
+            datHangExist.TRANGTHAI = 0;
+            context.SaveChanges();
+            return true;
+        }
 
     }
 }

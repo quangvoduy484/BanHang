@@ -143,9 +143,9 @@
                                         <i class="fa fa-search-plus"></i>
                                      </a>
                                      <a class="btn btn-info" href="/Admin/CT_PhieuDatHangNCC/Edit/${data}">
-                                        <i class="fa fa-edit"></i>
+                                        <i class="fa fa-edit"></i> 
                                      </a>
-                                     <a class="btn btn-danger" onclick="xoaDatHangKH(${data})">
+                                     <a class="btn btn-danger" onclick="xoaDatHangNCC(this)">
                                          <i class="fa fa-trash-o"></i>
                                      </a>
                                  </div> `
@@ -154,6 +154,34 @@
             ],
 
         });
+    }
+
+    function xoaDatHangNCC(data) {
+        var table = $('#pdh_ncc').DataTable();
+        var data_row = table.row($(data).closest('tr')).data();
+        if (data_row.TrangThai !== "Đang xử lý") {
+            toastr.error("Đơn hàng này không thể xóa");
+            return;
+        }
+        if (window.confirm("Bạn có muốn huỷ đơn hàng này không?")) {
+
+            $.ajax({
+                method: "POST",
+                url: "/Admin/PhieuDatHang_NCC/Delete/" + data_row.MaPhieuDat,
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data.StatusCode === 200) {
+                        toastr.success("Huỷ đơn hàng thành công");
+                        $('#pdh_ncc').DataTable().ajax.reload();
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(errorThrown);
+                }
+            });
+        }
     }
 </script>
 

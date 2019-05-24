@@ -69,8 +69,8 @@ namespace WebSiteBanHang.Services
                 {
                     MaPhieuDat = t.MAPHIEUDAT,
                     TongTien = t.TONGTIEN,
-                    NguoiDat = t.PHIEUDATHANG_NCC.NGUOIDAT,
-                    NgayDat = t.PHIEUDATHANG_NCC.NGAYDAT,
+                    //NguoiDat = t.PHIEUDATHANG_NCC.NGUOIDAT,
+                    //NgayDat = t.PHIEUDATHANG_NCC.NGAYDAT,
                     TrangThai = t.TRANGTHAI == 0 ? TinhTrangDatHang.DaHuy :
                                     (t.TRANGTHAI == 1 ? TinhTrangDatHang.DangXyLy : TinhTrangDatHang.DaNhan)
 
@@ -84,5 +84,8 @@ namespace WebSiteBanHang.Services
                 data = data
             };
         }
+
+       
+        
     }
 }

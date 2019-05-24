@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebSiteBanHang.Areas.Admin.ViewModels;
@@ -53,15 +54,33 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                 return Json(er);
             }
         }
+
+        [HttpPost]
+        public ActionResult AddAccount(TBL_LOGIN collection)
+        {
+            try
+            {
+                // TODO: Add insert logic here
+
+                if (ModelState.IsValid)
+                {
+                    PNService.AddAccount(collection);
+                    return RedirectToAction("Index");
+                }
+                return View(collection);
+            }
+            catch
+            {
+                return View();
+            }
+        }
         // GET: Admin/PhanNhomNV/Create
         public ActionResult Create(int id)
         {
-            var nv = PNService.GetNV(id);
-            SelectList listNV = new SelectList(nv, "USERNAME", "USERNAME");
-            ViewBag.listNV = listNV;
-            var nhom = PNService.getNhom();
-            SelectList listNhom = new SelectList(nhom, "ID", "GROUPNAME");
-            ViewBag.listNhom = listNhom;
+            //var nv = PNService.GetNV(id);
+            //SelectList listNV = new SelectList(nv, "USERNAME", "USERNAME");
+            //ViewBag.listNV = listNV;
+            
             ViewBag.idgroup = id;
             return View();
         }
@@ -77,9 +96,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                 if (ModelState.IsValid)
                 {
                     PNService.Add(id, collection);
-                    //var nv = PNService.GetNV();
-                    //SelectList listNV = new SelectList(nv, "USERNAME", "USERNAME");
-                    //ViewBag.listNV = listNV;
+                    
                     return RedirectToAction("Index");
 
                 }
@@ -92,70 +109,34 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             }
         }
 
-        
-        [HttpPost]
-        public ActionResult CreateAccount(PhanNhomNVViewModel collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                if (ModelState.IsValid)
-                {
-                    PNService.AddAccount(collection);
-                    ViewBag.Message("Thêm thành công");
-                    return RedirectToAction("Index");
-                }
-                return View(collection);
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Admin/PhanNhomNV/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Admin/PhanNhomNV/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Admin/PhanNhomNV/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
 
         // POST: Admin/PhanNhomNV/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id)
         {
+            var result = new ReponseMessage();
             try
             {
+                var kq = PNService.Delete(id);
+                if (kq == false)
+                {
+                    result.Message = "Không tìm thấy loại nhóm";
+                    result.StatusCode = HttpStatusCode.NotFound;
+                    return Json(result);
+                }
+                result.StatusCode = HttpStatusCode.OK;
+                
+                return Json(result);
                 // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                result.Message = "Có lỗi trong quá trình xử lý";
+                result.StatusCode = HttpStatusCode.ExpectationFailed;
+                return Json(result);
             }
         }
+
     }
 }

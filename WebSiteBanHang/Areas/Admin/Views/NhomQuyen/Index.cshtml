@@ -1,0 +1,99 @@
+﻿@model IEnumerable<WebSiteBanHang.Areas.Admin.ViewModels.PhanQuyenNVViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+<div class="col-md-12">
+    <table id="manhinh" class="table table-bordered table-striped table-admin" role="grid">
+        <tr>
+
+            <th>
+                Tên màn hình
+            </th>
+
+            <th>Chức năng</th>
+        </tr>
+        <tbody class="tbody"> </tbody>
+    </table>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //var nav = $('.content-nav');
+        //if (nav.length) {
+        //    var contentNav = nav.offset().top;
+        //}
+        $(document).on('load', loadGridView());
+
+        //config toastr
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "2000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    });
+    var id=@ViewBag.ID_Group;
+    function loadGridView() {
+        $('#manhinh').DataTable({
+
+            serverSide: true,
+            ajax: {
+                url: "/Admin/NhomQuyen/getall/"+id,
+                type: "POST",
+                dataType: "JSON",
+            },
+            language: {
+                lengthMenu: "Hiển thị _MENU_ mục",
+                zeroRecords: "Không tìm thấy ",
+                info: "Hiển thị trang _PAGE_ đến _PAGES_ của _MAX_ mục",
+                infoEmpty: "Không có dữ liệu",
+                infoFiltered: "(lọc từ _MAX_ tổng mục)",
+                search: "Tìm kiếm",
+                searchPlaceholder: "Search...",
+            },
+            columns: [
+
+                { title: "Tên màn hình", data: "RoleName" },
+
+                {
+                    title: "Chức năng",
+                    data: function (data, type, dataToSet) {
+                        return data.ID_GROUP + "," + data.ID_ROLE;
+                    },
+                    //var abc = split;
+                    //var manhom = abc[0];
+                    //var userName = abc[1];
+                    searchable: false,
+                    sortable: false,
+                    render: function (data, type, full, meta) {
+                        return `<div>
+
+                                     <a class="btn btn-danger" onclick="DeleteAccFromGroup(${data})">
+                                         <i class="fa fa-trash-o"></i>
+                                     </a>
+                                 </div> `
+
+                    }
+                }
+            ],
+
+        });
+    }
+
+
+</script>

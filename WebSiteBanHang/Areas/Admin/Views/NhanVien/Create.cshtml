@@ -4,39 +4,57 @@
     ViewBag.Title = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
-<center><h2>THÊM TÀI KHOẢN</h2> </center>
+<style>
+    * {
+        font-size: 14px;
+    }
 
+    label {
+        font-weight: initial;
+    }
+
+    h2 {
+        color: blue;
+        text-align:center;
+    }
+</style>
+<h2>Thêm Account</h2>
 
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
+    <div class="form-horizontal col-md-offset-2">
+      
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        
+      
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TenNV,"Tên đăng nhập", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                <h4>UserName</h4> 
+            </div>
+           
             <div class="col-md-4">
                 @Html.EditorFor(model => model.TenNV, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TenNV, "", new { @class = "text-danger" })
             </div>
         </div>
 
-       
-
         <div class="form-group">
-            @Html.LabelFor(model => model.PassWord,"Mật khẩu", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                <h4> Password</h4>
+            </div>
             <div class="col-md-4">
-                @Html.PasswordFor(model => model.PassWord, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PassWord, "", new { @class = "text-danger" })
+                @Html.PasswordFor(model => model.PassWord, new { htmlAttributes = new { @class = "form-control", onkeypress = "return isNumberKey(event)" }
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Email,"Email", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                <h4> Email</h4> 
+            </div>
             <div class="col-md-4">
                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
@@ -44,7 +62,9 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SDT,"Số điện thoại", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                <h4>Phone </h4> 
+            </div>
             <div class="col-md-4">
                 @Html.EditorFor(model => model.SDT, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.SDT, "", new { @class = "text-danger" })
@@ -52,16 +72,26 @@
         </div>
 
         
+         
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" id="sb" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-success" />
             </div>
         </div>
     </div>
 }
 
-<div class="col-md-offset-2">
-    @Html.ActionLink("<<Back to List", "/Admin/PhanNhomNV/Index")
+<div>
+    @Html.ActionLink("<Back to List>", "Index")
 </div>
+<script>
+
+    function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+</script>
 

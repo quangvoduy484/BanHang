@@ -8,13 +8,14 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
     public class PhieuNhapHang_NCCViewModel
     {
         public int MaPhieuDat { get; set; }
-        public int MaNCC { get; set; }
-        public string TenNCC { get; set; }
-        public DateTime? NgayDat { get; set; }
-        public string NguoiDat { get; set; }
+      
         public decimal TongTien { get; set; }
         public string TrangThai { get; set; }
+
+        public string NguoiNhap { get; set;}
+        public DateTime? NgayNhap { get; set; }
         
-        public List<CT_PhieuNhapHangNCCViewModel> cT_PhieuNhapHangNCCs { get; set;}
+        public List<CT_PhieuNhapHangNCCViewModel> ChiTietPhieuNhaps { get; set;}
+        public List<PhieuDatHang_NCCViewModel> ChiTietPhieuDats { get; set; }
     }
 }

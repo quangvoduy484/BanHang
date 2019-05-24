@@ -1,4 +1,4 @@
-﻿@model WebSiteBanHang.Models.TBL_GROUP_LOGIN
+﻿@model WebSiteBanHang.Models.TBL_GROUP_ROLE
 
 @{
     ViewBag.Title = "Create";
@@ -28,7 +28,6 @@
 
     h2, h4 {
         color: blue;
-        text-align:center;
     }
 </style>
 
@@ -37,34 +36,36 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Thêm nhân viên</h4>
+        <h4>Thêm quyền truy cập màn hình</h4>
         <hr />
-      
-        
+
+        <div class="form-group col-md-2">
+            Tên nhân viên
+        </div>
         <div class="form-group">
-            <label class="control-label col-md-2">Account</label>
+            <label class="control-label col-md-2">Màn hình</label>
             <div class="col-md-6">
-                <select class="form-control select2" name="NhanViens" multiple="multiple" data-placeholder="Chọn nhân viên" style="width: 100%"></select>
+                <select class="form-control select2" name="Quyens" multiple="multiple" data-placeholder="Chọn màn hình" style="width: 100%"></select>
             </div>
         </div>
     </div>
-   
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Thêm mới" class="btn btn-primary" />
-        </div>
-        }
 
-        <div>
-            @Html.ActionLink("Back to List", "Index")
-        </div>
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Thêm mới" class="btn btn-primary" />
+    </div>
+}
 
-        <script>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script>
         //select 2
         $('.select2').select2({
             ajax: {
                 delay: 100,
                 url: function (params) {
-                    var baseURL = '/admin/nhanvien/getnhanviens/'+ @ViewBag.idgroup;
+                    var baseURL = '/admin/quyen/getquyens/'+ @ViewBag.idgroup;
                     if (params && params.term) {
                         baseURL += "?search=" + params.term;
                     }
@@ -73,6 +74,7 @@
                 data: function (params) {
                     var query = {
                         search: params.term,
+                        
                     }
                 },
                 dataType: 'json',
@@ -84,4 +86,4 @@
                 }
             }
         });
-        </script>
+</script>

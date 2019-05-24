@@ -12,7 +12,7 @@ namespace WebSiteBanHang.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PHIEUDATHANG_NCC()
         {
-            CT_PHIEUDATNCC = new HashSet<CT_PHIEUDATNCC>();
+            CT_PHIEUDATNCCs = new HashSet<CT_PHIEUDATNCC>();
             PHIEUNHAP_NCC = new HashSet<PHIEUNHAP_NCC>();
         }
 
@@ -36,11 +36,11 @@ namespace WebSiteBanHang.Models
         public virtual NHACUNGCAP NHACUNGCAP { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CT_PHIEUDATNCC> CT_PHIEUDATNCC { get; set; }
+        public  ICollection<CT_PHIEUDATNCC> CT_PHIEUDATNCCs { get; set; }
         
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PHIEUNHAP_NCC> PHIEUNHAP_NCC { get; set; }
+        public  ICollection<PHIEUNHAP_NCC> PHIEUNHAP_NCC { get; set; }
     }
 
 }

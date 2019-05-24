@@ -22,6 +22,8 @@ namespace WebSiteBanHang.Models
          
         public decimal THANHTIEN { get; set; }
 
+        public int TRANGTHAI { get; set; }
+
         public virtual PHIEUDATHANG_NCC PHIEUDATHANG_NCC { get; set; }
 
         [ForeignKey("MASANPHAM")]

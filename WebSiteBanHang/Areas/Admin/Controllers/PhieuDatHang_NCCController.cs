@@ -34,7 +34,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         // GET: Admin/PhieuDatHang_NCC/Details/5
         public ActionResult Details(int id)
         {
-            var detail = PDHService.GETCTDH_NCC(id);
+            var detail = PDHService.GetChiTietDatHangs(id);
             return View(detail);
         }
 
@@ -86,10 +86,6 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             
         }
 
-      
-       
-       
-
     // GET: Admin/PhieuDatHang_NCC/Edit/5
     public ActionResult Edit(int id)
         {
@@ -113,20 +109,74 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         }
 
         // GET: Admin/PhieuDatHang_NCC/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult DeleteDetail(int id)
         {
-            return View();
+            var result = new ReponseMessage();
+            try
+            {
+                // TODO: Add delete logic here
+                var kq = PDHService.DeleteDetail(id);
+                if (kq == false)
+                {
+                    result.Message = "Không tìm thấy dữ liệu";
+                    result.StatusCode = HttpStatusCode.NotFound;
+                    return Json(result);
+                }
+                result.StatusCode = HttpStatusCode.OK;
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Có lỗi trong quá trình xử lý";
+                result.StatusCode = HttpStatusCode.ExpectationFailed;
+                return Json(result);
+            }
         }
 
         // POST: Admin/PhieuDatHang_NCC/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id)
         {
+            var result = new ReponseMessage();
             try
             {
                 // TODO: Add delete logic here
+                var kq = PDHService.DeleteDatHangNCC(id);
+                if (kq == false)
+                {
+                    result.Message = "Đơn hàng này không thể huỷ";
+                    result.StatusCode = HttpStatusCode.NotFound;
+                    return Json(result);
+                }
+                result.StatusCode = HttpStatusCode.OK;
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Có lỗi trong quá trình xử lý";
+                result.StatusCode = HttpStatusCode.ExpectationFailed;
+                return Json(result);
+            }
+        }
 
-                return RedirectToAction("Index");
+        //POST: Cập nhật chi tiết đơn đặt hàng
+        [HttpPost]
+        public ActionResult UpdateCtDatHang(int id, CT_PhieuDatHangNCCViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid && model?.SL > 0)
+                {
+                    // TODO: Add update logic here
+                    model.MaCTPhieuDat = id;
+                    var result = PDHService.UpdateCTDH(model);
+                    if (result == false)
+                    {
+                        return HttpNotFound();
+                    }
+                    return Json("success");
+                }
+                return View(model);
             }
             catch
             {

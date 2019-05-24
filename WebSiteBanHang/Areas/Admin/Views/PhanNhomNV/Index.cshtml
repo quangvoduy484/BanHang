@@ -36,8 +36,8 @@
     <div class="box Bang">
         <div style="padding-bottom: 10px; padding-left: 15px;">
 
-            <a class="btn btn-success" data-toggle="modal" data-target="#myModalGroup">Thêm Account</a>
-            <a class="btn btn-warning" data-toggle="modal" data-target="#myModalUser">Thêm Nhân viên</a>
+            <a class="btn btn-success" data-toggle="modal" data-target="#myModalGroup">Thêm nhóm</a>
+            <a class="btn btn-success" href="/Admin/NhanVien/Create">Thêm Account</a>
         </div>
     </div>
 
@@ -61,15 +61,17 @@
 
                 <td>
                     <a class="btn btn-primary" href="/Admin/NhanVien/Index/@item.ID">Nhân viên </a>
+                    <a class="btn btn-primary" href="/Admin/NhomQuyen/Index/@item.ID">Quyền</a>
                     <a class="btn btn-primary" href="/Admin/PhanNhomNV/Create/@item.ID">Thêm nhân viên</a>
-
-                </td>
+                    <a class="btn btn-primary" href="/Admin/NhomQuyen/Create/@item.ID">Thêm quyền</a>
+                    <a class="btn btn-danger" onclick="xoaNhom(@item.ID)">X</a>
+</td>
             </tr>
         }
 
     </table>
 </div>
-
+// Popup thêm group
 <div class="modal fade" id="myModalGroup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -91,7 +93,43 @@
         </div>
     </div>
 </div>
+//Popup thêm account
+<div class="modal fade" id="myModalUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title title" id="exampleModalLabel">ACCOUNT Mới </h5>
+            </div>
+            <div class="modal-body">
+                <form id="myFormNV">
+                    <div class="form-group">
+                        <label for="tennv" class="col-form-label">Tên nhân viên</label>
+                        <input type="text" class="form-control" id="username" name="username">
+                    </div>
 
+                    <div class="form-group">
+                        <label for="phone" class="col-form-label">Phone</label>
+                        <input type="text" class="form-control" id="phone" name="phone">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="col-form-label">Email</label>
+                        <input type="text" class="form-control" id="email" name="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="col-form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
+                <button type="button" id="submit" onclick="AddAccount()" class="btn btn-primary">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
     function AddGroup(data) {
@@ -115,7 +153,7 @@
                 
                 $('#groupname').val(gia)
                 window.location.reload()
-               // window.location.href = "/admin/PhanNhomNV/Index";
+               
                     
                
             },
@@ -123,5 +161,29 @@
                 toastr.error(errorThrown);
             }
         });
+    }
+
+    function xoaNhom(maNhom) {
+        if (window.confirm("Bạn có muốn xoá không?")) {
+            $.ajax({
+                method: "POST",
+                url: "/Admin/PhanNhomNV/Delete/" + maNhom,
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data.StatusCode === 200) {
+                        var a = "#data_" + maNhom;
+                        $(a).remove();
+                        toastr.success("Xóa thành công");
+                        $(a).DataTable().ajax.reload();
+                        
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(errorThrown);
+                }
+            });
+        }
     }
 </script>

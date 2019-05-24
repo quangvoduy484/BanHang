@@ -12,15 +12,15 @@ namespace WebSiteBanHang.Services
         BanHangContext context = new BanHangContext();
         public NhanVienService()
         {
-             context = new BanHangContext();
+            context = new BanHangContext();
         }
-        public object GetAll(DataTableAjaxPostModel dataModel,int idgroup)
+        public object GetAll(DataTableAjaxPostModel dataModel, int idgroup)
         {
             var sortBy = dataModel.columns[dataModel.order[0].column].data; //Lấy cột để sắp xếp
             var dirBy = dataModel.order[0].dir.ToLower(); //Lấy thứ tự tăng/giảm
             var search = dataModel.search.value;
 
-            var model = context.TBL_GROUP_LOGINs.Where(t => t.ACTIVATE != false && t.ID_GROUP==idgroup).AsQueryable(); //lấy sản phẩm (chưa thực thi)
+            var model = context.TBL_GROUP_LOGINs.Where(t => t.ACTIVATE != false && t.ID_GROUP == idgroup).AsQueryable(); //lấy sản phẩm (chưa thực thi)
 
             //serch
             if (!string.IsNullOrWhiteSpace(search))
@@ -65,25 +65,8 @@ namespace WebSiteBanHang.Services
             };
         }
 
-        public void Add(PhanNhomNVViewModel model)
-        {
-            var newemp = new TBL_LOGIN
-            {
-                USERNAME = model.TenNV,
-                PHONE = model.SDT,
-                EMAIL = model.Email,
-                PASSWORD = "12345",
-                ISADMIN = false,
-                ACTIVATE = true,
-                CREATED_DATE = DateTime.Now,
-                CREATED_BY = HttpContext.Current.User.Identity.Name
-            };
-            //sanPham.HinhAnh = model.HinhAnh;
-            context.TBL_LOGINs.Add(newemp);
-            context.SaveChanges();
-            
-        }
-        public List<NhanVienDropDownViewModel> GetAllDropDownList(string search,int idgroup)
+        
+        public List<NhanVienDropDownViewModel> GetAllDropDownList(string search, int idgroup)
         {
             //var nhanViens = context.TBL_LOGINs.Where(t => t.ACTIVATE != false);
             var nhanViens = context.TBL_LOGINs
@@ -106,9 +89,28 @@ namespace WebSiteBanHang.Services
             return result;
         }
 
-        public bool Delete(int maNhom,string tennv)
+        public bool Add(PhanNhomNVViewModel model)
         {
-            TBL_GROUP_LOGIN PNNVExist = context.TBL_GROUP_LOGINs.Where(t=>t.ID_GROUP==maNhom 
+            var nv = new TBL_LOGIN
+            {
+                USERNAME=model.TenNV,
+                PASSWORD=model.PassWord,
+                EMAIL=model.Email,
+                PHONE=model.SDT,
+                ACTIVATE = true,
+                ISADMIN = false,
+                CREATED_DATE = DateTime.Now,
+                CREATED_BY = HttpContext.Current.User.Identity.Name,
+        };
+
+         context.TBL_LOGINs.Add(nv);
+            context.SaveChanges();
+            return true;
+        }
+
+        public bool Delete(int maNhom, string tennv)
+        {
+            TBL_GROUP_LOGIN PNNVExist = context.TBL_GROUP_LOGINs.Where(t => t.ID_GROUP == maNhom
             && t.USERNAME.Equals(tennv, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
             if (PNNVExist == null)
             {
@@ -118,5 +120,7 @@ namespace WebSiteBanHang.Services
             context.SaveChanges();
             return true;
         }
+
+        
     }
 }
