@@ -17,14 +17,14 @@
     <div class="form-group">
         <label class="control-label col-md-2">Tên*:</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.TenKhachHang, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.TenKhachHang, new { htmlAttributes = new { @class = "form-control", required = "required" } })
             @Html.ValidationMessageFor(model => model.TenKhachHang, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-md-2">Số điện thoại*:</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.SoDienThoai, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.SoDienThoai, new { htmlAttributes = new { @class = "form-control", required = "required" } })
             @Html.ValidationMessageFor(model => model.SoDienThoai, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -32,7 +32,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Email*:</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control"} })
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", required = "required" } })
             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -47,7 +47,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Mật khẩu*:</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.PassWord, new { htmlAttributes = new { @class = "form-control", type = "password"} })
+            @Html.EditorFor(model => model.PassWord, new { htmlAttributes = new { @class = "form-control", type = "password", required = "required" } })
             @Html.ValidationMessageFor(model => model.PassWord, "", new { @class = "text-danger" })
             
         </div>

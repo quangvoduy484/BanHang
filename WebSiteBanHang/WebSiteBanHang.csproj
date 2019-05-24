@@ -223,10 +223,14 @@
     <Compile Include="Areas\Admin\ViewModels\SanPhamDropDownViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\SanPhamViewModel.cs" />
     <Compile Include="Component\DayMonthYear.cs" />
+    <Compile Include="Controllers\AddressController.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomepageController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
+    <Compile Include="Controllers\OrderManagementController.cs" />
+    <Compile Include="Controllers\PayForBillController.cs" />
     <Compile Include="Controllers\ProductDetailsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\RoomKindController.cs" />
@@ -312,6 +316,20 @@
     <Compile Include="Migrations\201905120826109_add-ngaygiao.cs" />
     <Compile Include="Migrations\201905120826109_add-ngaygiao.Designer.cs">
       <DependentUpon>201905120826109_add-ngaygiao.cs</DependentUpon>
+    <Compile Include="Migrations\201905191706375_Add_Table_DIACHI.cs" />
+    <Compile Include="Migrations\201905191706375_Add_Table_DIACHI.Designer.cs">
+      <DependentUpon>201905191706375_Add_Table_DIACHI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905191719057_Add_Coulumn_TrangThai_For_DIACHI.cs" />
+    <Compile Include="Migrations\201905191719057_Add_Coulumn_TrangThai_For_DIACHI.Designer.cs">
+      <DependentUpon>201905191719057_Add_Coulumn_TrangThai_For_DIACHI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DIACHI.cs" />
+    <Compile Include="ViewModel\StatusOrder.cs" />
+    <Compile Include="ViewModel\User.cs" />
+    <EmbeddedResource Include="Migrations\201905110427555_reslove-conflic.cs" />
+    <Compile Include="Migrations\201905110427555_reslove-conflic.Designer.cs">
+      <DependentUpon>201905110427555_reslove-conflic.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201905190107565_update-db.cs" />
     <Compile Include="Migrations\201905190107565_update-db.Designer.cs">
@@ -364,6 +382,12 @@
     <Compile Include="ViewModel\MenuRole.cs" />
     <Compile Include="ViewModel\ProductCart.cs" />
     <Compile Include="ViewModel\ProductDetail.cs" />
+    <EmbeddedResource Include="Migrations\201905191706375_Add_Table_DIACHI.resx">
+      <DependentUpon>201905191706375_Add_Table_DIACHI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905191719057_Add_Coulumn_TrangThai_For_DIACHI.resx">
+      <DependentUpon>201905191719057_Add_Coulumn_TrangThai_For_DIACHI.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -5949,6 +5973,7 @@
     <Content Include="Content\Template\dist\css\page\ProductCart.css" />
     <Content Include="Content\Template\dist\css\page\ProductDetail.css" />
     <Content Include="Content\Template\dist\css\page\Slickslides.css" />
+    <Content Include="Content\Template\dist\css\page\TabOrder.css" />
     <Content Include="Content\Template\dist\css\page\TrangChu.css" />
     <Content Include="Content\Template\dist\css\skins\skin-black-light.css" />
     <Content Include="Content\Template\dist\css\skins\skin-black-light.min.css" />
@@ -6181,6 +6206,12 @@
     <Content Include="Views\Cart\PartialIcon.cshtml" />
     <Content Include="Views\Cart\PartialDeleteItem.cshtml" />
     <Content Include="Views\Cart\PartialDeleteAll.cshtml" />
+    <Content Include="Views\PayForBill\fillFormCustomer.cshtml" />
+    <Content Include="Views\PayForBill\succesBill.cshtml" />
+    <Content Include="Views\OrderManagement\createViewOrder.cshtml" />
+    <Content Include="Views\Address\PartialAdress.cshtml" />
+    <Content Include="Views\Address\addAdressPartial.cshtml" />
+    <Content Include="Views\Comment\addCommentPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201904231741032_InitialCreate.resx">

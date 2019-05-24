@@ -24,6 +24,7 @@ namespace WebSiteBanHang.Models
     public ICollection<DATHANG> DATHANGs { get; set; }
     public ICollection<DANHGIA> DANHGIAs { get; set; }
     public ICollection<HOADONGIAOHANG> HOADONGIAOHANGs { get; set; }
+    public ICollection<DIACHI> DIACHIs { get; set; }
 
   }
 }

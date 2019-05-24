@@ -4,6 +4,9 @@
     ViewBag.Title = "getDetailProduct";
     Layout = "~/Views/Shared/TrangChu.cshtml";0.
 }
+<div class="modal fade" id="addCommentModal">
+   
+</div>
 <div style="width:955px;margin:auto" id="detail_product">
     <div id="product_detail_title">
         <a>Sản phẩm mới ></a> <span style="color:orange">@Model.TenSanPham</span>
@@ -16,30 +19,31 @@
             <div class='slider-for'>
                 @foreach (var hinh in Model.Hinhs)
                 {
-                     <div class="slick-current @(hinh.Replace(':', ' ').Replace('/',' ').ToString() == @Model.HinhAnh.Replace(':', ' ').Replace('/',' ').ToString() ? "slick-active": " ")"><img  style='width:400px' src="@hinh.ToString()" /> </div>
-                  
+                    <div class="slick-current @(hinh.Replace(':', ' ').Replace('/', ' ').ToString() == @Model.HinhAnh.Replace(':', ' ').Replace('/', ' ').ToString() ? "slick-active" : " ")"><img style='width:400px' src="@hinh.ToString()" /> </div>
+
                 }
             </div>
             <div class="slider-area slider">
                 @foreach (var hinh in Model.Hinhs)
                 {
-                    <div class="col-md-4"><img width="100px" src="@hinh.ToString()" /></div>
+                    <div class="col-md-4"><img style="width:100px" src="@hinh.ToString()" /></div>
 
                 }
             </div>
 
 
-            </div>
+        </div>
         <div id="product_info">
             <span>@Model.TenSanPham</span><br />
             <b>
                 Giá Tiền:
-                
+
                 <span style="color:orange">@String.Format("{0:0,00}", Model.GiaBan)đ<br /></span>
-             
+
             </b>
             <br />
-            <input hidden value="@Model.Id_SanPham"  id="id_sanpham"/>
+            <input hidden value="@Model.Id_SanPham" id="id_sanpham" />
+            <input hidden value="@Model.HinhAnh" id="hinhanh" />
             <b>Đơn vị tính:</b><span>@Model.DonViTinh<br /></span><br />
             <b>Kích thước:</b><span>@Model.KichThuoc<br /></span><br />
             <b>Vật liệu:</b><span>@Model.VatLieu<br /></span><br />
@@ -49,26 +53,79 @@
 
         </div>
     </div>
+
+    <div>
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#describe">Mô tả chỉ tiết</a></li>
+            <li><a data-toggle="tab" href="#choose-anthor">Lựa chọn khác</a></li>
+            <li><a data-toggle="tab" href="#comment">Đánh giá</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="describe" class="tab-pane fade in active">
+                <h3>HOME</h3>
+                <p>Some content.</p>
+            </div>
+            <div id="choose-anthor" class="tab-pane fade">
+                <div>
+
+                </div>
+            </div>
+            <div id="comment" class="tab-pane fade">
+                <div style="border: 1px solid #E5E5E5;padding: 10px;margin-top: 30px">
+                    <div style="width: 50%;position: relative;float:left">
+                        wwww
+                    </div>
+                    <div style="float:left;position:relative;text-align:center;width: 50%;">
+                        @*//50 phần trăm so với chiều cao của thẻ div*@
+                        <a style="background-color: #0c81f6;border-radius: 3px; color: #FFF;display: inline-block;padding: 8px 20px;font-size: 13px; transition: background-color .4s,color .3s;border: 1px solid #0c81f6;top: 50%;left: 0;right: 0" href="javascript:void(0)" title="Chia sẻ kinh nghiệm ngay" data-href="/Comment/addCommentPartial/" class="Comment">Chia sẻ kinh nghiệm ngay</a>
+                    </div>
+                    <div style="clear:both"></div>
+                    @*vì div không thể tự mỏ rộng để bao bọc, nên cần một div là clearboth để kéo div chiều cao div cha*@
+                </div>
+                www
+                <div style="clear:both"></div>
+            </div>
+
+
+        </div>
+    </div>
+
 </div>
-<script  type="text/javascript">
-    
-        $('.slider-for').slick({
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            arrows: false,
-            fade: true,
-            asNavFor: '.slider'
-        });
 
 
-        $('.slider').slick({
-            slidesToShow: 2,
-            slidesToScroll: 1,
-            asNavFor: '.slider-for',
-            dots: true,
-            centerMode: true,
-            focusOnSelect: true
+
+<script type="text/javascript">
+
+    $('.slider-for').slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: false,
+        fade: true,
+        asNavFor: '.slider'
+    });
+
+
+    $('.slider').slick({
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        asNavFor: '.slider-for',
+        dots: true,
+        centerMode: true,
+        focusOnSelect: true
+    });
+
+
+    $('.Comment').click(function () {
+        var hinh = $('#hinhanh').val();
+        var dataURL = $(this).attr('data-href');
+        var url = dataURL + '?hinh=' + hinh;
+
+        $('#addCommentModal').load(url, function () {
+            $('#addCommentModal').modal({ show: true });
         });
+
+    });
 
 
 

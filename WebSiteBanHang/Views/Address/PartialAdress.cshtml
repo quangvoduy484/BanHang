@@ -1,0 +1,117 @@
+﻿@model IEnumerable<WebSiteBanHang.Models.DIACHI>
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header " style=" border: 1px solid rgba(0,0,0,.125);border-radius: .25rem;">
+            <span style="font-size:18px">Địa chỉ nhận hàng</span> <a href="javascript:void(0);" data-href="/Address/addAdressPartial" class="addAdress">| Thêm địa chỉ mới</a>
+            <button data-dismiss="modal" class="close"><span>&times;</span></button>
+
+        </div>
+        <div class="modal-body form-horizontal">
+            <table class="table" id="save-address">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Tên </th>
+                        <th scope="col">Địa chỉ</th>
+                        <th scope="col">Số điện thoại</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+
+                        <tr>
+                            @if (item.TrangThai == true)
+                            {
+
+                                <td>
+                                    <input type="text" class="id-customer" hidden value="@item.Id_KhachHang" />
+                                    <input type="checkbox" checked value="@item.Id_DiaChi" />
+                                </td>
+                            }
+                            else
+                            {
+                                <td><input type="checkbox" value="@item.Id_DiaChi" /></td>
+                            }
+
+
+
+                            <td>@item.TenKhachHang</td>
+                            <td>@item.DiaChi</td>
+                            <td>@item.SoDienThoai</td>
+                            <td>
+                                @if (item.TenKhachHang == ViewBag.Ten)
+                                {
+                                    <span>
+                                        Địa chỉ thanh toán mặc định
+                                    </span>
+                                }
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+
+            <button id="btnSaveAddress" class="btn btn-primary">LƯU</button>
+            <button class="btn btn-default" data-dismiss="modal">HỦY</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('.addAdress').click(function () {
+            var dataURL = $(this).attr('data-href');
+            $('#updateAdressModal').load(dataURL);
+        });
+
+        $('#save-address input[type = "checkbox"]').click(function () {
+            $('#save-address input[type = "checkbox"]').each(function () {
+                $(this).prop('checked', false);
+            });
+            $(this).prop('checked', true);
+        })
+
+        $('#btnSaveAddress').click(function () {
+            var IdCustomer = $('.id-customer').val();
+            var count = 0;
+            var IdAddress = 0;
+            $('#save-address input[type = "checkbox"]').each(function () {
+                if (this.checked) {
+                    count++;
+                    IdAddress = $(this).val();
+                }
+            });
+            if (count === 1) {
+                $.ajax({
+                    url: '/Address/changeAddress',
+                    type: 'Get',
+                    data: { IdAddress, IdCustomer },
+                    dataType: 'json',
+                    success: function (result, status, xhr) {
+                        console.log(xhr);
+                        if (result.status == true) {
+                            location.reload();
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr);
+                    }
+
+                });
+            }
+
+
+        });
+
+    });
+
+
+</script>
+

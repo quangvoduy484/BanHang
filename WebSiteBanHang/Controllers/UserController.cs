@@ -9,6 +9,7 @@ using WebSiteBanHang.Helper;
 using WebSiteBanHang.Models;
 using WebSiteBanHang.ViewModel;
 
+
 namespace WebSiteBanHang.Controllers
 {
 
@@ -76,7 +77,7 @@ namespace WebSiteBanHang.Controllers
                         SoDienThoai = customer.SoDienThoai,
                         Email = customer.Email,
                         PassWord = Helper.GenHash.GenSHA1(customer.PassWord),
-                        Id_LoaiKhachHang = 1
+                        Id_LoaiKhachHang = 3
 
                     };
 
@@ -86,16 +87,26 @@ namespace WebSiteBanHang.Controllers
 
                     }
 
-                    db.KHACHHANGs.Add(KhachHang);
+                    var aNewKhachHang = db.KHACHHANGs.Add(KhachHang);
+                    KhachHang.Id_KhachHang = aNewKhachHang.Id_KhachHang;
+                    if(db.DIACHIs.ToList().Count ==0 )
+                    {
+                        DIACHI DiaChi = new DIACHI()
+                        {
+                            Id_KhachHang = aNewKhachHang.Id_KhachHang,
+                            SoDienThoai = aNewKhachHang.SoDienThoai,
+                            TenKhachHang = aNewKhachHang.TenKhachHang,
+                            DiaChi = aNewKhachHang.DiaChi,
+                            TrangThai = true
+                        };
+                        db.DIACHIs.Add(DiaChi);
+
+                    }
                     db.SaveChanges();
+
                     return RedirectToAction("Index", "Homepage");
 
                 }
-
-
-
-
-
             }
 
             var Thangs = new SelectList(
@@ -131,7 +142,7 @@ namespace WebSiteBanHang.Controllers
         }
 
         [HttpPost]
-        public ActionResult UserLogin(string name,string pass)
+        public ActionResult UserLogin(string name, string pass)
         {
             string messageError = string.Empty;
             List<string> listError = new List<string>();
@@ -141,12 +152,12 @@ namespace WebSiteBanHang.Controllers
                 var customer = db.KHACHHANGs.Where(x => x.PassWord == genpass && (x.Email == name || x.SoDienThoai == name)).SingleOrDefault();
                 if (customer == null)
                 {
-                  
-                    if(string.IsNullOrEmpty(name))
+
+                    if (string.IsNullOrEmpty(name))
                     {
                         messageError += "Email hoặc Phone không được để trống,";
                     }
-                    if(string.IsNullOrEmpty(pass))
+                    if (string.IsNullOrEmpty(pass))
                     {
                         messageError += "Mật khẩu không được để trống,";
                     }
@@ -171,20 +182,22 @@ namespace WebSiteBanHang.Controllers
                 }
                 else
                 {
-                    SessionUser.SetSession(new User() { name = name });
+                    SessionUser.SetSession(new User() { Id = customer.Id_KhachHang, Name = customer.TenKhachHang });
                     RedirectToAction("Index", "Homepage");
                 }
 
             }
-         
-            return Json(new { listError = listError },JsonRequestBehavior.AllowGet);
+
+            return Json(new { listError = listError }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            Session["user"] = null;
+            return RedirectToAction("Index", "Homepage");
 
-
-
-
-
+        }
 
     }
 }

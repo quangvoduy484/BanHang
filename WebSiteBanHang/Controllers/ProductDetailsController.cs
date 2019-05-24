@@ -34,7 +34,7 @@ namespace WebSiteBanHang.Controllers
                 Id_SanPham = product.Id_SanPham,
                 TenSanPham = product.TenSanPham,
                 GiaBan = product.GIASANPHAMs.Where(g => g.TrangThai != false).OrderByDescending(g => g.NgayLap)
-                                        .Select(g => g.GiaBan).FirstOrDefault(),
+                                            .Select(g => g.GiaBan).FirstOrDefault(),
                 KichThuoc = product.KichThuoc,
                 VatLieu = product.VatLieu,
                 MauSac = product.MauSac,
