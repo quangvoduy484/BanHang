@@ -3,42 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebSiteBanHang.Areas.Admin.ViewModels;
-using WebSiteBanHang.Services;
 
 namespace WebSiteBanHang.Areas.Admin.Controllers
 {
-    [Authorize]
-    public class PhieuDatHang_NCCController : Controller
+    public class HoaDonGiaoHangController : Controller
     {
-        // GET: Admin/PhieuDatHang_NCC
-        PhieuDatHang_NCCService PDHService = new PhieuDatHang_NCCService();
+        // GET: Admin/HoaDonGiaoHang
         public ActionResult Index()
         {
             return View();
         }
-        
-        [HttpPost]
-        public ActionResult GetAll(DataTableAjaxPostModel dataModel)
-        {
-            var pdh = PDHService.GetAll(dataModel);
 
-            return Json(pdh);
-        }
-
-        // GET: Admin/PhieuDatHang_NCC/Details/5
+        // GET: Admin/HoaDonGiaoHang/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Admin/PhieuDatHang_NCC/Create
+        // GET: Admin/HoaDonGiaoHang/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/PhieuDatHang_NCC/Create
+        // POST: Admin/HoaDonGiaoHang/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
@@ -54,13 +42,13 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/PhieuDatHang_NCC/Edit/5
+        // GET: Admin/HoaDonGiaoHang/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Admin/PhieuDatHang_NCC/Edit/5
+        // POST: Admin/HoaDonGiaoHang/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -76,13 +64,13 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/PhieuDatHang_NCC/Delete/5
+        // GET: Admin/HoaDonGiaoHang/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Admin/PhieuDatHang_NCC/Delete/5
+        // POST: Admin/HoaDonGiaoHang/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {

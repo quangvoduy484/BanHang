@@ -16,9 +16,11 @@
         .table-admin td, .table-admin th {
             border: 1px solid #ddd !important;
         }
+
     h2, h4 {
         padding-left: 10px;
     }
+
     .Bang {
         background: none;
         border-top: none;
@@ -67,35 +69,33 @@
 
         </table>
     </div>
-  
+
 </div>
 
-
 <script>
-    $(document).ready(function () {
-        function xoaPhong(maPhong) {
-            if (window.confirm("Bạn có muốn xoá không?")) { //ok
-                $.ajax({
-                    method: "POST",
-                    url: "/Admin/LoaiPhong/Delete/"+maPhong,
-                    contentType: 'application/json',
-                    success: function (data) {
-                        if (data.StatusCode === 200) {
-                            var a = "#data_" + maPhong;
-                            $(a
-                            toastr.success("Xóa thành công");
-                        } else {
-                            toastr.error(data.Message);
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        toastr.error(rrorThrown);
+    function xoaPhong(maPhong) {
+        if (window.confirm("Bạn có muốn xoá không?")) { //ok
+            $.ajax({
+                method: "POST",
+                url: "/Admin/LoaiPhong/Delete/" + maPhong,
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data.StatusCode === 200) {
+                        var a = "#data_" + maPhong;
+                        $(a).remove();
+                        toastr.success("Xóa thành công");
+                    } else {
+                        toastr.error(data.Message);
                     }
-                });
-
-            }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(errorThrown);
+                }
+            });
         }
-    });
+    }
 </script>
+
+
 
 

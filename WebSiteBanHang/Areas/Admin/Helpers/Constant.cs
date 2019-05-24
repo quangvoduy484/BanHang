@@ -5,15 +5,17 @@ using System.Web;
 
 namespace WebSiteBanHang.Areas.Admin.Helpers
 {
-    public static class Constant
+    public class Constant
     {
-        public static class TinhTrangDatHang
+        public struct TinhTrangDatHang
         {
-            public static string DaHuy = "Đã huỷ";
-            public static string DangXyLy = "Đang xử lý";
-            public static string DaGiao = "Đã giao";
+            public const string DaHuy = "Đã huỷ";
+            public const string DangXyLy = "Đang xử lý";
+            public const string DaGiao = "Đã giao";
         }
         //etc
+        public const int DiemNhan = 100000; //100 000 = 1đ
+        public const int DiemQuyDoi = 1000; // 1đ = 1000
 
 
     }

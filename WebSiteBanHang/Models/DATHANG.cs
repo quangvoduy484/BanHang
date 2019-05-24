@@ -11,10 +11,14 @@ namespace WebSiteBanHang.Models
         [Key]
         public int Id_DatHang { get; set; }
         public DateTime? NgayDat { get; set; }
+        public DateTime? NgayGiao { get; set; }
         public string GhiChu { get; set; }
         public double TongTien { get; set; }
         public int TrangThai { get; set; }
+        [Required]
         public string DiaChiGiao { get; set; }
+        [StringLength(10)]
+        [Required]
         public string SoDienThoai { get; set; }
         public int Id_KhachHang { get; set; }
         public virtual KHACHHANG KHACHHANG { get; set; }

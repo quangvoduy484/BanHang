@@ -31,10 +31,10 @@
         <table class="table table-bordered table-striped table-admin" role="grid">
             <tr>
                 <th>
-                    Ngày bắt đầu
+                    Tên khuyến mãi
                 </th>
                 <th>
-                    Tên khuyến mãi
+                    Ngày bắt đầu
                 </th>
                 <th>
                     Ngày kết thúc
@@ -85,7 +85,7 @@
                 success: function (data) {
                     if (data.StatusCode === 200) {
                         var a = "#data_" + maKM;
-                        $(a).ajax.reload();
+                        $(a).remove();
                         toastr.success("Xóa thành công");
                     } else {
                         toastr.error(data.Message);

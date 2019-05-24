@@ -48,6 +48,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="moment.net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\moment.net.1.0.0\lib\netstandard1.1\moment.net.dll</HintPath>
@@ -57,6 +60,10 @@
     </Reference>
     <Reference Include="RestSharp, Version=106.6.9.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.6.9\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.1.7.3\lib\net461\Rotativa.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -192,6 +199,7 @@
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\DatHangKHController.cs" />
     <Compile Include="Areas\Admin\Controllers\GiaSanPhamController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HoaDonGiaoHangController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhachHangController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhuyenMaiController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiPhongController.cs" />
@@ -206,11 +214,13 @@
     <Compile Include="Areas\Admin\ViewModels\KhachHangViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\DatHangKHViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\HinhAnhViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\KhuyenMaiViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\LoaiSPViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\NhaCungCapViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PhieuDatHang_NCCViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ReponseMessage.cs" />
     <Compile Include="Areas\Admin\ViewModels\ResponseUploadImageModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\SanPhamDropDownViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\SanPhamViewModel.cs" />
     <Compile Include="Component\DayMonthYear.cs" />
     <Compile Include="Controllers\AddressController.cs" />
@@ -303,6 +313,9 @@
     <Compile Include="Migrations\201905052102175_Update_coulumn_SoLuongTon_Null.Designer.cs">
       <DependentUpon>201905052102175_Update_coulumn_SoLuongTon_Null.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905120826109_add-ngaygiao.cs" />
+    <Compile Include="Migrations\201905120826109_add-ngaygiao.Designer.cs">
+      <DependentUpon>201905120826109_add-ngaygiao.cs</DependentUpon>
     <Compile Include="Migrations\201905191706375_Add_Table_DIACHI.cs" />
     <Compile Include="Migrations\201905191706375_Add_Table_DIACHI.Designer.cs">
       <DependentUpon>201905191706375_Add_Table_DIACHI.cs</DependentUpon>
@@ -318,9 +331,9 @@
     <Compile Include="Migrations\201905110427555_reslove-conflic.Designer.cs">
       <DependentUpon>201905110427555_reslove-conflic.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201905061704021_ID_KhuyenMai_SanPham_IsNull.cs" />
-    <Compile Include="Migrations\201905061704021_ID_KhuyenMai_SanPham_IsNull.Designer.cs">
-      <DependentUpon>201905061704021_ID_KhuyenMai_SanPham_IsNull.cs</DependentUpon>
+    <Compile Include="Migrations\201905190107565_update-db.cs" />
+    <Compile Include="Migrations\201905190107565_update-db.Designer.cs">
+      <DependentUpon>201905190107565_update-db.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BanHangContext.cs" />
@@ -355,6 +368,7 @@
     <Compile Include="Services\CT_PhieuDatHangNCCService.cs" />
     <Compile Include="Services\DatHangKHService.cs" />
     <Compile Include="Services\GiaSPService.cs" />
+    <Compile Include="Services\HoaDonGiaoHang.cs" />
     <Compile Include="Services\KhachHangService.cs" />
     <Compile Include="Services\KhuyenMaiService.cs" />
     <Compile Include="Services\LoaiPhongService.cs" />
@@ -6069,6 +6083,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Rotativa\help-wkhtmltoimage.txt" />
+    <Content Include="Rotativa\help-wkhtmltopdf.txt" />
+    <Content Include="Rotativa\wkhtmltoimage.exe" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="scripts\dropzone\basic.css" />
     <Content Include="scripts\dropzone\basic.min.css" />
     <Content Include="scripts\dropzone\dropzone-amd-module.js" />
@@ -6110,6 +6128,16 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\GiaSanPham\" />
+    <Folder Include="Areas\Admin\Views\HoaDonGiaoHang\" />
+    <Folder Include="Content\Template\bower_components\bootstrap-duallistbox\" />
+    <Folder Include="Content\Template\bower_components\ckeditor\plugins\filetools\lang\" />
+    <Folder Include="Content\Template\bower_components\ckeditor\plugins\justify\lang\" />
+    <Folder Include="Content\Template\bower_components\ckeditor\plugins\lineutils\" />
+    <Folder Include="Content\Template\bower_components\ckeditor\plugins\notificationaggregator\" />
+    <Folder Include="Content\Template\bower_components\ckeditor\plugins\uploadimage\" />
+    <Folder Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\" />
+    <Folder Include="Content\Template\bower_components\ckeditor\plugins\widgetselection\" />
+    <Folder Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\" />
     <Folder Include="Views\RoomKind\" />
   </ItemGroup>
   <ItemGroup>
@@ -6146,6 +6174,22 @@
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
     <Content Include="Areas\Admin\Views\Login\Login.cshtml" />
+    <Content Include="Content\Template\bower_components\jvectormap\.bower.json" />
+    <Content Include="Content\Template\bower_components\jvectormap\build.sh" />
+    <Content Include="Content\Template\bower_components\jvectormap\converter\converter.py" />
+    <Content Include="Content\Template\bower_components\jvectormap\converter\simplifier.py" />
+    <Content Include="Content\Template\bower_components\jvectormap\jvectormap.jquery.json" />
+    <Content Include="Content\Template\bower_components\jvectormap\README.md" />
+    <Content Include="Areas\Admin\Views\NCC\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\KhachHang\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuDatHang_NCC\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CT_PhieuDatHangNCC\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\DatHangKH\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\DatHangKH\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\DatHangKH\Edit.cshtml" />
+    <Content Include="App_Browsers\qt.browser" />
+    <Content Include="libman.json" />
+    <Content Include="fonts\ARIAL.TTF" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -6221,8 +6265,14 @@
     <EmbeddedResource Include="Migrations\201905091333531_modify-data.resx">
       <DependentUpon>201905091333531_modify-data.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905120826109_add-ngaygiao.resx">
+      <DependentUpon>201905120826109_add-ngaygiao.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905052102175_Update_coulumn_SoLuongTon_Null.resx">
       <DependentUpon>201905052102175_Update_coulumn_SoLuongTon_Null.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905190107565_update-db.resx">
+      <DependentUpon>201905190107565_update-db.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

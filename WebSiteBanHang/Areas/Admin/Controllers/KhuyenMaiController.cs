@@ -31,7 +31,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
 
         // POST: Admin/KhuyenMai/Create
         [HttpPost]
-        public ActionResult Create(KHUYENMAI collection)
+        public ActionResult Create(KhuyenMaiViewModel collection)
         {
             try
             {
@@ -57,17 +57,19 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+            SelectList sanPhams = new SelectList(khuyenMai.SanPhamDropdowns, "id", "text");
+            ViewBag.SanPhamList = sanPhams;
             return View(khuyenMai);
         }
 
         // POST: Admin/KhuyenMai/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, KHUYENMAI collection)
+        public ActionResult Edit( KhuyenMaiViewModel model)
         {
             try
             {
                 // TODO: Add update logic here
-                var result = KMService.Update(collection);
+                var result = KMService.Update(model);
                 if (!result)
                 {
                     return HttpNotFound();
