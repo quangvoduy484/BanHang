@@ -316,6 +316,7 @@
     <Compile Include="Migrations\201905120826109_add-ngaygiao.cs" />
     <Compile Include="Migrations\201905120826109_add-ngaygiao.Designer.cs">
       <DependentUpon>201905120826109_add-ngaygiao.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201905191706375_Add_Table_DIACHI.cs" />
     <Compile Include="Migrations\201905191706375_Add_Table_DIACHI.Designer.cs">
       <DependentUpon>201905191706375_Add_Table_DIACHI.cs</DependentUpon>
