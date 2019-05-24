@@ -302,7 +302,7 @@ namespace WebSiteBanHang.Services
                 datHang.KHACHHANG.Id_LoaiKhachHang = 2;
                 context.SaveChanges();
             }
-            if (datHang.KHACHHANG.TongChi < Constant.TongChiThanThiet)
+            if (datHang.KHACHHANG.TongChi == Constant.TongChiThanThiet)
             {
                 datHang.KHACHHANG.Id_LoaiKhachHang = 3;
                 context.SaveChanges();

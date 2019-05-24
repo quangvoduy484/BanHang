@@ -14,5 +14,9 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
         }
         public List<string> Label;
         public List<double> Data;
+        public DateTime TuNgay;
+        public DateTime DenNgay;
+        public double TongDT;
+        public int TongDH;
     }
 }

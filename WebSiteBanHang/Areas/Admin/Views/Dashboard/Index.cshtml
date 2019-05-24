@@ -3,27 +3,114 @@
     ViewBag.Title = "Dashboard";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
+<link rel="stylesheet" href="~/Content/Template/bower_components/select2/dist/css/select2.min.css">
+<link rel="stylesheet" href="~/Content/Template/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
 <script src="~/Content/Template/bower_components/chart.js/Chart.min.js"></script>
-<h2>Dashboard</h2>
-<div class="col-md-8">
-    <div class="chart">
-        <!-- Sales Chart Canvas -->
-        <canvas id="salesChart" style="height: 180px;"></canvas>
+<script src="~/Content/Template/bower_components/select2/dist/js/select2.full.min.js"></script>
+<script src="~/Content/Template/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<style>
+    .ABC {
+        background: none;
+        border-top: none;
+        border-bottom: none;
+    }
+</style>
+<div class="col-md-10 box ABC">
+    <h3>Dashboard</h3>
+    <div class="box">
+        <div class="box-header with-border ">
+            <h3 class="box-title"> THỐNG KÊ DOANH THU TRONG NĂM</h3>
+        </div>
+        <div class="box-body">
+            <div class="chart ">
+                <!-- Sales Chart Canvas -->
+                <canvas id="salesChart" style="height: 180px;"></canvas>
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="row">
+                <div class="col-md-5 col-xs-6">
+                    <div class="description-block border-right">
+                        <h5 class="description-header" style="color:green">@Model.TongDT</h5>
+                        <span class="description-text">TỔNG DOANH THU</span>
+                    </div>
+                </div>
+                <div class="col-md-5 col-xs-6">
+                    <div class="description-block border-right">
+                        <h5 class="description-header" style="color:green">@Model.TongDH</h5>
+                        <span class="description-text">TỔNG ĐƠN HÀNG</span>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
     </div>
-</div>
+    <div class="box">
+        <div class="box-header with-border ">
+            <h3 class="box-title"> THỐNG KÊ DOANH THU</h3>
+        </div>
+        <div class="box-body">
+            <div class="form-group">
+                <label>Từ ngày:</label>
 
+                <div class="input-group date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" name="TuNgay" class="form-control pull-right dt1">
+                </div>
+                <!-- /.input group -->
+            </div>
+            <div class="form-group">
+                <label>Đến ngày:</label>
 
-<script>
+                <div class="input-group date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" name="DenNgay" class="form-control pull-right dt2">
+                </div>
+                <!-- /.input group -->
+            </div>
+            <div style="padding-bottom: 10px; padding-left: 15px;">
+                <a class="btn btn-success" onclick="XuatExcel()" @*href="/Admin/Dashboard/XuatExcel/@Model.TuNgay, @Model.DenNgay"*@>Xuất thống kê</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        function XuatExcel() {
+            var dt1 = $('.dt1').datepicker('getDate');
+            var fromDate = moment(dt1).format('MM/DD/YYYY');
+            var dt2 = $('.dt2').datepicker('getDate');
+            var toDate = moment(dt2).format('MM/DD/YYYY');
+
+            $.ajax({
+                method: "GET",
+                url: "/Admin/Dashboard/XuatExcel?tuNgay="+fromDate+"&denNgay="+toDate,
+                //contentType: 'application/json; charset=utf-8',
+                processData: false,
+                contentType: false,
+                success: function () {
+                    toastr.success("Sửa thành công");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(errorThrown);
+
+                }
+            })
+        }
+
     var salesChartCanvas = $('#salesChart').get(0).getContext('2d');
     // This will get the first returned node in the jQuery collection.
     var salesChart = new Chart(salesChartCanvas);
     var label = @(Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Label))); // chuyen list c# thanh json
     var data =  @(Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Data)));
     var salesChartData = {
-        //labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
         labels: label,
         datasets: [
-       
+
             {
                 label: 'Digital Goods',
                 fillColor: 'rgba(60,141,188,0.9)',
@@ -79,4 +166,24 @@
 
     // Create the line chart
     salesChart.Line(salesChartData, salesChartOptions);
-</script>
+    // Chart Thang
+    $('.select2').select2()
+    // datepicker
+        $(".dt1").datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            todayHighlight: true,
+        }).on('changeDate', function (selected) {
+            var dt = $(this).datepicker('getDate');
+            $(".dt2").datepicker('setStartDate', dt);
+        });
+        $(".dt2").datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            todayHighlight: true,
+        }).on('changeDate', function (selected) {
+            var dt = $(this).datepicker('getDate');
+            $(".dt1").datepicker("setEndDate", dt);
+        });
+    //Datemask2 mm/dd/yyyy
+    </script>
