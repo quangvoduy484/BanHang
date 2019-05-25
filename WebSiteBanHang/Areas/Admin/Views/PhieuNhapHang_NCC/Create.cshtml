@@ -1,0 +1,253 @@
+﻿@model WebSiteBanHang.Areas.Admin.ViewModels.PhieuDatHang_NCCViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+<style>
+    .table-admin {
+        border: 1px solid #ddd;
+    }
+
+        .table-admin td, .table-admin th {
+            border: 1px solid #ddd !important;
+        }
+
+    .TieuDe p {
+        font-family: initial;
+        font-size: 35px;
+        color: #00020c;
+    }
+
+    .TieuDe a {
+        width: 50px;
+    }
+
+    h2 {
+        text-align: center;
+        color: #4169E1;
+    }
+
+    /*.Bang {
+        background: none;
+        border-top: none;
+    }*/
+    .title {
+        color: #0b77d6;
+        font-size: 16px;
+        text-align: center;
+        font-weight: bold;
+    }
+</style>
+
+
+<h2>LẬP ĐƠN NHẬP HÀNG</h2>
+<div style="padding-bottom: 10px; padding-left: 15px;">
+    <a class="btn btn-success" href="/Admin/PhieuDatHang_NCC/PrintPdf/@Model.MaPhieuDat">Xuất hoá đơn</a>
+</div>
+<form action="/Admin/PhieuNhapHang_NCC/Create" method="post" id="myForm">
+    @Html.AntiForgeryToken()
+    <div class="col-md-12">
+
+        <div class="box box-primary">
+            <div class="box-header">
+            </div>
+            <div class="box-body">
+                <div class="col-md-6 ">
+
+                    <div class="form-group">
+                        <label class="col-md-4 col-xs-4 ">Mã phiếu đặt hàng:  </label>
+                        <p class="col-md-8" id="MaPhieuDat">@Model.MaPhieuDat</p>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 col-xs-4 ">Tên nhà cung cấp: </label>
+                        <p class="col-md-8">@Model.TenNCC </p>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 col-xs-4 ">Người đặt:  </label>
+                        <p class="col-md-8">@Model.NguoiDat</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label class="col-md-4 col-xs-4 ">Ngày đặt:  </label>
+                        <p class="col-md-8">@Model.NgayDat </p>
+                    </div>
+
+                    <div class="form-group tong-tien">
+                        <label class="col-md-4 col-xs-4 ">Tổng tiền:  </label>
+                        <p class="col-md-8 ">@Model.TongTien</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="details">
+            <table class="table table-bordered table-striped table-admin" role="grid" id="chiTietDH" name="CTPHIEUNHAP_NCCs">
+                <tr>
+                    <th>
+                        Tên sản phẩm
+                    </th>
+                    <th>
+                        Mã sản phẩm
+
+                    <th>
+                        Số lượng
+                    <th>
+                        Giá nhập
+                    </th>
+                    <th>
+                        Thành tiền
+                    </th>
+                    <th>
+                        Chức năng
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.ChiTietPhieuDats)
+                {
+                <tr id="data_@item.MaCTPhieuDat">
+                    <td>
+                        <input type="text" id="TenSanPham" name="TenSanPham" value="@item.TenSanPham" class=" form-control" />
+                    </td>
+                    <td>
+                        <input type="text" id="MaSP" name="MaSP" value="@item.MaSP" class=" form-control"  />
+                    </td>
+                    <td>
+                        <input type="number" id='sl_1' min="1" value="@item.SL" name="SL" onChange=changeSoLuong(this) class=" form-control" />
+                    </td>
+                    <td>
+                        <input type="number" id='dg_1' value="@item.GiaNhap" name="GiaNhap" min="0" onChange=changeDonGia(this) class=" form-control" />
+                    </td>
+                    <td>
+                        <input type="text" id='tt_1' value="@item.ThanhTien" class="thanh-tien form-control" name="ThanhTien" disabled onChange=changeThanhTien() readonly="readonly" />
+                    </td>
+
+                    <td>
+                        <input type="button" value="X" class="btn btn-danger" onclick="remove(this)" />
+                        <input type="hidden" value="@item.MaPhieuDat" class=" form-control" name="maDatHang" />
+                    </td>
+
+                </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+
+
+    <div>
+        <input id="Create"  onclick="save()" value="Xác nhận" class="col-md-offset-5 col-md-2 btn btn-warning " style="padding:10px 20px" />
+    </div>
+
+
+</form>
+
+<script>
+
+    function changeSoLuong(atr) {
+        var sl = $(atr).val();
+        var id = $(atr).attr('id').toString().split('_')[1];
+        var dg = $('#dg_' + id).val();
+        var thanhTien = dg * sl;
+        $('#tt_' + id).val(thanhTien);
+
+
+        changeThanhTien();
+    }
+    function changeDonGia(atr) {
+        var donGia = $(atr).val();
+        var id = $(atr).attr('id').toString().split('_')[1];
+        var sl = $('#sl_' + id).val();
+        var thanhTien = donGia * sl;
+        $('#tt_' + id).val(thanhTien);
+
+        changeThanhTien();
+
+    }
+    function changeThanhTien() {
+        var sum = 0;
+        var table = $('#chiTietDH')
+        table.each(function () {
+            $(this).find('tr').each(function () {
+                var thanhTien = $(this).find('.thanh-tien').val();
+                if (thanhTien) {
+                    sum = parseInt(sum) + parseInt(thanhTien);
+                }
+            })
+        })
+        $('.tong-tien').val(sum);
+    }
+
+    function remove(tr) {
+        if (window.confirm("Bạn có muốn xoá không?")) {
+            var row = tr.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+            changeThanhTien();
+        }
+    }
+
+    function save() {
+        var chiTiets = new Array();
+
+        $("#chiTietDH tbody TR").each(function () {
+            var row = $(this);
+            var chiTiet = {};
+            chiTiet.MaSP = row.find("td").eq(1).find('input').val();
+            chiTiet.SL = row.find("td").eq(2).find('input').val();
+            chiTiet.donGia = row.find("td").eq(3).find('input').val();
+            chiTiet.thanhTien = row.find("td").eq(4).find('input').val();
+
+            if (chiTiet.MaSP && chiTiet.SL && chiTiet.donGia && chiTiet.thanhTien) {
+                chiTiets.push(chiTiet);
+            }
+        });
+        if (chiTiets.length === 0) {
+            toastr.error('Bạn chưa có phiếu nhập hàng nào hoặc phiếu nhập không chính xác');
+            return;
+        }
+
+        var MaPhieuDat = $('#MaPhieuDat').text();
+        var formData2 = new FormData();
+
+        chiTiets.forEach((value, index) => {
+            formData2.append(`ChiTietPhieuNhaps[${index}][maSP]`, value.MaSP);
+            formData2.append(`ChiTietPhieuNhaps[${index}][SL]`, value.SL);
+            formData2.append(`ChiTietPhieuNhaps[${index}][GiaNhap]`, value.donGia);
+            formData2.append(`ChiTietPhieuNhaps[${index}][thanhTien]`, value.thanhTien);
+        });
+        $.ajax({
+            method: "POST",
+            url: "/Admin/PhieuNhapHang_NCC/Create/" + MaPhieuDat,
+            //contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: formData2,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data && data.StatusCode === 200) {
+                    toastr.success("Thêm thành công");
+                    window.location.href = "/admin/PhieuDatHang_NCC/index";
+                } else {
+                    toastr.error("Có lỗi trong quá trình xử lý");
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                toastr.error(errorThrown);
+            }
+        });
+    }
+
+
+</script>
+
+
+
+
+

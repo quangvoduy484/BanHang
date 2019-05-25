@@ -48,7 +48,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.MaLoai, "Loại sản phẩm", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-6">
-                        @Html.DropDownList("MaLoai", (IEnumerable<SelectListItem>)ViewBag.listloaiSP, htmlAttributes: new { @class = "form-control" })
+                        @Html.EditorFor(model => model.MaLoai, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
                         @Html.ValidationMessageFor(model => model.TenLoai, "", new { @class = "text-danger" })
                     </div>
                 </div>

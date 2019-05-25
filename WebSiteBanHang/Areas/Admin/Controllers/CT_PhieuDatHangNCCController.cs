@@ -10,34 +10,26 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
 {
     public class CT_PhieuDatHangNCCController : Controller
     {
-        // GET: Admin/CT_PhieuDatHangNCC
-        CT_PhieuDatHangNCCService CTPDHService = new CT_PhieuDatHangNCCService();
+        // GET: Admin/CTPhieuDatHang_NCC
+        CT_PhieuDatHangNCCService ct = new CT_PhieuDatHangNCCService();
         public ActionResult Index()
         {
             return View();
         }
-        public ActionResult GetAll(DataTableAjaxPostModel dataModel)
-        {
-            var ct = CTPDHService.GetAll(dataModel);
-            if (ct == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ct);
-        }
-        // GET: Admin/CT_PhieuDatHangNCC/Details/5
+
+        // GET: Admin/CTPhieuDatHang_NCC/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Admin/CT_PhieuDatHangNCC/Create
+        // GET: Admin/CTPhieuDatHang_NCC/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/CT_PhieuDatHangNCC/Create
+        // POST: Admin/CTPhieuDatHang_NCC/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
@@ -53,20 +45,25 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/CT_PhieuDatHangNCC/Edit/5
+        // GET: Admin/CTPhieuDatHang_NCC/Edit/5
         public ActionResult Edit(int id)
         {
+            
             return View();
         }
 
-        // POST: Admin/CT_PhieuDatHangNCC/Edit/5
+        // POST: Admin/CTPhieuDatHang_NCC/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, CT_PhieuDatHangNCCViewModel collection)
         {
             try
             {
                 // TODO: Add update logic here
-
+                var result = ct.Update(collection);
+                if(!result)
+                {
+                    return HttpNotFound();
+                }
                 return RedirectToAction("Index");
             }
             catch
@@ -75,13 +72,13 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/CT_PhieuDatHangNCC/Delete/5
+        // GET: Admin/CTPhieuDatHang_NCC/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Admin/CT_PhieuDatHangNCC/Delete/5
+        // POST: Admin/CTPhieuDatHang_NCC/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {

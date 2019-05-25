@@ -45,5 +45,8 @@ namespace WebSiteBanHang.Models
         public ICollection<CHITIETPHIEUGIAO> CHITIETPHIEUGIAOs { get; set; }
         public ICollection<HINH> HINHs { get; set; }
         public ICollection<CHITIETMAUPHONG> CHITIETMAUPHONGs { get; set; }
+        public ICollection<CT_PHIEUDATNCC> CT_PHIEUDATNCCs { get; set; }
+        public ICollection<CTPHIEUNHAP_NCC> CTPHIEUNHAP_NCCs { get; set; }
+
     }
 }
