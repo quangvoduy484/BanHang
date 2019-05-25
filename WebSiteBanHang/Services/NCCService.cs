@@ -66,10 +66,17 @@ namespace WebSiteBanHang.Services
                 data = data
             };
         }
-    
-        public List<NHACUNGCAP> GetAllNcc()
+       
+        public List<NhaCungCapViewModel> GetAllNcc()
         {
-            return context.NHACUNGCAPs.Where(t => t.TRANGTHAI != false).ToList();
+
+            return context.NHACUNGCAPs.OrderBy(t => t.TENNCC).Where(t => t.TRANGTHAI != false)
+                 .Select(t => new NhaCungCapViewModel
+                 {
+                     MaNCC = t.MANCC,
+                     TenNCC = t.TENNCC,
+                     })
+                    .ToList();
         }
         public void Add(NHACUNGCAP NCC)
         {

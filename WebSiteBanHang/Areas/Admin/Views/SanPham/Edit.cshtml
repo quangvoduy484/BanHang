@@ -40,6 +40,9 @@
     div.dz-default.dz-message {
         display: none;
     }
+    .DinhDang {
+        padding-left: 10px;
+    }
 </style>
 <h2>CHỈNH SỬA</h2>
 
@@ -69,7 +72,27 @@
                         @Html.ValidationMessageFor(model => model.TenLoai, "", new { @class = "text-danger" })
                     </div>
                 </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.GiaSP, "Giá bán", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div>
+                        <div class="col-md-5">
+                            @Html.EditorFor(model => model.GiaSP, new { htmlAttributes = new { @class = "form-control", @id="giaSP" } })
+                            @Html.ValidationMessageFor(model => model.GiaSP, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-1">
+                            <input type="button" style="float:right" id="gb" data-toggle="modal"
+                                   data-target="#myModal"  value="..." class="btn btn-default"
+                                   data-giacu="@Model.GiaSP"
+                                   data-maSP="@Model.MaSanPham" />
 
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.XuatXu, "Xuất xứ", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -147,8 +170,35 @@
         </div>
     </div>
 </form>
+<form id="myForm" action="/Admin/SanPham/UpdateGia" method="post">
 
-<div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title title" id="exampleModalLabel">THÊM MỚI</h5>
+                </div>
+                <div class="modal-body">
+                    <input id="MaSanPham" name="MaSP" type="hidden" value=@Model.MaSanPham>
+                    <div class="form-group">
+                        <label for="giabandau" class="col-form-label">Gía ban đầu</label>
+                        <input type="text" disabled="disabled" class="form-control" id="giabandau">
+                    </div>
+                    <div class="form-group">
+                        <label for="giaSP" class="col-form-label">Gía mới</label>
+                        <input type="number" class="form-control" id="giamoi" name="giaSP">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
+                    <button type="button" id="submit" onclick="themGiaBan()" class="btn btn-primary">Cập nhật</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="DinhDang">
     @Html.ActionLink("<< Quay lại danh sách", "Index")
 </div>
 
@@ -265,5 +315,45 @@
             });
         myDropzone.processQueue();
         myDropzone.options.autoProcessQueue = false;
+    }
+    $('#myModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var giaBan = button.data('giacu')
+
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+
+        modal.find('#giabandau').val(giaBan)
+
+    })
+    function themGiaBan(data) {
+        var dom = document.getElementById("myForm")
+        var formData = new FormData(dom)
+        var gia = $('#giamoi').val();
+        $.ajax({
+            method: "POST",
+            url: "/Admin/SanPham/UpdateGia",
+            //contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: formData,
+            processData: false,
+            contentType: false,
+
+            success: function (data) {
+                if (data) {
+                    toastr.success("Sửa thành công");
+                    $('#myModal').modal('hide')
+                    $('#giaSP').val(gia)
+                    //window.location.reload()
+                    //uploadFile(data.Id);
+                } else {
+                    toastr.error("Có lỗi trong quá trình xử lý");
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                toastr.error(errorThrown);
+            }
+        });
     }
 </script>

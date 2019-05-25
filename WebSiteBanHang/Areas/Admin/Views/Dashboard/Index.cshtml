@@ -1,7 +1,187 @@
-﻿
+﻿@model WebSiteBanHang.Areas.Admin.ViewModels.ReportDoanhThuViewModel
 @{
     ViewBag.Title = "Dashboard";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
+<link rel="stylesheet" href="~/Content/Template/bower_components/select2/dist/css/select2.min.css">
+<link rel="stylesheet" href="~/Content/Template/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+<script src="~/Content/Template/bower_components/chart.js/Chart.min.js"></script>
+<script src="~/Content/Template/bower_components/select2/dist/js/select2.full.min.js"></script>
+<script src="~/Content/Template/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<style>
+    .ABC {
+        background: none;
+        border-top: none;
+        border-bottom: none;
+    }
+</style>
+<div class="col-md-10 box ABC">
+    <h3>Dashboard</h3>
+    <div class="box">
+        <div class="box-header with-border ">
+            <h3 class="box-title"> THỐNG KÊ DOANH THU TRONG NĂM</h3>
+        </div>
+        <div class="box-body">
+            <div class="chart ">
+                <!-- Sales Chart Canvas -->
+                <canvas id="salesChart" style="height: 180px;"></canvas>
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="row">
+                <div class="col-md-5 col-xs-6">
+                    <div class="description-block border-right">
+                        <h5 class="description-header" style="color:green">@Model.TongDT</h5>
+                        <span class="description-text">TỔNG DOANH THU</span>
+                    </div>
+                </div>
+                <div class="col-md-5 col-xs-6">
+                    <div class="description-block border-right">
+                        <h5 class="description-header" style="color:green">@Model.TongDH</h5>
+                        <span class="description-text">TỔNG ĐƠN HÀNG</span>
+                    </div>
+                </div>
 
-<h2>Dashboard</h2>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="box">
+        <div class="box-header with-border ">
+            <h3 class="box-title"> THỐNG KÊ DOANH THU</h3>
+        </div>
+        <div class="box-body">
+            <div class="form-group">
+                <label>Từ ngày:</label>
+
+                <div class="input-group date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" required data-val-required="Vui lòng chọn ngày" name="TuNgay" class="form-control pull-right dt1">
+                    <span class="field-validation-valid text-danger" data-valmsg-for="TuNgay" data-valmsg-replace="true"></span>
+                </div>
+                <!-- /.input group -->
+            </div>
+            <div class="form-group">
+                <label>Đến ngày:</label>
+
+                <div class="input-group date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" required="required" data-val-required="Vui lòng chọn ngày" name="DenNgay" class="form-control pull-right dt2">
+                    <span class="field-validation-valid text-danger" data-valmsg-for="DenNgay" data-valmsg-replace="true"></span>
+
+                </div>
+                <!-- /.input group -->
+            </div>
+            <div style="padding-bottom: 10px; padding-left: 15px;">
+                <a class="btn btn-success" onclick="XuatExcel()" href="javascript:void(0);">Xuất thống kê</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        function XuatExcel() {
+            var dt1 = $('.dt1').datepicker('getDate');
+            var fromDate = moment(dt1).format('MM/DD/YYYY');
+            var dt2 = $('.dt2').datepicker('getDate');
+            var toDate = moment(dt2).format('MM/DD/YYYY');
+            if (dt1  && dt2
+               && fromDate <= toDate) {
+                window.location.href = "/Admin/Dashboard/XuatExcel?tuNgay=" + fromDate + "&denNgay=" + toDate;
+            }
+            else { 
+                
+                toastr.error("Vui lòng chọn ngày");
+            }
+
+            
+        }
+     
+    var salesChartCanvas = $('#salesChart').get(0).getContext('2d');
+    // This will get the first returned node in the jQuery collection.
+    var salesChart = new Chart(salesChartCanvas);
+    var label = @(Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Label))); // chuyen list c# thanh json
+    var data =  @(Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Data)));
+    var salesChartData = {
+        labels: label,
+        datasets: [
+
+            {
+                label: 'Digital Goods',
+                fillColor: 'rgba(60,141,188,0.9)',
+                strokeColor: 'rgba(60,141,188,0.8)',
+                pointColor: '#3b8bba',
+                pointStrokeColor: 'rgba(60,141,188,1)',
+                pointHighlightFill: '#fff',
+                pointHighlightStroke: 'rgba(60,141,188,1)',
+                //data: [28, 48, 40, 19, 86, 27, 90]
+                data: data
+            }
+        ]
+    };
+
+    var salesChartOptions = {
+        // Boolean - If we should show the scale at all
+        showScale: true,
+        // Boolean - Whether grid lines are shown across the chart
+        scaleShowGridLines: false,
+        // String - Colour of the grid lines
+        scaleGridLineColor: 'rgba(0,0,0,.05)',
+        // Number - Width of the grid lines
+        scaleGridLineWidth: 1,
+        // Boolean - Whether to show horizontal lines (except X axis)
+        scaleShowHorizontalLines: true,
+        // Boolean - Whether to show vertical lines (except Y axis)
+        scaleShowVerticalLines: true,
+        // Boolean - Whether the line is curved between points
+        bezierCurve: true,
+        // Number - Tension of the bezier curve between points
+        bezierCurveTension: 0.3,
+        // Boolean - Whether to show a dot for each point
+        pointDot: false,
+        // Number - Radius of each point dot in pixels
+        pointDotRadius: 4,
+        // Number - Pixel width of point dot stroke
+        pointDotStrokeWidth: 1,
+        // Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+        pointHitDetectionRadius: 20,
+        // Boolean - Whether to show a stroke for datasets
+        datasetStroke: true,
+        // Number - Pixel width of dataset stroke
+        datasetStrokeWidth: 2,
+        // Boolean - Whether to fill the dataset with a color
+        datasetFill: true,
+        // String - A legend template
+        legendTemplate: '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<datasets.length; i++){%><li><span style=\'background-color:<%=datasets[i].lineColor%>\'></span><%=datasets[i].label%></li><%}%></ul>',
+        // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+        maintainAspectRatio: true,
+        // Boolean - whether to make the chart responsive to window resizing
+        responsive: true
+    };
+
+    // Create the line chart
+    salesChart.Line(salesChartData, salesChartOptions);
+    // Chart Thang
+    $('.select2').select2()
+    // datepicker
+        $(".dt1").datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            todayHighlight: true,
+        }).on('changeDate', function (selected) {
+            var dt = $(this).datepicker('getDate');
+            $(".dt2").datepicker('setStartDate', dt);
+        });
+        $(".dt2").datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true,
+            todayHighlight: true,
+        }).on('changeDate', function (selected) {
+            var dt = $(this).datepicker('getDate');
+            $(".dt1").datepicker("setEndDate", dt);
+        });
+    //Datemask2 mm/dd/yyyy
+    </script>
