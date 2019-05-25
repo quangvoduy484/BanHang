@@ -22,13 +22,14 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
 
         }
 
-        public ActionResult XuatExcel(DateTime tuNgay, DateTime denNgay)
+        public void XuatExcel(DateTime tuNgay, DateTime denNgay)
         {
             var rs = dardboardService.ExportExcel(tuNgay, denNgay);
-            Response.ContentType = "application/vnd.openxmlfomats-officedocument.spreadsheetml.sheet";
-            Response.AddHeader("content-disposition", "attachment:filename=" + "ExcelReport.xlsx");
-            var abyte = rs.GetAsByteArray();
-            return File(abyte, "application/pdf");
+            Response.Clear();
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"; 
+            Response.AddHeader("content-disposition", "attachment:filename=Report.xlsx");
+            Response.BinaryWrite(rs.GetAsByteArray());
+            Response.End();
         }
     }
 }
