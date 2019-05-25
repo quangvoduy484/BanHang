@@ -210,7 +210,7 @@
     <Compile Include="Areas\Admin\Controllers\NhanVienController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhanNhomNVController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhieuDatHang_NCCController.cs" />
-    <Compile Include="Areas\Admin\Controllers\PhieuNhapHangNCCController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PhieuNhapHang_NCCController.cs" />
     <Compile Include="Areas\Admin\Controllers\SanPhamController.cs" />
     <Compile Include="Areas\Admin\Helpers\Constant.cs" />
     <Compile Include="Areas\Admin\ViewModels\ChiTietDatHangViewModel.cs" />
@@ -380,7 +380,7 @@
     <Compile Include="Services\NhanVienService.cs" />
     <Compile Include="Services\PhanNhomNVService.cs" />
     <Compile Include="Services\PhieuDatHang_NCCService.cs" />
-    <Compile Include="Services\PhieuNhaphang_NCCService.cs" />
+    <Compile Include="Services\PhieuNhapHang_NCCService.cs" />
     <Compile Include="Services\SanPhamService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\Customer.cs" />
@@ -6195,7 +6195,6 @@
     <Content Include="App_Browsers\qt.browser" />
     <Content Include="libman.json" />
     <Content Include="fonts\ARIAL.TTF" />
-    <Content Include="Areas\Admin\Views\PhieuNhapHangNCC\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PhanNhomNV\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PhanNhomNV\Create.cshtml" />
     <Content Include="Areas\Admin\Views\PhanNhomNV\Details.cshtml" />
@@ -6203,6 +6202,9 @@
     <Content Include="Areas\Admin\Views\NhomQuyen\Create.cshtml" />
     <Content Include="Areas\Admin\Views\NhanVien\Create.cshtml" />
     <Content Include="Areas\Admin\Views\PhieuDatHang_NCC\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuNhapHang_NCC\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuNhapHang_NCC\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuNhapHang_NCC\Index.cshtml" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

@@ -65,13 +65,16 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                 if (ModelState.IsValid)
                 {
                     PNService.AddAccount(collection);
-                    return RedirectToAction("Index");
+                    return Json("Thêm thành công");
+
+
                 }
-                return View(collection);
+                return Json("Thêm thất bại");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                string er = ex.Message;
+                return Json(er);
             }
         }
         // GET: Admin/PhanNhomNV/Create

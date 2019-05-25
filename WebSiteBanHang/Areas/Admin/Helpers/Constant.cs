@@ -12,7 +12,8 @@ namespace WebSiteBanHang.Areas.Admin.Helpers
             public const string DaHuy = "Đã huỷ";
             public const string DangXyLy = "Đang xử lý";
             public const string DaGiao = "Đã giao";
-            public const string DaNhan = "Đã nhận";//TT=2 (DH_NCC)
+            public const string DangDat = "Đang đặt hàng";//TT=2 (DH_NCC)
+            public const string DaNhan = "Đã nhập"; //  TT=3 (NH_NCC)
 
         }
         //etc

@@ -34,6 +34,11 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         // GET: Admin/PhieuDatHang_NCC/Details/5
         public ActionResult Details(int id)
         {
+            // Lấy tên SP
+            var SP = SPService.GetTenSPForPhieuDat(id);
+            SelectList listSP = new SelectList(SP, "MaSanPham", "TenSanPham");
+            ViewBag.listSP = listSP;
+            
             var detail = PDHService.GetChiTietDatHangs(id);
             return View(detail);
         }
@@ -165,7 +170,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         {
             try
             {
-                if (ModelState.IsValid && model?.SL > 0)
+                if (ModelState.IsValid && model.GiaNhap > 0 && model.SL>0 )
                 {
                     // TODO: Add update logic here
                     model.MaCTPhieuDat = id;
@@ -182,6 +187,29 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             {
                 return View();
             }
+        }
+
+        // Xuất phiếu đặt PDF
+        public ActionResult PrintPdf(int id)
+        {
+            try
+            {
+                PDHService.UpdateTrangThaiDonHang(id);
+                var datHangKH = this.PDHService.GetChiTietDatHangs(id);
+                if (datHangKH == null)
+                {
+                    return HttpNotFound();
+                }
+                var abyte = this.PDHService.PrepareDatHang(datHangKH);
+                return File(abyte, "application/pdf");
+            }
+            catch (Exception ex)
+            {
+
+                string error = ex.Message;
+                return Json(error, JsonRequestBehavior.AllowGet);
+            }
+
         }
     }
 }

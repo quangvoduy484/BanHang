@@ -125,15 +125,15 @@
                     data: function (data, type, dataToSet) {
                         return data.MaNhom + "," + data.TenNV;
                     },
-                    //var abc = split;
-                    //var manhom = abc[0];
-                    //var userName = abc[1];
+                    
                     searchable: false,
                     sortable: false,
                     render: function (data, type, full, meta) {
+                        var list = data.split(",")
+                        var groupid = list[0];
+                        var username = list[1];
                         return `<div>
-
-                                     <a class="btn btn-danger" onclick="DeleteAccFromGroup(${data})">
+                                     <a class="btn btn-danger" onclick="XoaNhanVien(${groupid},'${username}')">
                                          <i class="fa fa-trash-o"></i>
                                      </a>
                                  </div> `
@@ -144,6 +144,28 @@
 
         });
     }
-   
+    function XoaNhanVien(groupid, username) {
+        
+        if (window.confirm("Bạn có muốn xoá không?")) {
+            $.ajax({
+                method: "POST",
+                url: "/Admin/NhanVien/Delete?groupid=" + groupid + "&username=" + username,
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data.StatusCode === 200) {
+                        toastr.success("Xóa thành công");
+                        $('#pnnv').DataTable().ajax.reload();
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(errorThrown);
+                }
+            });
+        }
+    }
+
+    
         
 </script>

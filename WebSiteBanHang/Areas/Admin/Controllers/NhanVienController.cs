@@ -33,10 +33,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             return Json(nhanViens, JsonRequestBehavior.AllowGet);
         }
         // GET: Admin/NhanVien/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+        
 
         // GET: Admin/NhanVien/Create
         [HttpGet]
@@ -100,12 +97,12 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
 
         // POST: Admin/NhanVien/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id,string manv)
+        public ActionResult Delete(int groupid,string username)
         {
             var result = new ReponseMessage();
             try
             {
-                var kq = nv.Delete(id,manv);
+                var kq = nv.Delete(groupid, username);
                 if (kq == false)
                 {
                     result.Message = "Không tìm thấy nhân viên";

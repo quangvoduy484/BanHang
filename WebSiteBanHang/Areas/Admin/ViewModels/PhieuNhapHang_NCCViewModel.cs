@@ -8,6 +8,7 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
     public class PhieuNhapHang_NCCViewModel
     {
         public int MaPhieuDat { get; set; }
+        public int MaPhieuNhap { get; set; }
       
         public decimal TongTien { get; set; }
         public string TrangThai { get; set; }

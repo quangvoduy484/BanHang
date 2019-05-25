@@ -13,7 +13,7 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
         public int MaSP { get; set; }
 
         public string TenSanPham { get; set; }
-        public int SLNhap { get; set; }
+        public int SL { get; set; }
         public decimal GiaNhap { get; set; }
         public decimal ThanhTien { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebSiteBanHang.Areas.Admin.ViewModels;
@@ -93,25 +94,33 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/NhomQuyen/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
+        
+        
         // POST: Admin/NhomQuyen/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int groupid, int roleid)
         {
+            var result = new ReponseMessage();
             try
             {
+                var kq = PQService.Delete(groupid,roleid);
+                if (kq == false)
+                {
+                    result.Message = "Không tìm thấy màn hình";
+                    result.StatusCode = HttpStatusCode.NotFound;
+                    return Json(result);
+                }
+                result.StatusCode = HttpStatusCode.OK;
+
+                return Json(result);
                 // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                result.Message = "Có lỗi trong quá trình xử lý";
+                result.StatusCode = HttpStatusCode.ExpectationFailed;
+                return Json(result);
             }
         }
     }

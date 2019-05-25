@@ -127,6 +127,21 @@ namespace WebSiteBanHang.Services
                  })
                     .ToList();
         }
+
+        public List<SanPhamViewModel> GetTenSPForPhieuDat(int CTDDH)
+        {
+            
+            return context.SANPHAMs
+                .Where(t => t.TrangThai != false)
+                .Where(t=>t.CT_PHIEUDATNCCs.All(x=>x.MACTPD!=CTDDH && x.TRANGTHAI ==1 ))
+                .OrderBy(t => t.TenSanPham)
+                 .Select(t => new SanPhamViewModel
+                 {
+                     MaSanPham = t.Id_SanPham,
+                     TenSanPham = t.TenSanPham,
+                 })
+                    .ToList();
+        }
         public int Add(SanPhamViewModel model)
         {
             var sanPham = new SANPHAM

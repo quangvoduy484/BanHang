@@ -75,15 +75,15 @@
                     data: function (data, type, dataToSet) {
                         return data.ID_GROUP + "," + data.ID_ROLE;
                     },
-                    //var abc = split;
-                    //var manhom = abc[0];
-                    //var userName = abc[1];
+                   
                     searchable: false,
                     sortable: false,
                     render: function (data, type, full, meta) {
+                        var list = data.split(",")
+                        var groupid = list[0];
+                        var roleid = list[1];
                         return `<div>
-
-                                     <a class="btn btn-danger" onclick="DeleteAccFromGroup(${data})">
+                                     <a class="btn btn-danger" onclick="XoaQuyen(${groupid},${roleid})">
                                          <i class="fa fa-trash-o"></i>
                                      </a>
                                  </div> `
@@ -94,6 +94,26 @@
 
         });
     }
+    function XoaQuyen(groupid, roleid) {
 
+        if (window.confirm("Bạn có muốn xoá không?")) {
+            $.ajax({
+                method: "POST",
+                url: "/Admin/NhomQuyen/Delete?groupid=" + groupid + "&roleid=" + roleid,
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data.StatusCode === 200) {
+                        toastr.success("Xóa thành công");
+                        $('#manhinh').DataTable().ajax.reload();
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(errorThrown);
+                }
+            });
+        }
+    }
 
 </script>

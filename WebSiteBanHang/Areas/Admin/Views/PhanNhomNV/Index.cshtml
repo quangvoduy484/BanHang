@@ -37,7 +37,8 @@
         <div style="padding-bottom: 10px; padding-left: 15px;">
 
             <a class="btn btn-success" data-toggle="modal" data-target="#myModalGroup">Thêm nhóm</a>
-            <a class="btn btn-success" href="/Admin/NhanVien/Create">Thêm Account</a>
+            <a class="btn btn-success" data-toggle="modal" data-target="#myModalUser">Thêm account</a>
+            @*<a class="btn btn-success" href="/Admin/NhanVien/Create">Thêm Account</a>*@
         </div>
     </div>
 
@@ -156,6 +157,42 @@
                
                     
                
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                toastr.error(errorThrown);
+            }
+        });
+    }
+
+    function AddAccount(data) {
+        var dom = document.getElementById("myFormNV")
+        var formData = new FormData(dom)
+        var username = $('#username').val();
+        var password = $('#password').val();
+        var email = $('#email').val();
+        var phone = $('#phone').val();
+
+        $.ajax({
+            method: "POST",
+            url: "/Admin/PhanNhomNV/AddAccount",
+            //contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: formData,
+            processData: false,
+            contentType: false,
+
+            success: function (data) {
+
+                toastr.success("Thêm thành công");
+                $('#myModalUser').modal('hide')
+                $('#username').val(username)
+                $('#password').val(password)
+                $('$email').val(email)
+                $('$phone').val(phone)
+                window.location.reload()
+
+
+
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 toastr.error(errorThrown);

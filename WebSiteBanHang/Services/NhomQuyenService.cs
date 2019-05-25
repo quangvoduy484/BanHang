@@ -103,5 +103,18 @@ namespace WebSiteBanHang.Services
             context.TBL_LOGINs.Add(newemp);
             context.SaveChanges();
         }
+
+        public bool Delete(int maNhom, int maQuyen)
+        {
+            TBL_GROUP_ROLE PQNVExist = context.TBL_GROUP_ROLEs.Where(t => t.ID_GROUP == maNhom
+            && t.ID_ROLE == maQuyen).FirstOrDefault();
+            if (PQNVExist == null)
+            {
+                return false;
+            }
+            context.TBL_GROUP_ROLEs.Remove(PQNVExist);
+            context.SaveChanges();
+            return true;
+        }
     }
 }

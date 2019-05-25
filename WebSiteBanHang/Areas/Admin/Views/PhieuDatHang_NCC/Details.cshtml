@@ -41,10 +41,13 @@
         font-weight: bold;
     }
 </style>
-<h2>CHI TIẾT ĐƠN HÀNG</h2>
-@*<div style="padding-bottom: 10px; padding-left: 15px;">
-        <a class="btn btn-success" href="/Admin/DatHangKH/PrintPdf/@Model.MaDatHang">Xuất hoá đơn</a>
-    </div>*@
+<h2>CHI TIẾT ĐƠN ĐẶT HÀNG</h2>
+<div style="padding-bottom: 10px; padding-left: 15px;">
+    <a class="btn btn-success" href="/Admin/PhieuDatHang_NCC/PrintPdf/@Model.MaPhieuDat">Xuất hoá đơn</a>
+    
+    <a class="btn btn-danger" data-toggle="collapse" href="#multiCollapseExample1" role="button"
+       aria-expanded="false" aria-controls="multiCollapseExample1">Thêm sản phẩm</a>
+</div>
 <div class="col-md-12">
 
     <div class="box box-primary">
@@ -125,7 +128,7 @@
                                     data-machitiet="@item.MaCTPhieuDat"
                                     data-sanpham=" @item.TenSanPham"
                                     data-soluong="@item.SL"
-                                   data-gianhap="@item.GiaNhap"
+                                    data-gianhap="@item.GiaNhap"
                                     data-thanhtien="@item.ThanhTien">
                                 Sửa
                             </button>
@@ -146,12 +149,12 @@
                 <div class="modal-body">
                     <form id="myFormDHNCC">
                         <div class="form-group">
-                            <label for="soluong" class="col-form-label">Số lượng</label>
-                            <input type="number" min="1" class="form-control" id="soluong" name="soluong">
+                            <label for="SL" class="col-form-label">Số lượng</label>
+                            <input type="number" min="1" class="form-control" id="soluong" name="SL">
                         </div>
                         <div class="form-group">
                             <label for="gianhap" class="col-form-label">Gía nhập</label>
-                            <input type="text" disabled="disabled" class="form-control" id="gianhap">
+                            <input type="text" class="form-control" id="gianhap" name="GiaNhap">
                         </div>
                         <div class="form-group">
                             <label for="thanhtien" class="col-form-label">Thành tiền</label>
@@ -174,90 +177,220 @@
     </div>
 </div>
 
+
+@* Form Thêm CTPD với Phiếu đặt đã có sẵn*@
+<div class="row">
+    <div class="col">
+        <div class="collapse multi-collapse" id="multiCollapseExample1">
+            <div class="card card-body">
+                <form action="/Admin/PhieuDatHang_NCC/Create" method="post" id="myForm">
+                    @Html.AntiForgeryToken()
+                    <div class="container">
+                        <div class="details">
+                            <h2>Danh sách sản phẩm</h2>
+                            <table class="table table-responsive" id="chiTietDH" name="CT_PHIEUDATHANGNCCs">
+                                <thead>
+                                    <tr>
+                                        <td>Tên Sản phẩm</td>
+                                        <th>Số lượng</th>
+                                        <th>Đơn giá</th>
+                                        <th>Thành tiền</th>
+                                        <th>Chức năng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="mycontainer" id="chiTiet_1">
+                                        <td name="MaSP">
+                                            @Html.DropDownList("MASANPHAM", (IEnumerable<SelectListItem>)ViewBag.listSP, htmlAttributes: new { @class = " form-control" })
+                                        </td>
+                                        <td>
+                                            <input type="number" id='sl_1' min="1" name="SL" onChange=changeSoLuong(this) class=" form-control" />
+                                        </td>
+                                        <td>
+                                            <input type="number" id='dg_1' name="GiaNhap" min="0" onChange=changeDonGia(this) class=" form-control" />
+                                        </td>
+                                        <td>
+                                            <input type="text" id='tt_1' class="thanh-tien form-control" name="ThanhTien" disabled onChange=changeThanhTien() readonly="readonly" />
+                                        </td>
+                                        <td>
+
+                                            <input type="button" value="X" class="btn btn-danger" onclick="remove(this)" />
+                                            <input type="button" value="Add" class="btn btn-primary" id="ThemSP" onclick="themChiTietDatHang()" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                            <div>
+                                <input id="Create" onclick="save()" value="Xác nhận" class="col-md-offset-5 col-md-2 btn btn-warning " style="padding:10px 20px" />
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
-    function xoaCTDH(maCTDH) {
-        if (window.confirm("Bạn có muốn xoá không?")) { //ok
+        function xoaCTDH(maCTDH) {
+            if (window.confirm("Bạn có muốn xoá không?")) { //ok
+                $.ajax({
+                    method: "POST",
+                    url: "/Admin/PhieuDatHang_NCC/DeleteDetail/" + maCTDH,
+                    contentType: 'application/json',
+                    success: function (data) {
+                        if (data.StatusCode === 200) {
+                            var a = "#data_" + maCTDH;
+                            $(a).remove();
+                            toastr.success("Xóa thành công");
+                        } else {
+                            toastr.error(data.Message);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        toastr.error(rrorThrown);
+                    }
+                });
+
+            }
+        }
+        // đổ dữ liệu vào popup
+        $('#myModalDHNCC').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var sanPham = button.data('sanpham') // Extract info from data-* attributes
+            var soLuong = button.data('soluong')
+            var giaNhap = button.data('gianhap')
+            var maChiTiet = button.data('machitiet')
+
+            var thanhTien = soLuong * giaNhap
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+
+            modal.find('#soluong').val(soLuong)
+            modal.find('#gianhap').val(giaNhap)
+            modal.find('#thanhtien').val(thanhTien)
+            modal.find('#maChiTiet').val(maChiTiet)
+        })
+
+        //Lấy cột số lượng trên popup để update
+        $('#SL').on('input', function () {
+            var sl = $('#SL').val()
+            var gia = $('#GiaNhap').val()
+            $('#thanhtien').val(sl * gia)
+        });
+
+        $('#GiaNhap').on('input', function () {
+            var sl = $('#SL').val()
+            var gia = $('#GiaNhap').val()
+            $('#thanhtien').val(sl * gia)
+        });
+
+        function suaChiTiet() {
+            var dom = document.getElementById("myFormDHNCC")
+            var formData = new FormData(dom)
+            var maChiTiet = $('#maChiTiet').val()
+            $("#submit").attr("disabled", true);
             $.ajax({
                 method: "POST",
-                url: "/Admin/PhieuDatHang_NCC/DeleteDetail/" + maCTDH,
-                contentType: 'application/json',
+                url: "/Admin/PhieuDatHang_NCC/UpdateCtDatHang/" + maChiTiet,
+                //contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: formData,
+                processData: false,
+                contentType: false,
+
                 success: function (data) {
-                    if (data.StatusCode === 200) {
-                        var a = "#data_" + maCTDH;
-                        $(a).remove();
-                        toastr.success("Xóa thành công");
+                    if (data) {
+                        toastr.success("Sửa thành công");
+                        $("#submit").attr("disabled", false);
+                        $('#myModalDHNCC').modal('hide')
+
+                        window.location.reload();
+
                     } else {
-                        toastr.error(data.Message);
+                        toastr.error("Có lỗi trong quá trình xử lý");
+                        $("#submit").attr("disabled", false);
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    toastr.error(rrorThrown);
+                    toastr.error(errorThrown);
+                    $("#submit").attr("disabled", false);
                 }
             });
+        }
+        //debugger
+        if ($('.btn-edit-or-delete').val() !== 'Đang xử lý') {
+            $('.btn-edit-or-delete').attr('disabled', true)
+        }
+
+
+        function changeSoLuong(atr) {
+         var sl = $(atr).val();
+        var id = $(atr).attr('id').toString().split('_')[1];
+        var dg = $('#dg_' + id).val();
+        var thanhTien = dg * sl;
+        $('#tt_' + id).val(thanhTien);
+
+
+        changeThanhTien();
+    }
+    function changeDonGia(atr) {
+        var donGia = $(atr).val();
+        var id = $(atr).attr('id').toString().split('_')[1];
+        var sl = $('#sl_' + id).val();
+        var thanhTien = donGia * sl;
+        $('#tt_' + id).val(thanhTien);
+
+        changeThanhTien();
+
+    }
+    function changeThanhTien() {
+        var sum = 0;
+        var table = $('#chiTietDH')
+        table.each(function () {
+            $(this).find('tr').each(function () {
+                var thanhTien = $(this).find('.thanh-tien').val();
+                if (thanhTien) {
+                    sum = parseInt(sum) + parseInt(thanhTien);
+                }
+            })
+        })
+        $('.tong-tien').val(sum);
+    }
+        function themChiTietDatHang() {
+            var table = $('#chiTietDH tbody')
+            var row = moment(new Date()).format('DDMMYYYYhhmmssms')
+            var id = 'chiTiet_' + row;
+
+            table.append(`
+                   <tr class="mycontainer" id="${id}">
+                    <td>
+                            @Html.DropDownList("MASANPHAM", (IEnumerable<SelectListItem>)ViewBag.listSP, htmlAttributes: new { @class = " form-control "})
+                    </td>
+                    <td>
+                        <input type="number" id= 'sl_${row}'  type="number" min="1" name="soLuong" onChange=changeSoLuong(this) class=" form-control" />
+                    </td>
+                    <td>
+                        <input type="number" id= 'dg_${row}'  type="number"  name="donGia" min = "0"  onChange=changeDonGia(this) class=" form-control" />
+                    </td>
+                    <td>
+                        <input type="text" id= 'tt_${row}' class="thanh-tien form-control" type="text"  name="thanhTien" disabled onChange=changeThanhTien() readonly="readonly" />
+                    </td>
+                    <td>
+
+                        <input type="button" value="X" class="btn btn-danger" onclick="remove(this)" />
+                        <input type="button" value="Add" class="btn btn-primary" id="ThemSP" onclick="themChiTietDatHang()" />
+                    </td>
+                </tr>
+            `)
 
         }
+    function remove(tr) {
+       var row = tr.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+        changeThanhTien();
     }
-   
-    $('#myModalDHNCC').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) // Button that triggered the modal
-        var sanPham = button.data('sanpham') // Extract info from data-* attributes
-        var soLuong = button.data('soluong')
-        var giaNhap = button.data('gianhap')
-        var maChiTiet = button.data('machitiet')
-
-        var thanhTien = soLuong * giaNhap
-        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-        var modal = $(this)
-        //modal.find('.modal-title').text('Chỉnh sửa ' + sanPham)
-        modal.find('#soluong').val(soLuong)
-        modal.find('#gianhap').val(giaNhap)
-        modal.find('#thanhtien').val(thanhTien)
-        modal.find('#maChiTiet').val(maChiTiet)
-    })
-
-    $('#soluong').on('input', function () {
-        var sl = $('#soluong').val()
-        var gia = $('#gianhap').val()
-        $('#thanhtien').val(sl * gia)
-    });
-
-    function suaChiTiet() {
-        var dom = document.getElementById("myFormDHNCC")
-        var formData = new FormData(dom)
-        var maChiTiet = $('#maChiTiet').val()
-        $("#submit").attr("disabled", true);
-        $.ajax({
-            method: "POST",
-            url: "/Admin/PhieuDatHang_NCC/UpdateCtDatHang/" + maChiTiet,
-            //contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            data: formData,
-            processData: false,
-            contentType: false,
-
-            success: function (data) {
-                if (data) {
-                    toastr.success("Sửa thành công");
-                    $("#submit").attr("disabled", false);
-                    $('#myModalDHNCC').modal('hide')
-                    
-                    window.location.reload();
-                   
-                } else {
-                    toastr.error("Có lỗi trong quá trình xử lý");
-                    $("#submit").attr("disabled", false);
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                toastr.error(errorThrown);
-                $("#submit").attr("disabled", false);
-            }
-        });
-    }
-    //debugger
-    if ($('.btn-edit-or-delete').val() !== 'Đang xử lý') {
-        $('.btn-edit-or-delete').attr('disabled', true)
-    }
-
 </script>
