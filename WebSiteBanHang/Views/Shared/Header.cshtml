@@ -51,9 +51,10 @@
 <div>
     <ul class="nav navbar-nav menu-kindroom">
         @{
+            
             using (WebSiteBanHang.Models.BanHangContext db = new WebSiteBanHang.Models.BanHangContext())
             {
-                var LoaiPhong = db.LOAIPHONGs.Where(x => x.TrangThai == true).OrderBy(x => x.Id_LoaiPhong).AsEnumerable();
+                var LoaiPhong = db.LOAIPHONGs.Where(x => x.TrangThai != false).OrderBy(x => x.Id_LoaiPhong).AsEnumerable();
                 foreach (var item in LoaiPhong)
                 {
                     <li class="nav-item">
