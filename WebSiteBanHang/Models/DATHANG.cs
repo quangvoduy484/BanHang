@@ -17,7 +17,7 @@ namespace WebSiteBanHang.Models
         public int TrangThai { get; set; }
         [Required]
         public string DiaChiGiao { get; set; }
-        [StringLength(10)]
+     
         [Required]
         public string SoDienThoai { get; set; }
         public int Id_KhachHang { get; set; }

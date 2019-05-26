@@ -4,30 +4,123 @@
     Layout = "~/Views/Shared/TrangChu.cshtml";
 }
 
-<div style="width:955px;margin:auto" id="detail_product">
-    <div class="tab" role="tabpanel">
+<div style="width:998px;margin:auto" id="detail_product">
+    <div class="tab" role="tabpanel" id="content">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#Section1" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-check-circle" aria-hidden="true"></i>Đơn đã giao</a></li>
-            <li role="presentation"><a href="#Section2" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-spinner" aria-hidden="true"></i>Đơn Chờ giao hàng</a></li>
-            <li role="presentation"><a href="#Section3" aria-controls="messages" role="tab" data-toggle="tab"><i class="fa fa-times" aria-hidden="true"></i>Đơn bị hủy</a></li>
+            <li role="presentation" class="active"><a href="#tab0" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-check-circle" aria-hidden="true"></i>Đơn đã giao</a></li>
+            <li role="presentation"><a href="#tab1" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-spinner" aria-hidden="true"></i>Đơn Chờ giao hàng</a></li>
+            <li role="presentation"><a href="#tab2" aria-controls="messages" role="tab" data-toggle="tab"><i class="fa fa-times" aria-hidden="true"></i>Đơn bị hủy</a></li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content tabs">
-            <div role="tabpanel" class="tab-pane fade in active" id="Section1">
-                <h3>Section 1</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nec urna aliquam, ornare eros vel, malesuada lorem. Nullam faucibus lorem at eros consectetur lobortis. Maecenas nec nibh congue, placerat sem id, rutrum velit. Phasellus porta enim at facilisis condimentum. Maecenas pharetra dolor vel elit tempor pellentesque sed sed eros. Aenean vitae mauris tincidunt, imperdiet orci semper, rhoncus ligula. Vivamus scelerisque.</p>
+            <div role="tabpanel" class="tab-pane fade show active" id="tab0">
+
             </div>
-            <div role="tabpanel" class="tab-pane fade" id="Section2">
-                <h3>Section 2</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nec urna aliquam, ornare eros vel, malesuada lorem. Nullam faucibus lorem at eros consectetur lobortis. Maecenas nec nibh congue, placerat sem id, rutrum velit. Phasellus porta enim at facilisis condimentum. Maecenas pharetra dolor vel elit tempor pellentesque sed sed eros. Aenean vitae mauris tincidunt, imperdiet orci semper, rhoncus ligula. Vivamus scelerisque.</p>
+            <div role="tabpanel" class="tab-pane fade" id="tab1">
+
             </div>
-            <div role="tabpanel" class="tab-pane fade" id="Section3">
-                <h3>Section 3</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nec urna aliquam, ornare eros vel, malesuada lorem. Nullam faucibus lorem at eros consectetur lobortis. Maecenas nec nibh congue, placerat sem id, rutrum velit. Phasellus porta enim at facilisis condimentum. Maecenas pharetra dolor vel elit tempor pellentesque sed sed eros. Aenean vitae mauris tincidunt, imperdiet orci semper, rhoncus ligula. Vivamus scelerisque.</p>
+            <div role="tabpanel" class="tab-pane fade" id="tab2">
+
             </div>
         </div>
     </div>
-
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+      
+        $("#tab0").html(getOrder("#tab0"));
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var target = $(e.target).attr("href");
+            getOrder(target);
+        });
+
+        function getOrder(thistab) {
+            $(thistab).html('');
+            //0 hủy 1 xử lý 2 đã giao
+            switch (thistab) {
+                case "#tab0":
+                    status = 2;
+                    break;
+                case "#tab1":
+                    status = 1;
+                    break;
+                case "#tab2":
+                    status = 0;
+                    break;
+            }
+            var row = ``;
+            $.ajax({
+
+                type: "POST",
+                url: "/OrderManagement/getOderByState",
+                data: { status },
+                dataType: "json",
+                success: function (response, xhr, error) {
+                    if (response.status == true) {
+                        var state = "Giao thành công"
+                        if (status == 1) {
+                            state = "Chờ giao hàng";
+                        }
+                        else {
+                            if (status == 2) {
+                                state = "Đơn hàng bị hủy";
+                            }
+
+
+                        }
+
+                        response.orders.forEach(function (orders, index) {
+                            row = ` <div>         
+                                            <p style='color: #1a9cb7;font-weight:500;'>#${orders.Id_DatHang}</p>
+                                            <p style='font-size: 12px;color: #757575;'>${converttoDate(orders.NgayDat)}</p>
+                                    </div>`
+
+                            orders.order.forEach(function (item) {
+                                row += `       
+                                       <div class="order-item">
+                                            <div class="item-pic"><img style="width:200px;height:100px" src="${item.Hinh}"/></div>
+                                            <div class="item-main item-main-mini"><span>${item.Tensp}</span></div>
+                                            <div class="item-quantity"><span>${item.Soluong}</span></div>
+                                            <div class="item-status item-capsule">${state}</div>
+                                            <div class="style="clear:both""></div>
+                                       </div>`;
+
+                            })
+                            $(thistab).append(row);
+                        });
+                    }
+                    else {
+                        $(thistab).append(`<span>Bạn chưa có sản phẩm nào trong đơn hàng</span>`);
+                    }
+                   
+                    
+                }, error(response, xhr, error) {
+                    console.log(xhr);
+                    console.log(error);
+                }
+            });
+
+        }
+        var converttoDate = function (data) {
+            if (data) {
+                data = new Date(parseInt(data.replace("/Date(", "").replace(")/", ""), 10));
+                var dd = data.getDate();
+                var mm = data.getMonth() + 1; //January is 0!
+                var yyyy = data.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd;
+                }
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+                var formatted_date = dd + '/' + mm + '/' + yyyy;
+                return formatted_date;
+            }
+            return ''   
+        }
+    });
+</script>
 

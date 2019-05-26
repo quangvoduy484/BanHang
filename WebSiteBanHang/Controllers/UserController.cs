@@ -86,6 +86,8 @@ namespace WebSiteBanHang.Controllers
                         KhachHang.NgaySinh = DateTime.Parse(thoigian);
 
                     }
+                    // tổng chi +1,
+                    // dfsdfsd
 
                     var aNewKhachHang = db.KHACHHANGs.Add(KhachHang);
                     KhachHang.Id_KhachHang = aNewKhachHang.Id_KhachHang;

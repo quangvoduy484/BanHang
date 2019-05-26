@@ -1,0 +1,53 @@
+﻿
+.comment-list {
+    list-style: none;
+    padding-left: 0px
+}
+
+.comment-list li{
+    margin-bottom:15px;
+}
+.comment-name abbr {
+    background: #CCC;
+    border-radius: 50%;
+    color: #FFF;
+    display: inline-block;
+    font-size: 0.85rem;
+    margin-right: 8px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    width: 30px;
+    height: 30px;
+    line-height: 31px;
+}
+
+.comment-name {
+    font-weight: bold;
+}
+
+.comment-name span {
+    font-size: 14px;
+    color: #0C81F6 !important;
+    line-height: 140%;
+}
+
+.comment-star i {
+    padding: 0 1px;
+    font-size: 18px;
+
+}
+
+.comment-date span {
+    font-size: 13px;
+    color: #999;
+    position: relative;
+    padding-left: 0px;
+}
+
+.sosao {
+    color: #FFCC00;
+}
+.comment-star i.fa.fa-star {
+    color: orange;
+}

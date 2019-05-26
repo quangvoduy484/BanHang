@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/TrangChu.cshtml";
 }
 <div class="modal fade" id="addCommentModal">
-   
+
 </div>
 <div style="width:955px;margin:auto" id="detail_product">
     <div id="product_detail_title">
@@ -72,7 +72,7 @@
                 </div>
             </div>
             <div id="comment" class="tab-pane fade">
-                <div style="border: 1px solid #E5E5E5;padding: 10px;margin-top: 30px">
+                <div style="border: 1px solid #E5E5E5;padding: 10px;margin-top: 30px;margin-bottom:15px">
                     <div style="width: 50%;position: relative;float:left">
                         wwww
                     </div>
@@ -83,7 +83,7 @@
                     <div style="clear:both"></div>
                     @*vì div không thể tự mỏ rộng để bao bọc, nên cần một div là clearboth để kéo div chiều cao div cha*@
                 </div>
-                www
+                <ul class="comment-list" id="comment-list"></ul>
                 <div style="clear:both"></div>
             </div>
 
@@ -97,36 +97,119 @@
 
 <script type="text/javascript">
 
-    $('.slider-for').slick({
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        arrows: false,
-        fade: true,
-        asNavFor: '.slider'
-    });
+    $(document).ready(function () {
 
-
-    $('.slider').slick({
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        asNavFor: '.slider-for',
-        dots: true,
-        centerMode: true,
-        focusOnSelect: true
-    });
-
-
-    $('.Comment').click(function () {
-        var hinh = $('#hinhanh').val();
-        var dataURL = $(this).attr('data-href');
-        var url = dataURL + '?hinh=' + hinh;
-
-        $('#addCommentModal').load(url, function () {
-            $('#addCommentModal').modal({ show: true });
+        $('.slider-for').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: false,
+            fade: true,
+            asNavFor: '.slider'
         });
 
-    });
 
+        $('.slider').slick({
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            asNavFor: '.slider-for',
+            dots: true,
+            centerMode: true,
+            focusOnSelect: true
+        });
+
+
+
+
+        $('.Comment').click(function () {
+            var checkLogin = '@Request.RequestContext.HttpContext.Session["user"]';
+            if (checkLogin == '') {
+                alert("Bạn phải đăng nhập để được thêm bình luận");
+            }
+            else {
+                var dataURL = $(this).attr('data-href');
+                $('#addCommentModal').load(dataURL, function () {
+                    $('#addCommentModal').modal({ show: true });
+                    var spansCounts = $('#rating span').length;
+                    for (var i = 0; i < spansCounts; i++) {
+                        if (i < 3) {
+                            $('#rating span').eq(i).css("color", "orange");
+                        }
+                    }
+                });
+            }
+        });
+
+
+        var convertdate = function (data) {
+            if (data) {
+                data = new Date(parseInt(data.replace("/Date(", "").replace(")/", ""), 10));
+                var dd = data.getDate();
+                var mm = data.getMonth() + 1; //January is 0!
+                var yyyy = data.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd;
+                }
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+                var formatted_date = dd + '/' + mm + '/' + yyyy;
+                return formatted_date;
+            }
+            return ''
+        }
+
+
+
+
+        var id = $('#id_sanpham').val();
+        $.ajax({
+            async: false,
+            url: '/Comment/loadComment',
+            type: 'GET',
+            dataType: 'json',
+            data: { id },
+            success: function (result, status, xhr) {
+                if (result.comments.length > 0) {
+                    result.comments.forEach(function (comment, index) {
+
+                        var row = `<li>
+                                        <div class="comment-name">
+                                            <abbr>TD</abbr>
+                                            <span> ${comment.user}</span>
+                                        </div>
+                                        <div class="comment-content">
+                                            <span class="comment-star" id="comment_${comment.id}">
+                            
+                                            </span>
+                                            <span>${comment.content}</span>
+                                        </div>
+                                        <div class="comment-date">
+                                            <span> ${convertdate(comment.date) }</span>
+                                        </div>
+                                 </li>`;
+                       
+                       
+                        $('.comment-list').append(row);
+                        var commentItem = $('#comment_' + comment.id);
+                        for (let i = 0; i < comment.start; i++) {
+                            commentItem.append(`<i class="fa fa-star" aria-hidden="true"></i>`);
+                        }
+                        var dif = 5 - comment.start;
+                        for (let i = 0; i < dif; i++) {
+                            commentItem.append(`<i class="fa fa-star-o" aria-hidden="true"></i>`);
+                        }
+
+                    });
+                }
+                else {
+                    alert("Du lieu tra ve la rong");
+                }
+            }, error: function (result, status, xhr) {
+
+            }
+        });
+    });
+  
 
 
 

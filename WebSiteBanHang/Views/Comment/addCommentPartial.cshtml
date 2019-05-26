@@ -8,17 +8,17 @@
             <div class="form-group">
                 <label class="control-label col-md-3">Số sao:</label>
                 <div id='rating' class="col-md-8">
-                    <span>☆</span>
-                    <span>☆</span>
-                    <span>☆</span>
-                    <span>☆</span>
-                    <span>☆</span>
+                    <span class="star"><i class="fa fa-star" aria-hidden="true"></i></span>
+                    <span class="star"><i class="fa fa-star" aria-hidden="true"></i></span>
+                    <span class="star"><i class="fa fa-star" aria-hidden="true"></i></span>
+                    <span class="star"><i class="fa fa-star" aria-hidden="true"></i></span>
+                    <span class="star"><i class="fa fa-star" aria-hidden="true"></i></span>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-md-3">Nhận xét:</label>
                 <div class="col-md-8">
-                    <textarea class="form-control" id="comment" placeholder="Nhận xét" name="comment"></textarea>
+                    <textarea class="form-control" id="text-comment" placeholder="Nhận xét" name="comment" required></textarea>
                 </div>
             </div>
         </div>
@@ -29,7 +29,49 @@
     </div>
 
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var sosaomacdinh = 3;
+        var sosaochon = null;
+        $('#rating span').click(function () {
+            sosaochon = $(this).index();
+
+            $('#rating span').css({ color: '' });
+            for (var i = 0; i < sosaochon + 1; i++) {
+                $('#rating span').eq(i).css("color", "orange");
+            }
+        });
+
+        var spansCounts = $('#rating span').length;
+
+        $('#addComment').click(function () {
+
+            var sumstar = 0;
+            if (sosaochon != null) {
+                sumstar = sosaochon+1;     
+            }
+            else {
+                sumstar = sosaomacdinh;
+            }
+        
+            var id = $('#id_sanpham').val();
+            var textcomment = $('#text-comment').val();
+        
+            $.ajax({
+                url: '/Comment/addCommentPartial',
+                type: 'POST',
+                data: { id, textcomment, sumstar },
+                dataType: 'json',
+                success: function (result, status, xhr) {
+                    if (result.result === true) {
+                        $('#addCommentModal').modal('hide');
+                    }
+                }, error: function (data, status, xhr) {
+
+                }
+            });
 
 
-
-
+        });
+    });
+</script>

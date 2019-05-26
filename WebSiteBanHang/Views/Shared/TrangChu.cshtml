@@ -25,6 +25,8 @@
     <link href="~/Content/Template/dist/css/page/ModalCart.css" rel="stylesheet" />
     <link href="~/Content/Template/dist/css/page/ProductCart.css" rel="stylesheet" />
     <link href="~/Content/Template/dist/css/page/TabOrder.css" rel="stylesheet" />
+    <link href="~/Content/Template/dist/css/page/Comment.css" rel="stylesheet" />
+    <link href="~/Content/Template/dist/css/page/OrderMangament.css" rel="stylesheet" />
     <link href="~/Content/Template/bower_components/slick-1.8.1/slick/slick.css" rel="stylesheet" />
     <link href="~/Content/Template/bower_components/slick-1.8.1/slick/slick-theme.css" rel="stylesheet" />
     @*<link rel="stylesheet" href="~/Content/Template/dist/css/skins/skin-red.min.css">*@
@@ -41,6 +43,7 @@
     <!-- jQuery 3 -->
     <script src="~/Content/Template/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="~/Content/Template/bower_components/slick-1.8.1/slick/slick.min.js"></script>
+
     <!-- Bootstrap 3.3.7 -->
     <script src="~/Content/Template/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <style>
@@ -73,12 +76,13 @@
         .draggable {
             padding: 0px;
         }
-        #rating span{
-            font-size:25px;
+
+        #rating span {
+            font-size: 25px;
         }
-        .startcolor
-        {
-            color:orange;
+
+        .startcolor {
+            color: orange;
         }
     </style>
 </head>
@@ -111,7 +115,10 @@
     <div class="container-fluid">
         @RenderBody()
     </div>
-
+    
+    <script src="~/Content/Template/bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="~/Content/Template/bower_components/jquery-ui/ui/minified/core.min.js"></script>
+    <script src="~/Content/Template/bower_components/jquery-ui/ui/minified/tabs.min.js"></script>
     <script src="/Content/Template/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 
 
@@ -133,14 +140,14 @@
                         $('.logout').hide();
                         $('.login').hide();
                         var row = ` <li class="dropdown">
-                                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">TÀI KHOẢN ${data.name.toUpperCase()}
-                                                        <ul class="dropdown-menu">
-                                                          <li><a href="#"><span><i class="fa fa-address-book" aria-hidden="true"></i></span>     Quản lý tài khoản</a></li>
-                                                          <li><a href="/OrderManagement/createViewOrder"><span><i class="fa fa-shopping-basket" aria-hidden="true"></i> </span>   Đơn hàng của tôi</a></li>
-                                                          <li><a href="#"><span><i class="fa fa-commenting" aria-hidden="true"></i> </span>   Nhận xét</a></li>
-                                                          <li><a href='/User/Logout'><span><i class="fa fa-sign-out" aria-hidden="true"></i></span>   Đăng xuất</a></li>
-                                                        </ul>
-                                                      </li>`;
+                                                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">TÀI KHOẢN ${data.name.toUpperCase()}
+                                                                    <ul class="dropdown-menu">
+                                                                      <li><a href="#"><span><i class="fa fa-address-book" aria-hidden="true"></i></span>     Quản lý tài khoản</a></li>
+                                                                      <li><a href="/OrderManagement/createViewOrder"><span><i class="fa fa-shopping-basket" aria-hidden="true"></i> </span>   Đơn hàng của tôi</a></li>
+                                                                      <li><a href="#"><span><i class="fa fa-commenting" aria-hidden="true"></i> </span>   Nhận xét</a></li>
+                                                                      <li><a href='/User/Logout'><span><i class="fa fa-sign-out" aria-hidden="true"></i></span>   Đăng xuất</a></li>
+                                                                    </ul>
+                                                                  </li>`;
                         $('.navbar-right').prepend(row);
 
                         // thêm đến một cái nào đó có sẵn rồi dùng .prependTo
@@ -368,39 +375,6 @@
         });
 
 
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            var spansCounts = $('#rating span').length;
-            $('#rating span').each(function () {
-                if ($(this).index < 3) {
-                    $(this).css("color", "orange");
-                }
-
-            });
-
-            $('#rating span').click(function () {
-
-                var a = $(this).index();
-                console.log(a);
-
-                $('#rating span').css({ color: '' });
-
-                for (var i = 0; i < $(this).index() + 1; i++) {
-                    $('#rating span').eq(i).css("color", "orange");
-                }
-
-            });
-
-            $('#addComment').click(function () {
-
-                var a = 2;
-            });
-
-         
-
-        });
     </script>
 
 
