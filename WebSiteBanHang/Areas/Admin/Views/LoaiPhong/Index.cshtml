@@ -18,7 +18,8 @@
         }
 
     h2, h4 {
-        padding-left: 10px;
+        text-align:center;
+        color:blue;
     }
 
     .Bang {
@@ -27,7 +28,7 @@
     }
     
 </style>
-<h2>DANH SÁCH LOẠI PHÒNG</h2>
+<h4>DANH SÁCH LOẠI PHÒNG</h4>
 <div style="padding-bottom: 10px; padding-left: 15px;">
     <a class="btn btn-success" href="/Admin/LoaiPhong/Create">Thêm mới</a>
 </div>
@@ -63,7 +64,6 @@
 
                         <a class="btn btn-primary" href="/Admin/LoaiPhong/Edit/@item.Id_LoaiPhong">Sửa</a>
                         <button class="btn btn-danger" onclick="xoaPhong(@item.Id_LoaiPhong)">Xoá</button>
-
                     </td>
                 </tr>
             }

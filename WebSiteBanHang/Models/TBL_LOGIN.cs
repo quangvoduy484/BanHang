@@ -11,10 +11,13 @@ namespace WebSiteBanHang.Models
         [Key]
         [StringLength(20)]
         public string USERNAME { get; set; }
+        [Required]
         public string PASSWORD { get; set; }
         [StringLength(500)]
+        [Required]
         public string EMAIL { get; set; }
         [StringLength(20)]
+        [Required]
         public string PHONE { get; set; }
         public bool? TYPE { get; set; }
         public bool ISADMIN { get; set; }

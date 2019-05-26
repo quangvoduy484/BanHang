@@ -1,36 +1,108 @@
-﻿@model IEnumerable<WebSiteBanHang.Areas.Admin.ViewModels.PhanNhomNVViewModel>
+﻿@model IEnumerable<WebSiteBanHang.Models.TBL_LOGIN>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
 
-@*<div style="padding-bottom: 10px; padding-left: 15px;">
+
+<style>
+    .table .middle {
+        vertical-align: middle;
+    }
+
+    .table-admin {
+        border: 1px solid #ddd;
+    }
+
+        .table-admin td, .table-admin th {
+            border: 1px solid #ddd !important;
+        }
+
+    h2, h4 {
+        text-align: center;
+        color: blue;
+    }
+
+    .Bang {
+        background: none;
+        border-top: none;
+    }
+</style>
+
+
+<h2>DANH SÁCH TÀI KHOẢN</h2>
+<div style="padding-bottom: 10px; padding-left: 15px;">
     <a class="btn btn-success" href="/Admin/NhanVien/Create">Thêm mới</a>
-</div>*@
+</div>
+<div style="padding-bottom: 10px; padding-left: 15px;">
+    <a class="btn btn-success" data-toggle="modal" data-target="#myModalUser">Thêm account</a>
+</div>
 <div class="col-md-12">
-    <table id="pnnv" class="table table-bordered table-striped table-admin" role="grid">
-        <tr>
+    <div class="box Bang">
+        <table class="table table-bordered table-striped table-admin" style="width:100%" role="grid">
 
-            <th>
-                Tên nhân viên
-            </th>
-            <th>
-                Số điện thoại
-            </th>
-            <th>
-                Email
-            </th>
-            <th>
-                Mật khẩu
-            </th>
 
-            <th>Chức năng</th>
-        </tr>
-        <tbody class="tbody"> </tbody>
-    </table>
+            <tr>
+                <th>
+                    TÊN ĐĂNG NHẬP
+                </th>
+
+                <th>
+                    EMAIL
+                </th>
+                <th>
+                    SỐ ĐIỆN THOẠI
+                </th>
+                <th>
+                   TRẠNG THÁI
+                </th>
+
+                <th>CHỨC NĂNG</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.USERNAME)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.EMAIL)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PHONE)
+                </td>
+                <td>
+                    @if (item.ACTIVATE == true)
+                    {
+                        <div>
+                            Đang hoạt động
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div>
+                            Đã khóa
+                        </div>
+                    }
+                </td>
+
+                <td>
+
+                    <button class="btn btn-danger" onclick="xoaNhanVien('@item.USERNAME')">Xoá</button>
+
+                </td>
+            </tr>
+            }
+
+        </table>
+    </div>
 </div>
 
+//Popup thêm account
 <div class="modal fade" id="myModalUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -38,24 +110,24 @@
                 <h5 class="modal-title title" id="exampleModalLabel">ACCOUNT Mới </h5>
             </div>
             <div class="modal-body">
-                <form id="myForm">
+                <form id="myFormNV">
                     <div class="form-group">
-                        <label for="nhom" class="col-form-label">Tên nhân viên</label>
+                        <label for="tennv" class="col-form-label">Tên nhân viên</label>
                         <input type="text" class="form-control" id="username" name="username">
                     </div>
 
                     <div class="form-group">
-                        <label for="nhom" class="col-form-label">Phone</label>
+                        <label for="phone" class="col-form-label">Phone</label>
                         <input type="text" class="form-control" id="phone" name="phone">
                     </div>
 
                     <div class="form-group">
-                        <label for="nhom" class="col-form-label">Email</label>
+                        <label for="email" class="col-form-label">Email</label>
                         <input type="text" class="form-control" id="email" name="email">
                     </div>
 
                     <div class="form-group">
-                        <label for="nhom" class="col-form-label">Password</label>
+                        <label for="password" class="col-form-label">Password</label>
                         <input type="password" class="form-control" id="password" name="password">
                     </div>
                 </form>
@@ -67,94 +139,82 @@
         </div>
     </div>
 </div>
+<script>
+    function AddAccount(data) {
+        var dom = document.getElementById("myFormNV")
+        var formData = new FormData(dom)
+        var username = $('#username').val();
+        var password = $('#password').val();
+        var email = $('#email').val();
+        var phone = $('#phone').val();
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        //var nav = $('.content-nav');
-        //if (nav.length) {
-        //    var contentNav = nav.offset().top;
-        //}
-        $(document).on('load', loadGridView());
+        $.ajax({
+            method: "POST",
+            url: "/Admin/NhanVien/Create",
+            //contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: formData,
+            processData: false,
+            contentType: false,
 
-        //config toastr
-        toastr.options = {
-            "closeButton": true,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": false,
-            "positionClass": "toast-top-right",
-            "preventDuplicates": false,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "2000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        };
-    });
-    var id=@ViewBag.ID_Group;
-    function loadGridView() {
-        $('#pnnv').DataTable({
-
-            serverSide: true,
-            ajax: {
-                url: "/Admin/NhanVien/getall/"+id,
-                type: "POST",
-                dataType: "JSON",
-            },
-            language: {
-                lengthMenu: "Hiển thị _MENU_ mục",
-                zeroRecords: "Không tìm thấy ",
-                info: "Hiển thị trang _PAGE_ đến _PAGES_ của _MAX_ mục",
-                infoEmpty: "Không có dữ liệu",
-                infoFiltered: "(lọc từ _MAX_ tổng mục)",
-                search: "Tìm kiếm",
-                searchPlaceholder: "Search...",
-            },
-            columns: [
-
-                { title: "Tên nhân viên", data: "TenNV" },
-                { title: "Số điện thoại", data: "SDT" },
-                { title: "Email", data: "Email" },
-                { title: "Mật khẩu", data: "PassWord" },
-                {
-                    title: "Chức năng",
-                    data: function (data, type, dataToSet) {
-                        return data.MaNhom + "," + data.TenNV;
-                    },
-                    
-                    searchable: false,
-                    sortable: false,
-                    render: function (data, type, full, meta) {
-                        var list = data.split(",")
-                        var groupid = list[0];
-                        var username = list[1];
-                        return `<div>
-                                     <a class="btn btn-danger" onclick="XoaNhanVien(${groupid},'${username}')">
-                                         <i class="fa fa-trash-o"></i>
-                                     </a>
-                                 </div> `
-
-                    }
+            success: function (data) {
+                if (data.StatusCode === 200) {
+                    toastr.success("Thêm thành công");
+                    $('#myModalUser').modal('hide')
+                    $('#username').val(username)
+                    $('#password').val(password)
+                    $('$email').val(email)
+                    $('$phone').val(phone)
+                    window.location.reload()
                 }
-            ],
-
+                else {
+                    toastr.error(data.Message);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                toastr.error(errorThrown);
+            }
         });
     }
-    function XoaNhanVien(groupid, username) {
-        
-        if (window.confirm("Bạn có muốn xoá không?")) {
+   
+    //function xoaNhanVien(userName) {
+    //    var formData = new FormData();
+    //    formData.append("userName", userName);
+    //    if (window.confirm("Bạn có muốn khóa/mở tài khoản này không?")) { //ok
+    //        $.ajax({
+    //            method: "POST",
+    //            url: "/Admin/NhanVien/Delete",
+    //            data: formData,
+    //            processData: false,
+    //            contentType: false,
+                
+    //            success: function (data) {
+    //                if (data.StatusCode === 200) {
+    //                    var a = "#data_" + userName;
+                      
+    //                    toastr.success("Xóa thành công");
+    //                } else {
+    //                    toastr.error(data.Message);
+    //                }
+    //            },
+    //            error: function (jqXHR, textStatus, errorThrown) {
+    //                toastr.error(errorThrown);
+    //            }
+    //        });
+    //    }
+    //}
+
+    function xoaNhanVien(userName) {
+        if (window.confirm("Bạn có muốn xoá không?")) { //ok
             $.ajax({
                 method: "POST",
-                url: "/Admin/NhanVien/Delete?groupid=" + groupid + "&username=" + username,
+                url: "/Admin/NhanVien/Delete?userName=" + userName.toString(),
                 contentType: 'application/json',
                 success: function (data) {
                     if (data.StatusCode === 200) {
+                        var a = "#data_" + userName;
+                        $(a).remove();
                         toastr.success("Xóa thành công");
-                        $('#pnnv').DataTable().ajax.reload();
                     } else {
                         toastr.error(data.Message);
                     }
@@ -165,7 +225,4 @@
             });
         }
     }
-
-    
-        
 </script>

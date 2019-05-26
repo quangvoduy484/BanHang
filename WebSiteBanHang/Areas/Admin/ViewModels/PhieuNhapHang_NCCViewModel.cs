@@ -10,7 +10,7 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
         public int MaPhieuDat { get; set; }
         public int MaPhieuNhap { get; set; }
       
-        public decimal TongTien { get; set; }
+        public decimal? TongTien { get; set; }
         public string TrangThai { get; set; }
 
         public string NguoiNhap { get; set;}

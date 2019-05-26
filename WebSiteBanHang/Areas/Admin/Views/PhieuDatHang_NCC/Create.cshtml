@@ -175,7 +175,8 @@
         })
         $('.tong-tien').val(sum);
     }
-        function themChiTietDatHang() {
+
+    function themChiTietDatHang() {
             var table = $('#chiTietDH tbody')
             var row = moment(new Date()).format('DDMMYYYYhhmmssms')
             var id = 'chiTiet_' + row;
@@ -246,7 +247,7 @@
 			processData: false,
 			contentType: false,
 			success: function (data) {
-				debugger
+				
 				if (data && data.StatusCode === 200) {
 					toastr.success("Thêm thành công");
 					window.location.href = "/admin/PhieuDatHang_NCC/index";

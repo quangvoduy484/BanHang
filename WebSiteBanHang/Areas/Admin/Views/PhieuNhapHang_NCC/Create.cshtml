@@ -96,9 +96,11 @@
                     </th>
                     <th>
                         Mã sản phẩm
-
+                    </th>
                     <th>
                         Số lượng
+                    </th>
+                       
                     <th>
                         Giá nhập
                     </th>
@@ -117,7 +119,7 @@
                         <input type="text" id="TenSanPham" name="TenSanPham" value="@item.TenSanPham" class=" form-control" />
                     </td>
                     <td>
-                        <input type="text" id="MaSP" name="MaSP" value="@item.MaSP" class=" form-control"  />
+                        <input type="text" id="MaSP" name="MaSP" value="@item.MaSP" class=" form-control" hidden="hidden" />
                     </td>
                     <td>
                         <input type="number" id='sl_1' min="1" value="@item.SL" name="SL" onChange=changeSoLuong(this) class=" form-control" />

@@ -1,43 +1,176 @@
-﻿@model IEnumerable<WebSiteBanHang.Models.PHIEUNHAP_NCC>
+﻿@model IEnumerable<WebSiteBanHang.Areas.Admin.ViewModels.PhieuNhapHang_NCCViewModel>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.MAPHIEUDAT)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TONGTIEN)
-        </th>
-      
-       
-        <th></th>
-    </tr>
+<style>
+    .table-admin {
+        border: 1px solid #ddd;
+    }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.MAPHIEUDAT)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TBL_LOGIN.PASSWORD)
-        </td>
-       
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.MAPHIEUDAT }) |
-            @Html.ActionLink("Details", "Details", new { id=item.MAPHIEUDAT }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.MAPHIEUDAT })
-        </td>
-    </tr>
-}
+        .table-admin td, .table-admin th {
+            border: 1px solid #ddd !important;
+        }
 
-</table>
+    .TieuDe p {
+        font-family: initial;
+        font-size: 35px;
+        color: #00020c;
+    }
+
+    .TieuDe a {
+        width: 50px;
+    }
+
+    h2 {
+        text-align: center;
+        color: #4169E1;
+    }
+
+    .Bang {
+        background: none;
+        border-top: none;
+    }
+</style>
+<h2>DANH SÁCH ĐƠN NHẬP HÀNG</h2>
+
+<div class="col-md-12">
+    <table id="pnh_ncc" class="table table-bordered table-striped table-admin" role="grid">
+        <tr>
+
+            <th>
+                Mã phiếu đặt hàng
+            </th>
+            
+
+            <th>
+                Tổng tiền
+            </th>
+            <th>
+                Người nhập
+            </th>
+            <th>
+                Ngày nhập
+            </th>
+            <th>Trạng thái</th>
+            <th>Chức năng</th>
+        </tr>
+        <tbody class="tbody"> </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $(document).on('load', loadGridView());
+
+        //config toastr
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "2000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    });
+    function loadGridView() {
+        $('#pnh_ncc').DataTable({
+
+            serverSide: true,
+            ajax: {
+                url: "/Admin/PhieuNhapHang_NCC/getall",
+                type: "POST",
+                dataType: "JSON",
+            },
+            language: {
+                lengthMenu: "Hiển thị _MENU_ mục",
+                zeroRecords: "Không tìm thấy ",
+                info: "Hiển thị trang _PAGE_ đến _PAGES_ của _MAX_ mục",
+                infoEmpty: "Không có dữ liệu",
+                infoFiltered: "(lọc từ _MAX_ tổng mục)",
+                search: "Tìm kiếm",
+                searchPlaceholder: "Search...",
+            },
+            columns: [
+
+                { title: "Mã phiếu đặt hàng", data: "MaPhieuDat" },
+               
+                { title: "Tổng tiền", data: "TongTien" },
+                { title: "Người nhập", data: "NguoiNhap" },
+                {
+                    title: "Ngày nhập", data: "NgayNhap",
+                     render: function (data, type, full, meta) {
+                        data = new Date(parseInt(data.replace("/Date(", "").replace(")/", ""), 10));
+                        var dd = data.getDate();
+                        var mm = data.getMonth() + 1; //January is 0!
+                        var yyyy = data.getFullYear();
+                        if (dd < 10) {
+                            dd = '0' + dd;
+                        }
+                        if (mm < 10) {
+                            mm = '0' + mm;
+                        }
+                        var formatted_date = dd + '/' + mm + '/' + yyyy;
+                        return formatted_date;
+                    }
+                },
+                { title: "Trạng thái", data:"TrangThai"},
+                {
+                    title: "Chức năng",
+                    data: "MaPhieuNhap",
+                    searchable: false,
+                    sortable: false,
+                    render: function (data, type, full, meta) {
+                        return `<div>
+                                     <a class="btn btn-success" href="/Admin/PhieuNhapHang_NCC/Details/${data}">
+                                        <i class="fa fa-search-plus"></i>
+                                     </a>
+                                    
+                                 </div> `
+                    }
+                }
+            ],
+
+        });
+    }
+
+    function xoaNhapHangNCC(data) {
+        var table = $('#pnh_ncc').DataTable();
+        var data_row = table.row($(data).closest('tr')).data();
+        if (data_row.TrangThai !== "Đang xử lý") {
+            toastr.error("Đơn hàng này không thể xóa");
+            return;
+        }
+        if (window.confirm("Bạn có muốn huỷ đơn nhập hàng này không?")) {
+
+            $.ajax({
+                method: "POST",
+                url: "/Admin/PhieuNhapHang_NCC/Delete/" + data_row.MaPhieuNhap,
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data.StatusCode === 200) {
+                        toastr.success("Huỷ đơn hàng thành công");
+                        $('#pdh_ncc').DataTable().ajax.reload();
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(errorThrown);
+                }
+            });
+        }
+    }
+</script>

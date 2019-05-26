@@ -78,7 +78,8 @@ namespace WebSiteBanHang.Services
                     NguoiDat = t.NGUOIDAT,
                     NgayDat = t.NGAYDAT,
                     TrangThai = t.TRANGTHAI == 0 ? TinhTrangDatHang.DaHuy :
-                                    (t.TRANGTHAI == 1 ? TinhTrangDatHang.DangXyLy : TinhTrangDatHang.DaNhan)
+                                    (t.TRANGTHAI == 1) ? TinhTrangDatHang.DangXyLy : (t.TRANGTHAI == 2) ?
+                                    TinhTrangDatHang.DaNhan : TinhTrangDatHang.DangDat
 
                 }).ToList();
 
@@ -106,8 +107,8 @@ namespace WebSiteBanHang.Services
                       //thong tin them
 
                       TrangThai = t.TRANGTHAI == 0 ? TinhTrangDatHang.DaHuy :
-                        (t.TRANGTHAI == 1 ? TinhTrangDatHang.DangXyLy :
-                       ( t.TRANGTHAI == 2 ? TinhTrangDatHang.DangDat : TinhTrangDatHang.DaNhan)),
+                                    (t.TRANGTHAI == 1) ? TinhTrangDatHang.DangXyLy : (t.TRANGTHAI == 2) ?
+                                    TinhTrangDatHang.DangDat : TinhTrangDatHang.DaNhan,
                       ChiTietPhieuDats = t.CT_PHIEUDATNCCs.Where(k=> k.TRANGTHAI !=0)
                       .Select(k => new CT_PhieuDatHangNCCViewModel()
                       {
@@ -139,27 +140,13 @@ namespace WebSiteBanHang.Services
             {
                 return 1;
             }
-            if (trangThai == TinhTrangDatHang.DangDat)
+            if (trangThai == TinhTrangDatHang.DaNhan)
             {
                 return 2;
             }
             return 3;
         }
-        public int Add(CT_PhieuDatHangNCCViewModel model)
-        {
-            var ctpd = new CT_PHIEUDATNCC
-            {
-                MASANPHAM=model.MaSP,
-                SOLUONG=model.SL,
-                GIANHAP=model.GiaNhap,
-                THANHTIEN=model.ThanhTien,
-
-               
-            };
-            context.CT_PHIEUDATNCCs.Add(ctpd);
-            context.SaveChanges();
-            return ctpd.MACTPD;
-        }
+      
 
         public bool AddPhieuDatHangNCC(PhieuDatHang_NCCViewModel model)
         {
@@ -181,6 +168,27 @@ namespace WebSiteBanHang.Services
                 var chiTiet = new CT_PHIEUDATNCC()
                 {
                     MAPHIEUDAT = phieuDat.MAPHIEUDAT,
+                    MASANPHAM = detail.MaSP,
+                    SOLUONG = detail.SL,
+                    GIANHAP = detail.GiaNhap,
+                    THANHTIEN = detail.SL * detail.GiaNhap,
+                    TRANGTHAI = 1,
+                };
+                context.CT_PHIEUDATNCCs.Add(chiTiet);
+            }
+            context.SaveChanges();
+            return true;
+        }
+
+        public bool AddCTPhieuDatHangNCC(int id,PhieuDatHang_NCCViewModel model)
+        {
+            var tongTien = model.ChiTietPhieuDats.Sum(t => t.SL * t.GiaNhap);
+  
+            foreach (var detail in model.ChiTietPhieuDats)
+            {
+                var chiTiet = new CT_PHIEUDATNCC()
+                {
+                    MAPHIEUDAT = id,
                     MASANPHAM = detail.MaSP,
                     SOLUONG = detail.SL,
                     GIANHAP = detail.GiaNhap,
@@ -295,7 +303,7 @@ namespace WebSiteBanHang.Services
             {
                 return;
             }
-            datHang.TRANGTHAI = 2;
+            datHang.TRANGTHAI = 3;
             datHang.NGAYDAT = DateTime.Now;
             
             context.SaveChanges();

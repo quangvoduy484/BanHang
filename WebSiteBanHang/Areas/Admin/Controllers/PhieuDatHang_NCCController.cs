@@ -58,6 +58,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         }
 
         // POST: Admin/PhieuDatHang_NCC/Create
+        // Add đơn đặt hàng mới
         [HttpPost]
         public ActionResult Create(PhieuDatHang_NCCViewModel model)
         {
@@ -91,8 +92,42 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             
         }
 
-    // GET: Admin/PhieuDatHang_NCC/Edit/5
-    public ActionResult Edit(int id)
+        // Add chi tiết đơn đặt hàng
+        [HttpPost]
+        public ActionResult CreateCTDH(int id,PhieuDatHang_NCCViewModel model)
+        {
+
+            var result = new ReponseMessage();
+            try
+            {
+                if (!ModelState.IsValid || model == null || model.ChiTietPhieuDats?.Count == 0)
+                {
+                    result.Message = "Dữ liệu truyền vào không chính xác";
+                    result.StatusCode = HttpStatusCode.BadRequest;
+                    return Json(result);
+
+                }
+                // TODO: Add delete logic here
+                var kq = PDHService.AddCTPhieuDatHangNCC(id,model);
+                if (kq == false)
+                {
+                    result.Message = "Có lỗi trong qúa trình xử lý";
+                    result.StatusCode = HttpStatusCode.BadRequest;
+                }
+                result.StatusCode = HttpStatusCode.OK;
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Có lỗi trong quá trình xử lý";
+                result.StatusCode = HttpStatusCode.ExpectationFailed;
+                return Json(result);
+            }
+
+        }
+
+        // GET: Admin/PhieuDatHang_NCC/Edit/5
+        public ActionResult Edit(int id)
         {
             return View();
         }

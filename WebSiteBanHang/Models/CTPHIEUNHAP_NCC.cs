@@ -16,7 +16,7 @@ namespace WebSiteBanHang.Models
 
         public int MASANPHAM { get; set; }
 
-        public int? SOLUONGNHAP { get; set; }
+        public int SOLUONGNHAP { get; set; }
 
         public decimal? GIANHAP { get; set; }
 

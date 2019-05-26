@@ -204,6 +204,7 @@
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\DatHangKHController.cs" />
     <Compile Include="Areas\Admin\Controllers\GiaSanPhamController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NhanVienController.cs" />
     <Compile Include="Areas\Admin\Controllers\NhomQuyenController.cs" />
     <Compile Include="Areas\Admin\Controllers\QuyenController.cs" />
     <Compile Include="Areas\Admin\Controllers\HoaDonGiaoHangController.cs" />
@@ -212,7 +213,7 @@
     <Compile Include="Areas\Admin\Controllers\LoaiPhongController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiSPController.cs" />
     <Compile Include="Areas\Admin\Controllers\NCCController.cs" />
-    <Compile Include="Areas\Admin\Controllers\NhanVienController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NhanVien_NhomController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhanNhomNVController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhieuDatHang_NCCController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhieuNhapHang_NCCController.cs" />
@@ -346,6 +347,14 @@
     <Compile Include="Migrations\201905230715210_add-TrangThai-PhieuDatHang.Designer.cs">
       <DependentUpon>201905230715210_add-TrangThai-PhieuDatHang.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905261003075_update-database.cs" />
+    <Compile Include="Migrations\201905261003075_update-database.Designer.cs">
+      <DependentUpon>201905261003075_update-database.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905261244304_add-required-NV.cs" />
+    <Compile Include="Migrations\201905261244304_add-required-NV.Designer.cs">
+      <DependentUpon>201905261244304_add-required-NV.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201905191706375_Add_Table_DIACHI.cs" />
     <Compile Include="Migrations\201905191706375_Add_Table_DIACHI.Designer.cs">
       <DependentUpon>201905191706375_Add_Table_DIACHI.cs</DependentUpon>
@@ -409,6 +418,7 @@
     <Compile Include="Services\DardboardService.cs" />
     <Compile Include="Services\DatHangKHService.cs" />
     <Compile Include="Services\GiaSPService.cs" />
+    <Compile Include="Services\NhanVienService.cs" />
     <Compile Include="Services\NhomQuyenService.cs" />
     <Compile Include="Services\QuyenService.cs" />
     <Compile Include="Services\HoaDonGiaoHang.cs" />
@@ -417,7 +427,7 @@
     <Compile Include="Services\LoaiPhongService.cs" />
     <Compile Include="Services\LoaiSPService.cs" />
     <Compile Include="Services\NCCService.cs" />
-    <Compile Include="Services\NhanVienService.cs" />
+    <Compile Include="Services\NhanVien_NhomService.cs" />
     <Compile Include="Services\PhanNhomNVService.cs" />
     <Compile Include="Services\PhieuDatHang_NCCService.cs" />
     <Compile Include="Services\PhieuNhapHang_NCCService.cs" />
@@ -6246,7 +6256,6 @@
     <Content Include="Areas\Admin\Views\DatHangKH\Create.cshtml" />
     <Content Include="Areas\Admin\Views\PhieuDatHang_NCC\Create.cshtml" />
     <Content Include="Areas\Admin\Views\CT_PhieuDatHangNCC\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\NhanVien\Index.cshtml" />
     <Content Include="Areas\Admin\Views\DatHangKH\Edit.cshtml" />
     <Content Include="App_Browsers\qt.browser" />
     <Content Include="libman.json" />
@@ -6256,11 +6265,11 @@
     <Content Include="Areas\Admin\Views\PhanNhomNV\Details.cshtml" />
     <Content Include="Areas\Admin\Views\NhomQuyen\Index.cshtml" />
     <Content Include="Areas\Admin\Views\NhomQuyen\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\NhanVien\Create.cshtml" />
     <Content Include="Areas\Admin\Views\PhieuDatHang_NCC\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\PhieuNhapHang_NCC\Details.cshtml" />
     <Content Include="Areas\Admin\Views\PhieuNhapHang_NCC\Create.cshtml" />
     <Content Include="Areas\Admin\Views\PhieuNhapHang_NCC\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuNhapHang_NCC\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\NhanVien\Index.cshtml" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -6354,6 +6363,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905190107565_update-db.resx">
       <DependentUpon>201905190107565_update-db.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905261003075_update-database.resx">
+      <DependentUpon>201905261003075_update-database.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905261244304_add-required-NV.resx">
+      <DependentUpon>201905261244304_add-required-NV.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
