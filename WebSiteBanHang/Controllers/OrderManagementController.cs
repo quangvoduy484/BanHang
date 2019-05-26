@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using WebSiteBanHang.Helper;
 using WebSiteBanHang.Models;
 using WebSiteBanHang.ViewModel;
-
+using System.Data.Entity;
 namespace WebSiteBanHang.Controllers
 {
     public class OrderManagementController : Controller
@@ -20,34 +20,37 @@ namespace WebSiteBanHang.Controllers
             return View();
         }
 
-        public JsonResult getOderByState(int? status = 1)
+        [HttpPost]
+        public JsonResult getOderByState(int? status)
         {
 
             var user = SessionUser.GetSession();
-            var listorder = db.DATHANGs.Join(db.CHITIETDATHANGs, dh => dh.Id_DatHang, ct => ct.Id_DatHang, (dh, ct) => new { DATHANGs = dh, CHITIETDATHANG = ct })
-                                   .Join(db.SANPHAMs, x => x.CHITIETDATHANG.Id_SanPham, sp => sp.Id_SanPham, (x, sp) => new { x.DATHANGs, x.CHITIETDATHANG, SANPHAM = sp })
-                                   .Where(x => x.DATHANGs.TrangThai == status && x.DATHANGs.Id_KhachHang == user.Id)
-                                   .Select(x => new StatusOrder()
-                                   {
-                                       Id_DatHang = x.DATHANGs.Id_DatHang,
-                                       NgayDat = x.DATHANGs.NgayDat,
-                                       Tensp = x.SANPHAM.TenSanPham,
-                                       Hinh = x.SANPHAM.HinhAnh,
-                                       Soluong = x.CHITIETDATHANG.SoLuong,
-                                       Giaban = x.CHITIETDATHANG.GiaBan
+            var listorder = db.DATHANGs
+                .Include(t => t.CHITIETDATHANGs)
+                .Where(x => x.TrangThai == status && x.Id_KhachHang == user.Id)
+                .Select(x => new
+                {
+                    Id_DatHang = x.Id_DatHang,
+                    NgayDat = x.NgayDat,
+                    order = x.CHITIETDATHANGs.Select(y => new
+                    {
+                        Hinh = y.SANPHAM.HinhAnh ?? y.SANPHAM.HINHs.FirstOrDefault().Link,
+                        Tensp = y.SANPHAM.TenSanPham,
+                        Soluong = y.SoLuong
+                    }).ToList()
 
-                                   }).AsQueryable().ToList();
+                }).ToList();
             ViewBag.TongSo = listorder.Count();
 
             if (listorder.Count > 0)
             {
-                return Json(new { orders = listorder }, JsonRequestBehavior.AllowGet);
+                return Json(new { orders = listorder, status = true }, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                return Json(new { message = "Bạn vẫn chưa có đơn đặt hàng"}, JsonRequestBehavior.AllowGet);
+                return Json(new { message = "Bạn vẫn chưa có đơn đặt hàng", status = false }, JsonRequestBehavior.AllowGet);
             }
-        
+
         }
     }
 }

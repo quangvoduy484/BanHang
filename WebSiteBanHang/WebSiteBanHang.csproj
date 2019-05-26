@@ -325,6 +325,10 @@
     <Compile Include="Migrations\201905191719057_Add_Coulumn_TrangThai_For_DIACHI.Designer.cs">
       <DependentUpon>201905191719057_Add_Coulumn_TrangThai_For_DIACHI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905241018082_Merge.cs" />
+    <Compile Include="Migrations\201905241018082_Merge.Designer.cs">
+      <DependentUpon>201905241018082_Merge.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\DIACHI.cs" />
     <Compile Include="ViewModel\StatusOrder.cs" />
     <Compile Include="ViewModel\User.cs" />
@@ -388,6 +392,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905191719057_Add_Coulumn_TrangThai_For_DIACHI.resx">
       <DependentUpon>201905191719057_Add_Coulumn_TrangThai_For_DIACHI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905241018082_Merge.resx">
+      <DependentUpon>201905241018082_Merge.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -5969,8 +5976,10 @@
     <Content Include="Content\Template\dist\css\alt\AdminLTE-select2.min.css" />
     <Content Include="Content\Template\dist\css\alt\AdminLTE-without-plugins.css" />
     <Content Include="Content\Template\dist\css\alt\AdminLTE-without-plugins.min.css" />
+    <Content Include="Content\Template\dist\css\page\Comment.css" />
     <Content Include="Content\Template\dist\css\page\Header.css" />
     <Content Include="Content\Template\dist\css\page\ModalCart.css" />
+    <Content Include="Content\Template\dist\css\page\OrderMangament.css" />
     <Content Include="Content\Template\dist\css\page\ProductCart.css" />
     <Content Include="Content\Template\dist\css\page\ProductDetail.css" />
     <Content Include="Content\Template\dist\css\page\Slickslides.css" />

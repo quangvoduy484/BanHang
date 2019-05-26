@@ -1,0 +1,46 @@
+﻿.order-item {
+    margin-top: 12px;
+    padding-bottom: 24px;
+    background-color: #fff;
+}
+
+.order-item .item-pic {
+    float: left;
+}
+.order-item .item-main-mini {
+   
+}
+.order-item .item-main {
+    float: left;
+    width: 303px;
+    margin-left: 12px;
+    margin-right: 24px;
+}
+.order-item .item-quantity {
+    font-size: 14px;
+    float: left;
+    
+    min-height: 80px;
+    text-align: left;
+}
+.order-item .item-capsule {
+   
+    text-align: center;
+}
+
+.order-item .item-status {
+    float: left;
+    min-height: 80px;
+    text-align: left;
+    margin-left: 280px;
+}
+.order-item .item-info {
+    float: right;
+    min-height: 80px;
+    text-align: right;
+   
+}
+.tab-pane
+{
+    clear:both;
+}

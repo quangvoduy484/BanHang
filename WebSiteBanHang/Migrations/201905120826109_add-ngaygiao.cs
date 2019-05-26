@@ -9,7 +9,7 @@ namespace WebSiteBanHang.Migrations
         {
             AddColumn("dbo.DATHANG", "NgayGiao", c => c.DateTime());
             AlterColumn("dbo.DATHANG", "DiaChiGiao", c => c.String(nullable: false));
-            AlterColumn("dbo.DATHANG", "SoDienThoai", c => c.String(nullable: false, maxLength: 10));
+            AlterColumn("dbo.DATHANG", "SoDienThoai", c => c.String(nullable: false));
         }
         
         public override void Down()
