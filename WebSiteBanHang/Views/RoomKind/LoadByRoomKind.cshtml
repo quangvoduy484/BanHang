@@ -1,0 +1,124 @@
+﻿@model WebSiteBanHang.ViewModel.RoomKindViewModel
+@{
+    ViewBag.Title = "LoadByRoomKind";
+    Layout = "~/Views/Shared/TrangChu.cshtml";
+}
+<link href="~/Content/MyStyle/RoomKind.css" rel="stylesheet" />
+<div class="col-md-12">
+    <div class="col-md-3 left-header">
+        <h4>Nội thất @Model.TenPhong.ToLower()</h4>
+        <hr />
+    </div>
+
+    <div class="col-md-9">
+        <p>
+            @Model.MoTa
+        </p>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="col-md-3 left-menu">
+        @{
+            var length = Model.LoaiSanPhams.Count / 4;  //Số lượng ul
+            var dif = Model.LoaiSanPhams.Count % 4; //Số dư còn lại(li)
+            int take = 4;
+            for (int i = 0; i < length; i++)
+            {
+                var loaiSPs = Model.LoaiSanPhams.Skip(i * take).Take(take);
+                <ul>
+
+                    @foreach (var loaiSP in loaiSPs)
+                    {
+                        <li>
+                            <a href="/RoomKind/LoadByRoomKind?id=@Model.MaPhong&loaiSP=@loaiSP.MaLoai" title="@loaiSP.TenLoai">@loaiSP.TenLoai</a>
+                        </li>
+                    }
+                </ul>
+                <hr />
+
+            }
+            if (dif > 0)
+            {
+                var difLoaiSP = Model.LoaiSanPhams.Skip(length * take).Take(dif); //so luong loai san phâm còn lại
+                <ul>
+                    @foreach (var loaiSP in difLoaiSP)
+                    {
+                        <li>
+                            <a href="#" title="@loaiSP.TenLoai">@loaiSP.TenLoai</a>
+                        </li>
+                    }
+                </ul>
+            }
+        }
+    </div>
+    <div class="col-md-9">
+        <div class="product-list">
+            @foreach (var sanPham in Model.SanPhams)
+            {
+                <div class="product-item">
+                    <a href="/ProductDetails/getDetailProduct/@sanPham.MaSanPham" class="image">
+                        <img src="@sanPham.HinhAnh">
+                    </a>
+                    <div class="product-info">
+                        <h2 class="header_sofa">
+                            <a href="/ProductDetails/getDetailProduct/@sanPham.MaSanPham">
+                                @sanPham.TenSanPham
+                            </a>
+                        </h2>
+                        <div class="gia-sp">
+                            @if (sanPham.KhuyenMai.HasValue)
+                            {
+                                <div class="gia-ban">
+                                    @{
+                                        var giaBan =sanPham.GiaGoc * (1 - sanPham.KhuyenMai / 100.0);
+                                    <div class="gia-ban">
+                                        @String.Format("{0:0,00}", giaBan).ToString() đ
+                                    </div>
+                                    }
+                                </div>
+                                <div>
+                                    <span class="gia-goc">@String.Format("{0:0,00}", sanPham.GiaGoc).ToString() đ</span>
+                                    <span class="khuyen-mai">- @sanPham.KhuyenMai %</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="gia-ban">
+                                    @String.Format("{0:0,00}", sanPham.GiaGoc).ToString() đ
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $.ajax({
+            url: '/RoomKind/LoadByRoomKind',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, item) {
+
+                    var row = "<a  href='/ProductDetails/getDetailProduct/" + item.Id + "' >" + "<div class='col-md-4' style='text-align:center;padding:15px 15px 15px 15px;'>"
+
+                        + "<div>" +
+                        "<img style='width:300px' src=" + item.Hinh + " />"
+                        + "</div>" +
+                        "<div >"
+                        + item.Ten +
+                        "</div>" + "</div>" + "</a>";
+                    $('#new_product #product').append(row);
+                });
+            }
+        });
+</script>

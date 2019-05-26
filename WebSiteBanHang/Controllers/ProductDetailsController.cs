@@ -39,7 +39,7 @@ namespace WebSiteBanHang.Controllers
                 VatLieu = product.VatLieu,
                 MauSac = product.MauSac,
                 XuatXu = product.XuatXu,
-                HinhAnh = product.HinhAnh
+                HinhAnh = product.HinhAnh ?? string.Empty
             };
             if (!string.IsNullOrWhiteSpace(product.HinhAnh))
             {

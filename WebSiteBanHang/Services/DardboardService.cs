@@ -102,6 +102,11 @@ namespace WebSiteBanHang.Services
             ews.Cells["B3"].Style.Font.Size = 14;
             ews.Cells["B3"].Style.Font.Color.SetColor(Color.Red);
 
+            ews.Cells["B4"].Value = "THỐNG KÊ DOANH THU";
+            ews.Cells["B4"].Style.Font.Size = 14;
+            ews.Cells["B4"].Style.Font.Color.SetColor(Color.Black);
+            ews.Cells["B4"].Style.Font.Bold = true;
+
             ews.Cells["A6"].Value = "STT";
             ews.Cells["A6"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
             ews.Cells["A6"].Style.Font.Bold = true;

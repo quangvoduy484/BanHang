@@ -31,15 +31,30 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item" onclick="turnOnSearch()">
+                    <a href="#">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+
+                    </a>
+                    <div class="search-box " hidden id="searchBox">
+                        <form id="frm_search" name="frm_search" method="get" action="index.php">
+
+                            <input class="search" name="fstr_search" id="text_search" type="text">
+                            <input class="icon-search" type="submit" value="Search">
+                        </form>
+                    </div>
+                </li>
                 <li class="nav-item"><a class="nav-link logout" href="/User/Registor">DANG KI</a></li>
                 <li class="nav-item"><a class="nav-link btn login" id="btn">DANG NHAP</a></li>
                 <li class="nav-item">
+                  
                     <a href="/Cart/renderProductCarts">
                         <img src="~/Content/Template/bower_components/ckeditor/samples/img/shop-01-128.png" width="25px" height="20px" />
 
                         <span id="totalQuantity"></span>
 
                     </a>
+
                 </li>
 
             </ul>
@@ -51,14 +66,14 @@
 <div>
     <ul class="nav navbar-nav menu-kindroom">
         @{
-            
+
             using (WebSiteBanHang.Models.BanHangContext db = new WebSiteBanHang.Models.BanHangContext())
             {
                 var LoaiPhong = db.LOAIPHONGs.Where(x => x.TrangThai != false).OrderBy(x => x.Id_LoaiPhong).AsEnumerable();
                 foreach (var item in LoaiPhong)
                 {
                     <li class="nav-item">
-                        @Html.ActionLink(item.TenLoaiPhong.ToUpper(), "LoadByRoomKind", "RoomKind", new { id = item.Id_LoaiPhong, Type = item.Type }, new { @class = "nav-link" })
+                        @Html.ActionLink(item.TenLoaiPhong.ToUpper(), "LoadByRoomKind", "RoomKind", new { id = item.Id_LoaiPhong }, new { @class = "nav-link" })
                     </li>
                 }
             }
@@ -67,3 +82,14 @@
 
     </ul>
 </div>
+<script>
+    function turnOnSearch() {
+        var hidden = $('#searchBox').attr('hidden');
+        if (hidden) {
+            $('#searchBox').removeAttr('hidden');
+        }
+        else {
+            $('#searchBox').attr('hidden',true);
+        }
+    }
+</script>

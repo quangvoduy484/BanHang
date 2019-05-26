@@ -359,6 +359,8 @@
       <DependentUpon>201905250739185_modify-conflic.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\DIACHI.cs" />
+    <Compile Include="Services\RoomKindService.cs" />
+    <Compile Include="ViewModel\RoomKindViewModel.cs" />
     <Compile Include="ViewModel\StatusOrder.cs" />
     <Compile Include="ViewModel\User.cs" />
     <EmbeddedResource Include="Migrations\201905110427555_reslove-conflic.cs" />
@@ -438,6 +440,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\nha-xinh-logo.jpg" />
+    <Content Include="Content\MyStyle\RoomKind.css" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker.css" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker.css.map" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker.min.css" />
@@ -6185,7 +6188,6 @@
     <Folder Include="Content\Template\bower_components\ckeditor\plugins\uploadwidget\lang\" />
     <Folder Include="Content\Template\bower_components\ckeditor\plugins\widgetselection\" />
     <Folder Include="Content\Template\bower_components\ckeditor\plugins\widget\lang\" />
-    <Folder Include="Views\RoomKind\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -6272,6 +6274,7 @@
     <Content Include="Views\Address\PartialAdress.cshtml" />
     <Content Include="Views\Address\addAdressPartial.cshtml" />
     <Content Include="Views\Comment\addCommentPartial.cshtml" />
+    <Content Include="Views\RoomKind\LoadByRoomKind.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201904231741032_InitialCreate.resx">
