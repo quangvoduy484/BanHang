@@ -93,7 +93,7 @@ namespace WebSiteBanHang.Services
 
         public List<SanPhamDropDownViewModel> GetAllDropDownList(string search)
         {
-            var sanPhams = context.SANPHAMs.Where(t=>t.TrangThai != false);
+            var sanPhams = context.SANPHAMs.Where(t => t.TrangThai != false);
             if (!string.IsNullOrWhiteSpace(search))
             {
                 sanPhams = sanPhams.Where(t => t.TenSanPham.Contains(search));
@@ -113,6 +113,34 @@ namespace WebSiteBanHang.Services
         public List<LOAISANPHAM> GetAllLoaiSP()
         {
             return context.LOAISANPHAMs.ToList();
+        }
+        public List<SanPhamViewModel> GetTenSP()
+        {
+
+            return context.SANPHAMs
+                .Where(t => t.TrangThai != false)
+                .OrderBy(t => t.TenSanPham)
+                 .Select(t => new SanPhamViewModel
+                 {
+                     MaSanPham = t.Id_SanPham,
+                     TenSanPham = t.TenSanPham,
+                 })
+                    .ToList();
+        }
+
+        public List<SanPhamViewModel> GetTenSPForPhieuDat(int CTDDH)
+        {
+            
+            return context.SANPHAMs
+                .Where(t => t.TrangThai != false)
+                .Where(t=>t.CT_PHIEUDATNCCs.All(x=>x.MACTPD!=CTDDH && x.TRANGTHAI ==1 ))
+                .OrderBy(t => t.TenSanPham)
+                 .Select(t => new SanPhamViewModel
+                 {
+                     MaSanPham = t.Id_SanPham,
+                     TenSanPham = t.TenSanPham,
+                 })
+                    .ToList();
         }
         public int Add(SanPhamViewModel model)
         {
@@ -138,27 +166,38 @@ namespace WebSiteBanHang.Services
         {
             var SanPham = context.SANPHAMs
                 .Include(t => t.HINHs)
-                .FirstOrDefault(t => t.TrangThai != false && t.Id_SanPham == id);
+                .Include(t => t.GIASANPHAMs)
+                .OrderByDescending(t => t.KHUYENMAI.NgayBatDau)
+                .FirstOrDefault(t => t.TrangThai != false && t.Id_SanPham == id /*&& t.KHUYENMAI.NgayKetThuc >= DateTime.Now && t.KHUYENMAI.NgayBatDau <= DateTime.Now*/);
             if (SanPham == null)
             {
                 return null;
             }
-            var result = new SanPhamViewModel()
+            var result = new SanPhamViewModel();
+
+            if (SanPham.KHUYENMAI?.NgayBatDau <= DateTime.Now && SanPham.KHUYENMAI?.NgayKetThuc >= DateTime.Now)
             {
-                MaSanPham = SanPham.Id_SanPham,
-                MaLoai = SanPham.Id_LoaiSanPham,
-                TenSanPham = SanPham.TenSanPham,
-                DVT = SanPham.DonViTinh,
-                MauSac = SanPham.MauSac,
-                VatLieu = SanPham.VatLieu,
-                SoLuongTon = SanPham.SoLuongTon,
-                KichThuoc = SanPham.KichThuoc,
-                XuatXu = SanPham.XuatXu,
-                TenLoai = SanPham.LOAISANPHAM.TenLoai,
-                HinhAnh = SanPham.HinhAnh ?? string.Empty,
-                BaoHanh = SanPham.BaoHanh,
-                MoTa = SanPham.Mota,
-            };
+                result.GiaTriKhuyenMai = SanPham.KHUYENMAI.GiaTriKhuyenMai;
+                result.TenKhuyenMai = SanPham.KHUYENMAI.TenKhuyenMai;
+            }
+
+            result.MaSanPham = SanPham.Id_SanPham;
+            result.MaLoai = SanPham.Id_LoaiSanPham;
+            result.TenSanPham = SanPham.TenSanPham;
+            result.GiaSP = SanPham.GIASANPHAMs.Where(t => t.TrangThai != false).OrderByDescending(t => t.NgayLap).Select(t => t.GiaBan).FirstOrDefault();
+            result.DVT = SanPham.DonViTinh;
+            result.MauSac = SanPham.MauSac;
+            result.VatLieu = SanPham.VatLieu;
+            result.SoLuongTon = SanPham.SoLuongTon;
+            result.KichThuoc = SanPham.KichThuoc;
+            result.XuatXu = SanPham.XuatXu;
+            result.TenLoai = SanPham.LOAISANPHAM.TenLoai;
+            result.HinhAnh = SanPham.HinhAnh ?? string.Empty;
+            result.BaoHanh = SanPham.BaoHanh;
+            result.MoTa = SanPham.Mota;
+
+
+
             if (!string.IsNullOrEmpty(SanPham.HinhAnh))
             {
                 result.HinhAnhs.Add(new HinhAnhViewModel()
@@ -284,6 +323,24 @@ namespace WebSiteBanHang.Services
             };
             context.HINHs.Add(hinh);
             context.SaveChanges();
+        }
+
+        public bool UpdateGia(double gia, int maSP)
+        {
+            GIASANPHAM giaSP = new GIASANPHAM()
+            {
+                GiaBan = gia,
+                NgayLap = DateTime.Now,
+                Id_SanPham = maSP,
+            };
+            var giaSPexit = context.GIASANPHAMs.Where(t => t.Id_SanPham == maSP && t.TrangThai != false).ToList();
+            foreach (var item in giaSPexit)
+            {
+                item.TrangThai = false;
+            }
+            context.GIASANPHAMs.Add(giaSP);
+            context.SaveChanges();
+            return true;
         }
     }
 }

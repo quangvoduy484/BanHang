@@ -1,0 +1,171 @@
+﻿@model IEnumerable<WebSiteBanHang.Areas.Admin.ViewModels.PhanNhomNVViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
+}
+
+@*<div style="padding-bottom: 10px; padding-left: 15px;">
+    <a class="btn btn-success" href="/Admin/NhanVien/Create">Thêm mới</a>
+</div>*@
+<div class="col-md-12">
+    <table id="pnnv" class="table table-bordered table-striped table-admin" role="grid">
+        <tr>
+
+            <th>
+                Tên nhân viên
+            </th>
+            <th>
+                Số điện thoại
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Mật khẩu
+            </th>
+
+            <th>Chức năng</th>
+        </tr>
+        <tbody class="tbody"> </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="myModalUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title title" id="exampleModalLabel">ACCOUNT Mới </h5>
+            </div>
+            <div class="modal-body">
+                <form id="myForm">
+                    <div class="form-group">
+                        <label for="nhom" class="col-form-label">Tên nhân viên</label>
+                        <input type="text" class="form-control" id="username" name="username">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nhom" class="col-form-label">Phone</label>
+                        <input type="text" class="form-control" id="phone" name="phone">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nhom" class="col-form-label">Email</label>
+                        <input type="text" class="form-control" id="email" name="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nhom" class="col-form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
+                <button type="button" id="submit" onclick="AddAccount()" class="btn btn-primary">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //var nav = $('.content-nav');
+        //if (nav.length) {
+        //    var contentNav = nav.offset().top;
+        //}
+        $(document).on('load', loadGridView());
+
+        //config toastr
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "2000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    });
+    var id=@ViewBag.ID_Group;
+    function loadGridView() {
+        $('#pnnv').DataTable({
+
+            serverSide: true,
+            ajax: {
+                url: "/Admin/NhanVien/getall/"+id,
+                type: "POST",
+                dataType: "JSON",
+            },
+            language: {
+                lengthMenu: "Hiển thị _MENU_ mục",
+                zeroRecords: "Không tìm thấy ",
+                info: "Hiển thị trang _PAGE_ đến _PAGES_ của _MAX_ mục",
+                infoEmpty: "Không có dữ liệu",
+                infoFiltered: "(lọc từ _MAX_ tổng mục)",
+                search: "Tìm kiếm",
+                searchPlaceholder: "Search...",
+            },
+            columns: [
+
+                { title: "Tên nhân viên", data: "TenNV" },
+                { title: "Số điện thoại", data: "SDT" },
+                { title: "Email", data: "Email" },
+                { title: "Mật khẩu", data: "PassWord" },
+                {
+                    title: "Chức năng",
+                    data: function (data, type, dataToSet) {
+                        return data.MaNhom + "," + data.TenNV;
+                    },
+                    
+                    searchable: false,
+                    sortable: false,
+                    render: function (data, type, full, meta) {
+                        var list = data.split(",")
+                        var groupid = list[0];
+                        var username = list[1];
+                        return `<div>
+                                     <a class="btn btn-danger" onclick="XoaNhanVien(${groupid},'${username}')">
+                                         <i class="fa fa-trash-o"></i>
+                                     </a>
+                                 </div> `
+
+                    }
+                }
+            ],
+
+        });
+    }
+    function XoaNhanVien(groupid, username) {
+        
+        if (window.confirm("Bạn có muốn xoá không?")) {
+            $.ajax({
+                method: "POST",
+                url: "/Admin/NhanVien/Delete?groupid=" + groupid + "&username=" + username,
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data.StatusCode === 200) {
+                        toastr.success("Xóa thành công");
+                        $('#pnnv').DataTable().ajax.reload();
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(errorThrown);
+                }
+            });
+        }
+    }
+
+    
+        
+</script>
