@@ -1,0 +1,83 @@
+﻿.left-header h4 {
+    padding-left: 50px;
+    color: #4C4C4E;
+}
+
+.left-header hr {
+    border: 0px;
+    border-bottom: 1px solid #D4D4D4;
+    width: 230px;
+}
+
+.left-menu li {
+    display: block;
+    padding: 4px 0;
+}
+
+    .left-menu li a {
+        text-decoration: none;
+        color: #4C4C4E;
+    }
+
+        .left-menu li a:hover {
+            text-decoration: underline;
+            color: #CF7600;
+        }
+
+.left-menu hr {
+    border: 0px;
+    border-bottom: 1px solid #D4D4D4;
+    width: 230px;
+}
+
+.product-item {
+    border-left: 1px dashed #ccc;
+    border-bottom: 1px dashed #ccc;
+    border-right: 1px dashed #ccc;
+    border-top: 1px dashed #ccc;
+    font-size: 14px;
+    width: 305px;
+    float: left;
+    height: 280px;
+}
+
+    .product-item .image {
+        display: flex;
+        justify-content: center;
+    }
+
+    .product-item img {
+        border: 0;
+        width: 280px;
+        height: 177px;
+        text-align: center;
+        display: inline;
+    }
+
+    .product-item .product-info {
+        padding: 0 10px;
+    }
+
+    .product-item h2 {
+        line-height: 1.5;
+        font-size: 16px;
+    }
+
+    .product-item .gia-goc {
+        text-decoration: line-through;
+        font-style: italic;
+        color: #826a6e;
+    }
+
+    .product-item .khuyen-mai {
+        color: #080808;
+    }
+
+    .product-item .gia-ban {
+        font-weight: bold;
+        font-size: 16px;
+        color: #ec4f12;
+    }
+
+
+}
