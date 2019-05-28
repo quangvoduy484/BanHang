@@ -92,8 +92,11 @@
                                             var customer = db.KHACHHANGs.Where(x => x.Id_KhachHang == customerlogin.Id).SingleOrDefault();
                                             if (customer.DiemTichLuy > 0)
                                             {
-                                                <input id="Accumulated" type="checkbox" name="checkAccumulated" />
-                                                <label for="checkAccumulated"> Dùng điểm tích lũy</label>
+                                                <div style="display:inline-block" id="Accumulated">
+                                                    <input  type="checkbox" checked name="checkAccumulated" />
+                                                    <label for="checkAccumulated"> Dùng điểm tích lũy</label>
+                                                </div>
+                                             
                                             }
                                         }
 
@@ -229,7 +232,7 @@
 
 
                 $('.item-product-cart').each(function () {
-                    $('input[type = "checkbox"]').prop('checked', true);
+                    $('.item-product-cart input[type = "checkbox"]').prop('checked', true);
 
                 })
             }
@@ -237,7 +240,7 @@
 
                 sessionStorage.removeItem("check-all");
                 $('.item-product-cart').each(function () {
-                    $('input[type = "checkbox"]').prop('checked', false);
+                    $('.item-product-cart input[type = "checkbox"]').prop('checked', false);
 
 
                 })
@@ -417,8 +420,17 @@
             }
         });
 
+        var a = 0;
+        $('#Accumulated input[type ="checkbox"]').click(function () {
+            a++;
+            if (a % 2 !== 0) {
+                $(this).prop('checked', false);
+            }
+            else {
+                $(this).prop('checked', true);
+            }
 
-
+        })
 
 
 

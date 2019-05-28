@@ -14,13 +14,13 @@
         </ul>
         <!-- Tab panes -->
         <div class="tab-content tabs">
-            <div role="tabpanel" class="tab-pane fade show active" id="tab0">
+            <div role="tabpanel" class="tab-pane   active" id="tab0">
 
             </div>
-            <div role="tabpanel" class="tab-pane fade" id="tab1">
+            <div role="tabpanel" class="tab-pane " id="tab1">
 
             </div>
-            <div role="tabpanel" class="tab-pane fade" id="tab2">
+            <div role="tabpanel" class="tab-pane " id="tab2">
 
             </div>
         </div>
@@ -33,11 +33,13 @@
         $("#tab0").html(getOrder("#tab0"));
 
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+           
             var target = $(e.target).attr("href");
             getOrder(target);
         });
 
         function getOrder(thistab) {
+         
             $(thistab).html('');
             //0 hủy 1 xử lý 2 đã giao
             switch (thistab) {
@@ -59,14 +61,16 @@
                 data: { status },
                 dataType: "json",
                 success: function (response, xhr, error) {
+
                     if (response.status == true) {
-                        var state = "Giao thành công"
+
+                        var state = "Đơn hàng bị hủy"
                         if (status == 1) {
                             state = "Chờ giao hàng";
                         }
                         else {
                             if (status == 2) {
-                                state = "Đơn hàng bị hủy";
+                                state = "giao thành công";
                             }
 
 
@@ -83,13 +87,13 @@
                                        <div class="order-item">
                                             <div class="item-pic"><img style="width:200px;height:100px" src="${item.Hinh}"/></div>
                                             <div class="item-main item-main-mini"><span>${item.Tensp}</span></div>
-                                            <div class="item-quantity"><span>${item.Soluong}</span></div>
+                                            <div class="item-quantity"> <span  style='font-size: 14px;color: #c9c9c9;'>Qty</span> ${item.Soluong}</div>
                                             <div class="item-status item-capsule">${state}</div>
                                             <div class="style="clear:both""></div>
                                        </div>`;
 
                             })
-                            $(thistab).append(row);
+                            $(thistab).append($("<div class='order'></div>").append(row));
                         });
                     }
                     else {
