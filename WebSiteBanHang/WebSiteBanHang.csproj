@@ -37,6 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -246,9 +247,11 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomepageController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
+    <Compile Include="Controllers\InfoCustomerController.cs" />
     <Compile Include="Controllers\OrderManagementController.cs" />
     <Compile Include="Controllers\PayForBillController.cs" />
     <Compile Include="Controllers\ProductDetailsController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\RoomKindController.cs" />
     <Compile Include="Helper\GenHash.cs" />
@@ -362,8 +365,18 @@
     <Compile Include="Migrations\201905241018082_Merge.Designer.cs">
       <DependentUpon>201905241018082_Merge.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905261331224_change-conflic.cs" />
+    <Compile Include="Migrations\201905261331224_change-conflic.Designer.cs">
+      <DependentUpon>201905261331224_change-conflic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905270323363_add-Anh.cs" />
+    <Compile Include="Migrations\201905270323363_add-Anh.Designer.cs">
+      <DependentUpon>201905270323363_add-Anh.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\DIACHI.cs" />
     <Compile Include="Services\RoomKindService.cs" />
+    <Compile Include="Services\SearchService.cs" />
+    <Compile Include="Services\ThongTinKhachHangService.cs" />
     <Compile Include="ViewModel\RoomKindViewModel.cs" />
     <Compile Include="ViewModel\StatusOrder.cs" />
     <Compile Include="ViewModel\User.cs" />
@@ -440,6 +453,12 @@
     <EmbeddedResource Include="Migrations\201905241018082_Merge.resx">
       <DependentUpon>201905241018082_Merge.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905261331224_change-conflic.resx">
+      <DependentUpon>201905261331224_change-conflic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905270323363_add-Anh.resx">
+      <DependentUpon>201905270323363_add-Anh.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -448,6 +467,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\nha-xinh-logo.jpg" />
     <Content Include="Content\MyStyle\RoomKind.css" />
+    <Content Include="Content\MyStyle\TaiKhoanKhachHang.css" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker.css" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker.css.map" />
     <Content Include="Content\Template\bower_components\bootstrap-datepicker\dist\css\bootstrap-datepicker.min.css" />
@@ -6284,6 +6304,8 @@
     <Content Include="Views\Address\addAdressPartial.cshtml" />
     <Content Include="Views\Comment\addCommentPartial.cshtml" />
     <Content Include="Views\RoomKind\LoadByRoomKind.cshtml" />
+    <Content Include="Views\InfoCustomer\Details.cshtml" />
+    <Content Include="Views\Search\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201904231741032_InitialCreate.resx">

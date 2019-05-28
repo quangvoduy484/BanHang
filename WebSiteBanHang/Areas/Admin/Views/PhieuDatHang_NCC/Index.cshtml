@@ -114,20 +114,23 @@
                 { title: "Tên nhà cung cấp", data: "TenNCC" },
                 { title: "Tổng tiền", data: "TongTien" },
                 {
-                    title: "Ngày đặt", data: "NgayDat",
-                     render: function (data, type, full, meta) {
-                        data = new Date(parseInt(data.replace("/Date(", "").replace(")/", ""), 10));
-                        var dd = data.getDate();
-                        var mm = data.getMonth() + 1; //January is 0!
-                        var yyyy = data.getFullYear();
-                        if (dd < 10) {
-                            dd = '0' + dd;
+                    title: "Ngày đặt", data: "NgayDat", 
+                    render: function (data, type, full, meta) {
+                        if (data) {
+                            data = new Date(parseInt(data.replace("/Date(", "").replace(")/", ""), 10));
+                            var dd = data.getDate();
+                            var mm = data.getMonth() + 1; //January is 0!
+                            var yyyy = data.getFullYear();
+                            if (dd < 10) {
+                                dd = '0' + dd;
+                            }
+                            if (mm < 10) {
+                                mm = '0' + mm;
+                            }
+                            var formatted_date = dd + '/' + mm + '/' + yyyy;
+                            return formatted_date;
                         }
-                        if (mm < 10) {
-                            mm = '0' + mm;
-                        }
-                        var formatted_date = dd + '/' + mm + '/' + yyyy;
-                        return formatted_date;
+                        return ''
                     }
                 },
                 { title: "Người đặt", data: "NguoiDat" },
