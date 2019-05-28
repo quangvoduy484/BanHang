@@ -12,7 +12,15 @@ namespace WebSiteBanHang
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-           
+
+            //routes.MapRoute(
+            //     name: "QuanLy",
+            //     url: "QuanLy",
+            //     defaults: new { controller = "Dashboard", action = "Index", id = UrlParameter.Optional }
+
+            // );
+
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

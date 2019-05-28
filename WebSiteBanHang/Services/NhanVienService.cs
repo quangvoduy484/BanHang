@@ -39,23 +39,19 @@ namespace WebSiteBanHang.Services
             return true;
         }
 
+
         public bool Delete(string userName)
         {
-            TBL_LOGIN NVExist = context.TBL_LOGINs.Find(userName);
+            TBL_LOGIN NVExist = context.TBL_LOGINs
+                .FirstOrDefault(t=> t.USERNAME.Equals(userName, StringComparison.InvariantCultureIgnoreCase));
             if (NVExist == null)
             {
                 return false;
             }
-
-            NVExist.ACTIVATE =! NVExist.ACTIVATE;
-
+            NVExist.ACTIVATE = !NVExist.ACTIVATE;
             context.SaveChanges();
             return true;
         }
 
-        internal void AddAccount(TBL_LOGIN collection)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

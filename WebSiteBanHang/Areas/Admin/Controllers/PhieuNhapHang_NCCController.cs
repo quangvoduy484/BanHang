@@ -58,7 +58,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
 
                 }
                 // TODO: Add add logic here
-                PNHService.UpdateTrangThaiDonHang(id);
+               // PNHService.UpdateTrangThaiDonHang(id);
                 var kq = PNHService.AddPhieuNhapHangNCC(id, model);
 
                 if (kq == false)
@@ -66,7 +66,6 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                     result.Message = "Có lỗi trong qúa trình xử lý";
                     result.StatusCode = HttpStatusCode.BadRequest;
                 }
-                var SLTon =
                 result.StatusCode = HttpStatusCode.OK;
                 return Json(result);
             }

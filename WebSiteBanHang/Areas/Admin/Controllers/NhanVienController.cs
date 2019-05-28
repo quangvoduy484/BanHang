@@ -67,66 +67,45 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         }
 
         // GET: Admin/NhanVien/Edit/5
-        public ActionResult Edit(int id)
+        [HttpPost]
+        public ActionResult Edit(string  id)
         {
             return View();
         }
 
         // POST: Admin/NhanVien/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        
+        public ActionResult Edit(string userName, TBL_LOGIN collection)
         {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
 
-        //Admin/NhanVien/Delete?userName=admin
+       
+
+        // POST: Admin/NhanVien/Delete/5
         [HttpPost]
         public ActionResult Delete(string userName)
         {
             var result = new ReponseMessage();
             try
             {
-                // TODO: Add delete logic here
                 var kq = NVService.Delete(userName);
                 if (kq == false)
                 {
-                    result.Message = "Không thể xóa nhân viên này";
+                    result.Message = "Không tìm thấy nhân viên";
                     result.StatusCode = HttpStatusCode.NotFound;
                     return Json(result);
                 }
                 result.StatusCode = HttpStatusCode.OK;
                 return Json(result);
+                // TODO: Add delete logic here
+
             }
-            catch (Exception ex)
+            catch
             {
                 result.Message = "Có lỗi trong quá trình xử lý";
                 result.StatusCode = HttpStatusCode.ExpectationFailed;
                 return Json(result);
-            }
-        }
-
-        // POST: Admin/NhanVien/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
             }
         }
     }

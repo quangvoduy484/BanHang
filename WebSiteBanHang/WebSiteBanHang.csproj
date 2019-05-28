@@ -375,6 +375,10 @@
     <Compile Include="Migrations\201905270435030_new-init.Designer.cs">
       <DependentUpon>201905270435030_new-init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905270031345_init.cs" />
+    <Compile Include="Migrations\201905270031345_init.Designer.cs">
+      <DependentUpon>201905270031345_init.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\DIACHI.cs" />
     <Compile Include="Services\RoomKindService.cs" />
     <Compile Include="ViewModel\RoomKindViewModel.cs" />
@@ -456,6 +460,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905270435030_new-init.resx">
       <DependentUpon>201905270435030_new-init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905270031345_init.resx">
+      <DependentUpon>201905270031345_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

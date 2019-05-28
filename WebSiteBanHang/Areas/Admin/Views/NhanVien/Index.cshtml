@@ -32,9 +32,7 @@
 
 
 <h2>DANH SÁCH TÀI KHOẢN</h2>
-<div style="padding-bottom: 10px; padding-left: 15px;">
-    <a class="btn btn-success" href="/Admin/NhanVien/Create">Thêm mới</a>
-</div>
+
 <div style="padding-bottom: 10px; padding-left: 15px;">
     <a class="btn btn-success" data-toggle="modal" data-target="#myModalUser">Thêm account</a>
 </div>
@@ -58,7 +56,7 @@
                    TRẠNG THÁI
                 </th>
 
-                <th>CHỨC NĂNG</th>
+                <th></th>
             </tr>
 
             @foreach (var item in Model)
@@ -92,7 +90,7 @@
 
                 <td>
 
-                    <button class="btn btn-danger" onclick="xoaNhanVien('@item.USERNAME')">Xoá</button>
+                    <button class="btn btn-danger" onclick="xoaNhanVien('@item.USERNAME')"><i class="fa fa-cogs"></i></button>
 
                 </td>
             </tr>
@@ -176,53 +174,28 @@
             }
         });
     }
-   
-    //function xoaNhanVien(userName) {
-    //    var formData = new FormData();
-    //    formData.append("userName", userName);
-    //    if (window.confirm("Bạn có muốn khóa/mở tài khoản này không?")) { //ok
-    //        $.ajax({
-    //            method: "POST",
-    //            url: "/Admin/NhanVien/Delete",
-    //            data: formData,
-    //            processData: false,
-    //            contentType: false,
-                
-    //            success: function (data) {
-    //                if (data.StatusCode === 200) {
-    //                    var a = "#data_" + userName;
-                      
-    //                    toastr.success("Xóa thành công");
-    //                } else {
-    //                    toastr.error(data.Message);
-    //                }
-    //            },
-    //            error: function (jqXHR, textStatus, errorThrown) {
-    //                toastr.error(errorThrown);
-    //            }
-    //        });
-    //    }
-    //}
 
     function xoaNhanVien(userName) {
-        if (window.confirm("Bạn có muốn xoá không?")) { //ok
-            $.ajax({
-                method: "POST",
-                url: "/Admin/NhanVien/Delete?userName=" + userName.toString(),
-                contentType: 'application/json',
-                success: function (data) {
-                    if (data.StatusCode === 200) {
-                        var a = "#data_" + userName;
-                        $(a).remove();
-                        toastr.success("Xóa thành công");
-                    } else {
-                        toastr.error(data.Message);
+      
+            if (window.confirm("Bạn có muốn mở/ khóa tài khoản này không?")) {
+                $.ajax({
+                    method: "POST",
+                    url: "/Admin/NhanVien/Delete/?userName=" + userName,
+                    contentType: 'application/json',
+                    success: function (data) {
+                        if (data.StatusCode === 200) {
+                            toastr.success("Cập nhật thành công");
+                            var a = "#data_" + userName;
+                            $(a).remove();
+                            $(a).reload();
+                        } else {
+                            toastr.error(data.Message);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        toastr.error(errorThrown);
                     }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    toastr.error(errorThrown);
-                }
-            });
+                });
+            }
         }
-    }
 </script>
