@@ -49,7 +49,7 @@ ul li a {
     .search-box ::before {
         content: "";
         position: absolute;
-        right:35px;
+        right:40px;
         top: -25px;
         border-left: 12px solid transparent;
         border-right: 12px solid transparent;

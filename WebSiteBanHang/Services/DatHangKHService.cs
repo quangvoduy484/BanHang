@@ -317,7 +317,7 @@ namespace WebSiteBanHang.Services
 
         private void KiemTraSLTon(DATHANG datHang)
         {
-            var chiTiets = datHang.CHITIETDATHANGs.Where(x => x.TrangThai == true).ToList();
+            var chiTiets = datHang.CHITIETDATHANGs.Where(x=>x.TrangThai!=false).ToList();
             foreach (var chiTiet in chiTiets)
             {
                 int sl = chiTiet.SoLuong;

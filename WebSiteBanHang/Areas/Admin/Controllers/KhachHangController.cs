@@ -28,6 +28,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         // GET: Admin/KhachHang/Details/5
         public ActionResult Details(int id)
         {
+            
             var khs = KHService.Details(id);
             if (khs == null)
             {

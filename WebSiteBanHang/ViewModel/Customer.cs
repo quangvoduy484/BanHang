@@ -29,5 +29,11 @@ namespace WebSiteBanHang.ViewModel
         public int? Ngay { get; set; }
         public int? Thang { get; set; }
         public int? Nam { get; set; }
+        public int LoaiKH { get; set; }
+        public string TenLoaiKH { get; set; }
+        public double? DiemTichLuy { get; set; }
+        public double? TongChi { get; set; }
+        public DateTime? NgSinh { get; set; }
+        
     }
 }

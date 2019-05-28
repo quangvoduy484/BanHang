@@ -1,0 +1,133 @@
+﻿@model WebSiteBanHang.ViewModel.Customer
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/TrangChu.cshtml";
+}
+<link rel="stylesheet" href="~/Content/Template/bower_components/select2/dist/css/select2.min.css">
+<script src="~/Content/Template/bower_components/select2/dist/js/select2.full.min.js"></script>
+<link href="~/Content/MyStyle/TaiKhoanKhachHang.css" rel="stylesheet" />
+<script src="~/Content/Template/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="~/Content/Template/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+
+<div>
+
+
+    <div class="account-profile register-form col-md-9">
+
+        <form class="content" action="/InfoCustomer/UpdateInfoCustomer" method="post">
+            @Html.AntiForgeryToken()
+            <h4>THÔNG TIN TÀI KHOẢN</h4>
+            <hr />
+            <div class="form-group">
+                <dl class="dl-horizontal">
+
+                    <dt>
+                        <label for="TenKhachHang" class="control-label">Họ tên</label>
+                    </dt>
+
+                    <dd>
+                        <input type="text" required name="TenKhachHang" class="form-control" id="full_name" value="@Model.TenKhachHang">
+                    </dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>
+                        <label for="SoDienThoai" class="control-label">Số điện thoại</label>
+                    </dt>
+
+                    <dd>
+                        <input id="phone" maxlength="10" required title="Phone number only 10 characters" name="SoDienThoai" class="form-control" value=@Model.SoDienThoai>
+
+                    </dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>
+                        <label for="Email" class="control-label">Email</label>
+                    </dt>
+
+                    <dd>
+                        <input type="email" required name="Email" class="form-control" id="full_name" value=@Model.Email>
+                    </dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>
+                        <label for="DiaChi" class="control-label">Địa chỉ</label>
+                    </dt>
+                    <dd>
+                        <input type="text" required name="DiaChi" class="form-control" id="full_name" value=@Model.DiaChi>
+                    </dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>
+                        <label for="NgSinh" class="control-label">Ngày sinh</label>
+                    </dt>
+
+                    <dd>
+                        <input type="text" , required data-val-required="Vui lòng chọn ngày" value="@string.Format("{0: dd/MM/yyyy}", Model.NgSinh)" name="NgSinh" class="form-control pull-right dt1">
+                    </dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>
+                        <label class="control-label">Loại khách hàng</label>
+                    </dt>
+
+                    <dd>
+                        <input type="text" name="full_name" class="form-control" id="full_name" value=@Model.TenLoaiKH disabled="disabled">
+
+                    </dd>
+                </dl>
+                <dl class="dl-horizontal">
+
+                    <dt>
+                        <label class="control-label">Điểm tích luỹ</label>
+
+                    </dt>
+
+                    <dd>
+                        <input type="text" name="full_name" class="form-control" id="full_name" value=@Model.DiemTichLuy disabled="disabled">
+                    </dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>
+                        <label class="control-label">Tổng chi</label>
+                    </dt>
+
+                    <dd>
+                        <input type="text" name="full_name" class="form-control" id="full_name" value=@Model.TongChi disabled="disabled">
+                    </dd>
+                </dl>
+                <input type="submit" value="Cập nhật" class="btn btn-primary" style="float:right" />
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $
+
+    $(".dt1").datepicker({
+        format: "dd/mm/yyyy",
+        autoclose: true,
+        todayHighlight: true,
+    })
+
+    //chi nhap so
+   
+    var inputFilter = function (textbox, inputFilter) {
+        ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+            textbox.addEventListener(event, function () {
+                if (inputFilter(this.value)) {
+                    this.oldValue = this.value;
+                    this.oldSelectionStart = this.selectionStart;
+                    this.oldSelectionEnd = this.selectionEnd;
+                } else if (this.hasOwnProperty("oldValue")) {
+                    this.value = this.oldValue;
+                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                }
+            });
+        });
+    };
+    inputFilter(document.getElementById('phone'), function (value) {
+        return /^\d*\.?\d*$/.test(value);
+    })
+</script>
+

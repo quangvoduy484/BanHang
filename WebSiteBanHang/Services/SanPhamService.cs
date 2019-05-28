@@ -72,6 +72,8 @@ namespace WebSiteBanHang.Services
 
             if (dataModel.length == 0) dataModel.length = 10;
             model = model.Skip(dataModel.start).Take(dataModel.length);
+            //thêm dòng lệnh await tách dòng lệnh để thực thi
+
             var data = await model.Select(t => new SanPhamViewModel()
             {
                 MaSanPham = t.Id_SanPham,
