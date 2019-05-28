@@ -48,8 +48,8 @@
             <b>Kích thước:</b><span>@Model.KichThuoc<br /></span><br />
             <b>Vật liệu:</b><span>@Model.VatLieu<br /></span><br />
             <b>Màu sắc:</b><span>@Model.MauSac<br /></span><br />
-            <button type="button" style="padding:10px 110px 10px 110px" id="add-cart" class="btn btn-warning btn-lg">MUA NGAY</button>
-            @Html.ActionLink("Thêm vào giỏ hàng", "createProduct", "Cart", new { id = Model.Id_SanPham }, new { @style = "padding:0px 20px 0px 80px;top:10px;position:relative;color:orange;" })
+            <button type="button" style="padding:10px 110px 10px 110px" id="add-cart" class="btn btn-warning btn-lg">THÊM VÀO GIỎ HÀNG</button>
+    
 
         </div>
     </div>
@@ -202,7 +202,7 @@
                     });
                 }
                 else {
-                    alert("Du lieu tra ve la rong");
+                    
                 }
             }, error: function (result, status, xhr) {
 

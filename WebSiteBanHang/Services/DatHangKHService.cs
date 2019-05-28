@@ -268,50 +268,56 @@ namespace WebSiteBanHang.Services
             }
             // kiem tra sl ton
             KiemTraSLTon(datHang);
+            context.SaveChanges();
+            // update đặt  hàng
             datHang.TrangThai = 2;
             datHang.NgayGiao = DateTime.Now;
+            context.Entry(datHang).State = System.Data.Entity.EntityState.Modified;
+            context.SaveChanges();
+
             //update Diem tich luy
-            if (datHang.KHACHHANG.Id_LoaiKhachHang == 1)//VIP
+            int diemTichLuy = 0;
+
+            if (datHang.KHACHHANG.Id_LoaiKhachHang == 1)//đăng nhập  là thành viên , và mới đăng nhập là thành viên bình thường 2, vip là 1
             {
-                int diemTichLuy = (int)datHang.TongTien / Constant.DiemNhanVIP;
-                datHang.KHACHHANG.DiemTichLuy += diemTichLuy;
-                datHang.KHACHHANG.TongChi += datHang.TongTien;
-                context.SaveChanges();
+                diemTichLuy = (int)datHang.TongTien / Constant.DiemNhanVIP;
             }
-            if (datHang.KHACHHANG.Id_LoaiKhachHang == 2)//Thân thiết
+            else
             {
-                int diemTichLuy = (int)datHang.TongTien / Constant.DiemNhan;
-                datHang.KHACHHANG.DiemTichLuy += diemTichLuy;
-                datHang.KHACHHANG.TongChi += datHang.TongTien;
-                context.SaveChanges();
+                diemTichLuy = (int)datHang.TongTien / Constant.DiemNhan;
             }
-            if (datHang.KHACHHANG.Id_LoaiKhachHang == 3)//Ko là thành viên
+            
+            // do cột trong table để là null nên phải gán nó lại không nó mới cộng được
+            if(datHang.KHACHHANG.DiemTichLuy == null)
             {
                 datHang.KHACHHANG.DiemTichLuy = 0;
-                context.SaveChanges();
             }
-            //update Loại khách hàng
+
+            if (datHang.KHACHHANG.TongChi == null)
+            {
+                datHang.KHACHHANG.TongChi = 0;
+            }
+
+            datHang.KHACHHANG.DiemTichLuy += diemTichLuy;
+            datHang.KHACHHANG.TongChi += datHang.TongTien;
+            context.Entry(datHang.KHACHHANG).State = System.Data.Entity.EntityState.Modified;
+            context.SaveChanges();
+
+            //update Loại khách hàng vì khi nó đủ điểm mới set lên 1 , nên ko cần set trường hợp bằng 2
             if (datHang.KHACHHANG.TongChi >= Constant.TongChiVIP)
             {
                 datHang.KHACHHANG.Id_LoaiKhachHang = 1;
-                context.SaveChanges();
+                
             }
+            context.Entry(datHang.KHACHHANG).State = System.Data.Entity.EntityState.Modified;
+            context.SaveChanges();
 
-            if (datHang.KHACHHANG.TongChi < Constant.TongChiVIP)
-            {
-                datHang.KHACHHANG.Id_LoaiKhachHang = 2;
-                context.SaveChanges();
-            }
-            if (datHang.KHACHHANG.TongChi == Constant.TongChiThanThiet)
-            {
-                datHang.KHACHHANG.Id_LoaiKhachHang = 3;
-                context.SaveChanges();
-            }
+
         }
 
         private void KiemTraSLTon(DATHANG datHang)
         {
-            var chiTiets = datHang.CHITIETDATHANGs.ToList();
+            var chiTiets = datHang.CHITIETDATHANGs.Where(x => x.TrangThai == true).ToList();
             foreach (var chiTiet in chiTiets)
             {
                 int sl = chiTiet.SoLuong;

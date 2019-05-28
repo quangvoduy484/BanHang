@@ -77,7 +77,7 @@ namespace WebSiteBanHang.Controllers
                         SoDienThoai = customer.SoDienThoai,
                         Email = customer.Email,
                         PassWord = Helper.GenHash.GenSHA1(customer.PassWord),
-                        Id_LoaiKhachHang = 3
+                        Id_LoaiKhachHang = 2
 
                     };
 
@@ -91,20 +91,19 @@ namespace WebSiteBanHang.Controllers
 
                     var aNewKhachHang = db.KHACHHANGs.Add(KhachHang);
                     KhachHang.Id_KhachHang = aNewKhachHang.Id_KhachHang;
-                    if(db.DIACHIs.ToList().Count ==0 )
-                    {
-                        DIACHI DiaChi = new DIACHI()
-                        {
-                            Id_KhachHang = aNewKhachHang.Id_KhachHang,
-                            SoDienThoai = aNewKhachHang.SoDienThoai,
-                            TenKhachHang = aNewKhachHang.TenKhachHang,
-                            DiaChi = aNewKhachHang.DiaChi,
-                            TrangThai = true
-                        };
-                        db.DIACHIs.Add(DiaChi);
 
-                    }
+                    DIACHI DiaChi = new DIACHI()
+                    {
+                        Id_KhachHang = aNewKhachHang.Id_KhachHang,
+                        SoDienThoai = aNewKhachHang.SoDienThoai,
+                        TenKhachHang = aNewKhachHang.TenKhachHang,
+                        DiaChi = aNewKhachHang.DiaChi,
+                        TrangThai = true
+                    };
+
+                    db.DIACHIs.Add(DiaChi);
                     db.SaveChanges();
+
 
                     return RedirectToAction("Index", "Homepage");
 
@@ -116,13 +115,13 @@ namespace WebSiteBanHang.Controllers
        {
                     new SelectListItem { Text = "Tháng một", Value = "1"},
                     new SelectListItem { Text = "Tháng hai", Value = "2"},
-                    new SelectListItem { Text = "Tháng ba", Value = "3"},
+                    new SelectListItem { Text = "Tháng ba", Value =  "3"},
                     new SelectListItem { Text = "Tháng bốn", Value = "4"},
                     new SelectListItem { Text = "Tháng năm", Value = "5"},
                     new SelectListItem { Text = "Tháng sáu", Value = "6"},
                     new SelectListItem { Text = "Tháng bảy", Value = "7"},
                     new SelectListItem { Text = "Tháng tám", Value = "8"},
-                    new SelectListItem { Text = "Tháng chín", Value = "9"},
+                    new SelectListItem { Text = "Tháng chín", Value="9"},
                     new SelectListItem { Text = "Tháng mười", Value = "10"},
                     new SelectListItem { Text = "Tháng một", Value = "11"},
                     new SelectListItem { Text = "Tháng hai", Value = "12"}
@@ -197,6 +196,7 @@ namespace WebSiteBanHang.Controllers
         public ActionResult Logout()
         {
             Session["user"] = null;
+            Session["productCarts"] = null;
             return RedirectToAction("Index", "Homepage");
 
         }

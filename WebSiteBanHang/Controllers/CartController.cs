@@ -113,6 +113,7 @@ namespace WebSiteBanHang.Controllers
             var strimId = id.Trim(',');
             var listId = strimId.Split(',').Select(int.Parse).ToList();
             double currentTotal = 0;
+
             foreach (var item in listId)
             {
                 foreach (var product in productCarts)
