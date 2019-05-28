@@ -42,9 +42,7 @@
 
 
 <h2>LẬP ĐƠN NHẬP HÀNG</h2>
-<div style="padding-bottom: 10px; padding-left: 15px;">
-    <a class="btn btn-success" href="/Admin/PhieuDatHang_NCC/PrintPdf/@Model.MaPhieuDat">Xuất hoá đơn</a>
-</div>
+
 <form action="/Admin/PhieuNhapHang_NCC/Create" method="post" id="myForm">
     @Html.AntiForgeryToken()
     <div class="col-md-12">
@@ -94,7 +92,7 @@
                     <th>
                         Tên sản phẩm
                     </th>
-                    <th>
+                    <th hidden="hidden">
                         Mã sản phẩm
                     </th>
                     <th>
@@ -118,8 +116,8 @@
                     <td>
                         <input type="text" id="TenSanPham" name="TenSanPham" value="@item.TenSanPham" class=" form-control" />
                     </td>
-                    <td>
-                        <input type="text" id="MaSP" name="MaSP" value="@item.MaSP" class=" form-control" hidden="hidden" />
+                    <td hidden="hidden">
+                        <input type="text" id="MaSP" name="MaSP" value="@item.MaSP" class=" form-control"   />
                     </td>
                     <td>
                         <input type="number" id='sl_1' min="1" value="@item.SL" name="SL" onChange=changeSoLuong(this) class=" form-control" />
@@ -145,7 +143,8 @@
 
 
     <div>
-        <input id="Create"  onclick="save()" value="Xác nhận" class="col-md-offset-5 col-md-2 btn btn-warning " style="padding:10px 20px" />
+        <button class="col-md-offset-5 col-md-2 btn btn-danger btn-save" value="@Model.TrangThai" onclick="save()">Xác nhận</button>
+        @*<input id="Create" onclick="save()" value="@Model.TrangThai"  class="col-md-offset-5 col-md-2 btn btn-warning btn-edit-or-delete " style="padding:10px 20px" />*@
     </div>
 
 
@@ -246,7 +245,9 @@
         });
     }
 
-
+    if ($('.btn-save').val() !== 'Đang đặt hàng') {
+        $('.btn-save').attr('disabled', true)
+    }
 </script>
 
 

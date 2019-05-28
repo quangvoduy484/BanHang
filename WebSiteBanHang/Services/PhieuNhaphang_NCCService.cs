@@ -2,6 +2,7 @@
 using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -61,8 +62,8 @@ namespace WebSiteBanHang.Services
                     NguoiNhap=t.NGUOINHAP,
                     TongTien = t.TONGTIEN,
                     TrangThai = t.TRANGTHAI == 0 ? TinhTrangDatHang.DaHuy :
-                                    (t.TRANGTHAI == 1) ? TinhTrangDatHang.DangXyLy:(t.TRANGTHAI==2)? 
-                                    TinhTrangDatHang.DangDat:  TinhTrangDatHang.DaNhan
+                                    (t.TRANGTHAI == 1) ? TinhTrangDatHang.DangXyLy : (t.TRANGTHAI == 2) ?
+                                    TinhTrangDatHang.DaNhan : TinhTrangDatHang.DangDat,
 
                 }).ToList();
 
@@ -89,10 +90,9 @@ namespace WebSiteBanHang.Services
                       NguoiNhap = t.NGUOINHAP,
                       NgayNhap = t.NGAYNHAP,
                       //thong tin them
-
                       TrangThai = t.TRANGTHAI == 0 ? TinhTrangDatHang.DaHuy :
-                        t.TRANGTHAI == 1 ? TinhTrangDatHang.DangXyLy :
-                        (t.TRANGTHAI == 2 ? TinhTrangDatHang.DangDat : TinhTrangDatHang.DaNhan),
+                                    (t.TRANGTHAI == 1) ? TinhTrangDatHang.DangXyLy : (t.TRANGTHAI == 2) ?
+                                    TinhTrangDatHang.DaNhan : TinhTrangDatHang.DangDat,
 
                       ChiTietPhieuNhaps = t.CTPHIEUNHAP_NCC
                       .Select(k => new CT_PhieuNhapHangNCCViewModel()
@@ -118,6 +118,7 @@ namespace WebSiteBanHang.Services
                   .Where(t => t.MAPHIEUDAT == id)
                   .Select(t => new PhieuDatHang_NCCViewModel()
                   {
+                      
                       MaPhieuDat = t.MAPHIEUDAT,
                       TenNCC = t.NHACUNGCAP.TENNCC,
                       NgayDat = t.NGAYDAT,
@@ -126,13 +127,13 @@ namespace WebSiteBanHang.Services
                       //thong tin them
 
                       TrangThai = t.TRANGTHAI == 0 ? TinhTrangDatHang.DaHuy :
-                        (t.TRANGTHAI == 1 ? TinhTrangDatHang.DangXyLy :
-                       (t.TRANGTHAI == 2 ? TinhTrangDatHang.DangDat : TinhTrangDatHang.DaNhan)),
+                                    (t.TRANGTHAI == 1) ? TinhTrangDatHang.DangXyLy : (t.TRANGTHAI == 2) ?
+                                    TinhTrangDatHang.DaNhan : TinhTrangDatHang.DangDat,
                       ChiTietPhieuDats = t.CT_PHIEUDATNCCs.Where(k => k.TRANGTHAI != 0)
                       .Select(k => new CT_PhieuDatHangNCCViewModel()
                       {
-                          TenSanPham = k.SANPHAM.TenSanPham,
                           MaSP=k.MASANPHAM,
+                          TenSanPham = k.SANPHAM.TenSanPham,
                           MaCTPhieuDat = k.MACTPD,
                           SL = k.SOLUONG,
                           GiaNhap = k.GIANHAP,
@@ -148,6 +149,7 @@ namespace WebSiteBanHang.Services
         // Lập phiếu nhập hàng từ phiếu đặt
         public bool AddPhieuNhapHangNCC(int id, PhieuNhapHang_NCCViewModel model)
         {
+            
             var tongTien = model.ChiTietPhieuNhaps.Sum(t => t.SL * t.GiaNhap);
             var phieuDat = new PHIEUNHAP_NCC()
             {
@@ -159,6 +161,7 @@ namespace WebSiteBanHang.Services
             };
 
             context.PHIEUNHAP_NCCs.Add(phieuDat);
+            
             context.SaveChanges();
 
             foreach (var detail in model.ChiTietPhieuNhaps)
@@ -172,30 +175,40 @@ namespace WebSiteBanHang.Services
                     THANHTIEN = detail.SL * detail.GiaNhap,
             };
                 
+              var sp= context.SANPHAMs.Where(t => t.Id_SanPham == detail.MaSP).FirstOrDefault();
+                sp.SoLuongTon += detail.SL;
                 context.CTPHIEUNHAP_NCCs.Add(chiTiet);
-                //int? sl = detail.SL;
-                //chiTiet.SANPHAM.SoLuongTon += sl;
-                //phieuDat.TRANGTHAI = 2;
+
             }
-            
+            UpdateTrangThaiDonHang(id);
+           // CapNhatSLTon(nhapHang);
             context.SaveChanges();
 
             return true;
         }
 
-       
+        private void CapNhatSLTon(PHIEUNHAP_NCC datHang)
+        {
+            var chiTiets = datHang.CTPHIEUNHAP_NCC.ToList();
+            foreach (var chiTiet in chiTiets)
+            {
+                int sl = chiTiet.SOLUONGNHAP;
+                chiTiet.SANPHAM.SoLuongTon += sl;
+            }
+            
+        }
 
 
         public void UpdateTrangThaiDonHang(int maDatHang)
         {
             PHIEUDATHANG_NCC datHang = context.PHIEUDATHANG_NCCs.
-                FirstOrDefault(t => t.MAPHIEUDAT == maDatHang && t.TRANGTHAI == 1);
+                FirstOrDefault(t => t.MAPHIEUDAT == maDatHang && t.TRANGTHAI==3);
             
             if (datHang == null)
             {
                 return;
             }
-            datHang.TRANGTHAI = 3;
+            datHang.TRANGTHAI = 2;
             datHang.NGAYDAT = DateTime.Now;
 
             context.SaveChanges();
