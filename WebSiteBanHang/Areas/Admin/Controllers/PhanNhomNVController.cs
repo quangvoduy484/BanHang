@@ -10,8 +10,10 @@ using WebSiteBanHang.Services;
 
 namespace WebSiteBanHang.Areas.Admin.Controllers
 {
+    [Authorize]
     public class PhanNhomNVController : Controller
     {
+       
         PhanNhomNVService PNService = new PhanNhomNVService();
         
         // GET: Admin/PhanNhomNV
@@ -78,6 +80,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             }
         }
         // GET: Admin/PhanNhomNV/Create
+        [HttpGet]
         public ActionResult Create(int id)
         {
             //var nv = PNService.GetNV(id);
@@ -99,8 +102,10 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                 if (ModelState.IsValid)
                 {
                     PNService.Add(id, collection);
-                    
-                    return RedirectToAction("Index");
+
+                 
+
+                    return RedirectToAction("Index", "PhanNhomNV");
 
                 }
                 return View(collection);
@@ -111,6 +116,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                 return View();
             }
         }
+
 
 
         // POST: Admin/PhanNhomNV/Delete/5

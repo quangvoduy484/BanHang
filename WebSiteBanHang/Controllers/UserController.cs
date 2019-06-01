@@ -69,7 +69,7 @@ namespace WebSiteBanHang.Controllers
 
                 if (CheckEmail.Count == 0 && CheckPhone.Count == 0)
                 {
-                    var thoigian = customer.Ngay + "/" + customer.Thang + "/" + customer.Nam;
+                    //var thoigian = customer.Ngay + "/" + customer.Thang + "/" + customer.Nam;
                     KhachHang = new KHACHHANG
                     {
                         TenKhachHang = customer.TenKhachHang,
@@ -81,11 +81,11 @@ namespace WebSiteBanHang.Controllers
 
                     };
 
-                    if (thoigian != " " && !thoigian.Contains("//"))
-                    {
-                        KhachHang.NgaySinh = DateTime.Parse(thoigian);
+                    //if (thoigian != " " && !thoigian.Contains("//"))
+                    //{
+                    //    KhachHang.NgaySinh = DateTime.Parse(thoigian);
 
-                    }
+                    //}
                     // tổng chi +1,
                     // dfsdfsd
 

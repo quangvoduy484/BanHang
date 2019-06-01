@@ -10,8 +10,10 @@ using WebSiteBanHang.Services;
 
 namespace WebSiteBanHang.Areas.Admin.Controllers
 {
+    [Authorize]
     public class NhanVienController : Controller
     {
+        
         NhanVienService NVService = new NhanVienService();
         // GET: Admin/NhanVien
         public ActionResult Index()
@@ -40,7 +42,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var kq = NVService.Add(collection);
+                    var kq = NVService.AddNV(collection);
                     if (kq == false)
                     {
                         result.Message = "Tài khoản đã tồn tại";
@@ -80,8 +82,12 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             return View();
         }
 
-       
 
+        public ActionResult GetNhanViens(string search, int id)
+        {
+            var NhanViens = NVService.GetAllDropDownList(search, id);
+            return Json(NhanViens, JsonRequestBehavior.AllowGet);
+        }
         // POST: Admin/NhanVien/Delete/5
         [HttpPost]
         public ActionResult Delete(string userName)

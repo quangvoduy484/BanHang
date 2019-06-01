@@ -1,6 +1,7 @@
 ﻿@model WebSiteBanHang.Models.TBL_GROUP_LOGIN
 
 @{
+
     ViewBag.Title = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
@@ -28,7 +29,7 @@
 
     h2, h4 {
         color: blue;
-        text-align:center;
+        text-align: center;
     }
 </style>
 
@@ -37,10 +38,10 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Thêm nhân viên</h4>
+        <h4>Phân nhóm tài khoản</h4>
+
         <hr />
-      
-        
+
         <div class="form-group">
             <label class="control-label col-md-2">Account</label>
             <div class="col-md-6">
@@ -48,17 +49,14 @@
             </div>
         </div>
     </div>
-   
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Thêm mới" class="btn btn-primary" />
-        </div>
-        }
 
-        <div>
-            @Html.ActionLink("<<Quay lại danh sách", "Index")
-        </div>
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Thêm mới" class="btn btn-primary" />
+    </div>
+}
 
-        <script>
+
+<script>
         //select 2
         $('.select2').select2({
             ajax: {
@@ -84,4 +82,4 @@
                 }
             }
         });
-        </script>
+</script>

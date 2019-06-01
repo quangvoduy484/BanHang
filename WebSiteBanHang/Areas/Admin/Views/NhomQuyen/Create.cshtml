@@ -17,6 +17,7 @@
     <script src="~/Content/Template/bower_components/select2/dist/js/select2.full.min.js"></script>
 
 </head>
+
 <style>
     * {
         font-size: 14px;
@@ -28,6 +29,7 @@
 
     h2, h4 {
         color: blue;
+        text-align: center;
     }
 </style>
 
@@ -36,12 +38,11 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Thêm quyền truy cập màn hình</h4>
-        <hr />
 
-        <div class="form-group col-md-2">
-            Tên nhân viên
-        </div>
+        <h2>Thêm quyền truy cập màn hình</h2>
+
+        <hr /> 
+
         <div class="form-group">
             <label class="control-label col-md-2">Màn hình</label>
             <div class="col-md-6">
@@ -55,9 +56,6 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("<<Quay lại danh sách", "Index")
-</div>
 
 <script>
         //select 2
@@ -74,7 +72,7 @@
                 data: function (params) {
                     var query = {
                         search: params.term,
-                        
+
                     }
                 },
                 dataType: 'json',

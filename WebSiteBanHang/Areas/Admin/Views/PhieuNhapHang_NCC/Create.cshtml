@@ -38,6 +38,9 @@
         text-align: center;
         font-weight: bold;
     }
+    p{
+        color:red;
+    }
 </style>
 
 
@@ -73,9 +76,9 @@
                         <p class="col-md-8">@Model.NgayDat </p>
                     </div>
 
-                    <div class="form-group tong-tien">
+                    <div class="form-group">
                         <label class="col-md-4 col-xs-4 ">Tổng tiền:  </label>
-                        <p class="col-md-8 ">@Model.TongTien</p>
+                        <p class="col-md-8 tong-tien">@Model.TongTien</p>
                     </div>
                 </div>
             </div>
@@ -96,11 +99,11 @@
                         Mã sản phẩm
                     </th>
                     <th>
-                        Số lượng
+                        Số lượng <p>(*)</p>
                     </th>
                        
                     <th>
-                        Giá nhập
+                        Giá nhập<p>(*)</p>
                     </th>
                     <th>
                         Thành tiền
@@ -117,16 +120,16 @@
                         <input type="text" id="TenSanPham" name="TenSanPham" value="@item.TenSanPham" class=" form-control" />
                     </td>
                     <td hidden="hidden">
-                        <input type="text" id="MaSP" name="MaSP" value="@item.MaSP" class=" form-control"   />
+                        <input type="text" id="MaSP" name="MaSP" value="@item.MaSP" class=" form-control" />
                     </td>
                     <td>
                         <input type="number" id='sl_1' min="1" value="@item.SL" name="SL" onChange=changeSoLuong(this) class=" form-control" />
                     </td>
                     <td>
-                        <input type="number" id='dg_1' value="@item.GiaNhap" name="GiaNhap" min="0" onChange=changeDonGia(this) class=" form-control" />
+                        <input type="number" id='dg_1' name="GiaNhap" value="@item.GiaNhap" min="1000" onChange=changeDonGia(this) class=" form-control" />
                     </td>
                     <td>
-                        <input type="text" id='tt_1' value="@item.ThanhTien" class="thanh-tien form-control" name="ThanhTien" disabled onChange=changeThanhTien() readonly="readonly" />
+                        <input type="text" id='tt_1' class="form-control" value="@item.ThanhTien" name="ThanhTien" disabled onChange=changeThanhTien() readonly="readonly" />
                     </td>
 
                     <td>
@@ -144,7 +147,7 @@
 
     <div>
         <button class="col-md-offset-5 col-md-2 btn btn-danger btn-save" value="@Model.TrangThai" onclick="save()">Xác nhận</button>
-        @*<input id="Create" onclick="save()" value="@Model.TrangThai"  class="col-md-offset-5 col-md-2 btn btn-warning btn-edit-or-delete " style="padding:10px 20px" />*@
+     
     </div>
 
 
@@ -158,7 +161,6 @@
         var dg = $('#dg_' + id).val();
         var thanhTien = dg * sl;
         $('#tt_' + id).val(thanhTien);
-
 
         changeThanhTien();
     }
@@ -205,12 +207,14 @@
             chiTiet.donGia = row.find("td").eq(3).find('input').val();
             chiTiet.thanhTien = row.find("td").eq(4).find('input').val();
 
-            if (chiTiet.MaSP && chiTiet.SL && chiTiet.donGia && chiTiet.thanhTien) {
+            if (chiTiet.MaSP && chiTiet.SL != 0 && chiTiet.donGia != 0 && chiTiet.thanhTien) {
                 chiTiets.push(chiTiet);
             }
+
         });
+
         if (chiTiets.length === 0) {
-            toastr.error('Bạn chưa có phiếu nhập hàng nào hoặc phiếu nhập không chính xác');
+            toastr.error('Bạn chưa có phiếu đặt hàng nào hoặc chi tiết phiếu đặt không chính xác');
             return;
         }
 

@@ -83,28 +83,7 @@ namespace WebSiteBanHang.Services
             context.SaveChanges();
 
         }
-        public List<QuyenDropDownViewModel> GetAllDropDownList(string search, int idgroup)
-        {
-
-            var Quyens = context.TBL_ROLEs
-                 .Where(t => t.ACTIVATE != false)
-                 .Where(t => t.TBL_GROUP_ROLEs.All(x => x.ID_GROUP != idgroup && x.ACTIVATE != false));
-
-            if (!string.IsNullOrWhiteSpace(search))
-            {
-                Quyens = Quyens.Where(t => t.ROLE_NAME.Contains(search));
-
-            }
-            var result = Quyens.OrderBy(t => t.ROLE_NAME)
-                .Take(30)
-                .Select(t => new QuyenDropDownViewModel()
-                {
-                    id = t.ID,
-                    text = t.ROLE_NAME,
-                }).ToList();
-
-            return result;
-        }
+        
 
         public bool Delete(int maNhom)
         {

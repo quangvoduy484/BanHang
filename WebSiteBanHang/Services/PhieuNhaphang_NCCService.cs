@@ -159,6 +159,7 @@ namespace WebSiteBanHang.Services
                 TONGTIEN = tongTien.Value,
                 TRANGTHAI = 2,
             };
+            
 
             context.PHIEUNHAP_NCCs.Add(phieuDat);
             
@@ -174,10 +175,12 @@ namespace WebSiteBanHang.Services
                     GIANHAP = detail.GiaNhap,
                     THANHTIEN = detail.SL * detail.GiaNhap,
             };
-                
-              var sp= context.SANPHAMs.Where(t => t.Id_SanPham == detail.MaSP).FirstOrDefault();
-                sp.SoLuongTon += detail.SL;
-                context.CTPHIEUNHAP_NCCs.Add(chiTiet);
+                if(chiTiet.SOLUONGNHAP!=0 || chiTiet.GIANHAP!=0)
+                {
+                    var sp = context.SANPHAMs.Where(t => t.Id_SanPham == detail.MaSP).FirstOrDefault();
+                    sp.SoLuongTon += detail.SL;
+                    context.CTPHIEUNHAP_NCCs.Add(chiTiet);
+                }
 
             }
             UpdateTrangThaiDonHang(id);

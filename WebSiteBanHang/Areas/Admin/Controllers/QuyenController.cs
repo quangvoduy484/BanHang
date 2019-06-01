@@ -8,8 +8,10 @@ using WebSiteBanHang.Services;
 
 namespace WebSiteBanHang.Areas.Admin.Controllers
 {
+    [Authorize]
     public class QuyenController : Controller
     {
+        
         QuyenService quyenService = new QuyenService();
         // GET: Admin/Group
         public ActionResult Index()

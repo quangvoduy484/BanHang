@@ -66,7 +66,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             var result = new ReponseMessage();
             try
             {
-                if(!ModelState.IsValid || model == null || model.ChiTietPhieuDats?.Count == 0)
+                if(!ModelState.IsValid || model == null || model.ChiTietPhieuDats?.Count == 0|| model.TongTien==0)
                 {
                     result.Message = "Dữ liệu truyền vào không chính xác";
                     result.StatusCode = HttpStatusCode.BadRequest;

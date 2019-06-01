@@ -9,8 +9,10 @@ using WebSiteBanHang.Services;
 
 namespace WebSiteBanHang.Areas.Admin.Controllers
 {
+    [Authorize]
     public class PhieuNhapHang_NCCController : Controller
     {
+        
         PhieuNhapHang_NCCService PNHService = new PhieuNhapHang_NCCService();
 
         // GET: Admin/PhieuNhapHangNCC

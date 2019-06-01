@@ -9,8 +9,10 @@ using WebSiteBanHang.Services;
 
 namespace WebSiteBanHang.Areas.Admin.Controllers
 {
+    [Authorize]
     public class NhomQuyenController : Controller
     {
+       
         NhomQuyenService PQService = new NhomQuyenService();
         // GET: Admin/PhanQuyenNV
 
@@ -55,7 +57,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                 {
                     PQService.Add(id,collection);
 
-                    //return RedirectToAction("Index");
+                   
                     
                     return RedirectToAction("Index", "PhanNhomNV");
 

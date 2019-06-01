@@ -8,6 +8,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
 {
     public class HoaDonGiaoHangController : Controller
     {
+        [Authorize]
         // GET: Admin/HoaDonGiaoHang
         public ActionResult Index()
         {

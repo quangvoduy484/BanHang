@@ -17,6 +17,9 @@
         color: blue;
         text-align: center;
     }
+    p{
+        color:red;
+    }
     </style>
 <h2>Cập nhật thông tin</h2>
 
@@ -34,9 +37,12 @@
             <div class="col-md-2 col-md-offset-2">
                 Tên nhà cung cấp
             </div>
-            <div class="col-md-4">
-                @Html.EditorFor(model => model.TENNCC, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="col-md-4">"
+                @Html.EditorFor(model => model.TENNCC, new { htmlAttributes = new { @class = "form-control col-md-4" } })
                 @Html.ValidationMessageFor(model => model.TENNCC, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                <p>(*)</p>
             </div>
         </div>
 
@@ -45,8 +51,11 @@
                 Địa chỉ
             </div>
             <div class="col-md-4">
-                @Html.EditorFor(model => model.DIACHI, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.DIACHI, new { htmlAttributes = new { @class = "form-control" } })<p>(*)</p>
                 @Html.ValidationMessageFor(model => model.DIACHI, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                <p>(*)</p>
             </div>
         </div>
 
@@ -55,8 +64,11 @@
                 Số điện thoại
             </div>
             <div class="col-md-4">
-                @Html.EditorFor(model => model.SODIENTHOAI, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.SODIENTHOAI, new { htmlAttributes = new { @class = "form-control" } })<p>(*)</p>
                 @Html.ValidationMessageFor(model => model.SODIENTHOAI, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2">
+                <p>(*)</p>
             </div>
         </div>
 

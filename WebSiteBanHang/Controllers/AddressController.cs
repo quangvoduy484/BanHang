@@ -33,7 +33,7 @@ namespace WebSiteBanHang.Controllers
 
             return Json(new { login = false }, JsonRequestBehavior.AllowGet);
         }
-
+       
         public ActionResult PartialAdress()
         {
             var customer = SessionUser.GetSession();

@@ -5,12 +5,14 @@
 <section class="sidebar">
     <ul class="sidebar-menu" data-widget="tree">
         @{
+         
+           
             var MenuRole = (List<WebSiteBanHang.ViewModel.MenuRole>)Session["Menu"];
             if(MenuRole == null)
             {
                 Response.Redirect("/Admin/Login/Login");
                 return;
-            }
+             }
             MenuRole = MenuRole.OrderBy(x => x.MENU_SEQ).ToList();
             var MenuChild = MenuRole.Where(x => x.MENU_PARENT != null).ToList();
             List<int?> listId = new List<int?>();

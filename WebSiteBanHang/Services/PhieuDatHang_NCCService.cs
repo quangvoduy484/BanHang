@@ -166,6 +166,7 @@ namespace WebSiteBanHang.Services
             foreach (var detail in model.ChiTietPhieuDats)
             {
                 var chiTiet = new CT_PHIEUDATNCC()
+                
                 {
                     MAPHIEUDAT = phieuDat.MAPHIEUDAT,
                     MASANPHAM = detail.MaSP,
@@ -174,8 +175,11 @@ namespace WebSiteBanHang.Services
                     THANHTIEN = detail.SL * detail.GiaNhap,
                     TRANGTHAI = 1,
                 };
-                context.CT_PHIEUDATNCCs.Add(chiTiet);
+              
+                    context.CT_PHIEUDATNCCs.Add(chiTiet);
+
             }
+            
             context.SaveChanges();
             return true;
         }
@@ -195,6 +199,7 @@ namespace WebSiteBanHang.Services
                     THANHTIEN = detail.SL * detail.GiaNhap,
                     TRANGTHAI = 1,
                 };
+               
                 context.CT_PHIEUDATNCCs.Add(chiTiet);
             }
             context.SaveChanges();
@@ -441,7 +446,7 @@ namespace WebSiteBanHang.Services
             _pdfTable.AddCell(_pdfCell);
             _pdfTable.CompleteRow();
 
-
+            AddRowDatHang("/logo.png");
             //add content
             AddRowDatHang("Mã phiếu đặt:");
             AddRowDatHang(_datHang.MaPhieuDat.ToString());
