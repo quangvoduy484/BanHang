@@ -7,7 +7,7 @@ using WebSiteBanHang.Models;
 
 namespace WebSiteBanHang.Areas.Admin.Controllers
 {
-    [Authorize]
+   
     public class GiaSanPhamController : Controller
     {
         private  BanHangContext db = new BanHangContext();

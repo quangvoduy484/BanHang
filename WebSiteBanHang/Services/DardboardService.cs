@@ -53,6 +53,7 @@ namespace WebSiteBanHang.Services
         {
             //var result = new ReportDoanhThuViewModel();
             //get doanh thu trong nam hien tai
+            // group ngày giao và tính tổng tiền
             var abc = context.DATHANGs
                 .Where(t => t.TrangThai == 2 && t.NgayGiao.HasValue &&
                 t.NgayGiao >= tuNgay && t.NgayGiao <= denNgay)
