@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Web;
 using WebSiteBanHang.Areas.Admin.ViewModels;
 using WebSiteBanHang.Models;
+using WebSiteBanHang.ViewModel;
+
 namespace WebSiteBanHang.Services
 {
     public class SanPhamService
@@ -333,7 +335,7 @@ namespace WebSiteBanHang.Services
 
         public bool UpdateGia(double gia, int maSP)
         {
-            
+
             GIASANPHAM giaSP = new GIASANPHAM()
             {
                 GiaBan = gia,
@@ -345,7 +347,7 @@ namespace WebSiteBanHang.Services
                 .OrderByDescending(t => t.PHIEUNHAP_NCC.NGAYNHAP)
                 .Select(t => t.GIANHAP).FirstOrDefault();
             double giaNhap = Convert.ToDouble(Gianhap);
-            if(gia <= giaNhap)
+            if (gia <= giaNhap)
             {
                 throw new Exception("Gía bán phải lớn hơn giá nhập");
             }
@@ -359,6 +361,27 @@ namespace WebSiteBanHang.Services
             return true;
         }
 
+        public List<SanPhamModel> GetSanPhamsByKeySearch(string keySearch)
+        {
+            var sanPhams = context.SANPHAMs
+                .Include(t=>t.HINHs)
+                .Include(t=>t.KHUYENMAI)
+                .Include(t=>t.GIASANPHAMs)
+                .Where(t => t.TrangThai != false && t.TenSanPham.Contains(keySearch))
+                .OrderBy(t => t.TenSanPham)
+                .Take(24)
+                .Select(y => new SanPhamModel()
+                {
+                    MaSanPham = y.Id_SanPham,
+                    TenSanPham = y.TenSanPham,
+                    HinhAnh = y.HinhAnh ?? y.HINHs.FirstOrDefault().Link,
+                    KhuyenMai = y.KHUYENMAI.NgayBatDau <= DateTime.Now && DateTime.Now <= y.KHUYENMAI.NgayKetThuc ?
+                                         (int?)y.KHUYENMAI.GiaTriKhuyenMai : null,
+                    GiaGoc = y.GIASANPHAMs.Where(x => x.TrangThai != false).OrderByDescending(m => m.NgayLap).FirstOrDefault().GiaBan,
+                })
+                .ToList();
 
+            return sanPhams;
+        }
     }
 }
