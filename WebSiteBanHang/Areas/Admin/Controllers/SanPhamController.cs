@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using WebSiteBanHang.Areas.Admin.ViewModels;
 using WebSiteBanHang.Services;
 using Newtonsoft.Json;
+using WebSiteBanHang.Models;
+
 namespace WebSiteBanHang.Areas.Admin.Controllers
 {
     [Authorize]
@@ -73,6 +75,9 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
 
                     return View(collection);
                 }
+                var loaiSP = loaiSPService.ListAll();
+                SelectList listloaiSP = new SelectList(loaiSP, "MaLoai", "TenLoai");
+                ViewBag.listloaiSP = listloaiSP;
                 return View(collection);
             }
             catch
@@ -252,11 +257,13 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                result.Message = "Có lỗi trong quá trình xử lý";
+                result.Message = ex.Message;
                 result.StatusCode = HttpStatusCode.ExpectationFailed;
                 return Json(result);
             }
         }
+
+   
     }
   
 }

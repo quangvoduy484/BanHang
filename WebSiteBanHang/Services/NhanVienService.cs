@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WebSiteBanHang.Areas.Admin.ViewModels;
 using WebSiteBanHang.Models;
 
 namespace WebSiteBanHang.Services
@@ -51,6 +52,29 @@ namespace WebSiteBanHang.Services
             NVExist.ACTIVATE = !NVExist.ACTIVATE;
             context.SaveChanges();
             return true;
+        }
+
+        public List<NhanVienDropDownViewModel> GetAllDropDownList(string search, int idgroup)
+        {
+
+            var NhanViens = context.TBL_LOGINs
+                 .Where(t => t.ACTIVATE != false)
+                 .Where(t => t.TBL_GROUP_LOGINs.All(x => x.ID_GROUP != idgroup && x.ACTIVATE != false));
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                NhanViens = NhanViens.Where(t => t.USERNAME.Contains(search));
+
+            }
+            var result = NhanViens.OrderBy(t => t.USERNAME)
+                .Take(30)
+                .Select(t => new NhanVienDropDownViewModel()
+                {
+                    id = t.USERNAME,
+                    text = t.USERNAME,
+                }).ToList();
+
+            return result;
         }
 
     }

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using WebSiteBanHang.Areas.Admin.ViewModels;
 using WebSiteBanHang.Models;
-
 namespace WebSiteBanHang.Services
 {
     public class SanPhamService
@@ -111,7 +111,6 @@ namespace WebSiteBanHang.Services
 
             return result;
         }
-
         public List<LOAISANPHAM> GetAllLoaiSP()
         {
             return context.LOAISANPHAMs.ToList();
@@ -132,10 +131,10 @@ namespace WebSiteBanHang.Services
 
         public List<SanPhamViewModel> GetTenSPForPhieuDat(int CTDDH)
         {
-            
+
             return context.SANPHAMs
                 .Where(t => t.TrangThai != false)
-                .Where(t=>t.CT_PHIEUDATNCCs.All(x=>x.MACTPD!=CTDDH && x.TRANGTHAI ==1 ))
+                .Where(t => t.CT_PHIEUDATNCCs.All(x => x.MACTPD != CTDDH && x.TRANGTHAI == 1))
                 .OrderBy(t => t.TenSanPham)
                  .Select(t => new SanPhamViewModel
                  {
@@ -149,7 +148,7 @@ namespace WebSiteBanHang.Services
             var sanPham = new SANPHAM
             {
                 TenSanPham = model.TenSanPham,
-                SoLuongTon = model.SoLuongTon,
+                SoLuongTon = 0,
                 XuatXu = model.XuatXu,
                 VatLieu = model.VatLieu,
                 Mota = model.MoTa,
@@ -160,6 +159,7 @@ namespace WebSiteBanHang.Services
                 CREATED_BY = HttpContext.Current.User.Identity.Name
             };
             //sanPham.HinhAnh = model.HinhAnh;
+
             context.SANPHAMs.Add(sanPham);
             context.SaveChanges();
             return sanPham.Id_SanPham;
@@ -245,10 +245,14 @@ namespace WebSiteBanHang.Services
             {
                 return false;
             }
+            sanPhamExist.UPDATED_BY = HttpContext.Current.User.Identity.Name;
+            sanPhamExist.UPDATED_DATE = DateTime.Now;
             sanPhamExist.TrangThai = false;
             context.SaveChanges();
             return true;
         }
+
+
 
         public bool DeleteImage(int id)
         {
@@ -329,12 +333,22 @@ namespace WebSiteBanHang.Services
 
         public bool UpdateGia(double gia, int maSP)
         {
+            
             GIASANPHAM giaSP = new GIASANPHAM()
             {
                 GiaBan = gia,
                 NgayLap = DateTime.Now,
                 Id_SanPham = maSP,
             };
+
+            var Gianhap = context.CTPHIEUNHAP_NCCs.Where(t => t.MASANPHAM == maSP)
+                .OrderByDescending(t => t.PHIEUNHAP_NCC.NGAYNHAP)
+                .Select(t => t.GIANHAP).FirstOrDefault();
+            double giaNhap = Convert.ToDouble(Gianhap);
+            if(gia <= giaNhap)
+            {
+                throw new Exception("Gía bán phải lớn hơn giá nhập");
+            }
             var giaSPexit = context.GIASANPHAMs.Where(t => t.Id_SanPham == maSP && t.TrangThai != false).ToList();
             foreach (var item in giaSPexit)
             {
@@ -345,6 +359,6 @@ namespace WebSiteBanHang.Services
             return true;
         }
 
-       
+
     }
 }

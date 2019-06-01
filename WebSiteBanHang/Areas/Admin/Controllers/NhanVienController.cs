@@ -108,5 +108,12 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                 return Json(result);
             }
         }
+
+        public ActionResult GetNhanViens(string search, int id)
+        {
+            var NhanViens = NVService.GetAllDropDownList(search, id);
+            return Json(NhanViens, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

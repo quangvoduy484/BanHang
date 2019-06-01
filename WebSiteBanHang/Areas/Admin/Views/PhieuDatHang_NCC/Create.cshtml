@@ -103,10 +103,10 @@
 								@Html.DropDownList("MASANPHAM", (IEnumerable<SelectListItem>)ViewBag.listSP, htmlAttributes: new { @class = " form-control" })
 							</td>
 							<td>
-								<input type="number" id='sl_1' min="1" name="SL" onChange=changeSoLuong(this) class=" form-control" />
+								<input type="number" id='sl_1' min="1" name="SL" onChange=changeSoLuong(this) class=" form-control soluong" />
 							</td>
 							<td>
-								<input type="number" id='dg_1' name="GiaNhap" min="0" onChange=changeDonGia(this) class=" form-control" />
+								<input type="number" id='dg_1' name="GiaNhap" onChange=changeDonGia(this) class=" form-control soluong" />
 							</td>
 							<td>
 								<input type="text" id='tt_1' class="thanh-tien form-control" name="ThanhTien" disabled onChange=changeThanhTien() readonly="readonly" />
@@ -139,7 +139,7 @@
 
 
 </div>
-}
+
 <script>
 
     function changeSoLuong(atr) {
@@ -187,10 +187,10 @@
                             @Html.DropDownList("MASANPHAM", (IEnumerable<SelectListItem>)ViewBag.listSP, htmlAttributes: new { @class = " form-control "})
                     </td>
                     <td>
-                        <input type="number" id= 'sl_${row}'  type="number" min="1" name="soLuong" onChange=changeSoLuong(this) class=" form-control" />
+                        <input type="number" id= 'sl_${row}'  type="number" min="1" name="soLuong" onChange=changeSoLuong(this) class=" form-control soluong" />
                     </td>
                     <td>
-                        <input type="number" id= 'dg_${row}'  type="number"  name="donGia" min = "0"  onChange=changeDonGia(this) class=" form-control" />
+                        <input type="number" id= 'dg_${row}'  type="number"  name="donGia" min = "1000"  onChange=changeDonGia(this) class=" form-control soluong" />
                     </td>
                     <td>
                         <input type="text" id= 'tt_${row}' class="thanh-tien form-control" type="text"  name="thanhTien" disabled onChange=changeThanhTien() readonly="readonly" />
@@ -260,5 +260,23 @@
 			}
 		});
     }
+    //Chỉ nhập số
+    $.fn.inputFilter = function (inputFilter) {
+        return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function () {
+            if (inputFilter(this.value)) {
+                this.oldValue = this.value;
+                this.oldSelectionStart = this.selectionStart;
+                this.oldSelectionEnd = this.selectionEnd;
+            } else if (this.hasOwnProperty("oldValue")) {
+                this.value = this.oldValue;
+                this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+            }
+        });
+    };
+
+    //Số lượng >0
+    $(".soluong").inputFilter(function (value) {
+        return /^\d*$/.test(value) && (value === "" || (parseInt(value) >= 1);
+    });
 </script>
 

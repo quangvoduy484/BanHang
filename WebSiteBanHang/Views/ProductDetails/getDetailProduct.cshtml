@@ -4,6 +4,16 @@
     ViewBag.Title = "getDetailProduct";
     Layout = "~/Views/Shared/TrangChu.cshtml";
 }
+<style>
+    .TenSP {
+        font-size: 20px;
+        color: #333;
+    }
+
+    hr {
+        margin: 5px 0 10px 0;
+    }
+</style>
 <div class="modal fade" id="addCommentModal">
 
 </div>
@@ -11,9 +21,9 @@
     <div id="product_detail_title">
         <a>Sản phẩm mới ></a> <span style="color:orange">@Model.TenSanPham</span>
     </div>
-    <div id="product_detail_top">
-        Bạn cần trợ giúp ? <b>Gọi ngay 1800 7200</b>
-    </div>
+    @*<div id="product_detail_top">
+            Bạn cần trợ giúp ? <b>Gọi ngay 1800 7200</b>
+        </div>*@
     <div id="product_detail_content">
         <div id="product_image">
             <div class='slider-for'>
@@ -34,22 +44,22 @@
 
         </div>
         <div id="product_info">
-            <span>@Model.TenSanPham</span><br />
-            <b>
+            <span class="TenSP">@Model.TenSanPham</span>
+            <hr />
+            <p>
                 Giá Tiền:
 
-                <span style="color:orange">@String.Format("{0:0,00}", Model.GiaBan)đ<br /></span>
+                <span style="color:orange">@String.Format("{0:0,00}", Model.GiaBan) đ</span>
 
-            </b>
-            <br />
+            </p>
             <input hidden value="@Model.Id_SanPham" id="id_sanpham" />
             <input hidden value="@Model.HinhAnh" id="hinhanh" />
-            <b>Đơn vị tính:</b><span>@Model.DonViTinh<br /></span><br />
-            <b>Kích thước:</b><span>@Model.KichThuoc<br /></span><br />
-            <b>Vật liệu:</b><span>@Model.VatLieu<br /></span><br />
-            <b>Màu sắc:</b><span>@Model.MauSac<br /></span><br />
+            <p>Đơn vị tính: <span> @Model.DonViTinh</span></p>
+            <p>Kích thước: <span>@Model.KichThuoc</span></p>
+            <p>Vật liệu: <span>@Model.VatLieu</span></p>
+            <p>Màu sắc: <span>@Model.MauSac</span></p>
             <button type="button" style="padding:10px 110px 10px 110px" id="add-cart" class="btn btn-warning btn-lg">THÊM VÀO GIỎ HÀNG</button>
-    
+
 
         </div>
     </div>
@@ -62,36 +72,37 @@
         </ul>
 
         <div class="tab-content">
-            <div id="describe" class="tab-pane fade in active">
-                <h3>HOME</h3>
-                <p>Some content.</p>
-            </div>
-            <div id="choose-anthor" class="tab-pane fade">
-                <div>
 
-                </div>
+                <div id="describe" class="tab-pane fade in active">
+                <h3>@Model.TenSanPham</h3>
+                <p>@Model.Mota</p>
             </div>
-            <div id="comment" class="tab-pane fade">
-                <div style="border: 1px solid #E5E5E5;padding: 10px;margin-top: 30px;margin-bottom:15px">
-                    <div style="width: 50%;position: relative;float:left">
-                        wwww
-                    </div>
-                    <div style="float:left;position:relative;text-align:center;width: 50%;">
-                        @*//50 phần trăm so với chiều cao của thẻ div*@
-                        <a style="background-color: #0c81f6;border-radius: 3px; color: #FFF;display: inline-block;padding: 8px 20px;font-size: 13px; transition: background-color .4s,color .3s;border: 1px solid #0c81f6;top: 50%;left: 0;right: 0" href="javascript:void(0)" title="Chia sẻ kinh nghiệm ngay" data-href="/Comment/addCommentPartial/" class="Comment">Chia sẻ kinh nghiệm ngay</a>
-                    </div>
-                    <div style="clear:both"></div>
-                    @*vì div không thể tự mỏ rộng để bao bọc, nên cần một div là clearboth để kéo div chiều cao div cha*@
-                </div>
-                <ul class="comment-list" id="comment-list"></ul>
-                <div style="clear:both"></div>
+        <div id="choose-anthor" class="tab-pane fade">
+            <div>
+
             </div>
-
-
         </div>
-    </div>
+        <div id="comment" class="tab-pane fade">
+            <div style="border: 1px solid #E5E5E5;padding: 10px;margin-top: 30px;margin-bottom:15px">
+                <div style="width: 50%;position: relative;float:left">
+                    wwww
+                </div>
+                <div style="float:left;position:relative;text-align:center;width: 50%;">
+                    @*//50 phần trăm so với chiều cao của thẻ div*@
+                    <a style="background-color: #0c81f6;border-radius: 3px; color: #FFF;display: inline-block;padding: 8px 20px;font-size: 13px; transition: background-color .4s,color .3s;border: 1px solid #0c81f6;top: 50%;left: 0;right: 0" href="javascript:void(0)" title="Chia sẻ kinh nghiệm ngay" data-href="/Comment/addCommentPartial/" class="Comment">Chia sẻ kinh nghiệm ngay</a>
+                </div>
+                <div style="clear:both"></div>
+                @*vì div không thể tự mỏ rộng để bao bọc, nên cần một div là clearboth để kéo div chiều cao div cha*@
+            </div>
+            <ul class="comment-list" id="comment-list"></ul>
+            <div style="clear:both"></div>
+        </div>
 
+
+    </div>
 </div>
+
+
 
 
 
@@ -179,7 +190,7 @@
                                         </div>
                                         <div class="comment-content">
                                             <span class="comment-star" id="comment_${comment.id}">
-                            
+
                                             </span>
                                             <span>${comment.content}</span>
                                         </div>
@@ -187,8 +198,8 @@
                                             <span> ${convertdate(comment.date) }</span>
                                         </div>
                                  </li>`;
-                       
-                       
+
+
                         $('.comment-list').append(row);
                         var commentItem = $('#comment_' + comment.id);
                         for (let i = 0; i < comment.start; i++) {
@@ -202,14 +213,14 @@
                     });
                 }
                 else {
-                    
+
                 }
             }, error: function (result, status, xhr) {
 
             }
         });
     });
-  
+
 
 
 

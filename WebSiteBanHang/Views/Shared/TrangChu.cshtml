@@ -115,7 +115,9 @@
     <div class="container-fluid">
         @RenderBody()
     </div>
-
+    <div class="container-fluid">
+        @RenderPage("Footer.cshtml")
+    </div>
     <script src="~/Content/Template/bower_components/jquery-ui/jquery-ui.js"></script>
     <script src="~/Content/Template/bower_components/jquery-ui/ui/minified/core.min.js"></script>
     <script src="~/Content/Template/bower_components/jquery-ui/ui/minified/tabs.min.js"></script>
@@ -140,14 +142,14 @@
                         $('.logout').hide();
                         $('.login').hide();
                         var row = ` <li class="dropdown">
-                                                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">TÀI KHOẢN ${data.name.toUpperCase()}
-                                                                    <ul class="dropdown-menu">
-                                                                      <li><a href="/InfoCustomer/Details"><span><i class="fa fa-address-book" aria-hidden="true"></i></span>     Quản lý tài khoản</a></li>
-                                                                      <li><a href="/OrderManagement/createViewOrder"><span><i class="fa fa-shopping-basket" aria-hidden="true"></i> </span>   Đơn hàng của tôi</a></li>
-                                                                      <li><a href="#"><span><i class="fa fa-commenting" aria-hidden="true"></i> </span>   Nhận xét</a></li>
-                                                                      <li><a href='/User/Logout'><span><i class="fa fa-sign-out" aria-hidden="true"></i></span>   Đăng xuất</a></li>
-                                                                    </ul>
-                                                                  </li>`;
+                                                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">TÀI KHOẢN ${data.name.toUpperCase()}
+                                                                        <ul class="dropdown-menu">
+                                                                          <li><a href="/InfoCustomer/Details"><span><i class="fa fa-address-book" aria-hidden="true"></i></span>     Quản lý tài khoản</a></li>
+                                                                          <li><a href="/OrderManagement/createViewOrder"><span><i class="fa fa-shopping-basket" aria-hidden="true"></i> </span>   Đơn hàng của tôi</a></li>
+                                                                          <li><a href="#"><span><i class="fa fa-commenting" aria-hidden="true"></i> </span>   Nhận xét</a></li>
+                                                                          <li><a href='/User/Logout'><span><i class="fa fa-sign-out" aria-hidden="true"></i></span>   Đăng xuất</a></li>
+                                                                        </ul>
+                                                                      </li>`;
                         $('.navbar-right').prepend(row);
 
                         // thêm đến một cái nào đó có sẵn rồi dùng .prependTo
@@ -343,13 +345,13 @@
 
     </script>
 
-   
+
 
 
     @*thanh toán*@
     <script type="text/javascript">
         $(document).ready(function () {
-       
+
             $('#btn-payment').click(function () {
 
                 var sumCheck = 0;

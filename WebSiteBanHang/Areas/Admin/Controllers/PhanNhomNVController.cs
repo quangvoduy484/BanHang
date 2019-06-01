@@ -99,8 +99,8 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                 if (ModelState.IsValid)
                 {
                     PNService.Add(id, collection);
-                    
-                    return RedirectToAction("Index");
+
+                    return RedirectToAction("Index","PhanNhomNV");
 
                 }
                 return View(collection);

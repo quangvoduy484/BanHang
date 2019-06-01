@@ -81,6 +81,7 @@
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -6136,6 +6137,7 @@
     <Content Include="Content\Template\dist\js\demo.js" />
     <Content Include="Content\Template\dist\js\pages\dashboard.js" />
     <Content Include="Content\Template\dist\js\pages\dashboard2.js" />
+    <Content Include="Content\Template\error\PageNotFound.html" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -6329,6 +6331,8 @@
     <Content Include="Views\RoomKind\LoadByRoomKind.cshtml" />
     <Content Include="Views\InfoCustomer\Details.cshtml" />
     <Content Include="Views\Search\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Views\Shared\Footer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201904231741032_InitialCreate.resx">

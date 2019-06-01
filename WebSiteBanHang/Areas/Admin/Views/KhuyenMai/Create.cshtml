@@ -31,66 +31,68 @@
         color: blue;
     }
 </style>
-<h2>THÊM MỚI</h2>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+<div class="col-md-12">
+    <h2>THÊM MỚI</h2>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Loại khuyến mãi</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group QuayLai">
-            @Html.LabelFor(model => model.TenKhuyenMai, "Tên khuyến mãi", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.TenKhuyenMai, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TenKhuyenMai, "", new { @class = "text-danger", })
+        <div class="form-horizontal">
+            <h4>Loại khuyến mãi</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group QuayLai">
+                @Html.LabelFor(model => model.TenKhuyenMai, "Tên khuyến mãi", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.TenKhuyenMai, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TenKhuyenMai, "", new { @class = "text-danger", })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.NgayBatDau, "Ngày bắt đầu", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
+            <div class="form-group">
+                <label for="NgayBatDau" class="control-label col-md-2"> Ngày bắt đầu<span style="color:#d0060d"> *</span></label>
+                <div class="col-md-6">
 
-                @Html.TextBoxFor(model => model.NgayBatDau, new { @class = "form-control dt1", placeholder = "dd/mm/yyyy" })
-                @Html.ValidationMessageFor(model => model.NgayBatDau, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.NgayBatDau, new { @class = "form-control dt1", placeholder = "dd/mm/yyyy", required = "required" })
+                    @Html.ValidationMessageFor(model => model.NgayBatDau, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.NgayKetThuc, "Ngày kết thúc", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.TextBoxFor(model => model.NgayKetThuc, new { @class = "form-control dt2", placeholder = "dd/mm/yyyy" })
-                @Html.ValidationMessageFor(model => model.NgayKetThuc, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <label for="NgayKetThuc" class="control-label col-md-2"> Ngày kết thúc<span style="color:#d0060d"> *</span></label>
+                <div class="col-md-6">
+                    @Html.TextBoxFor(model => model.NgayKetThuc, new { @class = "form-control dt2", placeholder = "dd/mm/yyyy", required = "required" })
+                    @Html.ValidationMessageFor(model => model.NgayKetThuc, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.GiaTriKhuyenMai, "Giá trị khuyến mãi", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.GiaTriKhuyenMai, new { htmlAttributes = new { @class = "form-control", @id = "intLimitTextBox", placeholder = "Gía trị khuyến mãi" } })
-                @Html.ValidationMessageFor(model => model.GiaTriKhuyenMai, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <label for="GiaTriKhuyenMai" class="control-label col-md-2"> Gía trị khuyến mãi<span style="color:#d0060d"> *</span></label>
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.GiaTriKhuyenMai, new { htmlAttributes = new { @class = "form-control", @id = "intLimitTextBox", placeholder = "Gía trị khuyến mãi", required = "required" } })
+                    @Html.ValidationMessageFor(model => model.GiaTriKhuyenMai, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-2">Sản phẩm</label>
-            <div class="col-md-6">
-                <select class="form-control select2" name="SanPhams" multiple="multiple" data-placeholder="Chọn sản phẩm áp dụng" style="width: 100%">
-                </select>
+            <div class="form-group">
+                <label class="control-label col-md-2"> San phẩm<span style="color:#d0060d"> *</span></label>
+                <div class="col-md-6">
+                    <select class="form-control select2" name="SanPhams" multiple="multiple" data-placeholder="Chọn sản phẩm áp dụng" style="width: 100%"></select>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Thêm mới" class="btn btn-primary" />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Thêm mới" class="btn btn-primary" />
+                </div>
             </div>
-        </div>
 
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("<< Quay lại danh sách", "Index")
     </div>
-}
-
-<div>
-    @Html.ActionLink("<< Quay lại danh sách", "Index")
 </div>
+
 <script type="text/javascript">
     $(function () { // will trigger when the document is ready
         $(".dt1").datepicker({

@@ -105,7 +105,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.SoLuongTon, "Số lượng tồn", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-6">
-                        @Html.EditorFor(model => model.SoLuongTon, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.SoLuongTon, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                         @Html.ValidationMessageFor(model => model.SoLuongTon, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -342,11 +342,16 @@
 
             success: function (data) {
                 if (data) {
-                    toastr.success("Sửa thành công");
-                    $('#myModal').modal('hide')
-                    $('#giaSP').val(gia)
-                    //window.location.reload()
-                    //uploadFile(data.Id);
+                    if (data.Statuscode === 200) {
+                        toastr.success("Sửa thành công");
+                        $('#myModal').modal('hide')
+                        $('#giaSP').val(gia)
+                        //window.location.reload()
+                        //uploadFile(data.Id);
+                    }
+                    else if (data.Message) {
+                        toastr.error(data.Message);
+                    }
                 } else {
                     toastr.error("Có lỗi trong quá trình xử lý");
                 }

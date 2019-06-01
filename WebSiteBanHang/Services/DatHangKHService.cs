@@ -342,6 +342,8 @@ namespace WebSiteBanHang.Services
                     SoDienThoai = t.SoDienThoai,
                 }).FirstOrDefault();
         }
+
+        //Xuất file PDF
         #region Declaration
         int _totalColumnDetail = 5;
         int _totalColumn = 4;
@@ -482,6 +484,12 @@ namespace WebSiteBanHang.Services
             AddRowDatHang("Tên khách hàng:");
             AddRowDatHang(_datHang.TenKhachHang.ToString());
             _pdfTable.CompleteRow();
+
+            //AddRowDatHang("Người nhận:");
+            //AddRowDatHang(_datHang.DiaChiGiao.ToString());
+            //AddRowDatHang("Số điện thoại người nhận:");
+            //AddRowDatHang(_datHang.SoDienThoai.ToString());
+            //_pdfTable.CompleteRow();
 
             AddRowDatHang("Địa chỉ giao:");
             AddRowDatHang(_datHang.DiaChiGiao.ToString());

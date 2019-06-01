@@ -54,6 +54,7 @@
             </div>
           
             <div class="col-md-4">
+                
                 @Html.EditorFor(model => model.SODIENTHOAI, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.SODIENTHOAI, "", new { @class = "text-danger" })
             </div>
@@ -63,7 +64,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-4 col-md-10">
-                <input type="submit" value="Create" class="btn btn-success" />
+                <input type="submit" onclick="TextLimit()" value="Thêm mới" class="btn btn-success" />
             </div>
         </div>
     </div>
@@ -72,3 +73,32 @@
 <div class="form-group col-md-offset-1 col-md-10">
     @Html.ActionLink("<<Quay lại danh sách", "Index")
 </div>
+<script>
+    //chi nhap so
+
+    var inputFilter = function (textbox, inputFilter) {
+        ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+            textbox.addEventListener(event, function () {
+                if (inputFilter(this.value)) {
+                    this.oldValue = this.value;
+                    this.oldSelectionStart = this.selectionStart;
+                    this.oldSelectionEnd = this.selectionEnd;
+                } else if (this.hasOwnProperty("oldValue")) {
+                    this.value = this.oldValue;
+                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                }
+            });
+        });
+    };
+    inputFilter(document.getElementById('SODIENTHOAI'), function (value) {
+        return /^\d*\.?\d*$/.test(value);
+    })
+
+    //function TextLimit() {
+    //    var text = document.getElementById('SODIENTHOAI');
+    //    if (text.value.length > 10 || text.value.length < 10) {
+    //        alert('Số điện thoại chỉ được nhập 10 kí tự');
+    //    }
+    //}  
+    
+</script>
