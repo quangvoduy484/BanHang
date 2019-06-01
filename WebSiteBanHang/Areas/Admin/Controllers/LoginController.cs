@@ -64,7 +64,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         {
             FormsAuthentication.SignOut();
             Session.Abandon();
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction("Index", "Homepage");
         }
     }
 }

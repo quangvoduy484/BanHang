@@ -52,80 +52,89 @@
 <form action="/Admin/PhieuDatHang_NCC/Create" method="post" id="myForm">
 	@Html.AntiForgeryToken()
 	<div class="col-md-12">
-		<div class="box Bang">
-			<div class="form-horizontal">
-				@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-				<div class="form-group">
-					@Html.LabelFor(model => model.MaNCC, "Nhà cung cấp", htmlAttributes: new { @class = "control-label col-md-2" })
-					<div class="col-md-4" name="MaNCC">
-						@Html.DropDownList("MANCC", (IEnumerable<SelectListItem>)ViewBag.listNCC, htmlAttributes: new { @class = "form-control col-md-6" })
-						@Html.ValidationMessageFor(model => model.MaNCC, "", new { @class = "text-danger" })
+		<div class="box box-primary">
+			<div class="box-body">
+				<div class="form-horizontal">
+					@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+					<div class="form-group">
+						@Html.LabelFor(model => model.MaNCC, "Nhà cung cấp", htmlAttributes: new { @class = "control-label col-md-2" })
+						<div class="col-md-4" name="MaNCC">
+							@Html.DropDownList("MANCC", (IEnumerable<SelectListItem>)ViewBag.listNCC, htmlAttributes: new { @class = "form-control col-md-6" })
+							@Html.ValidationMessageFor(model => model.MaNCC, "", new { @class = "text-danger" })
+						</div>
 					</div>
-				</div>
 
-				<div class="form-group">
-					@Html.LabelFor(model => model.NgayDat, "Ngày đặt", htmlAttributes: new { @class = "control-label col-md-2" })
-					<div class="col-md-4">
-						<input type="datetime" value=@DateTime.Now.ToString("dd/MM/yyyyy") name="NgayDat" class="form-control" disabled/>
+					<div class="form-group">
+						@Html.LabelFor(model => model.NgayDat, "Ngày đặt", htmlAttributes: new { @class = "control-label col-md-2" })
+						<div class="col-md-4">
+							<input type="datetime" value=@DateTime.Now.ToString("dd/MM/yyyyy") name="NgayDat" class="form-control" disabled />
+						</div>
 					</div>
-				</div>
 
-				<div class="form-group">
-					@Html.LabelFor(model => model.TongTien, htmlAttributes: new { @class = "control-label col-md-2" })
-					<div class="col-md-4" name="TongTien">
-						@Html.EditorFor(model => model.TongTien, new { htmlAttributes = new { @class = "form-control tong-tien", @readonly = "readonly", @type = "number" } })
-						@Html.ValidationMessageFor(model => model.TongTien, "", new { @class = "text-danger" })
+					<div class="form-group">
+						@Html.LabelFor(model => model.TongTien, htmlAttributes: new { @class = "control-label col-md-2" })
+						<div class="col-md-4" name="TongTien">
+							@Html.EditorFor(model => model.TongTien, new { htmlAttributes = new { @class = "form-control tong-tien", @readonly = "readonly", @type = "number" } })
+							@Html.ValidationMessageFor(model => model.TongTien, "", new { @class = "text-danger" })
+						</div>
 					</div>
-				</div>
 
+				</div>
 			</div>
+		
 		</div>
+		</div>
+	<div class="col-md-12">
+		<div class="box">
+			<div class="box-body">
+				<div class="container">
 
+					<div class="details">
+						<h2>Danh sách sản phẩm</h2>
+						<table class="table table-responsive" id="chiTietDH" name="CT_PHIEUDATHANGNCCs">
+							<thead>
+								<tr>
 
-		<div class="container">
+									<td>Tên Sản phẩm</td>
+									<th>Số lượng</th>
+									<th>Đơn giá</th>
+									<th>Thành tiền</th>
+									<th>Chức năng</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="mycontainer" id="chiTiet_1">
+									<td name="MaSP">
+										@Html.DropDownList("MASANPHAM", (IEnumerable<SelectListItem>)ViewBag.listSP, htmlAttributes: new { @class = " form-control" })
+									</td>
+									<td>
+										<input type="number" id='sl_1' min="1" name="SL" onChange=changeSoLuong(this) class=" form-control only-number" />
+									</td>
+									<td>
+										<input type="number" id='dg_1' name="GiaNhap" onChange=changeDonGia(this) class=" form-control only-numb" />
+									</td>
+									<td>
+										<input type="text" id='tt_1' class="thanh-tien form-control" name="ThanhTien" disabled onChange=changeThanhTien() readonly="readonly" />
+									</td>
+									<td>
 
-			<div class="details">
-				<h2>Danh sách sản phẩm</h2>
-				<table class="table table-responsive" id="chiTietDH" name="CT_PHIEUDATHANGNCCs">
-					<thead>
-						<tr>
+										<input type="button" value="X" class="btn btn-danger" onclick="remove(this)" />
+										<input type="button" value="Add" class="btn btn-primary" id="ThemSP" onclick="themChiTietDatHang()" />
+									</td>
+								</tr>
+							</tbody>
 
-							<td>Tên Sản phẩm</td>
-							<th>Số lượng</th>
-							<th>Đơn giá</th>
-							<th>Thành tiền</th>
-							<th>Chức năng</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr class="mycontainer" id="chiTiet_1">
-							<td name="MaSP">
-								@Html.DropDownList("MASANPHAM", (IEnumerable<SelectListItem>)ViewBag.listSP, htmlAttributes: new { @class = " form-control" })
-							</td>
-							<td>
-								<input type="number" id='sl_1' min="1" name="SL" onChange=changeSoLuong(this) class=" form-control" />
-							</td>
-							<td>
-								<input type="number" id='dg_1' name="GiaNhap" min="0" onChange=changeDonGia(this) class=" form-control" />
-							</td>
-							<td>
-								<input type="text" id='tt_1' class="thanh-tien form-control" name="ThanhTien" disabled onChange=changeThanhTien() readonly="readonly" />
-							</td>
-							<td>
+						</table>
 
-								<input type="button" value="X" class="btn btn-danger" onclick="remove(this)" />
-								<input type="button" value="Add" class="btn btn-primary" id="ThemSP" onclick="themChiTietDatHang()" />
-							</td>
-						</tr>
-					</tbody>
+						<div>
 
-				</table>
+							<input id="Create" onclick="save()" value="Xác nhận" class="col-md-offset-5 col-md-2 btn btn-warning " style="padding:10px 20px" />
 
-				<div>
+						</div>
 
-					<input id="Create" onclick="save()" value="Xác nhận" class="col-md-offset-5 col-md-2 btn btn-warning " style="padding:10px 20px" />
-
+					</div>
 				</div>
+
 
 			</div>
 		</div>
@@ -139,9 +148,11 @@
 
 
 </div>
-}
-<script>
 
+<script>
+	$(function () {
+	
+})
     function changeSoLuong(atr) {
          var sl = $(atr).val();
         var id = $(atr).attr('id').toString().split('_')[1];
@@ -187,10 +198,10 @@
                             @Html.DropDownList("MASANPHAM", (IEnumerable<SelectListItem>)ViewBag.listSP, htmlAttributes: new { @class = " form-control "})
                     </td>
                     <td>
-                        <input type="number" id= 'sl_${row}'  type="number" min="1" name="soLuong" onChange=changeSoLuong(this) class=" form-control" />
+                        <input type="number" id= 'sl_${row}'  type="number" min="1" name="soLuong" onChange=changeSoLuong(this) class="form-control only-number" />
                     </td>
                     <td>
-                        <input type="number" id= 'dg_${row}'  type="number"  name="donGia" min = "0"  onChange=changeDonGia(this) class=" form-control" />
+                        <input type="number" id= 'dg_${row}'  type="number"  name="donGia" min = "1000"  onChange=changeDonGia(this) class="form-control only-number" />
                     </td>
                     <td>
                         <input type="text" id= 'tt_${row}' class="thanh-tien form-control" type="text"  name="thanhTien" disabled onChange=changeThanhTien() readonly="readonly" />
@@ -203,7 +214,7 @@
                 </tr>
             `)
 
-        }
+    }
     function remove(tr) {
        var row = tr.parentNode.parentNode;
         row.parentNode.removeChild(row);
@@ -217,7 +228,15 @@
             var chiTiet = {};
 			chiTiet.MaSP = row.find("td").eq(0).find('option:selected').val();
 			chiTiet.SL = row.find("td").eq(1).find('input').val();
+			if (parseInt(chiTiet.SL) <= 0) {
+				toastr.error("Số lượng phải lớn hơn 0")
+				return false
+			}
 			chiTiet.donGia = row.find("td").eq(2).find('input').val();
+			if (parseInt(chiTiet.chiTietSL) <= 0) {
+				toastr.error("Số lượng phải lớn hơn 0")
+				return false
+			}
 			chiTiet.thanhTien = row.find("TD").eq(3).find('input').val();
 
             if (chiTiet.MaSP && chiTiet.SL && chiTiet.donGia && chiTiet.thanhTien) {
@@ -259,6 +278,9 @@
 				toastr.error(errorThrown);
 			}
 		});
-    }
+	}
+	
+  
+
 </script>
 

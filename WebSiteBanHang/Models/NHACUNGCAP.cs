@@ -27,7 +27,7 @@ namespace WebSiteBanHang.Models
 
         [StringLength(10)]
         [Phone]
-
+       
         public string SODIENTHOAI { get; set; }
 
         public bool? TRANGTHAI { get; set; }

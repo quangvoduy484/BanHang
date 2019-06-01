@@ -17,7 +17,7 @@ namespace WebSiteBanHang.Services
 
         }
         // Lấy danh sách nhóm 
-        public List<TBL_GROUP> getNhom()
+        public List<TBL_GROUP> GetNhom()
         {
             return context.TBL_GROUPs.Where(t => t.ACTIVATE == true).ToList().Select(t => new TBL_GROUP()
             {
@@ -26,7 +26,7 @@ namespace WebSiteBanHang.Services
 
             }).ToList();
         }
-         
+
 
         //Lấy danh sách nhân viên theo nhóm
         public List<TBL_LOGIN> GetNV(int idgroup)
@@ -40,33 +40,27 @@ namespace WebSiteBanHang.Services
         public void AddGroup(TBL_GROUP model)
         {
             model.ACTIVATE = true;
-            
+
             context.TBL_GROUPs.Add(model);
             context.SaveChanges();
         }
 
-        
+
 
 
         // Thêm account mới vào nhóm -final
-        public bool Add(int id, PhanNhomNVViewModel model)
+        public bool Add(int id, List<string> userNames)
         {
-
-            if (model.NhanViens?.Count > 0)
+            foreach (var username in userNames)
             {
-                foreach (var username in model.NhanViens)
+                var grouplogin = new TBL_GROUP_LOGIN
                 {
-                    var grouplogin = new TBL_GROUP_LOGIN
-                    {
-                        ID_GROUP = id,
-                        USERNAME = username,
-                        ACTIVATE = true
-                    };
-                    context.TBL_GROUP_LOGINs.Add(grouplogin);
-                }
-
+                    ID_GROUP = id,
+                    USERNAME = username,
+                    ACTIVATE = true
+                };
+                context.TBL_GROUP_LOGINs.Add(grouplogin);
             }
-            
             context.SaveChanges();
             return true;
         }
@@ -79,7 +73,7 @@ namespace WebSiteBanHang.Services
             model.ACTIVATE = true;
             model.CREATED_DATE = DateTime.Now;
             model.CREATED_BY = HttpContext.Current.User.Identity.Name;
-        context.TBL_LOGINs.Add(model);
+            context.TBL_LOGINs.Add(model);
             context.SaveChanges();
 
         }

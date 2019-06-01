@@ -140,13 +140,19 @@
                     sortable: false,
                     render: function (data, type, full, meta) {
                         return `<div>
-                                     <a class="btn btn-success" href="/Admin/DatHangKH/Details/${data}">
+                                     <a class="btn btn-success" href="/Admin/DatHangKH/Details/${data}" Title="Chi tiết">
                                         <i class="fa fa-search-plus"></i>
                                      </a>
-                                     <a class="btn btn-info" onclick ="suaDonHang(this)">
+                                     <a class="btn btn-info" onclick ="suaDonHang(this)" Title="Sửa">
                                         <i class="fa fa-edit"></i>
                                      </a>
-                                     <a class="btn btn-danger" onclick="xoaDatHangKH(this)">
+                                     <a class="btn btn-success" onclick="CapNhatTrangThaiDaGiao(this)" Title="Đã giao">
+                                        <i class="fa fa-check-circle"></i>
+                                     </a>
+                                     <a class="btn btn-warning" onclick="CapNhatTrangThaiKhongNhanSP(this)" Title="Từ chối nhận hàng">
+                                        <i class="fa fa-times"></i>
+                                     </a>
+                                     <a class="btn btn-danger" onclick="xoaDatHangKH(this)" Title="Huỷ đơn hàng">
                                          <i class="fa fa-trash-o"></i>
                                      </a>
                                  </div> `
@@ -157,7 +163,63 @@
         });
     }
 
+    // Cập nhật trạng thái đơn hàng
+    function CapNhatTrangThaiDaGiao(data) {
+        var table = $('#dh').DataTable();
+        var data_row = table.row($(data).closest('tr')).data();
+        if (data_row.TrangThai !== "Đang giao") {
+            toastr.error("Không thể cập nhật trạng thái đơn hàng");
+            return;
+        }
+        if (window.confirm("Bạn có muốn cập nhật lại trạng thái đơn hàng ?")) {
 
+            $.ajax({
+                method: "POST",
+                url: "/Admin/DatHangKH/UpdateTrangThaiDaGiao/" + data_row.MaDatHang,
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data.StatusCode === 200) {
+                        toastr.success("Cập nhật thành công");
+                        $('#dh').DataTable().ajax.reload();
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(errorThrown);
+                }
+            });
+        }
+    }
+
+    // không nhận sẩn phẩm
+    function CapNhatTrangThaiKhongNhanSP(data) {
+        var table = $('#dh').DataTable();
+        var data_row = table.row($(data).closest('tr')).data();
+        if (data_row.TrangThai !== "Đang giao") {
+            toastr.error("Không thể cập nhật trạng thái đơn hàng");
+            return;
+        }
+        if (window.confirm("Bạn có muốn cập nhật lại trạng thái đơn hàng ?")) {
+
+            $.ajax({
+                method: "POST",
+                url: "/Admin/DatHangKH/UpdateTrangThaiKhongNhanSP/" + data_row.MaDatHang,
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data.StatusCode === 200) {
+                        toastr.success("Cập nhật thành công");
+                        $('#dh').DataTable().ajax.reload();
+                    } else {
+                        toastr.error(data.Message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toastr.error(errorThrown);
+                }
+            });
+        }
+    }
     function suaDonHang(data) {
         var table = $('#dh').DataTable();
         var data_row = table.row($(data).closest('tr')).data();

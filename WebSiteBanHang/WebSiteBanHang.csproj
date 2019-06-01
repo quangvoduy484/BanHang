@@ -81,6 +81,7 @@
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -392,7 +393,6 @@
     </Compile>
     <Compile Include="Models\DIACHI.cs" />
     <Compile Include="Services\RoomKindService.cs" />
-    <Compile Include="Services\SearchService.cs" />
     <Compile Include="Services\ThongTinKhachHangService.cs" />
     <Compile Include="ViewModel\RoomKindViewModel.cs" />
     <Compile Include="ViewModel\StatusOrder.cs" />
@@ -6136,6 +6136,7 @@
     <Content Include="Content\Template\dist\js\demo.js" />
     <Content Include="Content\Template\dist\js\pages\dashboard.js" />
     <Content Include="Content\Template\dist\js\pages\dashboard2.js" />
+    <Content Include="Content\Template\error\PageNotFound.html" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -6222,7 +6223,6 @@
     </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
@@ -6307,8 +6307,6 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Views\Shared\_LeftMenu.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\TrangChu.cshtml" />
     <Content Include="Views\Shared\Header.cshtml" />
     <Content Include="Views\Homepage\Index.cshtml" />
@@ -6329,6 +6327,8 @@
     <Content Include="Views\RoomKind\LoadByRoomKind.cshtml" />
     <Content Include="Views\InfoCustomer\Details.cshtml" />
     <Content Include="Views\Search\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Views\Shared\Footer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201904231741032_InitialCreate.resx">

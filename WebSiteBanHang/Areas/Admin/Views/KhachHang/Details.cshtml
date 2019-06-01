@@ -4,63 +4,60 @@
     ViewBag.Title = "Details";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
-<head></head>
+<head>
+</head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <style>
-    .detail-kh
-    {
-        padding-left:20%;
+    .detail-kh {
+        padding-left: 20%;
     }
 </style>
 <h2><center>Thông tin khách hàng</center></h2>
- 
+
 <div style="padding-bottom: 10px; padding-left: 15px; margin-left: 98px">
     <a class="btn btn-success" href="/Admin/NCC/">Lịch sử đặt hàng</a>
-        <a class="btn btn-danger" href="/Admin/SanPham/Create">Nhận xét sản phẩm</a>
+    <a class="btn btn-danger" href="/Admin/SanPham/Create">Nhận xét sản phẩm</a>
 
 </div>
- 
-    <div class="container col-md-10" style="background-color:#ffffff ;margin-left: 98px">
-    <table class="table detail-kh" cellspacing="200" cellpadding="200"/>
 
-        <tr>
-            <th>Họ tên</th>
-            <td><input type="text" class="form-control" readonly="readonly" value="@Model.HoTen" /></td>
-            <th>Ngày sinh</th>
-            <td><input type="datetime" class="form-control" readonly="readonly" value="@Model.NgSinh" /></td>
-        </tr>
-       
-        <tr>
-            <th>Số điện thoại</th>
-            <td><input type="text" class="form-control" readonly="readonly" value="@Model.SDT" /></td>
-            <th>Email</th>
-            <td><input type="text" class="form-control" readonly="readonly" value="@Model.Email" /></td>
-        </tr>
-        <tr>
-            <th>Mật khẩu</th>
-            <td><input type="password" class="form-control" readonly="readonly" value="@Model.MK" /></td>
-            <th>Địa chỉ</th>
-            <td><input type="text" class="form-control" readonly="readonly" value="@Model.DC" /></td>
-        </tr>
-        <tr>
+<div class="container col-md-10" style="background-color:#ffffff ;margin-left: 98px">
+    <table class="table detail-kh" cellspacing="200" cellpadding="200" />
 
-            <th>Tổng chi tiêu</th>
-            <div class="input-wrap">
-                <td><input type="text" class="form-control" readonly="readonly" value="@Model.TongChi" /></td>
-            </div>
+    <tr>
+        <th>Họ tên</th>
+        <td><input type="text" class="form-control" readonly="readonly" value="@Model.HoTen" /></td>
+        <th>Ngày sinh</th>
+        <td><input type="datetime" class="form-control" readonly="readonly" value="@Model.NgSinh" /></td>
+    </tr>
 
-            <th>Điểm tích lũy</th>
-            <div class="input-wrap">
-                <td><input type="text" class="form-control" readonly="readonly" value="@Model.DiemTichLuy" /></td>
-                </div>
-        </tr>
-        <tr>
-            <th>Loại khách hàng</th>
-            <td><input type="text" class="form-control" readonly="readonly" value="@Model.TenLoaiKH" /></td>
-        </tr>
+    <tr>
+        <th>Số điện thoại</th>
+        <td><input type="text" class="form-control" readonly="readonly" value="@Model.SDT" /></td>
+        <th>Email</th>
+        <td><input type="text" class="form-control" readonly="readonly" value="@Model.Email" /></td>
+    </tr>
+    <tr>
+        <th>Mật khẩu</th>
+        <td><input type="password" class="form-control" readonly="readonly" value="@Model.MK" /></td>
+        <th>Địa chỉ</th>
+        <td><input type="text" class="form-control" readonly="readonly" value="@Model.DC" /></td>
+    </tr>
+    <tr>
+
+        <th>Tổng chi tiêu</th>
+        <div class="input-wrap">
+            <td><input type="text" class="form-control" readonly="readonly" value="@Model.TongChi" /></td>
+        </div>
+
+        <th>Điểm tích lũy</th>
+        <div class="input-wrap">
+            <td><input type="text" class="form-control" readonly="readonly" value="@Model.DiemTichLuy" /></td>
+        </div>
+    </tr>
+
     </table>
 
     <p>
@@ -68,5 +65,5 @@
         @Html.ActionLink("Quay lại danh sách", "Index")
     </p>
 </div>
-    
+
 

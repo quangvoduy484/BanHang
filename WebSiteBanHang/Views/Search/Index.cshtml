@@ -1,52 +1,69 @@
-﻿@model WebSiteBanHang.ViewModel.RoomKindViewModel
+﻿@model List<WebSiteBanHang.ViewModel.SanPhamModel>
 
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/TrangChu.cshtml";
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/TrangChu.cshtml";
 }
+<style>
+	.product-list {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		margin-top: 10px;
+	}
+</style>
+<link href="~/Content/MyStyle/RoomKind.css" rel="stylesheet" />
+<div class="col-md-12">
+		<div class="product-list">
+			@if (Model?.Count > 0)
+			{
+				foreach (var sanPham in Model)
+				{
+					<div class="product-item">
+						<a href="/ProductDetails/getDetailProduct/@sanPham.MaSanPham" class="image">
+							<img src="@sanPham.HinhAnh">
+						</a>
+						<div class="product-info">
+							<h2 class="header_sofa">
+								<a href="/ProductDetails/getDetailProduct/@sanPham.MaSanPham">
+									@sanPham.TenSanPham
+								</a>
+							</h2>
+							<div class="gia-sp">
+								@if (sanPham.KhuyenMai.HasValue)
+								{
+									<div class="gia-ban">
+										@{
+											var giaBan = sanPham.GiaGoc * (1 - sanPham.KhuyenMai / 100.0);
+											<div class="gia-ban">
+												@String.Format("{0:0,00}", giaBan).ToString() đ
+											</div>
+										}
+									</div>
+									<div>
+										<span class="gia-goc">@String.Format("{0:0,00}", sanPham.GiaGoc).ToString() đ</span>
+										<span class="khuyen-mai">- @sanPham.KhuyenMai %</span>
+									</div>
+								}
+								else
+								{
+									<div class="gia-ban">
+										@String.Format("{0:0,00}", sanPham.GiaGoc).ToString() đ
+									</div>
+								}
 
-<div class="col-md-10">
-    <div class="product-list">
-        @foreach (var sanPham in Model.SanPhams)
-        {
-            <div class="product-item">
-                <a href="/ProductDetails/getDetailProduct/@sanPham.MaSanPham" class="image">
-                    <img src="@sanPham.HinhAnh">
-                </a>
-                <div class="product-info">
-                    <h2 class="header_sofa">
-                        <a href="/ProductDetails/getDetailProduct/@sanPham.MaSanPham">
-                            @sanPham.TenSanPham
-                        </a>
-                    </h2>
-                    <div class="gia-sp">
-                        @if (sanPham.KhuyenMai.HasValue)
-                        {
-                            <div class="gia-ban">
-                                @{
-                                    var giaBan = sanPham.GiaGoc * (1 - sanPham.KhuyenMai / 100.0);
-                                    <div class="gia-ban">
-                                        @String.Format("{0:0,00}", giaBan).ToString() đ
-                                    </div>
-                                }
-                            </div>
-                            <div>
-                                <span class="gia-goc">@String.Format("{0:0,00}", sanPham.GiaGoc).ToString() đ</span>
-                                <span class="khuyen-mai">- @sanPham.KhuyenMai %</span>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="gia-ban">
-                                @String.Format("{0:0,00}", sanPham.GiaGoc).ToString() đ
-                            </div>
-                        }
+							</div>
+						</div>
+					</div>
+				}
+			}
+			else
+			{
+				<div> Không có sản phẩm bạn tìm</div>
+			}
 
-                    </div>
-                </div>
-            </div>
-        }
 
-    </div>
+		</div>
+
 </div>
 

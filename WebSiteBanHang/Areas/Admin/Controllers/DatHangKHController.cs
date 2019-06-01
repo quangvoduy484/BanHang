@@ -193,6 +193,52 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             }
 
         }
-
+        [HttpPost]
+        public ActionResult UpdateTrangThaiDaGiao(int id)
+        {
+            var result = new ReponseMessage();
+            try
+            {
+                // TODO: Add delete logic here
+                var kq = datHang.UpdateTrangThaiDaGiao(id);
+                if (kq == false)
+                {
+                    result.Message = "Đơn hàng này không thể huỷ";
+                    result.StatusCode = HttpStatusCode.NotFound;
+                    return Json(result);
+                }
+                result.StatusCode = HttpStatusCode.OK;
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Có lỗi trong quá trình xử lý";
+                result.StatusCode = HttpStatusCode.ExpectationFailed;
+                return Json(result);
+            }
+        }
+        public ActionResult UpdateTrangThaiKhongNhanSP(int id)
+        {
+            var result = new ReponseMessage();
+            try
+            {
+                // TODO: Add delete logic here
+                var kq = datHang.UpdateTrangThaiKhongNhanHang(id);
+                if (kq == false)
+                {
+                    result.Message = "Đơn hàng này không thể trả lại";
+                    result.StatusCode = HttpStatusCode.NotFound;
+                    return Json(result);
+                }
+                result.StatusCode = HttpStatusCode.OK;
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Có lỗi trong quá trình xử lý";
+                result.StatusCode = HttpStatusCode.ExpectationFailed;
+                return Json(result);
+            }
+        }
     }
 }
