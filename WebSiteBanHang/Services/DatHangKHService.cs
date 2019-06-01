@@ -105,7 +105,9 @@ namespace WebSiteBanHang.Services
                       NgayGiao = t.NgayGiao,
                       GhiChu = t.GhiChu,
                       TrangThai = t.TrangThai == 0 ? TinhTrangDatHang.DaHuy :
-                        (t.TrangThai == 1 ? TinhTrangDatHang.DangXyLy : TinhTrangDatHang.DaGiao),
+                      (t.TrangThai == 1) ? TinhTrangDatHang.DangXyLy : (t.TrangThai == 2)
+                        ? TinhTrangDatHang.DangGiao :( t.TrangThai == 3 )
+                        ? TinhTrangDatHang.DaGiao : TinhTrangDatHang.KhongNhanHang,
                       ChiTietDatHangs = t.CHITIETDATHANGs.Where(k => k.TrangThai != false)
                       .Select(k => new ChiTietDatHangViewModel()
                       {
@@ -131,7 +133,16 @@ namespace WebSiteBanHang.Services
             {
                 return TinhTrangDatHang.DangXyLy;
             }
-            return TinhTrangDatHang.DaGiao;
+            if(trangThai==2)
+            {
+                return TinhTrangDatHang.DangGiao;
+            }
+            if(trangThai==3)
+            {
+                return TinhTrangDatHang.DaGiao;
+            }
+            return TinhTrangDatHang.KhongNhanHang;
+            
         }
         private int ConvertToTrangThaiInt(string trangThai)
         {
@@ -143,7 +154,15 @@ namespace WebSiteBanHang.Services
             {
                 return 1;
             }
-            return 2;
+            if (trangThai == TinhTrangDatHang.DangGiao)
+            {
+                return 2;
+            }
+            if (trangThai == TinhTrangDatHang.DaGiao)
+            {
+                return 3;
+            }
+            return 4;
         }
         //public List<DATHANG> ListAll()
         //{
@@ -270,10 +289,27 @@ namespace WebSiteBanHang.Services
             KiemTraSLTon(datHang);
             context.SaveChanges();
             // update đặt  hàng
-            datHang.TrangThai = 2;
+            datHang.TrangThai = 2; //Xuất hoá đơn trạng thái ==3: dang giao
             datHang.NgayGiao = DateTime.Now;
             context.Entry(datHang).State = System.Data.Entity.EntityState.Modified;
             context.SaveChanges();
+
+           
+        }
+        //Update đã giao
+        public bool UpdateTrangThaiDaGiao(int maDatHang)
+        {
+            DATHANG datHang = context.DATHANGs.
+               Include(t => t.CHITIETDATHANGs).
+               FirstOrDefault(t => t.Id_DatHang == maDatHang && t.TrangThai == 2);
+            if (datHang == null)
+            {
+                return false;
+            }
+            //update SL ton
+            UpdateSLTon(datHang);
+           
+            datHang.TrangThai = 3;
 
             //update Diem tich luy
             int diemTichLuy = 0;
@@ -286,9 +322,9 @@ namespace WebSiteBanHang.Services
             {
                 diemTichLuy = (int)datHang.TongTien / Constant.DiemNhan;
             }
-            
+
             // do cột trong table để là null nên phải gán nó lại không nó mới cộng được
-            if(datHang.KHACHHANG.DiemTichLuy == null)
+            if (datHang.KHACHHANG.DiemTichLuy == null)
             {
                 datHang.KHACHHANG.DiemTichLuy = 0;
             }
@@ -300,24 +336,40 @@ namespace WebSiteBanHang.Services
 
             datHang.KHACHHANG.DiemTichLuy += diemTichLuy;
             datHang.KHACHHANG.TongChi += datHang.TongTien;
-            context.Entry(datHang.KHACHHANG).State = System.Data.Entity.EntityState.Modified;
-            context.SaveChanges();
 
             //update Loại khách hàng vì khi nó đủ điểm mới set lên 1 , nên ko cần set trường hợp bằng 2
             if (datHang.KHACHHANG.TongChi >= Constant.TongChiVIP)
             {
                 datHang.KHACHHANG.Id_LoaiKhachHang = 1;
-                
-            }
-            context.Entry(datHang.KHACHHANG).State = System.Data.Entity.EntityState.Modified;
-            context.SaveChanges();
 
+            }
+            context.SaveChanges();
+            return true;
 
         }
 
+        //update Không nhận hàng
+        public bool UpdateTrangThaiKhongNhanHang(int maDatHang)
+        {
+            DATHANG datHang = context.DATHANGs.
+                Include(t => t.CHITIETDATHANGs).
+                FirstOrDefault(t => t.Id_DatHang == maDatHang && t.TrangThai == 3);
+            if (datHang == null)
+            {
+                return false;
+            }
+            context.SaveChanges();
+            // update đặt  hàng
+            datHang.TrangThai = 4; //Xuất hoá đơn trạng thái ==4: không nhận
+            datHang.GhiChu = "Khách hàng không nhận sản phẩm";
+            context.Entry(datHang).State = System.Data.Entity.EntityState.Modified;
+            context.SaveChanges();
+            return true;
+
+        }
         private void KiemTraSLTon(DATHANG datHang)
         {
-            var chiTiets = datHang.CHITIETDATHANGs.Where(x=>x.TrangThai!=false).ToList();
+            var chiTiets = datHang.CHITIETDATHANGs.Where(x => x.TrangThai != false).ToList();
             foreach (var chiTiet in chiTiets)
             {
                 int sl = chiTiet.SoLuong;
@@ -327,9 +379,22 @@ namespace WebSiteBanHang.Services
                     throw new Exception("Số lượng sản phẩm " + chiTiet.SANPHAM.TenSanPham + " không đủ cung cấp");
                 }
 
+                //chiTiet.SANPHAM.SoLuongTon = slTon - sl;
+            }
+        }
+        private void UpdateSLTon(DATHANG datHang)
+        {
+            var chiTiets = datHang.CHITIETDATHANGs.Where(x => x.TrangThai != false).ToList();
+            foreach (var chiTiet in chiTiets)
+            {
+                int sl = chiTiet.SoLuong;
+                int slTon = chiTiet.SANPHAM.SoLuongTon ?? 0;
                 chiTiet.SANPHAM.SoLuongTon = slTon - sl;
             }
         }
+
+
+
 
         public DatHangKHViewModel findbyId(int id)
         {
@@ -487,7 +552,7 @@ namespace WebSiteBanHang.Services
 
             //AddRowDatHang("Người nhận:");
             //AddRowDatHang(_datHang.DiaChiGiao.ToString());
-            //AddRowDatHang("Số điện thoại người nhận:");
+            //AddRowDatHang("SĐT người nhận:");
             //AddRowDatHang(_datHang.SoDienThoai.ToString());
             //_pdfTable.CompleteRow();
 
