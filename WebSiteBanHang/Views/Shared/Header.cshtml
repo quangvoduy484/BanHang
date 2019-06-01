@@ -31,23 +31,28 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="nav-item">
-                    <a href="#">
-                        <i class="fa fa-search" aria-hidden="true"></i>
 
-                    </a>
-                    <div class="search-box " style="display:none" id="searchBox">
-                        <form id="frm_search" name="frm_search" method="get" action="index.php">
+                @*//Tìm kiếm*@
+               
+                    <li class="nav-item">
+                        <a href="javascript:void(0);" onclick="turnOnSearch()">
+                            <i class="fa fa-search" aria-hidden="true"></i>
 
-                            <input class="search" name="fstr_search" id="text_search" type="text">
-                            <input class="icon-search" type="submit" value="Search">
-                        </form>
-                    </div>
-                </li>
+                        </a>
+                        <div class="search-box " hidden id="searchBox">
+                            <form id="frm_search" name="frm_search" method="get" action="index.php">
+
+                                <input class="search" name="txtsearch" id="text_search" type="text">
+                                <input class="icon-search" type="submit" value="Search">
+                            </form>
+                        </div>
+                    </li>
+                
+
                 <li class="nav-item"><a class="nav-link logout" href="/User/Registor">DANG KI</a></li>
                 <li class="nav-item"><a class="nav-link btn login" id="btn">DANG NHAP</a></li>
                 <li class="nav-item">
-                  
+
                     <a href="/Cart/renderProductCarts">
                         <img src="~/Content/Template/bower_components/ckeditor/samples/img/shop-01-128.png" width="25px" height="20px" />
 
@@ -83,13 +88,13 @@
     </ul>
 </div>
 <script>
-    $(document).ready(function () {
-        $('.fa-search').click(function () {
-
-            $('.search-box').toggle();
-        });
-
-
-
-    });
+    function turnOnSearch() {
+        var hidden = $('#searchBox').attr('hidden');
+        if (hidden) {
+            $('#searchBox').removeAttr('hidden');
+        }
+        else {
+            $('#searchBox').attr('hidden', true);
+        }
+    }
 </script>
