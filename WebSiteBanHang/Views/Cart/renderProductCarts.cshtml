@@ -4,10 +4,10 @@
     Layout = "~/Views/Shared/TrangChu.cshtml";
 }
 <div class="modal fade" id="updateAdressModal">
- 
+
 </div>
 <div class="modal fade" id="addAdressModal">
- 
+
 </div>
 
 <div class="root container-fluid" style="margin:auto;">
@@ -55,7 +55,7 @@
                         </div>
                         <div class="item-right">
                             <input value="-" class="down" type="button" />
-                            <input style="width:30px;text-align:center" value="@product.soluong" />
+                            <input id="totalproduct" style="width:30px;text-align:center" value="@product.soluong" />
                             <input value="+" class="up" type="button" />
                         </div>
                     </div>
@@ -82,6 +82,7 @@
                             <div style="margin-bottom:5px;font-size: 14px;color: #757575;letter-spacing: 0;line-height: 16px;"><span>Tạm tính: &nbsp;</span><span class="totatQuantity"></span><span class="currentTotal" style="float:right"></span></div>
                             <div style="margin-bottom:5px;font-size: 14px;color: #757575;letter-spacing: 0;line-height: 16px;"><span>Phí giao hàng:</span><span class="giaohang" style='float:right'></span></div>
                             <div style="margin-bottom:5px"><span>Tổng cộng:</span><span class="sumTotal" style='float:right;font-size: 18px;color: #f57224;'></span></div>
+                            <div style="margin-bottom:5px" id="sumlastTotal"><span>Tổng tiền đơn hàng:</span><span class="lastTotal" style='float:right;font-size: 18px;color: #f57224;'></span></div>
                             <div style="margin-bottom:5px">
                                 @{
                                     using (WebSiteBanHang.Models.BanHangContext db = new WebSiteBanHang.Models.BanHangContext())
@@ -93,10 +94,10 @@
                                             if (customer.DiemTichLuy > 0)
                                             {
                                                 <div style="display:inline-block" id="Accumulated">
-                                                    <input  type="checkbox" checked name="checkAccumulated" />
-                                                    <label for="checkAccumulated"> Dùng điểm tích lũy</label>
+                                                    <input type="checkbox" checked name="checkAccumulated" />
+                                                    <label for="checkAccumulated"> Dùng điểm tích lũy</label> <span class="scoreAccumulated"></span>
                                                 </div>
-                                             
+
                                             }
                                         }
 
@@ -104,7 +105,7 @@
                                 }
 
                             </div>
-                            
+
                         </div>
 
                         <button id="btn-payment" class='btn btn-success '>Xác nhận đơn hàng</button>
@@ -130,6 +131,8 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
+        $('#sumlastTotal').hide();
+
         $.ajax({
             url: '/Address/getAdressUserLogin',
             type: 'GET',
@@ -139,7 +142,7 @@
                 if (result.login == true) {
                     console.log(result.adrressUser);
                     for (key in result.adrressUser) {
-                        if (result.adrressUser[key] !== 0 && key !=='Id_KhachHang'&&result.adrressUser[key] !== false && result.adrressUser[key] !== null) {
+                        if (result.adrressUser[key] !== 0 && key !== 'Id_KhachHang' && result.adrressUser[key] !== false && result.adrressUser[key] !== null) {
                             var para = document.createElement("div");
                             para.innerHTML = result.adrressUser[key];
                             $(".info-customer").append(para);
@@ -159,14 +162,14 @@
                 console.log(error);
             }
         });
-        
+
         $('.updateAdress').click(function () {
             var dataURL = $(this).attr('data-href');
             $('#updateAdressModal').load(dataURL, function () {
                 $('#updateAdressModal').modal({ show: true });
             });
         });
-      
+
 
         Number.prototype.format = function (n, x) {
             var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -174,78 +177,74 @@
         };
 
         // find tìm tất cả thèn con thèn childeren chỉ tìm thèn con gần nhất
-        var count = 0;
+
         if (sessionStorage.getItem("check-all") === "true") {
 
             $("#check-all").prop("checked", true);
             var self = document.getElementById("check-all");
-
             setTimeout(checkitem_LoadorClick(self), 1000);
-
             setTimeout(currentProductCart(), 5000);
         }
-        else {
-            $("#check-all").prop("checked", false);
-            var self = document.getElementById("check-all");
 
-            setTimeout(checkitem_LoadorClick(self), 1000);
 
-            setTimeout(currentProductCart(), 5000);
-
-        }
-
+        var count = 0;
         var checkitem = JSON.parse(sessionStorage.getItem("list_check"));
-
-        $('.item-product-cart').each(function (index) {
-
-            var self = $(this);
-            if (checkitem != null) {
-
-                checkitem.forEach(function (element) {
-
-                    if (self.children("#value-product").val() === element) {
-                        self.find(".check-item").prop('checked', true);
-                    }
-
-                });
-                setTimeout(currentProductCart(), 3000);
+        if (sessionStorage.getItem("check-all") === null) {
+            if (checkitem != null) {     
+                    $('.item-product-cart').each(function (index) {
+                        var self = $(this);
+                        checkitem.forEach(function (element) {
+                            if (self.children("#value-product").val() === element) {
+                                self.find(".check-item").prop('checked', true);
+                            }
+                        });
+                    });     
+                setTimeout(currentProductCart(), 5000);
             }
+        }
 
+
+      
+        $('.item-product-cart').each(function (index) {
+            if ($(this).find('#totalproduct').val() == 1) {
+
+                $(this).find('#totalproduct').prev().css("background-color", " #e7e7e7");
+                $(this).find('#totalproduct').prev().prop("disabled", true)
+            }
+            else {
+                $(this).find('#totalproduct').prev().css("background-color", "");
+                $(this).find('#totalproduct').prev().prop("disabled", false);
+            }
         });
 
-        // chọn sản phẩm vào đơn hàng
+
+
+        var  count = 0;
         $('.item-product-cart').each(function () {
             count++;
-
-        })
+        });
 
 
         // CHECK-- ALL
         function checkitem_LoadorClick(current) {
-
             // co check se nhay vao day
             if (current.checked === true) {
                 var object = true;
                 if (sessionStorage.getItem("check-all") === null) {
                     sessionStorage.setItem("check-all", JSON.stringify(object));
                 }
-
-
                 $('.item-product-cart').each(function () {
                     $('.item-product-cart input[type = "checkbox"]').prop('checked', true);
 
                 })
             }
             else {
-
                 sessionStorage.removeItem("check-all");
+                sessionStorage.removeItem("list_check");
                 $('.item-product-cart').each(function () {
                     $('.item-product-cart input[type = "checkbox"]').prop('checked', false);
-
-
                 })
             }
-
         }
 
         // Click - ALL
@@ -257,11 +256,9 @@
 
             checkitem_LoadorClick(this);
             setTimeout(currentProductCart(), 5000);
-
-
         });
 
-        // CLICK -ITEM
+        // CLICK -ITEM SET VÀO LIST_CHECK
         $('.check-item').click(function () {
             var countcheck = 0;
             var listcheck = [];
@@ -271,7 +268,6 @@
             $('.sumTotal').html("");
             $('.item-product-cart input[type = "checkbox"]').each(function () {
                 if (this.checked == true) {
-
                     listcheck.push($(this).val());
                     sessionStorage.setItem("list_check", JSON.stringify(listcheck));
                     countcheck++;
@@ -295,7 +291,33 @@
 
 
 
+        if ($('#Accumulated input[type=checkbox]').prop('checked') === true) {
+            var statusAccumulated = true;
+            getScoreAccumulated(statusAccumulated);
+        }
+
+        function getScoreAccumulated(statusAccumulated) {
+            $.ajax({
+                url: '/OrderManagement/getAccumulated',
+                data: { statusAccumulated },
+                type: 'GET',
+                dataType: 'json',
+                success: function (result, xhr, error) {
+                    if (result.status == true) {
+                        $('.scoreAccumulated').append(`(Số tiền được giảm ${result.scroreAccumulated.format()} đ)`);
+                    }
+                },
+                error: function (result, xhr, error) {
+                    console.log(xhr)
+                }
+            })
+        }
+
+
+        // trường hợp có check mới hiện tiền giảm , tổng tiền phải trả
         //TÍNH TIỀN
+
+        var sumMoney = 0;
         function currentProductCart() {
             var totalCheck = 0;
             var id = '';
@@ -305,8 +327,10 @@
                     id += $(this).val() + ',';
                 }
             })
-
-
+            var bool = false;
+            if ($('#Accumulated input[type=checkbox]').prop('checked') === true) {
+                bool = true;
+            }
 
             if (totalCheck > 0) {
                 $.ajax({
@@ -316,6 +340,7 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {
+                        sumMoney = `${data.sumTotal}`;
                         var totatQuantity = `(${data.totatQuantity} sản phẩm)`;
                         var currentTotal = `${data.currentTotal.format()} đ`;
                         var giaohang = `${data.giaohang} đ`;
@@ -324,17 +349,66 @@
                         $('.currentTotal').html(currentTotal);
                         $('.giaohang').html(giaohang);
                         $('.sumTotal').html(sumTotal);
+                        // load điểm tích lũy
+                        if (bool == true) {
+                            checkAccumulated(sumMoney);
+                        }
                     }, error: function (e) {
-
                     }
 
                 })
             }
+            else {
+                $('#sumlastTotal').hide();
+            }
         }
+
+        $('#Accumulated input[type ="checkbox"]').click(function () {
+            a++;
+            if (a % 2 !== 0) {
+                $(this).prop('checked', false);
+            } else {
+                $(this).prop('checked', true);
+            }
+
+            if (this.checked) {
+                checkAccumulated(sumMoney);
+            } else {
+                $('#sumlastTotal').hide();
+            }
+        })
+
+        function checkAccumulated(sumMoney) {
+
+            $('#sumlastTotal').show();
+            $('.lastTotal').html("");
+
+            var statusAccumulated = false;
+            if ($('#Accumulated input[type=checkbox]').prop('checked') === true) {
+                statusAccumulated = true;
+            }
+
+            $.ajax({
+                url: '/OrderManagement/getAccumulated',
+                data: { statusAccumulated, sumMoney },
+                type: 'GET',
+                dataType: 'json',
+                success: function (result, xhr, error) {
+                    if (result.status == true) {
+                        $('.lastTotal').append(`${result.lastTotal.format()} đ`);
+                    }
+                },
+                error: function (result, xhr, error) {
+                    console.log(xhr)
+                }
+            })
+        }
+
 
         // TĂNG SẢN PHẨM
 
         $('.down').click(function () {
+
             var productID = $(this).parents(".item-product-cart").children("#value-product").val();
             var action = $('.down').val();
             $.ajax({
@@ -343,15 +417,19 @@
                 data: { productID, action },
                 type: 'POST',
                 success: function () {
+
                     location.reload();
+
                 }, error: function (e) {
 
                 }
             });
 
         });
+        
 
         $('.up').click(function () {
+
             var productID = $(this).parents(".item-product-cart").children("#value-product").val();
             var action = $('.up').val();
             $.ajax({
@@ -360,7 +438,9 @@
                 data: { productID, action },
                 type: 'POST',
                 success: function () {
+
                     location.reload();
+
                 }, error: function (e) {
 
                 }
@@ -421,21 +501,6 @@
         });
 
         var a = 0;
-        $('#Accumulated input[type ="checkbox"]').click(function () {
-            a++;
-            if (a % 2 !== 0) {
-                $(this).prop('checked', false);
-            }
-            else {
-                $(this).prop('checked', true);
-            }
-
-        })
-
-
-
-
-
     });
 </script>
 

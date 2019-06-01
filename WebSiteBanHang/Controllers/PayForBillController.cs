@@ -53,18 +53,6 @@ namespace WebSiteBanHang.Controllers
             {
                 orderForm.TongTien = sumTotal - double.Parse(customer.DiemTichLuy.ToString()) + 50;
                 customer.DiemTichLuy = 0;
-
-                if (customer.Id_LoaiKhachHang == 1)
-                {
-                    customer.DiemTichLuy = orderForm.TongTien / 50;
-                }
-                else
-                {
-                    customer.DiemTichLuy = orderForm.TongTien / 100;
-
-
-                }
-
                 db.Entry(customer).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
 

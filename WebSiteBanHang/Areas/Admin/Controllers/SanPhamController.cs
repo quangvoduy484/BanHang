@@ -22,6 +22,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             //var model = sanPhamService.ListAll();
             return View();
         }
+
         [HttpPost]
         public async Task<object> GetAll(DataTableAjaxPostModel dataModel)
         {

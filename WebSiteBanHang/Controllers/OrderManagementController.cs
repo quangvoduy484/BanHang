@@ -52,5 +52,30 @@ namespace WebSiteBanHang.Controllers
             }
 
         }
+
+        [HttpGet]
+        public JsonResult getAccumulated(bool statusAccumulated, double? sumMoney)
+        {
+            if (statusAccumulated)
+            {
+                double scroreAccumulated = 0;
+                var customer = SessionUser.GetSession();
+
+                scroreAccumulated = Math.Ceiling (double.Parse(db.KHACHHANGs.Where(x => x.Id_KhachHang == customer.Id)
+                                                .Select(x => x.DiemTichLuy).FirstOrDefault().ToString()));               
+                if (sumMoney == null && sumMoney !=0)
+                {
+                    return Json(new { status = true, scroreAccumulated = scroreAccumulated },JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    if (SessionUser.GetSession() != null)
+                    {
+                        return Json(new { status = true, lastTotal = sumMoney - scroreAccumulated }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            return Json(new { status = false }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

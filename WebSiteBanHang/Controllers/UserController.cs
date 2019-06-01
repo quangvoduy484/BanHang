@@ -33,8 +33,8 @@ namespace WebSiteBanHang.Controllers
                     new SelectListItem { Text = "Tháng tám", Value = "8"},
                     new SelectListItem { Text = "Tháng chín", Value = "9"},
                     new SelectListItem { Text = "Tháng mười", Value = "10"},
-                    new SelectListItem { Text = "Tháng một", Value = "11"},
-                    new SelectListItem { Text = "Tháng hai", Value = "12"}
+                    new SelectListItem { Text = "Tháng mười một", Value = "11"},
+                    new SelectListItem { Text = "Tháng mười hai", Value = "12"}
 
             }, "Value", "Text");
 

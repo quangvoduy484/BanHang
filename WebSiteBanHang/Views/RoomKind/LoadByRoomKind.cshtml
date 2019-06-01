@@ -37,6 +37,7 @@
                 <hr />
 
             }
+
             if (dif > 0)
             {
                 var difLoaiSP = Model.LoaiSanPhams.Skip(length * take).Take(dif); //so luong loai san phâm còn lại
@@ -55,7 +56,7 @@
         <div class="product-list">
             @foreach (var sanPham in Model.SanPhams)
             {
-                <div class="product-item">
+                <div class="product-item col-md-3">
                     <a href="/ProductDetails/getDetailProduct/@sanPham.MaSanPham" class="image">
                         <img src="@sanPham.HinhAnh">
                     </a>
@@ -120,5 +121,6 @@
                     $('#new_product #product').append(row);
                 });
             }
-        });
+        })
+    });
 </script>

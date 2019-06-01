@@ -31,12 +31,12 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="nav-item" onclick="turnOnSearch()">
+                <li class="nav-item">
                     <a href="#">
                         <i class="fa fa-search" aria-hidden="true"></i>
 
                     </a>
-                    <div class="search-box " hidden id="searchBox">
+                    <div class="search-box " style="display:none" id="searchBox">
                         <form id="frm_search" name="frm_search" method="get" action="index.php">
 
                             <input class="search" name="fstr_search" id="text_search" type="text">
@@ -56,7 +56,7 @@
                     </a>
 
                 </li>
-
+                
             </ul>
 
         </div>
@@ -83,13 +83,13 @@
     </ul>
 </div>
 <script>
-    function turnOnSearch() {
-        var hidden = $('#searchBox').attr('hidden');
-        if (hidden) {
-            $('#searchBox').removeAttr('hidden');
-        }
-        else {
-            $('#searchBox').attr('hidden',true);
-        }
-    }
+    $(document).ready(function () {
+        $('.fa-search').click(function () {
+
+            $('.search-box').toggle();
+        });
+
+
+
+    });
 </script>

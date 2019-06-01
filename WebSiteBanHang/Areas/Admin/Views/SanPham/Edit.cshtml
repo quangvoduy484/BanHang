@@ -170,6 +170,7 @@
         </div>
     </div>
 </form>
+
 <form id="myForm" action="/Admin/SanPham/UpdateGia" method="post">
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -283,6 +284,7 @@
         myDropzone.processQueue();
     }
     function editSP() {
+        // edit là cái form lấy dữ liệu theo cách form-data collection 
         var dom = document.getElementById("edit");
         var formData = new FormData(dom);
         $("#sb").attr("disabled", true);
@@ -317,6 +319,7 @@
         myDropzone.options.autoProcessQueue = false;
     }
     $('#myModal').on('show.bs.modal', function (event) {
+        // băt được cái modal show hiện tại
         var button = $(event.relatedTarget) // Button that triggered the modal
         var giaBan = button.data('giacu')
 
