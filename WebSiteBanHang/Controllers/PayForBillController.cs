@@ -40,12 +40,15 @@ namespace WebSiteBanHang.Controllers
             var address = db.DIACHIs.Where(x => x.Id_KhachHang == customer.Id_KhachHang && x.TrangThai == true).FirstOrDefault();
 
 
-            DATHANG orderForm = new DATHANG();
-            orderForm.NgayDat = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
-            orderForm.TrangThai = 1;
-            orderForm.DiaChiGiao = address.DiaChi;
-            orderForm.SoDienThoai = address.SoDienThoai;
-            orderForm.Id_KhachHang = customer.Id_KhachHang;
+            DATHANG orderForm = new DATHANG
+            {
+                NgayDat = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy")),
+                TrangThai = 1,
+                DiaChiGiao = address.DiaChi,
+                SoDienThoai = address.SoDienThoai,
+                Id_KhachHang = customer.Id_KhachHang,
+                TenNguoiNhan = address.TenKhachHang
+            };
             var aNewOder = db.DATHANGs.Add(orderForm);
             orderForm.Id_DatHang = aNewOder.Id_DatHang;
 

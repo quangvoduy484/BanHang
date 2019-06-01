@@ -13,6 +13,7 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
         public int MaKhachHang { get; set; }
         public DateTime? NgayGiao { get; set; }
         public string TenKhachHang { get; set; }
+        public string TenNguoiNhan { get; set; }
         public DateTime? NgayDatHang { get; set; }
         [Required]
         [StringLength(225)]
@@ -21,6 +22,7 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
         [MinLength(10)]
         [Required]
         public string SoDienThoai { get; set; }
+        public string SDTNguoiDat { get; set; }
         public double TongTien { get; set; }
         public string TrangThai { get; set; }
         public string GhiChu { get; set; }

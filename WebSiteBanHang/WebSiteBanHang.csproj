@@ -391,6 +391,10 @@
     <Compile Include="Migrations\201905270031345_init.Designer.cs">
       <DependentUpon>201905270031345_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906011310110_add-nguoinhan-dathang.cs" />
+    <Compile Include="Migrations\201906011310110_add-nguoinhan-dathang.Designer.cs">
+      <DependentUpon>201906011310110_add-nguoinhan-dathang.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\DIACHI.cs" />
     <Compile Include="Services\RoomKindService.cs" />
     <Compile Include="Services\ThongTinKhachHangService.cs" />
@@ -482,6 +486,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905270323363_add-Anh.resx">
       <DependentUpon>201905270323363_add-Anh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906011310110_add-nguoinhan-dathang.resx">
+      <DependentUpon>201906011310110_add-nguoinhan-dathang.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

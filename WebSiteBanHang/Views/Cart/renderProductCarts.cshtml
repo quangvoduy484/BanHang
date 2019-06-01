@@ -132,6 +132,7 @@
     $(document).ready(function () {
 
         $('#sumlastTotal').hide();
+        $('.card-body').append(`<div hidden id="sumMoney"></div>`)
 
         $.ajax({
             url: '/Address/getAdressUserLogin',
@@ -341,6 +342,7 @@
                     dataType: 'json',
                     success: function (data) {
                         sumMoney = `${data.sumTotal}`;
+                        $('#sumMoney').html(sumMoney);
                         var totatQuantity = `(${data.totatQuantity} sản phẩm)`;
                         var currentTotal = `${data.currentTotal.format()} đ`;
                         var giaohang = `${data.giaohang} đ`;
@@ -372,12 +374,11 @@
             }
 
             if (this.checked) {
-                checkAccumulated(sumMoney);
+                checkAccumulated($('#sumMoney').text());
             } else {
                 $('#sumlastTotal').hide();
             }
         })
-
         function checkAccumulated(sumMoney) {
 
             $('#sumlastTotal').show();
