@@ -1,5 +1,4 @@
-﻿@model WebSiteBanHang.Models.TBL_GROUP_LOGIN
-
+﻿
 @{
     ViewBag.Title = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
@@ -44,7 +43,7 @@
         <div class="form-group">
             <label class="control-label col-md-2">Account</label>
             <div class="col-md-6">
-                <select class="form-control select2" name="NhanViens" multiple="multiple" data-placeholder="Chọn nhân viên" style="width: 100%"></select>
+                <select class="form-control select2" name="userNames[]" multiple="multiple" data-placeholder="Chọn nhân viên" style="width: 100%"></select>
             </div>
         </div>
     </div>

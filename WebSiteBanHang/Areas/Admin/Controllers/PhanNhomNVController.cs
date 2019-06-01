@@ -13,14 +13,14 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
     public class PhanNhomNVController : Controller
     {
         PhanNhomNVService PNService = new PhanNhomNVService();
-        
+
         // GET: Admin/PhanNhomNV
         public ActionResult Index()
         {
-            var pn = PNService.getNhom();
+            var pn = PNService.GetNhom();
             return View(pn);
         }
-        
+
         // GET: Admin/PhanNhomNV/Details/5
         public ActionResult Details(int id)
         {
@@ -43,7 +43,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                     PNService.AddGroup(collection);
 
                     return Json("Thêm thành công");
-                       
+
 
                 }
                 return Json("Thêm thất bại");
@@ -83,27 +83,25 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             //var nv = PNService.GetNV(id);
             //SelectList listNV = new SelectList(nv, "USERNAME", "USERNAME");
             //ViewBag.listNV = listNV;
-            
+
             ViewBag.idgroup = id;
             return View();
         }
 
         // POST: Admin/PhanNhomNV/Create
         [HttpPost]
-        public ActionResult Create(int id, PhanNhomNVViewModel collection)
+        public ActionResult Create(int id, List<string> userNames)
         {
             try
             {
                 // TODO: Add insert logic here
 
-                if (ModelState.IsValid)
+                if (!ModelState.IsValid || id <= 0 || userNames?.Count <= 0)
                 {
-                    PNService.Add(id, collection);
-
-                    return RedirectToAction("Index","PhanNhomNV");
-
+                    return View();
                 }
-                return View(collection);
+                PNService.Add(id, userNames);
+                return RedirectToAction("Index", "PhanNhomNV");
             }
             catch (Exception ex)
             {
@@ -128,7 +126,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                     return Json(result);
                 }
                 result.StatusCode = HttpStatusCode.OK;
-                
+
                 return Json(result);
                 // TODO: Add delete logic here
 
