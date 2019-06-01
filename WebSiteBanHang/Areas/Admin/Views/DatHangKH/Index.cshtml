@@ -140,19 +140,19 @@
                     sortable: false,
                     render: function (data, type, full, meta) {
                         return `<div>
-                                     <a class="btn btn-success" href="/Admin/DatHangKH/Details/${data}">
+                                     <a class="btn btn-success" href="/Admin/DatHangKH/Details/${data}" Title="Chi tiết">
                                         <i class="fa fa-search-plus"></i>
                                      </a>
-                                     <a class="btn btn-info" onclick ="suaDonHang(this)">
+                                     <a class="btn btn-info" onclick ="suaDonHang(this)" Title="Sửa">
                                         <i class="fa fa-edit"></i>
                                      </a>
-                                     <a class="btn btn-success" onclick="CapNhatTrangThaiDaGiao(this)">
+                                     <a class="btn btn-success" onclick="CapNhatTrangThaiDaGiao(this)" Title="Đã giao">
                                         <i class="fa fa-check-circle"></i>
                                      </a>
-                                     <a class="btn btn-warning" onclick="CapNhatTrangThaiKhongNhanSP(this)">
+                                     <a class="btn btn-warning" onclick="CapNhatTrangThaiKhongNhanSP(this)" Title="Từ chối nhận hàng">
                                         <i class="fa fa-times"></i>
                                      </a>
-                                     <a class="btn btn-danger" onclick="xoaDatHangKH(this)">
+                                     <a class="btn btn-danger" onclick="xoaDatHangKH(this)" Title="Huỷ đơn hàng">
                                          <i class="fa fa-trash-o"></i>
                                      </a>
                                  </div> `

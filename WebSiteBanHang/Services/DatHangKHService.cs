@@ -43,7 +43,7 @@ namespace WebSiteBanHang.Services
                     model = dirBy == "desc" ? model.OrderByDescending(t => t.Id_DatHang)
                             : model.OrderBy(t => t.Id_DatHang);
                     break;
-                case "NgayDat":
+                case "NgayDatHang":
                     model = dirBy == "desc" ? model.OrderByDescending(t => t.NgayDat)
                             : model.OrderBy(t => t.NgayDat);
                     break;
@@ -366,7 +366,10 @@ namespace WebSiteBanHang.Services
             context.SaveChanges();
             return true;
 
+
         }
+
+        //Kiểm tra số lượng tồn
         private void KiemTraSLTon(DATHANG datHang)
         {
             var chiTiets = datHang.CHITIETDATHANGs.Where(x => x.TrangThai != false).ToList();
@@ -382,6 +385,8 @@ namespace WebSiteBanHang.Services
                 //chiTiet.SANPHAM.SoLuongTon = slTon - sl;
             }
         }
+
+        //Cập nhật số lượng tồn
         private void UpdateSLTon(DATHANG datHang)
         {
             var chiTiets = datHang.CHITIETDATHANGs.Where(x => x.TrangThai != false).ToList();
@@ -409,6 +414,7 @@ namespace WebSiteBanHang.Services
         }
 
         //Xuất file PDF
+        //Định dạng pdf
         #region Declaration
         int _totalColumnDetail = 5;
         int _totalColumn = 4;
@@ -550,11 +556,11 @@ namespace WebSiteBanHang.Services
             AddRowDatHang(_datHang.TenKhachHang.ToString());
             _pdfTable.CompleteRow();
 
-            //AddRowDatHang("Người nhận:");
-            //AddRowDatHang(_datHang.DiaChiGiao.ToString());
-            //AddRowDatHang("SĐT người nhận:");
-            //AddRowDatHang(_datHang.SoDienThoai.ToString());
-            //_pdfTable.CompleteRow();
+            AddRowDatHang("Người nhận:");
+            AddRowDatHang(_datHang.ToString());
+            AddRowDatHang("SĐT người nhận:");
+            AddRowDatHang(_datHang.SoDienThoai.ToString());
+            _pdfTable.CompleteRow();
 
             AddRowDatHang("Địa chỉ giao:");
             AddRowDatHang(_datHang.DiaChiGiao.ToString());

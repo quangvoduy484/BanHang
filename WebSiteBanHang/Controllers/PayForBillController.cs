@@ -36,8 +36,8 @@ namespace WebSiteBanHang.Controllers
             var sumTotal = products.Sum(x => x.soluong * x.giagiam);
 
             var customerlogin = SessionUser.GetSession();
-            var customer = db.KHACHHANGs.Where(x => x.Id_KhachHang == customerlogin.Id).SingleOrDefault();
-            var address = db.DIACHIs.Where(x => x.Id_KhachHang == customer.Id_KhachHang && x.TrangThai == true).SingleOrDefault();
+            var customer = db.KHACHHANGs.Where(x => x.Id_KhachHang == customerlogin.Id).FirstOrDefault();
+            var address = db.DIACHIs.Where(x => x.Id_KhachHang == customer.Id_KhachHang && x.TrangThai == true).FirstOrDefault();
 
 
             DATHANG orderForm = new DATHANG();
