@@ -3,15 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebSiteBanHang.Areas.Admin.ViewModels;
 using WebSiteBanHang.Helper;
 using WebSiteBanHang.Models;
+using WebSiteBanHang.Services;
 using WebSiteBanHang.ViewModel;
 
 namespace WebSiteBanHang.Controllers
 {
+    
     public class PayForBillController : Controller
     {
         BanHangContext db = new BanHangContext();
+        SuccessBillService TTDH = new SuccessBillService();
+        DatHangKHService datHang = new DatHangKHService();
+
         public List<ProductCart> GetProductCarts()
         {
 
@@ -41,7 +47,7 @@ namespace WebSiteBanHang.Controllers
 
 
             DATHANG orderForm = new DATHANG();
-            orderForm.NgayDat = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));
+            orderForm.NgayDat = /*DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));*/ DateTime.Now;
             orderForm.TrangThai = 1;
             orderForm.DiaChiGiao = address.DiaChi;
             orderForm.SoDienThoai = address.SoDienThoai;
@@ -85,8 +91,13 @@ namespace WebSiteBanHang.Controllers
 
         public ActionResult succesBill()
         {
-
-            return View();
+            var userlogin = SessionUser.GetSession();
+            var DH = TTDH.GetThongTinDatHang(userlogin.Id);
+            if(DH != null)
+            {
+                return View(DH);
+            }
+            return View("Error");
         }
 
 

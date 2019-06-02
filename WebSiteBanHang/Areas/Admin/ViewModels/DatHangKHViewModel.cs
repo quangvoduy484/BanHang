@@ -24,6 +24,9 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
         public double TongTien { get; set; }
         public string TrangThai { get; set; }
         public string GhiChu { get; set; }
+        public string TenKhachHangDat { get; set;}
+        public string SoDienThoaiDat { get; set; }
         public List<ChiTietDatHangViewModel> ChiTietDatHangs { get; set; }
+        public List<KhachHangViewModel> KhachHangs { get; set;}
     }
 }
