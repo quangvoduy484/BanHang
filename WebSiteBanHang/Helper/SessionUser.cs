@@ -12,6 +12,7 @@ namespace WebSiteBanHang.Helper
     {
         public static void SetSession(User user)
         {
+            
             HttpContext.Current.Session["user"] = user;
             
         }

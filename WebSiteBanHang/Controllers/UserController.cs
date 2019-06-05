@@ -55,6 +55,8 @@ namespace WebSiteBanHang.Controllers
             var CheckEmail = db.KHACHHANGs.Where(x => x.Email == customer.Email).ToList();
             var CheckPhone = db.KHACHHANGs.Where(x => x.SoDienThoai == customer.SoDienThoai).ToList();
 
+
+            
             if (ModelState.IsValid)
             {
                 if (CheckEmail.Count > 0)
@@ -112,7 +114,7 @@ namespace WebSiteBanHang.Controllers
 
             var Thangs = new SelectList(
             new List<SelectListItem>
-       {
+             {
                     new SelectListItem { Text = "Tháng một", Value = "1"},
                     new SelectListItem { Text = "Tháng hai", Value = "2"},
                     new SelectListItem { Text = "Tháng ba", Value =  "3"},
@@ -126,7 +128,7 @@ namespace WebSiteBanHang.Controllers
                     new SelectListItem { Text = "Tháng một", Value = "11"},
                     new SelectListItem { Text = "Tháng hai", Value = "12"}
 
-       }, "Value", "Text");
+             }, "Value", "Text");
 
             ViewBag.Ngay = DayMonthYear.GetNgays();
             ViewBag.Thang = Thangs;

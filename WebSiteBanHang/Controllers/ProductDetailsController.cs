@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using WebSiteBanHang.Models;
 using WebSiteBanHang.ViewModel;
 
+
 namespace WebSiteBanHang.Controllers
 {
     public class ProductDetailsController : Controller
@@ -20,11 +21,14 @@ namespace WebSiteBanHang.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            var sp = db.SANPHAMs.Where(x => x.Id_SanPham == 32).SingleOrDefault();
 
             var product = db.SANPHAMs
                     .Include(t => t.HINHs)
                     .Include(t => t.GIASANPHAMs)
                     .SingleOrDefault(t => t.Id_SanPham == id && t.TrangThai != false);
+
+
             if (product == null)
             {
                 return HttpNotFound();
