@@ -29,18 +29,24 @@ namespace WebSiteBanHang.Controllers
             {
                 return HttpNotFound();
             }
+            var giagoc = db.GIASANPHAMs.Where(g => g.TrangThai != false && g.Id_SanPham == product.Id_SanPham)
+                                             .OrderByDescending(g => g.NgayLap).Select(g => g.GiaBan).FirstOrDefault();
+
+            var phantram = db.KHUYENMAIs.Where(k => k.Id_KhuyenMai == product.Id_KhuyenMai)
+                                            .OrderByDescending(k => k.NgayKetThuc).Select(g => g.GiaTriKhuyenMai).FirstOrDefault();
             var result = new ProductDetail()
             {
                 Id_SanPham = product.Id_SanPham,
                 TenSanPham = product.TenSanPham,
-                GiaBan = product.GIASANPHAMs.Where(g => g.TrangThai != false).OrderByDescending(g => g.NgayLap)
-                                            .Select(g => g.GiaBan).FirstOrDefault(),
+                GiaBan = giagoc,
                 KichThuoc = product.KichThuoc,
                 VatLieu = product.VatLieu,
                 MauSac = product.MauSac,
                 XuatXu = product.XuatXu,
                 Mota = product.Mota,
-                HinhAnh = product.HinhAnh ?? string.Empty
+                HinhAnh = product.HinhAnh ?? string.Empty,
+                phantramgiamgia = phantram,
+                giagiam = giagoc*((100 - phantram) / 100)
             };
             if (!string.IsNullOrWhiteSpace(product.HinhAnh))
             {

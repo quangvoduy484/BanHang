@@ -142,14 +142,14 @@
                         $('.logout').hide();
                         $('.login').hide();
                         var row = ` <li class="dropdown">
-                                                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">TÀI KHOẢN ${data.name.toUpperCase()}
-                                                                        <ul class="dropdown-menu">
-                                                                          <li><a href="/InfoCustomer/Details"><span><i class="fa fa-address-book" aria-hidden="true"></i></span>     Quản lý tài khoản</a></li>
-                                                                          <li><a href="/OrderManagement/createViewOrder"><span><i class="fa fa-shopping-basket" aria-hidden="true"></i> </span>   Đơn hàng của tôi</a></li>
-                                                                          <li><a href="#"><span><i class="fa fa-commenting" aria-hidden="true"></i> </span>   Nhận xét</a></li>
-                                                                          <li><a href='/User/Logout'><span><i class="fa fa-sign-out" aria-hidden="true"></i></span>   Đăng xuất</a></li>
-                                                                        </ul>
-                                                                      </li>`;
+                                                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">TÀI KHOẢN ${data.name.toUpperCase()}
+                                                                            <ul class="dropdown-menu">
+                                                                              <li><a href="/InfoCustomer/Details"><span><i class="fa fa-address-book" aria-hidden="true"></i></span>     Quản lý tài khoản</a></li>
+                                                                              <li><a href="/OrderManagement/createViewOrder"><span><i class="fa fa-shopping-basket" aria-hidden="true"></i> </span>   Đơn hàng của tôi</a></li>
+                                                                              <li><a href="#"><span><i class="fa fa-commenting" aria-hidden="true"></i> </span>   Nhận xét</a></li>
+                                                                              <li><a href='/User/Logout'><span><i class="fa fa-sign-out" aria-hidden="true"></i></span>   Đăng xuất</a></li>
+                                                                            </ul>
+                                                                          </li>`;
                         $('.navbar-right').prepend(row);
 
                         // thêm đến một cái nào đó có sẵn rồi dùng .prependTo
@@ -230,7 +230,7 @@
             $("#add-cart").click(function () {
                 var checkLogin = '@Request.RequestContext.HttpContext.Session["user"]';
                 if (checkLogin == '') {
-                    alert("Bạn phải đăng nhập để được mua hàng");
+                    $("#loginModal").modal('show');
                 }
                 else {
                     $("#cartModal").modal('show');
@@ -380,7 +380,37 @@
 
 
     </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
 
+            var inputFilter = function (textbox, inputFilter) {
+                ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+                    textbox.addEventListener(event, function () {
+                        if (inputFilter(this.value)) {
+                            this.oldValue = this.value;
+                            this.oldSelectionStart = this.selectionStart;
+                            this.oldSelectionEnd = this.selectionEnd;
+                        } else if (this.hasOwnProperty("oldValue")) {
+                            this.value = this.oldValue;
+                            this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                        }
+                    });
+                });
+            };
+            if (document.getElementById('SoDienThoai') != null) {
+                inputFilter(document.getElementById('SoDienThoai'), function (value) {
+                    return /^\d*\.?\d*$/.test(value);
+                })
+            }
+            if (document.getElementById('totalproduct') != null) {
+                inputFilter(document.getElementById('totalproduct'), function (value) {
+                    return /^\d*\.?\d*$/.test(value);
+                })
+            }
+
+           
+        })
+    </script>
 
 
     @RenderSection("ScriptSection", false)

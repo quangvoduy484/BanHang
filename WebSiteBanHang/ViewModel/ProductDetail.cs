@@ -15,6 +15,9 @@ namespace WebSiteBanHang.ViewModel
             Hinhs = new List<string>();
         }
         public double GiaBan { get; set; }
+        public double? phantramgiamgia { get; set; }
+        public double? giagiam { get; set; }
         public List<string> Hinhs { get; set; }
+        
     }
 }
