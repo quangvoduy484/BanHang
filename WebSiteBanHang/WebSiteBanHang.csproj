@@ -6519,7 +6519,7 @@
     <Content Include="Areas\Admin\Views\DatHangKH\Edit.cshtml" />
     <Content Include="App_Browsers\qt.browser" />
     <Content Include="libman.json" />
-    <Content Include="fonts\ARIAL.TTF" />
+    <Content Include="fonts\arial.ttf" />
     <Content Include="Areas\Admin\Views\PhanNhomNV\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PhanNhomNV\Create.cshtml" />
     <Content Include="Areas\Admin\Views\PhanNhomNV\Details.cshtml" />

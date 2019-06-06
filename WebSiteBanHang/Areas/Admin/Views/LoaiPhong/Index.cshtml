@@ -17,9 +17,10 @@
             border: 1px solid #ddd !important;
         }
 
-    h2, h4 {
-        text-align:center;
-        color:blue;
+    h4 {
+        text-align: center;
+        color: #0b0bbd;
+        font-size: 20px;
     }
 
     .Bang {
@@ -39,15 +40,16 @@
     <div class="box Bang">
         <table class="table table-bordered table-striped table-admin" style="width:100%" role="grid">
             <tr>
-                <th>
+                <th class="col-md-2">
                     Tên phòng
-                    @*@Html.DisplayNameFor(model => model.TENPHONG)*@
                 </th>
-                <th>
+                <th class="col-md-3">
                     Hình ảnh
-                    @*@Html.DisplayNameFor(model => model.HINHANH)*@
                 </th>
-                <th> Chức năng</th>
+                <th class="col-md-5">
+                    Mô tả
+                </th>
+                <th class="col-md-2"> Chức năng</th>
             </tr>
 
             @foreach (var item in Model)
@@ -58,7 +60,9 @@
                     </td>
                     <td>
                         <img src="@item.HinhAnh" style="width: 100%; max-width: 150px;" />
-                        @*@Html.DisplayFor(modelItem => item.HINHANH)*@
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MoTa)
                     </td>
                     <td class="middle">
 

@@ -29,7 +29,7 @@ namespace WebSiteBanHang.Services
             var result = new ReportDoanhThuViewModel();
             //get doanh thu trong nam hien tai
             var abc = context.DATHANGs
-                .Where(t => t.TrangThai == 2 && t.NgayGiao.HasValue &&
+                .Where(t => t.TrangThai == 3 && t.NgayGiao.HasValue &&
                     t.NgayGiao.Value.Year == DateTime.Now.Year)
                 .GroupBy(t => new { t.NgayGiao.Value.Month })
                 .Select(t => new
@@ -39,7 +39,7 @@ namespace WebSiteBanHang.Services
                 })
                 .ToList();
             var DonDH = context.DATHANGs
-                .Where(t => t.TrangThai == 2 && t.NgayGiao.HasValue &&
+                .Where(t => t.TrangThai == 3 && t.NgayGiao.HasValue &&
                     t.NgayGiao.Value.Year == DateTime.Now.Year)
                     .Count();
             result.Label.AddRange(abc.Select(t => t.Label));
@@ -55,7 +55,7 @@ namespace WebSiteBanHang.Services
             //get doanh thu trong nam hien tai
             // group ngày giao và tính tổng tiền
             var abc = context.DATHANGs
-                .Where(t => t.TrangThai == 2 && t.NgayGiao.HasValue &&
+                .Where(t => t.TrangThai == 3 && t.NgayGiao.HasValue &&
                 t.NgayGiao >= tuNgay && t.NgayGiao <= denNgay)
                 .GroupBy(t => new { t.NgayGiao })
                 .Select(t => new

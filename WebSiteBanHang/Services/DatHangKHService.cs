@@ -425,6 +425,7 @@ namespace WebSiteBanHang.Services
         PdfPCell _pdfCell;
         MemoryStream _memoryStream = new MemoryStream();
         DatHangKHViewModel _datHang;
+        BaseFont bf;
         #endregion
         public byte[] PrepareDatHang(DatHangKHViewModel datHangs)
         {
@@ -436,8 +437,8 @@ namespace WebSiteBanHang.Services
             _document.SetPageSize(PageSize.A4);
             _document.SetMargins(20f, 20f, 20f, 20f);
 
-            BaseFont bf = BaseFont.CreateFont("C:/windows/fonts/Arial.ttf",
-                            BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+             bf = BaseFont.CreateFont("C:/windows/fonts/Arial.ttf",
+                 BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             _fontStyle = new Font(bf, 12);
 
             PdfWriter.GetInstance(_document, _memoryStream);
@@ -535,22 +536,29 @@ namespace WebSiteBanHang.Services
             _pdfTable.SetWidths(new float[] { 20f, 30f, 20f, 30f });
             _pdfTable.HeaderRows = 2;
 
+            string path = HttpContext.Current.Server.MapPath("~/Content/Images/nha-xinh-logo.jpg");
             // add header
-            _pdfCell = new PdfPCell(new Phrase("CHI TIẾT ĐƠN HÀNG", _fontStyle))
+            iTextSharp.text.Image image = iTextSharp.text.Image.GetInstance(path);
+          
+            _pdfCell = new PdfPCell(new Phrase("HOÁ ĐƠN GIAO HÀNG", _fontStyle))
             {
                 Colspan = _totalColumn,
                 HorizontalAlignment = Element.ALIGN_CENTER,
+                VerticalAlignment  = Element.ALIGN_CENTER,
                 Border = 0,
                 BackgroundColor = BaseColor.WHITE,
                 ExtraParagraphSpace = 5f,
                 PaddingBottom = 5f,
             };
+            _pdfTable.AddCell(image);
+            _pdfTable.CompleteRow();
 
             _pdfTable.AddCell(_pdfCell);
             _pdfTable.CompleteRow();
 
 
             //add content
+           
             AddRowDatHang("Mã đặt hàng:");
             AddRowDatHang(_datHang.MaDatHang.ToString());
             AddRowDatHang("Tổng tiền:");

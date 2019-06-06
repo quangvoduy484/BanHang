@@ -100,13 +100,13 @@
                     sortable: false,
                     render: function (data, type, full, meta) {
                         return `<div>
-                                     <a class="btn btn-success" href="/Admin/SanPham/Details/${data}">
+                                     <a class="btn btn-success" title="Chi tiết sản phẩm" href="/Admin/SanPham/Details/${data}">
                                         <i class="fa fa-search-plus"></i>
                                      </a>
-                                     <a class="btn btn-info" href="/Admin/SanPham/Edit/${data}">
+                                     <a class="btn btn-info" title="Chỉnh sửa" href="/Admin/SanPham/Edit/${data}">
                                         <i class="fa fa-edit"></i>
                                      </a>
-                                     <a class="btn btn-danger" onclick="xoaSanPham(${data})">
+                                     <a class="btn btn-danger" title="Xoá sản phẩm" onclick="xoaSanPham(${data})">
                                          <i class="fa fa-trash-o"></i>
                                      </a>
                                  </div> `

@@ -13,7 +13,7 @@ namespace WebSiteBanHang.ViewModel
        
         public string TenKhachHang { get; set; }
         public string DiaChi { get; set; }
-
+        public int MaKhachHang { get; set; }
         [MinLength(10, ErrorMessage = "Số điện thoại không đủ kí tự")]
         [Phone(ErrorMessage = "Không được nhập chữ")]
         public string SoDienThoai { get; set; }

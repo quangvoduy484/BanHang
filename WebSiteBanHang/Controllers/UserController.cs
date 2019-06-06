@@ -142,6 +142,69 @@ namespace WebSiteBanHang.Controllers
             return PartialView();
         }
 
+        //Login mobile
+
+        [HttpPost]
+        public JsonResult LoginMobile(string name, string pass)
+        {
+            string messageError = string.Empty;
+            Customer customer = null;
+            List<string> listError = new List<string>();
+            if (ModelState.IsValid)
+            {
+                var genpass = Helper.GenHash.GenSHA1(pass);
+                customer = db.KHACHHANGs
+                   .Where(x => x.PassWord == genpass && (x.Email == name || x.SoDienThoai == name))
+                   .Select(c => new Customer()
+                   {
+                       TenKhachHang = c.TenKhachHang,
+                       DiaChi = c.DiaChi,
+                       MaKhachHang = c.Id_KhachHang,
+                       SoDienThoai = c.SoDienThoai,
+                       Email = c.Email
+                   })
+                   .SingleOrDefault();
+                if (customer == null)
+                {
+
+                    if (string.IsNullOrEmpty(name))
+                    {
+                        messageError += "Email hoặc Phone không được để trống,";
+                    }
+                    if (string.IsNullOrEmpty(pass))
+                    {
+                        messageError += "Mật khẩu không được để trống,";
+                    }
+
+                    if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(pass))
+                    {
+                        var checkEmailorPhone = db.KHACHHANGs.Where(x => x.Email != name || x.SoDienThoai != name).ToList();
+                        if (checkEmailorPhone.Count > 0)
+                        {
+                            messageError += "Email hoặc số điện thoại không tồn tại,";
+                        }
+
+                        var checkPassWord = db.KHACHHANGs.Where(x => x.PassWord != genpass).ToList();
+                        if (checkPassWord.Count > 0)
+                        {
+                            messageError += "Mật khẩu không đúng";
+                        }
+                    }
+
+                    messageError = messageError.Trim(',');
+                    listError = messageError.Split(',').ToList();
+                }
+
+
+            }
+
+            return Json(new
+            {
+                Error = listError,
+                Customer = customer
+            });
+        }
+
         [HttpPost]
         public ActionResult UserLogin(string name, string pass)
         {

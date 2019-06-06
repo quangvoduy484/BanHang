@@ -27,32 +27,38 @@
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
-        <h4>Loại phòng</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group QuayLai">
-            @Html.LabelFor(model => model.TenLoaiPhong,"Tên loại phòng", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.TenLoaiPhong, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TenLoaiPhong, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group QuayLai">
-            @Html.LabelFor(model => model.HinhAnh,"Hình ảnh", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.HinhAnh, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.HinhAnh, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group QuayLai">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Thêm mới" class="btn btn-primary" />
-            </div>
+<div class="form-horizontal">
+    <h4>Loại phòng</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group QuayLai">
+        <label for="TenLoaiPhong" class="control-label col-md-2">Tên loại phòng<span style="color:#d0060d"> *</span></label>
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.TenLoaiPhong, new { htmlAttributes = new { @class = "form-control" , required = "required" } })
+            @Html.ValidationMessageFor(model => model.TenLoaiPhong, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <div class="form-group QuayLai">
+        @Html.LabelFor(model => model.HinhAnh, "Hình ảnh", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.HinhAnh, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.HinhAnh, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group QuayLai">
+        @Html.LabelFor(model => model.MoTa, "Mô tả", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.MoTa, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.MoTa, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group QuayLai">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Thêm mới" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
 }
 
 <div class="QuayLai">
