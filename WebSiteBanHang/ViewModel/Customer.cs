@@ -34,6 +34,8 @@ namespace WebSiteBanHang.ViewModel
         public double? DiemTichLuy { get; set; }
         public double? TongChi { get; set; }
         public DateTime? NgSinh { get; set; }
-        
+
+       
+
     }
 }

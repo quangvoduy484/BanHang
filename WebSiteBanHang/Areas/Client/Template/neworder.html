@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <meta charset="utf-8" />
+
+   
+</head>
+<body>
+    <h4>
+        NhàXinh Funiture xin chân thành cảm ơn quý khách đã ủng hộ và tin tưởng cửa hàng.
+        Đơn đặt hàng của bạn đang được nhân viên tiếp nhận và sẽ được giao trong vòng 3-4 ngày làm việc.
+        Vui lòng kiểm tra sản phẩm và thanh toán cho nhân viên trước khi nhận hàng
+        Mọi trường hợp đổi tra sau khi thanh toán sẽ không được giải quyết.
+    </h4>
+    <h3>THÔNG TIN ĐƠN ĐẶT HÀNG CỦA BẠN </h3>
+    <table border="0" width="1000">
+        <tr>
+            <td>Mã đơn đặt hàng:</td>
+            <td>{{MaPhieuDat}}</td>
+            <td>Tên người đặt hàng:</td>
+            <td>{{CustomerName}}  </td>
+        </tr>
+        <tr>
+            <td>Ngày đặt hàng:</td>
+            <td>{{NgayDat}}</td>
+            <td>Số điện thoại đặt hàng:</td>
+            <td>{{Phone}}</td>
+        </tr>
+        <tr>
+            <td>Tổng hóa đơn:</td>
+            <td>{{Total}}</td>
+            <td>Tên người nhận hàng:</td>
+            <td>{{NguoiNhan}}</td>
+
+        </tr>
+        <tr>
+
+            <td>Số điện thoại nhận hàng:</td>
+            <td>{{Phone_Nhan}}</td>
+            <td>Địa chỉ nhận hàng</td>
+            <td>{{Address}}</td>
+
+        </tr>
+
+    </table>
+    <h3>DANH SÁCH SẢN PHẨM ĐÃ ĐẶT </h3>
+    <table style="border:1px solid black" width="1000">
+
+        <tr>
+            <td>Tên sản phẩm</td>
+            <td>Số lượng</td>
+            <td>Gía bán</td>
+            <td>Thành tiền</td>
+        </tr>
+        <!--<tr>
+            <td>{{TenSanPham}}</td>
+            <td>{{SoLuong}}  </td>
+            <td>{{GiaBan}} </td>
+            <td>{{ThanhTien}}</td>
+
+        </tr>-->
+        <tr>
+
+            <td></td>
+          
+            {{row}}
+        </tr>
+
+    </table>
+
+    <p> Mọi thắc mắc hoặc thay đổi thông tin đơn hàng, vui lòng liên hệ đường dây nóng của cửa hàng: 090909090 để được giải quyết.</p>
+
+</body>
+</html>

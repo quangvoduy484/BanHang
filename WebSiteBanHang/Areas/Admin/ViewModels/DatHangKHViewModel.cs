@@ -26,6 +26,7 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
         public string GhiChu { get; set; }
         public string TenKhachHangDat { get; set;}
         public string SoDienThoaiDat { get; set; }
+        public string Email { get; set; }
         public List<ChiTietDatHangViewModel> ChiTietDatHangs { get; set; }
         public List<KhachHangViewModel> KhachHangs { get; set;}
     }

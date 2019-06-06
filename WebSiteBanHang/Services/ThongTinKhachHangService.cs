@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WebSiteBanHang.Helper;
 using WebSiteBanHang.Models;
 using WebSiteBanHang.ViewModel;
 
@@ -24,21 +25,22 @@ namespace WebSiteBanHang.Services
                 return null;
             }
             var khachHangs = context.KHACHHANGs
-                .FirstOrDefault(t=>t.Id_KhachHang == currentUser.Id);
+                .FirstOrDefault(t => t.Id_KhachHang == currentUser.Id);
             if (khachHangs == null)
             {
                 return null;
             }
-                var result = new Customer()
+            var result = new Customer()
             {
-                TenKhachHang=khachHangs.TenKhachHang,
-                NgSinh=khachHangs.NgaySinh,
-                DiemTichLuy=khachHangs.DiemTichLuy,
-                SoDienThoai=khachHangs.SoDienThoai,
-                DiaChi=khachHangs.DiaChi,
-                TenLoaiKH=khachHangs.LOAIKHACHHANG.TenKhachHang,
-                TongChi=khachHangs.TongChi,
-                Email=khachHangs.Email,
+                TenKhachHang = khachHangs.TenKhachHang,
+                NgSinh = khachHangs.NgaySinh,
+                DiemTichLuy = khachHangs.DiemTichLuy,
+                SoDienThoai = khachHangs.SoDienThoai,
+                DiaChi = khachHangs.DiaChi,
+                TenLoaiKH = khachHangs.LOAIKHACHHANG.TenKhachHang,
+                TongChi = khachHangs.TongChi,
+                Email = khachHangs.Email,
+                PassWord = khachHangs.PassWord,
             };
             return result;
         }
@@ -64,5 +66,16 @@ namespace WebSiteBanHang.Services
             context.SaveChanges();
             return true;
         }
+
+
+        public KHACHHANG FindById(int id)
+        {
+            var userlogin = SessionUser.GetSession();
+            id = userlogin.Id;
+            return context.KHACHHANGs.Find(id);
+        }
+
+       
+
     }
 }

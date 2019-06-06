@@ -33,7 +33,10 @@ namespace WebSiteBanHang.Services
             //serch
             if (!string.IsNullOrWhiteSpace(search))
             {
+                
                 model = model.Where(t => t.NHACUNGCAP.TENNCC.Contains(search));
+                model = model.Where(t => t.NGUOIDAT.Contains(search));
+                model = model.Where(t => t.NGAYDAT.ToString().Contains(search));
             }
             var totalRecord = model.Count();
             //Sorting

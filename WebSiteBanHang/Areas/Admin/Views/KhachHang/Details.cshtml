@@ -14,14 +14,14 @@
     .detail-kh {
         padding-left: 20%;
     }
+    h2{
+        color:blue;
+        text-align:center;
+    }
 </style>
-<h2><center>Thông tin khách hàng</center></h2>
+<h2>Thông tin khách hàng</h2>
 
-<div style="padding-bottom: 10px; padding-left: 15px; margin-left: 98px">
-    <a class="btn btn-success" href="/Admin/NCC/">Lịch sử đặt hàng</a>
-    <a class="btn btn-danger" href="/Admin/SanPham/Create">Nhận xét sản phẩm</a>
 
-</div>
 
 <div class="container col-md-10" style="background-color:#ffffff ;margin-left: 98px">
     <table class="table detail-kh" cellspacing="200" cellpadding="200" />
@@ -61,7 +61,7 @@
     </table>
 
     <p>
-        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        
         @Html.ActionLink("Quay lại danh sách", "Index")
     </p>
 </div>

@@ -121,15 +121,16 @@
                             @Html.DisplayFor(modelItem => item.ThanhTien)
                         </td>
                         <td>
-                            <button class="btn btn-danger btn-edit-or-delete" value="@Model.TrangThai" onclick="xoaCTDH(@item.MaCTPhieuDat)">Xoá</button>
+
                             <button type="button" class="btn btn-info btn-edit-or-delete" value="@Model.TrangThai" data-toggle="modal" data-target="#myModalDHNCC"
                                     data-machitiet="@item.MaCTPhieuDat"
                                     data-sanpham=" @item.TenSanPham"
                                     data-soluong="@item.SL"
                                     data-gianhap="@item.GiaNhap"
                                     data-thanhtien="@item.ThanhTien">
-                                Sửa
+                                <i class="fa fa-edit"></i>
                             </button>
+                            <button class="btn btn-danger btn-edit-or-delete" value="@Model.TrangThai" onclick="xoaCTDH(@item.MaCTPhieuDat)"> <i class="fa fa-trash-o"></i></button>
                         </td>
                     </tr>
                 }
@@ -175,7 +176,6 @@
     </div>
 </div>
 
-}
 <script>
     // Xóa chi tiết đơn đặt hàng
     function xoaCTDH(maCTDH) {
