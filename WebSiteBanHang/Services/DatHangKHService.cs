@@ -535,11 +535,10 @@ namespace WebSiteBanHang.Services
 
             _pdfTable.SetWidths(new float[] { 20f, 30f, 20f, 30f });
             _pdfTable.HeaderRows = 2;
-
+            //Thêm hình
             string path = HttpContext.Current.Server.MapPath("~/Content/Images/nha-xinh-logo.jpg");
-            // add header
             iTextSharp.text.Image image = iTextSharp.text.Image.GetInstance(path);
-          
+            //add header
             _pdfCell = new PdfPCell(new Phrase("HOÁ ĐƠN GIAO HÀNG", _fontStyle))
             {
                 Colspan = _totalColumn,

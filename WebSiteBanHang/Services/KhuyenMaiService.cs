@@ -3,6 +3,8 @@ using System.Linq;
 using WebSiteBanHang.Areas.Admin.ViewModels;
 using WebSiteBanHang.Models;
 using System.Data.Entity;
+using System;
+
 namespace WebSiteBanHang.Services
 {
     public class KhuyenMaiService
@@ -13,17 +15,83 @@ namespace WebSiteBanHang.Services
             context = new BanHangContext();
 
         }
-        public List<KHUYENMAI> ListAll()
+        //public List<KHUYENMAI> ListAll()
+        //{
+        //    return context.KHUYENMAIs.ToList().Select(t => new KHUYENMAI()
+        //    {
+        //        Id_KhuyenMai = t.Id_KhuyenMai,
+        //        TenKhuyenMai = t.TenKhuyenMai,
+        //        NgayBatDau = t.NgayBatDau,
+        //        NgayKetThuc = t.NgayKetThuc,
+        //        GiaTriKhuyenMai = t.GiaTriKhuyenMai
+        //    }).ToList();
+        //}
+
+        public object GetAll(DataTableAjaxPostModel dataModel)
         {
-            return context.KHUYENMAIs.ToList().Select(t => new KHUYENMAI()
+            var sortBy = dataModel.columns[dataModel.order[0].column].data; //Lấy cột để sắp xếp
+            var dirBy = dataModel.order[0].dir.ToLower(); //Lấy thứ tự tăng/giảm
+            var search = dataModel.search.value;
+
+            var model = context.KHUYENMAIs.AsQueryable(); //lấy sản phẩm (chưa thực thi)
+            //Where(t => t.TrangThai != 0).
+            //serch
+            if (!string.IsNullOrWhiteSpace(search))
             {
-                Id_KhuyenMai = t.Id_KhuyenMai,
-                TenKhuyenMai = t.TenKhuyenMai,
-                NgayBatDau = t.NgayBatDau,
-                NgayKetThuc = t.NgayKetThuc,
-                GiaTriKhuyenMai = t.GiaTriKhuyenMai
-            }).ToList();
+                model = model.Where(t => t.TenKhuyenMai.Contains(search));
+            }
+            var totalRecord = model.Count();
+            //Sorting
+            switch (sortBy)
+            {
+                case "Id_KhuyenMai":
+                    model = dirBy == "desc" ? model.OrderByDescending(t => t.Id_KhuyenMai)
+                            : model.OrderBy(t => t.Id_KhuyenMai);
+                    break;
+                case "TenKhuyenMai":
+                    model = dirBy == "desc" ? model.OrderByDescending(t => t.TenKhuyenMai)
+                            : model.OrderBy(t => t.TenKhuyenMai);
+                    break;
+                case "NgayBatDau":
+                    model = dirBy == "desc" ? model.OrderByDescending(t => t.NgayBatDau)
+                            : model.OrderBy(t => t.NgayBatDau);
+                    break;
+                case "NgayKetThuc":
+                    model = dirBy == "desc" ? model.OrderByDescending(t => t.NgayKetThuc)
+                            : model.OrderBy(t => t.NgayKetThuc);
+                    break;
+                case "GiaTriKhuyenMai":
+                    model = dirBy == "desc" ? model.OrderByDescending(t => t.GiaTriKhuyenMai)
+                            : model.OrderBy(t => t.GiaTriKhuyenMai);
+                    break;
+                default:
+                    model = model.OrderBy(t => t.TenKhuyenMai);
+                    break;
+            };
+            //paging
+
+            if (dataModel.length == 0) dataModel.length = 10;
+            model = model.Skip(dataModel.start).Take(dataModel.length);
+            var data = model
+                .AsEnumerable()
+                .Select(t => new KhuyenMaiViewModel()
+                {
+                    Id_KhuyenMai=t.Id_KhuyenMai,
+                    TenKhuyenMai=t.TenKhuyenMai,
+                    NgayBatDau=t.NgayBatDau,
+                    NgayKetThuc=t.NgayKetThuc,
+                    GiaTriKhuyenMai=t.GiaTriKhuyenMai,
+                }).ToList();
+
+            return new
+            {
+                draw = Convert.ToInt32(dataModel.draw),
+                recordsTotal = totalRecord,
+                recordsFiltered = totalRecord,
+                data = data
+            };
         }
+
         public void Add(KhuyenMaiViewModel model)
         {
             var khuyenMai = new KHUYENMAI()

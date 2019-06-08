@@ -427,8 +427,10 @@ namespace WebSiteBanHang.Services
             _pdfTable.SetWidths(new float[] { 20f, 30f, 20f, 30f });
             _pdfTable.HeaderRows = 2;
 
+            string path = HttpContext.Current.Server.MapPath("~/Content/Images/nha-xinh-logo.jpg");
+            iTextSharp.text.Image image = iTextSharp.text.Image.GetInstance(path);
             // add header
-            _pdfCell = new PdfPCell(new Phrase("CHI TIẾT PHIẾU ĐẶT HÀNG", _fontStyle))
+            _pdfCell = new PdfPCell(new Phrase("PHIẾU ĐẶT HÀNG", _fontStyle))
             {
                 Colspan = _totalColumn,
                 HorizontalAlignment = Element.ALIGN_CENTER,
@@ -437,7 +439,8 @@ namespace WebSiteBanHang.Services
                 ExtraParagraphSpace = 5f,
                 PaddingBottom = 5f,
             };
-
+            _pdfTable.AddCell(image);
+            _pdfTable.CompleteRow();
             _pdfTable.AddCell(_pdfCell);
             _pdfTable.CompleteRow();
 
