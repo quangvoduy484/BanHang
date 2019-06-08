@@ -7,6 +7,8 @@ using WebSiteBanHang.Helper;
 using WebSiteBanHang.Models;
 using WebSiteBanHang.ViewModel;
 using System.Data.Entity;
+using WebSiteBanHang.Areas.Admin.Helpers;
+
 namespace WebSiteBanHang.Controllers
 {
     public class OrderManagementController : Controller
@@ -61,17 +63,24 @@ namespace WebSiteBanHang.Controllers
                 double scroreAccumulated = 0;
                 var customer = SessionUser.GetSession();
 
-                scroreAccumulated = Math.Ceiling (double.Parse(db.KHACHHANGs.Where(x => x.Id_KhachHang == customer.Id)
-                                                .Select(x => x.DiemTichLuy).FirstOrDefault().ToString()));               
-                if (sumMoney == null && sumMoney !=0)
+                scroreAccumulated = Math.Ceiling(double.Parse(db.KHACHHANGs.Where(x => x.Id_KhachHang == customer.Id)
+                                                .Select(x => x.DiemTichLuy).FirstOrDefault().ToString()));
+                scroreAccumulated = scroreAccumulated * Constant.DiemQuyDoi;
+
+                if (sumMoney == null && sumMoney != 0)
                 {
-                    return Json(new { status = true, scroreAccumulated = scroreAccumulated },JsonRequestBehavior.AllowGet);
+                    return Json(new { status = true, scroreAccumulated }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
                     if (SessionUser.GetSession() != null)
                     {
-                        return Json(new { status = true, lastTotal = sumMoney - scroreAccumulated }, JsonRequestBehavior.AllowGet);
+                        var lastTotal = sumMoney - scroreAccumulated;
+                        if (lastTotal < 0)
+                        {
+                            lastTotal = 0;
+                        }
+                        return Json(new { status = true, lastTotal }, JsonRequestBehavior.AllowGet);
                     }
                 }
             }

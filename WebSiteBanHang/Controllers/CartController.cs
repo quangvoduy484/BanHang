@@ -39,7 +39,7 @@ namespace WebSiteBanHang.Controllers
             ProductCart productCart = new ProductCart();
             if (product != null)
             {
-                var gia = db.GIASANPHAMs.Where(g => g.TrangThai != false && g.Id_SanPham == product.Id_SanPham).Select(g => g.GiaBan).FirstOrDefault();
+                var gia = db.GIASANPHAMs.Where(g => g.TrangThai != false && g.Id_SanPham == product.Id_SanPham).OrderByDescending(g => g.NgayLap).Select(g => g.GiaBan).FirstOrDefault();
                 var phantram = db.KHUYENMAIs.Where(k => k.Id_KhuyenMai == product.Id_KhuyenMai).OrderByDescending(k => k.NgayKetThuc).Select(g => g.GiaTriKhuyenMai).FirstOrDefault();
                 productCart = new ProductCart()
                 {
@@ -184,6 +184,17 @@ namespace WebSiteBanHang.Controllers
             return RedirectToAction("renderProductCarts");
 
         }
+
+        public ActionResult upQuantityByTextBox(int productID, int total)
+        {
+            List<ProductCart> productCarts = GetProductCarts();
+            var product = productCarts.Where(x => x.Id_SanPham == productID).SingleOrDefault();
+            product.soluong = total;
+
+            return RedirectToAction("renderProductCarts");
+
+        }
+
 
         public ActionResult deleteProducCarts(int? id, string listId)
         {

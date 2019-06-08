@@ -132,6 +132,25 @@
     $(document).ready(function () {
 
         $('#sumlastTotal').hide();
+        $('.card-body').append(`<div hidden id="sumMoney"></div>`)
+
+        $("#totalproduct").keyup(function () {
+
+            if ($(this).val() == 0) {
+                $(this).val(1);
+            }
+            var total = $(this).val();
+            var productID = $(this).parents(".item-product-cart").children("#value-product").val();
+            $.ajax({
+                async: false,
+                url: '/Cart/upQuantityByTextBox',
+                data: { productID, total },
+                type: 'GET',
+                success: function () {
+                    location.reload();
+                }
+            })
+        });
 
         $.ajax({
             url: '/Address/getAdressUserLogin',
@@ -190,21 +209,21 @@
         var count = 0;
         var checkitem = JSON.parse(sessionStorage.getItem("list_check"));
         if (sessionStorage.getItem("check-all") === null) {
-            if (checkitem != null) {     
-                    $('.item-product-cart').each(function (index) {
-                        var self = $(this);
-                        checkitem.forEach(function (element) {
-                            if (self.children("#value-product").val() === element) {
-                                self.find(".check-item").prop('checked', true);
-                            }
-                        });
-                    });     
+            if (checkitem != null) {
+                $('.item-product-cart').each(function (index) {
+                    var self = $(this);
+                    checkitem.forEach(function (element) {
+                        if (self.children("#value-product").val() === element) {
+                            self.find(".check-item").prop('checked', true);
+                        }
+                    });
+                });
                 setTimeout(currentProductCart(), 5000);
             }
         }
 
 
-      
+
         $('.item-product-cart').each(function (index) {
             if ($(this).find('#totalproduct').val() == 1) {
 
@@ -219,7 +238,7 @@
 
 
 
-        var  count = 0;
+        var count = 0;
         $('.item-product-cart').each(function () {
             count++;
         });
@@ -341,6 +360,7 @@
                     dataType: 'json',
                     success: function (data) {
                         sumMoney = `${data.sumTotal}`;
+                        $('#sumMoney').html(sumMoney);
                         var totatQuantity = `(${data.totatQuantity} sản phẩm)`;
                         var currentTotal = `${data.currentTotal.format()} đ`;
                         var giaohang = `${data.giaohang} đ`;
@@ -372,12 +392,11 @@
             }
 
             if (this.checked) {
-                checkAccumulated(sumMoney);
+                checkAccumulated($('#sumMoney').text());
             } else {
                 $('#sumlastTotal').hide();
             }
         })
-
         function checkAccumulated(sumMoney) {
 
             $('#sumlastTotal').show();
@@ -417,16 +436,14 @@
                 data: { productID, action },
                 type: 'POST',
                 success: function () {
-
                     location.reload();
-
                 }, error: function (e) {
 
                 }
             });
 
         });
-        
+
 
         $('.up').click(function () {
 

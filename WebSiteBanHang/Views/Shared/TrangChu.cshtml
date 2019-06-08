@@ -233,7 +233,7 @@
             $("#add-cart").click(function () {
                 var checkLogin = '@Request.RequestContext.HttpContext.Session["user"]';
                 if (checkLogin == '') {
-                    alert("Bạn phải đăng nhập để được mua hàng");
+                    $("#loginModal").modal('show');
                 }
                 else {
                     $("#cartModal").modal('show');
@@ -383,7 +383,37 @@
 
 
     </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
 
+            var inputFilter = function (textbox, inputFilter) {
+                ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+                    textbox.addEventListener(event, function () {
+                        if (inputFilter(this.value)) {
+                            this.oldValue = this.value;
+                            this.oldSelectionStart = this.selectionStart;
+                            this.oldSelectionEnd = this.selectionEnd;
+                        } else if (this.hasOwnProperty("oldValue")) {
+                            this.value = this.oldValue;
+                            this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                        }
+                    });
+                });
+            };
+            if (document.getElementById('SoDienThoai') != null) {
+                inputFilter(document.getElementById('SoDienThoai'), function (value) {
+                    return /^\d*\.?\d*$/.test(value);
+                })
+            }
+            if (document.getElementById('totalproduct') != null) {
+                inputFilter(document.getElementById('totalproduct'), function (value) {
+                    return /^\d*\.?\d*$/.test(value);
+                })
+            }
+
+           
+        })
+    </script>
 
 
     @RenderSection("ScriptSection", false)

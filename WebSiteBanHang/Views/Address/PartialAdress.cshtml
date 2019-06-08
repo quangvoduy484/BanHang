@@ -24,16 +24,20 @@
                     {
 
                         <tr>
+                            <td>
+                                <input type="text" class="id-customer" hidden value="@item.Id_KhachHang" />
+                            </td>
                             @if (item.TrangThai == true)
                             {
 
                                 <td>
-                                    <input type="text" class="id-customer" hidden value="@item.Id_KhachHang" />
+                                    
                                     <input type="checkbox" checked value="@item.Id_DiaChi" />
                                 </td>
                             }
                             else
                             {
+
                                 <td><input type="checkbox" value="@item.Id_DiaChi" /></td>
                             }
 

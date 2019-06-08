@@ -102,7 +102,9 @@ namespace WebSiteBanHang.Services
                       DiaChiGiao = t.DiaChiGiao,
                       SoDienThoai = t.SoDienThoai,
                       TongTien = t.TongTien,
+                      TenNguoiNhan=t.TenNguoiNhan,
                       NgayGiao = t.NgayGiao,
+                      SDTNguoiDat=t.KHACHHANG.SoDienThoai,
                       GhiChu = t.GhiChu,
                       TrangThai = t.TrangThai == 0 ? TinhTrangDatHang.DaHuy :
                       (t.TrangThai == 1) ? TinhTrangDatHang.DangXyLy : (t.TrangThai == 2)
@@ -287,14 +289,13 @@ namespace WebSiteBanHang.Services
             }
             // kiem tra sl ton
             KiemTraSLTon(datHang);
-            context.SaveChanges();
             // update đặt  hàng
             datHang.TrangThai = 2; //Xuất hoá đơn trạng thái ==3: dang giao
             datHang.NgayGiao = DateTime.Now;
             context.Entry(datHang).State = System.Data.Entity.EntityState.Modified;
             context.SaveChanges();
 
-           
+
         }
         //Update đã giao
         public bool UpdateTrangThaiDaGiao(int maDatHang)
@@ -552,28 +553,29 @@ namespace WebSiteBanHang.Services
             //add content
             AddRowDatHang("Mã đặt hàng:");
             AddRowDatHang(_datHang.MaDatHang.ToString());
-            AddRowDatHang("Tên khách hàng:");
-            AddRowDatHang(_datHang.TenKhachHang.ToString());
+            AddRowDatHang("Tổng tiền:");
+            AddRowDatHang(_datHang.TongTien.ToString());
             _pdfTable.CompleteRow();
 
-            AddRowDatHang("Người nhận:");
-            AddRowDatHang(_datHang.ToString());
-            AddRowDatHang("SĐT người nhận:");
-            AddRowDatHang(_datHang.SoDienThoai.ToString());
+            AddRowDatHang("Tên người đặt:");
+            AddRowDatHang(_datHang.TenKhachHang);
+            AddRowDatHang("SĐT người đặt:");
+            AddRowDatHang(_datHang.SDTNguoiDat);
             _pdfTable.CompleteRow();
 
-            AddRowDatHang("Địa chỉ giao:");
-            AddRowDatHang(_datHang.DiaChiGiao.ToString());
-            AddRowDatHang("Số điện thoại:");
-            AddRowDatHang(_datHang.SoDienThoai.ToString());
-            _pdfTable.CompleteRow();
+            if (_datHang.SoDienThoai != _datHang.SDTNguoiDat)
+            {
+                AddRowDatHang("Người nhận:");
+                AddRowDatHang(_datHang.TenNguoiNhan);
+                AddRowDatHang("SĐT người nhận:");
+                AddRowDatHang(_datHang.SoDienThoai);
+                _pdfTable.CompleteRow();
+            }
 
             AddRowDatHang("Ngày giao:");
             AddRowDatHang(_datHang.NgayGiao?.ToString("dd/MM/yyyy"));
-            AddRowDatHang("Tổng tiền:");
-            AddRowDatHang(_datHang.TongTien.ToString());
-
-
+            AddRowDatHang("Địa chỉ giao:");
+            AddRowDatHang(_datHang.DiaChiGiao);
             _pdfTable.CompleteRow();
             _document.Add(_pdfTable);
         }
