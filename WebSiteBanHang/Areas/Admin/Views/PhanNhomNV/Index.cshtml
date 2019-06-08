@@ -13,6 +13,8 @@
 
     .table-admin {
         border: 1px solid #ddd;
+        margin-left:10px;
+        margin-right:10px;
     }
 
         .table-admin td, .table-admin th {
@@ -21,6 +23,7 @@
 
     h2, h4 {
         padding-left: 10px;
+        color: blue;
     }
 
     .Bang {
@@ -29,14 +32,14 @@
     }
 </style>
 <center>
-    <h2>DANH SÁCH NHÓM</h2>
+    <h2>DANH SÁCH NHÓM TÀI KHOẢN</h2>
 </center>
 
 <div class="col-md-12">
     <div class="box Bang">
         <div style="padding-bottom: 10px; padding-left: 15px;">
 
-            <a class="btn btn-success" data-toggle="modal" data-target="#myModalGroup">Thêm nhóm</a>
+            <a class="btn btn-success" data-toggle="modal" data-target="#myModalGroup" title="Thêm nhóm tài khoản mới">Thêm nhóm</a>
            
            
         </div>
@@ -44,7 +47,7 @@
 
 
 
-    <table class="table table-bordered table-striped table-admin" style="width:100%" role="grid" id="groupname">
+    <table class="table table-bordered table-striped table-admin " style="width:100%" role="grid" id="groupname">
         <tr>
             <th>
                 Tên nhóm
@@ -63,16 +66,17 @@
                 <td>
                     <a class="btn btn-primary" href="/Admin/NhanVien_Nhom/Index/@item.ID" title="Danh sách tài khoản"> <i class="fa fa-users"></i>  </a>
                     <a class="btn btn-success" href="/Admin/NhomQuyen/Index/@item.ID" title="Danh sách màn hình"><i class="fa fa-laptop"></i></a>
-                    <a class="btn btn-warning" href="/Admin/PhanNhomNV/Create/@item.ID" title="Thêm tài khoản vào nhóm"><i class="fa fa-user-plus"></i></a>
-                    <a class="btn btn-success" href="/Admin/NhomQuyen/Create/@item.ID" title="Phân quyền truy cập"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-info" href="/Admin/PhanNhomNV/Create/@item.ID" title="Thêm tài khoản vào nhóm"><i class="fa fa-user-plus"></i></a>
+                    <a class="btn btn-warning" href="/Admin/NhomQuyen/Create/@item.ID" title="Phân quyền truy cập cho nhóm"><i class="fa fa-eye"></i></a>
+
                     <a class="btn btn-danger" onclick="xoaNhom(@item.ID)" title="Xoá nhóm tài khoản">X</a>
-</td>
+                </td>
             </tr>
         }
 
     </table>
 </div>
-// Popup thêm group
+
 <div class="modal fade" id="myModalGroup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

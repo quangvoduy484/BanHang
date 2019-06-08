@@ -28,7 +28,7 @@
     }
     
 </style>
-<h4>DANH SÁCH LOẠI PHÒNG</h4>
+<h2>DANH SÁCH LOẠI PHÒNG</h2>
 <div style="padding-bottom: 10px; padding-left: 15px;">
     <a class="btn btn-success" href="/Admin/LoaiPhong/Create">Thêm mới</a>
 </div>
@@ -62,8 +62,8 @@
                     </td>
                     <td class="middle">
 
-                        <a class="btn btn-primary" href="/Admin/LoaiPhong/Edit/@item.Id_LoaiPhong">Sửa</a>
-                        <button class="btn btn-danger" onclick="xoaPhong(@item.Id_LoaiPhong)">Xoá</button>
+                        <a class="btn btn-primary" href="/Admin/LoaiPhong/Edit/@item.Id_LoaiPhong"><i class="fa fa-edit"></i></a>
+                        <button class="btn btn-danger" onclick="xoaPhong(@item.Id_LoaiPhong)"><i class="fa fa-trash-o"></i></button>
                     </td>
                 </tr>
             }

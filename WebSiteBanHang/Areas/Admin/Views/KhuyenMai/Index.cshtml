@@ -20,6 +20,11 @@
         background:none;
         border-top:none;
     }
+    h2
+    {
+        color:blue;
+        text-align:center;
+    }
 </style>
 
 
@@ -65,8 +70,8 @@
                     </td>
                     <td class="middle">
 
-                        <a class="btn btn-primary" href="/Admin/KhuyenMai/Edit/@item.Id_KhuyenMai">Sửa</a>
-                        <button class="btn btn-danger" onclick="xoaKM(@item.Id_KhuyenMai)">Xoá</button>
+                        <a class="btn btn-primary" href="/Admin/KhuyenMai/Edit/@item.Id_KhuyenMai"><i class="fa fa-edit"></i></a>
+                        <button class="btn btn-danger" onclick="xoaKM(@item.Id_KhuyenMai)"><i class="fa fa-trash-o"></i></button>
 
                     </td>
                 </tr>

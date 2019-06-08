@@ -397,6 +397,7 @@
     </Compile>
     <Compile Include="Models\DIACHI.cs" />
     <Compile Include="Services\RoomKindService.cs" />
+    <Compile Include="Services\SuccessBillService.cs" />
     <Compile Include="Services\ThongTinKhachHangService.cs" />
     <Compile Include="ViewModel\RoomKindViewModel.cs" />
     <Compile Include="ViewModel\StatusOrder.cs" />
@@ -492,6 +493,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Client\Template\neworder.html" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -6326,7 +6328,6 @@
     <Content Include="Views\Cart\PartialDeleteItem.cshtml" />
     <Content Include="Views\Cart\PartialDeleteAll.cshtml" />
     <Content Include="Views\PayForBill\fillFormCustomer.cshtml" />
-    <Content Include="Views\PayForBill\succesBill.cshtml" />
     <Content Include="Views\OrderManagement\createViewOrder.cshtml" />
     <Content Include="Views\Address\PartialAdress.cshtml" />
     <Content Include="Views\Address\addAdressPartial.cshtml" />
@@ -6336,6 +6337,8 @@
     <Content Include="Views\Search\Index.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Shared\Footer.cshtml" />
+    <Content Include="Views\PayForBill\succesBill.cshtml" />
+    <Content Include="Views\InfoCustomer\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201904231741032_InitialCreate.resx">
@@ -6419,6 +6422,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{CFE032A4-2694-4A37-AD8A-519DAD930A79}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

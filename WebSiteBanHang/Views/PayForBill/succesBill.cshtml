@@ -1,9 +1,130 @@
-﻿
+﻿@model WebSiteBanHang.Areas.Admin.ViewModels.DatHangKHViewModel
 @{
     ViewBag.Title = "succesBill";
     Layout = "~/Views/Shared/TrangChu.cshtml";
 }
-<div style="width:955px;margin:auto" id="detail_product">
-    <h1 style="color:aquamarine;font-size:30;"> THANH TOÁN THÀNH CÔNG</h1>
-    
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 5px;
+        text-align: left;
+    }
+    h2{
+        text-align:center;
+    }
+    label{
+        font-weight:100;
+    }
+    h4{
+        font-weight:400;
+    }
+</style>
+
+<div class="thongbao col-md-12">
+    <p>Qúy khách đã đặt hàng thành công.Mọi thắc mắc vui lòng liên hệ hotline của cửa hàng:<bold>0914318762</bold> </p>
+
+    <h2>THÔNG TIN ĐƠN HÀNG</h2>
+
 </div>
+
+<div class=" col-md-12" >
+    <div class="col-md-4">
+        <div class="box-body">
+            <div class="form-group">
+                <h4 class="col-md-12">THÔNG TIN ĐẶT HÀNG </h4>
+            </div>
+            <div class="form-group">
+                <label class="col-md-6" style="font-weight:100">Mã đặt hàng  </label>
+                <p class="col-md-6">@Model.MaDatHang </p>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-6 ">Ngày </label>
+                <p class="col-md-6">@Model.NgayDatHang </p>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-6 "> Địa chỉ giao hàng: </label>
+                <p class="col-md-6">@Model.DiaChiGiao </p>
+            </div>
+            <div class="form-group">
+                <h4 class="col-md-12">THÔNG TIN KHÁCH HÀNG </h4>
+            </div>
+            <div class="form-group">
+                <label class="col-md-6 ">Tên người đặt:  </label>
+                <p class="col-md-6">@Model.TenKhachHangDat </p>
+            </div>
+            <div class="form-group">
+                <label class="col-md-6  "> Số điện thoại người đặt:  </label>
+                <p class="col-md-6">@Model.SoDienThoaiDat </p>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-6 ">Tên người giao:  </label>
+                <p class="col-md-6">@Model.TenKhachHang </p>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-6">Số điện thoại giao hàng:  </label>
+                <p class="col-md-6">@Model.SoDienThoai</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="box Bang">
+            <div class="box-body">
+                <h3> THÔNG TIN THANH TOÁN</h3>
+                <table class="table table-bordered table-striped table-admin" role="grid">
+                    <tr>
+                        <th>
+                            Tên sản phẩm
+                        </th>
+                        <th>
+                            Số lượng
+                        <th>
+                            Giá nhập
+                        </th>
+                        <th>
+                            Thành tiền
+                        </th>
+
+                    </tr>
+
+                    @foreach (var item in Model.ChiTietDatHangs)
+                    {
+                        <tr id="data_@item.MaChiTiet">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TenSanPham)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SoLuong)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GiaBan)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ThanhTien)
+                            </td>
+
+                        </tr>
+                    }
+
+                </table>
+                <div class="form-group col-md-offset-9 col-md-3">
+                    <label class="col-md-6" style="font-style:italic " >Tổng tiền: </label>
+                    <p class="col-md-6" style="color:red">@Model.TongTien </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+  
+
+
+

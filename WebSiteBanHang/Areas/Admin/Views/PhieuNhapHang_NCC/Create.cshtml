@@ -98,7 +98,7 @@
                     <th>
                         Số lượng
                     </th>
-                       
+
                     <th>
                         Giá nhập
                     </th>
@@ -112,39 +112,36 @@
 
                 @foreach (var item in Model.ChiTietPhieuDats)
                 {
-                <tr id="data_@item.MaCTPhieuDat">
-                    <td>
-                        <input type="text" id="TenSanPham" name="TenSanPham" value="@item.TenSanPham" class=" form-control" />
-                    </td>
-                    <td hidden="hidden">
-                        <input type="text" id="MaSP" name="MaSP" value="@item.MaSP" class=" form-control"   />
-                    </td>
-                    <td>
-                        <input type="number" id='sl_1' min="1" value="@item.SL" name="SL" onChange=changeSoLuong(this) class=" form-control" />
-                    </td>
-                    <td>
-                        <input type="number" id='dg_1' value="@item.GiaNhap" name="GiaNhap" min="0" onChange=changeDonGia(this) class=" form-control" />
-                    </td>
-                    <td>
-                        <input type="text" id='tt_1' value="@item.ThanhTien" class="thanh-tien form-control" name="ThanhTien" disabled onChange=changeThanhTien() readonly="readonly" />
-                    </td>
+                    <tr id="data_@item.MaCTPhieuDat">
+                        <td>
+                            <input type="text" id="TenSanPham" name="TenSanPham" value="@item.TenSanPham" class=" form-control" />
+                        </td>
+                        <td hidden="hidden">
+                            <input type="text" id="MaSP" name="MaSP" value="@item.MaSP" class=" form-control" />
+                        </td>
+                        <td>
+                            <input type="number" id='sl_1' min="1" value="@item.SL" name="SL" onChange=changeSoLuong(this) class=" form-control" />
+                        </td>
+                        <td>
+                            <input type="number" id='dg_1' value="@item.GiaNhap" name="GiaNhap" min="0" onChange=changeDonGia(this) class=" form-control" />
+                        </td>
+                        <td>
+                            <input type="text" id='tt_1' value="@item.ThanhTien" class="thanh-tien form-control" name="ThanhTien" disabled onChange=changeThanhTien() readonly="readonly" />
+                        </td>
 
-                    <td>
-                        <input type="button" value="X" class="btn btn-danger" onclick="remove(this)" />
-                        <input type="hidden" value="@item.MaPhieuDat" class=" form-control" name="maDatHang" />
-                    </td>
+                        <td>
+                            <input type="button" value="X" class="btn btn-danger" onclick="remove(this)" />
+                            <input type="hidden" value="@item.MaPhieuDat" class=" form-control" name="maDatHang" />
+                        </td>
 
-                </tr>
+                    </tr>
                 }
 
             </table>
         </div>
     </div>
-
-
     <div>
         <button class="col-md-offset-5 col-md-2 btn btn-danger btn-save" value="@Model.TrangThai" onclick="save()">Xác nhận</button>
-        @*<input id="Create" onclick="save()" value="@Model.TrangThai"  class="col-md-offset-5 col-md-2 btn btn-warning btn-edit-or-delete " style="padding:10px 20px" />*@
     </div>
 
 

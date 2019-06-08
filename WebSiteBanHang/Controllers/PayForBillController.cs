@@ -1,17 +1,26 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebSiteBanHang.Areas.Admin.ViewModels;
 using WebSiteBanHang.Helper;
 using WebSiteBanHang.Models;
+using WebSiteBanHang.Services;
 using WebSiteBanHang.ViewModel;
 
 namespace WebSiteBanHang.Controllers
 {
+
     public class PayForBillController : Controller
     {
+
         BanHangContext db = new BanHangContext();
+        SuccessBillService TTDH = new SuccessBillService();
+        DatHangKHService datHang = new DatHangKHService();
+
         public List<ProductCart> GetProductCarts()
         {
 
@@ -40,15 +49,12 @@ namespace WebSiteBanHang.Controllers
             var address = db.DIACHIs.Where(x => x.Id_KhachHang == customer.Id_KhachHang && x.TrangThai == true).FirstOrDefault();
 
 
-            DATHANG orderForm = new DATHANG
-            {
-                NgayDat = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy")),
-                TrangThai = 1,
-                DiaChiGiao = address.DiaChi,
-                SoDienThoai = address.SoDienThoai,
-                Id_KhachHang = customer.Id_KhachHang,
-                TenNguoiNhan = address.TenKhachHang
-            };
+            DATHANG orderForm = new DATHANG();
+            orderForm.NgayDat = /*DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));*/ DateTime.Now;
+            orderForm.TrangThai = 1;
+            orderForm.DiaChiGiao = address.DiaChi;
+            orderForm.SoDienThoai = address.SoDienThoai;
+            orderForm.Id_KhachHang = customer.Id_KhachHang;
             var aNewOder = db.DATHANGs.Add(orderForm);
             orderForm.Id_DatHang = aNewOder.Id_DatHang;
 
@@ -80,16 +86,73 @@ namespace WebSiteBanHang.Controllers
             }
 
             db.SaveChanges();
-            productCarts.RemoveAll(x => listHadCheck.Contains(x.Id_SanPham));
-            return RedirectToAction("succesBill");
+            return RedirectToAction("succesBill", "PayForBill", new { idDatHang = orderForm.Id_DatHang });
 
         }
 
 
-        public ActionResult succesBill()
-        {
 
-            return View();
+        public ActionResult succesBill(int idDatHang)
+        {
+            var userlogin = SessionUser.GetSession();
+            if (userlogin == null || Session["productCarts"] == null || GetProductCarts()?.Count <= 0)
+                return  RedirectToAction("Index","HomePage");
+
+            var DH = TTDH.GetThongTinDatHang(userlogin.Id, idDatHang);
+
+            if (DH != null)
+            {
+                try
+                {
+                    string content = System.IO.File.ReadAllText(Server.MapPath("~/Areas/Client/Template/neworder.html"));
+                    //Thông tin Đơn đặt hàng và Thông tin khách hàng
+                    content = content.Replace("{{MaPhieuDat}}", DH.MaDatHang.ToString());
+                    content = content.Replace("{{CustomerName}}", DH.TenKhachHangDat);
+                    content = content.Replace("{{Phone}}", DH.SoDienThoaiDat);
+                    content = content.Replace("{{NgayDat}}", DH.NgayDatHang.ToString());
+                    content = content.Replace("{{NguoiNhan}}",DH.TenKhachHang);
+                    content = content.Replace("{{Total}}", DH.TongTien.ToString());
+                    content = content.Replace("{{Phone_Nhan}}", DH.SoDienThoai);
+                    content = content.Replace("{{Address}}", DH.DiaChiGiao);
+                    content = content.Replace("{{Total}}", DH.TongTien.ToString());
+
+                    // Thông tin CTDH
+                    //foreach(var ctdh in DH.ChiTietDatHangs)
+                    //{
+                    //    content = content.Replace("{{TenSanPham}}", DH.ChiTietDatHangs[0].TenSanPham);
+                    //    content = content.Replace("{{SoLuong}} ", DH.ChiTietDatHangs[0].SoLuong.ToString());
+                    //    content = content.Replace("{{GiaBan}}", DH.ChiTietDatHangs[0].GiaBan.ToString());
+                    //    content = content.Replace("{{ThanhTien}}", DH.ChiTietDatHangs[0].ThanhTien.ToString());
+
+                    //}
+                    var totalRow = string.Empty;
+                    foreach (var ctdh in DH.ChiTietDatHangs)
+{
+                        var tenSanPham = "<td>" + ctdh.TenSanPham + "</td>";
+                        var soluong = "<td>" + ctdh.SoLuong + "</td>";
+                        var giaban = "<td>" + ctdh.GiaBan + "</td>";
+                        var thanhTien = "<td>" + ctdh.ThanhTien + "</td>";
+                        var row = "<tr>" + tenSanPham + soluong + giaban + thanhTien + "</tr>";
+                        totalRow += row;
+                    }
+                   
+                    content = content.Replace("{{row}}", totalRow);
+
+                    var toEmail = ConfigurationManager.AppSettings["ToEmailAddress"].ToString();
+                    new MailHelper().SendMail(toEmail, "Đơn hàng mới từ NhàXinh", content);
+                }
+                catch (Exception ex)
+                {
+
+                    return View("Error");
+                }
+                Session["productCarts"] = null;
+                return View(DH);
+
+
+            }
+            return View("Error");
+
         }
 
 
