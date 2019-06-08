@@ -69,48 +69,6 @@ namespace WebSiteBanHang.Controllers
 
 
         [HttpGet]
-        public ActionResult GetOderByStateByMobile(int? status ,int? idCustomer)
-        {
-
-            if (status == null || idCustomer == null)
-            {
-                return Json(new { message = "Bạn vẫn chưa có đơn đặt hàng", status = false }, JsonRequestBehavior.AllowGet);
-            }
-            var orderUser = db.DATHANGs
-                .Include(t => t.CHITIETDATHANGs)
-                .Where(x => x.Id_KhachHang == idCustomer);
-            if (status == 0) //or 4
-                orderUser = orderUser.Where(t => t.TrangThai == 0 || t.TrangThai == 4);
-            else
-            {
-                orderUser = orderUser.Where(t => t.TrangThai == status);
-            }
-            var listorder = orderUser.Select(x => new
-            {
-                Id_DatHang = x.Id_DatHang,
-                NgayDat = x.NgayDat,
-                TongTien = x.TongTien,
-                order = x.CHITIETDATHANGs.Select(y => new
-                {
-                    Hinh = y.SANPHAM.HinhAnh ?? y.SANPHAM.HINHs.FirstOrDefault().Link,
-                    Tensp = y.SANPHAM.TenSanPham,
-                    Soluong = y.SoLuong,
-                    ThanhTien = y.ThanhTien
-                }).ToList()
-
-            }).ToList();
-
-            if (listorder.Count > 0)
-            {
-                return Json(new { orders = listorder, status = true }, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json(new { message = "Bạn vẫn chưa có đơn đặt hàng", status = false }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        [HttpGet]
         public JsonResult getAccumulated(bool statusAccumulated, double? sumMoney)
         {
             if (statusAccumulated)
