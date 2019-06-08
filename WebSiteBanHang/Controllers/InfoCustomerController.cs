@@ -17,6 +17,7 @@ namespace WebSiteBanHang.Controllers
     {
         ThongTinKhachHangService khachHangService = new ThongTinKhachHangService();
         BanHangContext context = new BanHangContext();
+        UserController userControl = new UserController();
 
         // GET: InfoCustomer
         public ActionResult Index()
@@ -91,7 +92,8 @@ namespace WebSiteBanHang.Controllers
                     {
                         kh.PassWord = Helper.GenHash.GenSHA1(KhachHang.NewPassword);
                         context.SaveChanges();
-                        return RedirectToAction("Index", "Homepage");
+
+                        return userControl.Logout(); 
                     }
 
 
