@@ -82,7 +82,8 @@
             </div>
         </div>
     </div>
-    <script>
+</div>
+<script>
         function XuatExcel() {
             var dt1 = $('.dt1').datepicker('getDate');
             var fromDate = moment(dt1).format('MM/DD/YYYY');
@@ -92,14 +93,14 @@
                && fromDate <= toDate) {
                 window.location.href = "/Admin/Dashboard/XuatExcel?tuNgay=" + fromDate + "&denNgay=" + toDate;
             }
-            else { 
-                
+            else {
+
                 toastr.error("Vui lòng chọn ngày");
             }
 
-            
+
         }
-     
+
     var salesChartCanvas = $('#salesChart').get(0).getContext('2d');
     // This will get the first returned node in the jQuery collection.
     var salesChart = new Chart(salesChartCanvas);
@@ -184,4 +185,4 @@
             $(".dt1").datepicker("setEndDate", dt);
         });
     //Datemask2 mm/dd/yyyy
-    </script>
+</script>

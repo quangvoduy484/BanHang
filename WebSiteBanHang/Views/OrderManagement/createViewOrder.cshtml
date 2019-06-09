@@ -9,8 +9,9 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#tab0" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-check-circle" aria-hidden="true"></i>Đơn đã giao</a></li>
-            <li role="presentation"><a href="#tab1" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-spinner" aria-hidden="true"></i>Đơn Chờ giao hàng</a></li>
+            <li role="presentation"><a href="#tab1" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-cog" aria-hidden="true"></i>Đơn đã đặt</a></li>
             <li role="presentation"><a href="#tab2" aria-controls="messages" role="tab" data-toggle="tab"><i class="fa fa-times" aria-hidden="true"></i>Đơn bị hủy</a></li>
+            <li role="presentation"><a href="#tab3" aria-controls="messages" role="tab" data-toggle="tab"><i class="fa fa-spinner" aria-hidden="true"></i>Đơn Chờ giao hàng</a></li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content tabs">
@@ -23,34 +24,39 @@
             <div role="tabpanel" class="tab-pane " id="tab2">
 
             </div>
+            <div role="tabpanel" class="tab-pane " id="tab3">
+
+            </div>
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
     $(document).ready(function () {
-      
+
         $("#tab0").html(getOrder("#tab0"));
 
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-           
+
             var target = $(e.target).attr("href");
             getOrder(target);
         });
 
         function getOrder(thistab) {
-         
+
             $(thistab).html('');
             //0 hủy 1 xử lý 2 đã giao
             switch (thistab) {
                 case "#tab0":
-                    status = 2;
+                    status = 3;
                     break;
                 case "#tab1":
                     status = 1;
                     break;
                 case "#tab2":
                     status = 0;
+                    break;
+                case "#tab3":
+                    status = 2;
                     break;
             }
             var row = ``;
@@ -64,31 +70,35 @@
 
                     if (response.status == true) {
 
-                        var state = "Đơn hàng bị hủy"
-                        if (status == 1) {
+                        var state = "Đã đặt hàng"
+                        if (status == 2) {
                             state = "Chờ giao hàng";
                         }
                         else {
-                            if (status == 2) {
+                            if (status == 3) {
                                 state = "giao thành công";
+                            }
+
+                            if (status == 0 || status == 4) {
+                                state = "Đã huỷ";
                             }
                         }
 
                         response.orders.forEach(function (orders, index) {
-                            row = ` <div>         
-                                            <p style='color: #1a9cb7;font-weight:500;'>#${orders.Id_DatHang}</p>
-                                            <p style='font-size: 12px;color: #757575;'>${converttoDate(orders.NgayDat)}</p>
-                                    </div>`
+                            row = ` <div>
+                                                <p style='color: #1a9cb7;font-weight:500;'>#${orders.Id_DatHang}</p>
+                                                <p style='font-size: 12px;color: #757575;'>${converttoDate(orders.NgayDat)}</p>
+                                        </div>`
 
                             orders.order.forEach(function (item) {
-                                row += `       
-                                       <div class="order-item">
-                                            <div class="item-pic"><img style="width:200px;height:100px" src="${item.Hinh}"/></div>
-                                            <div class="item-main item-main-mini"><span>${item.Tensp}</span></div>
-                                            <div class="item-quantity"> <span  style='font-size: 14px;color: #c9c9c9;'>Qty</span> ${item.Soluong}</div>
-                                            <div class="item-status item-capsule">${state}</div>
-                                            <div class="style="clear:both""></div>
-                                       </div>`;
+                                row += `
+                                           <div class="order-item">
+                                                <div class="item-pic"><img style="width:200px;height:100px" src="${item.Hinh}"/></div>
+                                                <div class="item-main item-main-mini"><span>${item.Tensp}</span></div>
+                                                <div class="item-quantity"> <span  style='font-size: 14px;color: #c9c9c9;'>Số lượng: </span> ${item.Soluong}</div>
+                                                <div class="item-status item-capsule">${item.ThanhTien}</div>
+                                                <div class="style="clear:both""></div>
+                                           </div>`;
 
                             })
                             $(thistab).append($("<div class='order'></div>").append(row));
@@ -97,8 +107,8 @@
                     else {
                         $(thistab).append(`<span>Bạn chưa có sản phẩm nào trong đơn hàng</span>`);
                     }
-                   
-                    
+
+
                 }, error(response, xhr, error) {
                     console.log(xhr);
                     console.log(error);
@@ -121,7 +131,7 @@
                 var formatted_date = dd + '/' + mm + '/' + yyyy;
                 return formatted_date;
             }
-            return ''   
+            return ''
         }
     });
 </script>

@@ -14,11 +14,12 @@ namespace WebSiteBanHang.Services
         }
         public List<LOAIPHONG> ListAll()
         {
-            return context.LOAIPHONGs.ToList().Select(t => new LOAIPHONG()
+            return context.LOAIPHONGs.Where(t=>t.TrangThai!=false).ToList().Select(t => new LOAIPHONG()
             {
                 Id_LoaiPhong = t.Id_LoaiPhong,
                 TenLoaiPhong = t.TenLoaiPhong,
-                HinhAnh = t.HinhAnh
+                HinhAnh = t.HinhAnh,
+                MoTa = t.MoTa,
             }).ToList();
         }
         public void Add(LOAIPHONG loaiPhong)
@@ -51,7 +52,7 @@ namespace WebSiteBanHang.Services
             {
                 return false;
             }
-            context.LOAIPHONGs.Remove(loaiPhongExist);
+            loaiPhongExist.TrangThai = false;
             context.SaveChanges();
             return true;
         }

@@ -10,12 +10,20 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
     public class KhuyenMaiController : Controller
     {
         KhuyenMaiService KMService = new KhuyenMaiService();
-        // GET: Admin/KhuyenMai
+        //GET: Admin/KhuyenMai
         public ActionResult Index()
         {
-            var model = KMService.ListAll();
-            return View(model);
+            return View();
         }
+
+        [HttpPost]
+        public ActionResult GetAll(DataTableAjaxPostModel dataModel)
+        {
+            var khuyenMai = KMService.GetAll(dataModel);
+
+            return Json(khuyenMai);
+        }
+
 
         // GET: Admin/KhuyenMai/Details/5
         public ActionResult Details(int id)

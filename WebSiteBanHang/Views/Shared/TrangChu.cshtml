@@ -84,6 +84,17 @@
         .startcolor {
             color: orange;
         }
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        .wrapper {
+         
+            min-height: calc(100vh - 70px);
+        }
+        .footer {
+            height: 150px;
+        }
     </style>
 </head>
 <!-- ADD THE CLASS fixed TO GET A FIXED HEADER AND SIDEBAR LAYOUT -->
@@ -112,7 +123,7 @@
     <div class="container-fluid">
         @RenderPage("Header.cshtml")
     </div>
-    <div class="container-fluid">
+    <div class="container-fluid wrapper">
         @RenderBody()
     </div>
     <div class="container-fluid">

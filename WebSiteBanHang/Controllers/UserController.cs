@@ -142,6 +142,7 @@ namespace WebSiteBanHang.Controllers
             return PartialView();
         }
 
+     
         [HttpPost]
         public ActionResult UserLogin(string name, string pass)
         {

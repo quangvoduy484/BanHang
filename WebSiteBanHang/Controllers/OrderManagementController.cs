@@ -27,22 +27,34 @@ namespace WebSiteBanHang.Controllers
         {
 
             var user = SessionUser.GetSession();
-            var listorder = db.DATHANGs
+            if (user == null)
+            {
+                return Json(new { message = "Bạn vẫn chưa có đơn đặt hàng", status = false }, JsonRequestBehavior.AllowGet);
+            }
+            var orderUser = db.DATHANGs
                 .Include(t => t.CHITIETDATHANGs)
-                .Where(x => x.TrangThai == status && x.Id_KhachHang == user.Id)
-                .Select(x => new
+                .Where(x => x.Id_KhachHang == user.Id);
+            if (status == 0) //or 4
+                orderUser = orderUser.Where(t => t.TrangThai == 0 || t.TrangThai == 4);
+            else
+            {
+                orderUser = orderUser.Where(t => t.TrangThai == status);
+            }
+            var listorder = orderUser.Select(x => new
+            {
+                Id_DatHang = x.Id_DatHang,
+                NgayDat = x.NgayDat,
+                TongTien = x.TongTien,
+                order = x.CHITIETDATHANGs.Select(y => new
                 {
-                    Id_DatHang = x.Id_DatHang,
-                    NgayDat = x.NgayDat,
-                    order = x.CHITIETDATHANGs.Select(y => new
-                    {
-                        Hinh = y.SANPHAM.HinhAnh ?? y.SANPHAM.HINHs.FirstOrDefault().Link,
-                        Tensp = y.SANPHAM.TenSanPham,
-                        Soluong = y.SoLuong
-                    }).ToList()
+                    Hinh = y.SANPHAM.HinhAnh ?? y.SANPHAM.HINHs.FirstOrDefault().Link,
+                    Tensp = y.SANPHAM.TenSanPham,
+                    Soluong = y.SoLuong,
+                    ThanhTien=y.ThanhTien
+                }).ToList()
 
-                }).ToList();
-            ViewBag.TongSo = listorder.Count();
+            }).ToList();
+            ViewBag.TongSo = listorder.Count;
 
             if (listorder.Count > 0)
             {
@@ -54,6 +66,7 @@ namespace WebSiteBanHang.Controllers
             }
 
         }
+
 
         [HttpGet]
         public JsonResult getAccumulated(bool statusAccumulated, double? sumMoney)
