@@ -18,7 +18,7 @@ namespace WebSiteBanHang.Services
             return context.LOAISANPHAMs.OrderBy(t => t.TenLoai)
                  .Select(t=> new LoaiSPViewModel
                  {
-                     MaLoai = t.Id_LoaiPhong,
+                     MaLoai = t.Id_LoaiSanPham,
                      TenLoai = t.TenLoai
                  })
                 .ToList();
