@@ -36,4 +36,14 @@ namespace WebSiteBanHang.ViewModel
 
 
     }
+
+    [NotMapped]
+    public class CustomerLoginMobile
+    {
+        [Required(ErrorMessage = "Tên không để trống:")]
+        public string EmailorPhone { get; set; }
+
+        [Required(ErrorMessage = "Pass không để trống:")]
+        public string Password { get; set; }
+    }
 }

@@ -16,7 +16,7 @@ namespace WebSiteBanHang
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
+            //default : type data is json 
             var formatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             formatter.SerializerSettings.ContractResolver =
              new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();

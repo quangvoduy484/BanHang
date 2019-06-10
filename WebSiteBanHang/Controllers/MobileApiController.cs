@@ -28,7 +28,7 @@ namespace WebSiteBanHang.Controllers
         [HttpPost]
         [Route("api/MobileApi/LoginMobile")]
         // POST: api/MobileApi/LoginMobile
-        public IHttpActionResult LoginMobile([FromBody] CustomerLogin model)
+        public IHttpActionResult LoginMobile([FromBody] CustomerLoginMobile model)
         {
             var response = new ResponseDataModel()
             {
@@ -38,6 +38,7 @@ namespace WebSiteBanHang.Controllers
             if (model == null || !ModelState.IsValid)
             {
                 response.Error = "Tài khoản hoặc mật khẩu không được để trống";
+                return Ok(response);
             }
 
             var customerInfo = mobileService.Login(model.EmailorPhone, model.Password);
