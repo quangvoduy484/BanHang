@@ -18,7 +18,7 @@ namespace WebSiteBanHang
         {
             AreaRegistration.RegisterAllAreas();
 
-            //add config WebAPi
+            //add config WebAPI before MVC
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

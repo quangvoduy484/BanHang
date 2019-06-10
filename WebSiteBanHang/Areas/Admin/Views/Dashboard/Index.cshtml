@@ -165,6 +165,7 @@
 
     // Create the line chart
     salesChart.Line(salesChartData, salesChartOptions);
+
     // Chart Thang
     $('.select2').select2()
     // datepicker
@@ -176,6 +177,7 @@
             var dt = $(this).datepicker('getDate');
             $(".dt2").datepicker('setStartDate', dt);
         });
+
         $(".dt2").datepicker({
             format: "dd/mm/yyyy",
             autoclose: true,
