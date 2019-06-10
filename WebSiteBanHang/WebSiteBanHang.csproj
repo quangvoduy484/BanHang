@@ -412,6 +412,7 @@
     <Compile Include="Services\SuccessBillService.cs" />
     <Compile Include="Services\ThongTinKhachHangService.cs" />
     <Compile Include="ViewModel\CustomerInformation.cs" />
+    <Compile Include="ViewModel\CustomerLoginMobile.cs" />
     <Compile Include="ViewModel\OrderViewModel.cs" />
     <Compile Include="ViewModel\ResponseDataModel.cs" />
     <Compile Include="ViewModel\RoomKindViewModel.cs" />
