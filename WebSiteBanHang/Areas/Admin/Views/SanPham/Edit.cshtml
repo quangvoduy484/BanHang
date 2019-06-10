@@ -342,20 +342,24 @@
             data: formData,
             processData: false,
             contentType: false,
-
+            complete: function () {
+                $('#myModal').modal('hide');
+            }, 
             success: function (data) {
                 if (data) {
-                    if (data.Statuscode === 200) {
-                        toastr.success("Sửa thành công");
-                        $('#myModal').modal('hide')
-                        $('#giaSP').val(gia)
+                    
+                    if (data.StatusCode === 200) {
+                        toastr.success("Thêm giá mới thành công");
+                        $('#giaSP').val(gia);
                         //window.location.reload()
                         //uploadFile(data.Id);
                     }
                     else if (data.Message) {
                         toastr.error(data.Message);
                     }
-                } else {
+                  
+                }
+                else {
                     toastr.error("Có lỗi trong quá trình xử lý");
                 }
             },

@@ -19,19 +19,6 @@ namespace WebSiteBanHang.Services
             context = new BanHangContext();
 
         }
-        //public List<SanPhamViewModel> ListAll()
-        //{
-        //    return context.SANPHAMs.ToList().Select(t => new SanPhamViewModel()
-        //    {
-        //        MaSanPham = t.MASANPHAM,
-        //        TenLoai=t.LOAISANPHAM.TENLOAI,
-        //        KichThuoc=t.KICHTHUOC,
-        //        TenSanPham=t.TENSANPHAM,
-        //        DVT = t.DONVITINH,
-        //        XuatXu = t.XUATXU,
-        //    }).ToList();
-        //}
-
         public async Task<object> GetAllAsync(DataTableAjaxPostModel dataModel)
         {
             var sortBy = dataModel.columns[dataModel.order[0].column].data; //Lấy cột để sắp xếp

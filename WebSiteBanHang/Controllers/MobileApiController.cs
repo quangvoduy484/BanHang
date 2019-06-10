@@ -56,6 +56,12 @@ namespace WebSiteBanHang.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Lấy đơn hàng của khách hàng
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="idCustomer"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/MobileApi/GetOrderStatus")]
         //GET: api/MobileApi/GetOrderStatus?status=3&idCustomer=2

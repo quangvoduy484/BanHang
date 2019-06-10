@@ -8,8 +8,8 @@ namespace WebSiteBanHang.ViewModel
     public class OrderViewModel
     {
         public int MaDatHang { get; set; }
-        public DateTime? NgayDat { get; set; }
-        public double TongTien { get; set; }
+        public string NgayDat { get; set; }
+        public string TongTien { get; set; }
         public List<ProductViewModel> Products { get; set; }
     }
 

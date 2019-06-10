@@ -5,6 +5,8 @@ using System.Web;
 using WebSiteBanHang.Models;
 using WebSiteBanHang.ViewModel;
 using System.Data.Entity;
+using System.Data.Entity.SqlServer;
+
 namespace WebSiteBanHang.Services
 {
 
@@ -16,8 +18,10 @@ namespace WebSiteBanHang.Services
             context = new BanHangContext();
         }
 
+        //Đăng nhập
         public CustomerInformation Login(string username, string password)
         {
+            // GenHash: ???
             var genpass = Helper.GenHash.GenSHA1(password);
             var customerInfo = context.KHACHHANGs
                .Where(x => x.PassWord == genpass && (x.Email == username || x.SoDienThoai == username))
@@ -33,6 +37,8 @@ namespace WebSiteBanHang.Services
 
             return customerInfo;
         }
+
+        //Danh sách đơn hàng
         public List<OrderViewModel> GetOrderByStatus(int? status, int? idCustomer)
         {
             var orderUser = context.DATHANGs
@@ -44,19 +50,33 @@ namespace WebSiteBanHang.Services
             {
                 orderUser = orderUser.Where(t => t.TrangThai == status);
             }
-            var listorder = orderUser.Select(x => new OrderViewModel
+            //Get lên từ databse
+            var listorder = orderUser.Select(x => new
             {
                 MaDatHang = x.Id_DatHang,
                 NgayDat = x.NgayDat,
                 TongTien = x.TongTien,
-                Products = x.CHITIETDATHANGs.Select(y => new ProductViewModel
+                Products = x.CHITIETDATHANGs.Select(y => new
                 {
                     Hinh = y.SANPHAM.HinhAnh ?? y.SANPHAM.HINHs.FirstOrDefault().Link,
                     TenSanPham = y.SANPHAM.TenSanPham,
                     SoLuong = y.SoLuong,
-                    ThanhTien = y.ThanhTien.ToString()
+                    ThanhTien = y.ThanhTien,
                 }).ToList()
-
+            }).ToList()
+            //maping lại với nhau đổi format
+            .Select(x => new OrderViewModel()
+            {
+                MaDatHang = x.MaDatHang,
+                NgayDat = x.NgayDat.Value.ToString("dd/MM/yyyy"),
+                TongTien = String.Format("{0:0,00}", x.TongTien),
+                Products = x.Products.Select(y => new ProductViewModel
+                {
+                    Hinh = y.Hinh, 
+                    TenSanPham = y.TenSanPham,
+                    SoLuong = y.SoLuong,
+                    ThanhTien = String.Format("{0:0,00}", y.ThanhTien)
+                }).ToList()
             }).ToList();
 
             return listorder;
