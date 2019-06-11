@@ -47,8 +47,14 @@
             <span class="TenSP">@Model.TenSanPham</span>
             <hr />
             <p>
+                <input id="ptgiamgia" type="hidden" value="@Model.phantramgiamgia"  />
                 Giá Tiền:
-                <span style="color: #757575;text-decoration: line-through;" >@String.Format("{0:0,00}", Model.GiaBan) đ</span><span>,@Model.phantramgiamgia %</span><span style="color: orange; margin-left: 15px;">@String.Format("{0:0,00}", Model.giagiam) đ</span>
+                <span style="color: #757575;">@String.Format("{0:0,00}", Model.GiaBan) đ</span>
+                @if (Model.phantramgiamgia > 0)
+                {
+                    <span>,@Model.phantramgiamgia %</span><span style="color: orange; margin-left: 15px;">@String.Format("{0:0,00}", Model.giagiam) đ</span>
+                }
+
             </p>
            
 
@@ -130,8 +136,9 @@
             focusOnSelect: true
         });
 
-
-
+        if ($('#ptgiamgia').val() > 0) {
+            $(this).css("text-decoration","underline");
+        }
 
         $('.Comment').click(function () {
             var checkLogin = '@Request.RequestContext.HttpContext.Session["user"]';

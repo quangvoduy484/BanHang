@@ -19,13 +19,21 @@ namespace WebSiteBanHang.Controllers
 
         public JsonResult getProductNew()
         {
+            
+
+            
             try
             {
                 var sanphams = db.SANPHAMs.Where(x => x.TrangThai != false).OrderByDescending(x => x.CREATED_DATE).Select(x => new
                 {
                     Id = x.Id_SanPham,
                     Ten = x.TenSanPham,
-                    Hinh = x.HinhAnh
+                    Hinh = x.HinhAnh ?? x.HINHs.FirstOrDefault().Link,
+                    GiaGoc = db.GIASANPHAMs.Where(g => g.TrangThai != false && g.Id_SanPham == x.Id_SanPham)
+                                        .OrderByDescending(g => g.NgayLap).Select(g => g.GiaBan).FirstOrDefault(),
+                    GiamGia = db.GIASANPHAMs.Where(g => g.TrangThai != false && g.Id_SanPham == x.Id_SanPham)
+                                        .OrderByDescending(g => g.NgayLap).Select(g => g.GiaBan).FirstOrDefault() * db.KHUYENMAIs.Where(k => k.Id_KhuyenMai == x.Id_KhuyenMai)
+                                            .OrderByDescending(k => k.NgayKetThuc).Select(g => g.GiaTriKhuyenMai).FirstOrDefault()
 
                 }).Take(6).ToList();
                 return Json(sanphams, JsonRequestBehavior.AllowGet);
