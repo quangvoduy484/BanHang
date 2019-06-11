@@ -406,6 +406,10 @@
     <Compile Include="Migrations\201906011310110_add-nguoinhan-dathang.Designer.cs">
       <DependentUpon>201906011310110_add-nguoinhan-dathang.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906111030378_Add_Twocolumn_Giamgia_And_Diemtichluy_For_DatHang.cs" />
+    <Compile Include="Migrations\201906111030378_Add_Twocolumn_Giamgia_And_Diemtichluy_For_DatHang.Designer.cs">
+      <DependentUpon>201906111030378_Add_Twocolumn_Giamgia_And_Diemtichluy_For_DatHang.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\DIACHI.cs" />
     <Compile Include="Services\MobileService.cs" />
     <Compile Include="Services\RoomKindService.cs" />
@@ -506,6 +510,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906011310110_add-nguoinhan-dathang.resx">
       <DependentUpon>201906011310110_add-nguoinhan-dathang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906111030378_Add_Twocolumn_Giamgia_And_Diemtichluy_For_DatHang.resx">
+      <DependentUpon>201906111030378_Add_Twocolumn_Giamgia_And_Diemtichluy_For_DatHang.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -22,7 +22,7 @@
         <a>Sản phẩm mới ></a> <span style="color:orange">@Model.TenSanPham</span>
     </div>
     @*<div id="product_detail_top">
-            Bạn cần trợ giúp ? <b>Gọi ngay 1800 7200</b>
+            Bạn cần trợ giúp ? <b>Gọi ngay 1800 7200</b>    
         </div>*@
     <div id="product_detail_content">
         <div id="product_image">
@@ -40,8 +40,7 @@
 
                 }
             </div>
-
-
+           
         </div>
         <div id="product_info">
             <span class="TenSP">@Model.TenSanPham</span>
@@ -50,10 +49,8 @@
                 Giá Tiền:
                 <span style="color: #757575;text-decoration: line-through;" >@String.Format("{0:0,00}", Model.GiaBan) đ</span><span>,@Model.phantramgiamgia %</span><span style="color: orange; margin-left: 15px;">@String.Format("{0:0,00}", Model.giagiam) đ</span>
             </p>
-           
 
-            
-           
+
             <input hidden value="@Model.Id_SanPham" id="id_sanpham" />
             <input hidden value="@Model.HinhAnh" id="hinhanh" />
             <p>Đơn vị tính: <span> @Model.DonViTinh</span></p>

@@ -21,6 +21,8 @@ namespace WebSiteBanHang.Models
         [Required]
         public string SoDienThoai { get; set; }
         public int Id_KhachHang { get; set; }
+        public double? TongTienSauGiamGia { get; set; }
+        public double? DiemTichLuy { get; set; }
         public virtual KHACHHANG KHACHHANG { get; set; }
 
         public ICollection<CHITIETDATHANG> CHITIETDATHANGs { get; set; }
