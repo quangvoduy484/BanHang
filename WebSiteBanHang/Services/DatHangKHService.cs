@@ -51,6 +51,10 @@ namespace WebSiteBanHang.Services
                     model = dirBy == "desc" ? model.OrderByDescending(t => t.TongTien)
                             : model.OrderBy(t => t.TongTien);
                     break;
+                case "TongTienSauGiamGia":
+                    model = dirBy == "desc" ? model.OrderByDescending(t => t.TongTienSauGiamGia)
+                            : model.OrderBy(t => t.TongTienSauGiamGia);
+                    break;
                 case "TenKhachHang":
                     model = dirBy == "desc" ? model.OrderByDescending(t => t.KHACHHANG.TenKhachHang)
                             : model.OrderBy(t => t.KHACHHANG.TenKhachHang);
@@ -75,6 +79,7 @@ namespace WebSiteBanHang.Services
                     MaDatHang = t.Id_DatHang,
                     NgayDatHang = t.NgayDat,
                     NgayGiao = t.NgayGiao,
+                    TongTienSauGiamGia = t.TongTienSauGiamGia,
                     TongTien = t.TongTien,
                     TrangThai = ConvertToTrangThaiModel(t.TrangThai),
                     TenKhachHang = t.KHACHHANG.TenKhachHang,
@@ -102,13 +107,15 @@ namespace WebSiteBanHang.Services
                       DiaChiGiao = t.DiaChiGiao,
                       SoDienThoai = t.SoDienThoai,
                       TongTien = t.TongTien,
-                      TenNguoiNhan=t.TenNguoiNhan,
+                      TongTienSauGiamGia = t.TongTienSauGiamGia,
+                      DiemTichLuy = t.DiemTichLuy,
+                      TenNguoiNhan = t.TenNguoiNhan,
                       NgayGiao = t.NgayGiao,
-                      SDTNguoiDat=t.KHACHHANG.SoDienThoai,
+                      SDTNguoiDat = t.KHACHHANG.SoDienThoai,
                       GhiChu = t.GhiChu,
                       TrangThai = t.TrangThai == 0 ? TinhTrangDatHang.DaHuy :
                       (t.TrangThai == 1) ? TinhTrangDatHang.DangXyLy : (t.TrangThai == 2)
-                        ? TinhTrangDatHang.DangGiao :( t.TrangThai == 3 )
+                        ? TinhTrangDatHang.DangGiao : (t.TrangThai == 3)
                         ? TinhTrangDatHang.DaGiao : TinhTrangDatHang.KhongNhanHang,
                       ChiTietDatHangs = t.CHITIETDATHANGs.Where(k => k.TrangThai != false)
                       .Select(k => new ChiTietDatHangViewModel()
@@ -116,6 +123,7 @@ namespace WebSiteBanHang.Services
                           TenSanPham = k.SANPHAM.TenSanPham,
                           MaChiTiet = k.Id_ChiTietDatHang,
                           SoLuong = k.SoLuong,
+                          BaoHanh = k.SANPHAM.BaoHanh,
                           GiaBan = k.GiaBan,
                           ThanhTien = k.SoLuong * k.GiaBan,
                       }).ToList(),
@@ -135,16 +143,16 @@ namespace WebSiteBanHang.Services
             {
                 return TinhTrangDatHang.DangXyLy;
             }
-            if(trangThai==2)
+            if (trangThai == 2)
             {
                 return TinhTrangDatHang.DangGiao;
             }
-            if(trangThai==3)
+            if (trangThai == 3)
             {
                 return TinhTrangDatHang.DaGiao;
             }
             return TinhTrangDatHang.KhongNhanHang;
-            
+
         }
         private int ConvertToTrangThaiInt(string trangThai)
         {
@@ -230,6 +238,10 @@ namespace WebSiteBanHang.Services
                 return false;
             }
             datHangExist.TrangThai = 0;
+            if (datHangExist.DiemTichLuy != null || datHangExist.DiemTichLuy != 0)
+            {
+                datHangExist.KHACHHANG.DiemTichLuy += datHangExist.DiemTichLuy;
+            }
             context.SaveChanges();
             return true;
         }
@@ -290,7 +302,7 @@ namespace WebSiteBanHang.Services
             // kiem tra sl ton
             KiemTraSLTon(datHang);
             // update đặt  hàng
-            datHang.TrangThai = 2; //Xuất hoá đơn trạng thái ==3: dang giao
+            datHang.TrangThai = 2; //Xuất hoá đơn trạng thái ==2: dang giao
             datHang.NgayGiao = DateTime.Now;
             context.Entry(datHang).State = System.Data.Entity.EntityState.Modified;
             context.SaveChanges();
@@ -309,36 +321,60 @@ namespace WebSiteBanHang.Services
             }
             //update SL ton
             UpdateSLTon(datHang);
-           
+
             datHang.TrangThai = 3;
 
             //update Diem tich luy
             int diemTichLuy = 0;
-
-            if (datHang.KHACHHANG.Id_LoaiKhachHang == 1)//đăng nhập  là thành viên , và mới đăng nhập là thành viên bình thường 2, vip là 1
+            if (datHang.TongTienSauGiamGia == null || datHang.TongTienSauGiamGia == 0)
             {
-                diemTichLuy = (int)datHang.TongTien / Constant.DiemNhanVIP;
+                if (datHang.KHACHHANG.Id_LoaiKhachHang == 1)//đăng nhập  là thành viên , và mới đăng nhập là thành viên bình thường 2, vip là 1
+                {
+                    diemTichLuy = (int)datHang.TongTien / Constant.DiemNhanVIP;
+                }
+                else
+                {
+                    diemTichLuy = (int)datHang.TongTien / Constant.DiemNhan;
+                }
+                datHang.KHACHHANG.TongChi += datHang.TongTien;
             }
             else
             {
-                diemTichLuy = (int)datHang.TongTien / Constant.DiemNhan;
+                if (datHang.KHACHHANG.Id_LoaiKhachHang == 1)//đăng nhập  là thành viên , và mới đăng nhập là thành viên bình thường 2, vip là 1
+                {
+                    diemTichLuy = (int)datHang.TongTienSauGiamGia / Constant.DiemNhanVIP;
+                }
+                else
+                {
+                    diemTichLuy = (int)datHang.TongTienSauGiamGia / Constant.DiemNhan;
+                }
+                datHang.KHACHHANG.TongChi += datHang.TongTienSauGiamGia;
             }
+
 
             // do cột trong table để là null nên phải gán nó lại không nó mới cộng được
             if (datHang.KHACHHANG.DiemTichLuy == null)
             {
                 datHang.KHACHHANG.DiemTichLuy = 0;
             }
-
+            if (datHang.TongTienSauGiamGia == null)
+            {
+                datHang.TongTienSauGiamGia = 0;
+            }
+            if (datHang.DiemTichLuy == null)
+            {
+                datHang.DiemTichLuy = 0;
+            }
             if (datHang.KHACHHANG.TongChi == null)
             {
                 datHang.KHACHHANG.TongChi = 0;
             }
 
             datHang.KHACHHANG.DiemTichLuy += diemTichLuy;
-            datHang.KHACHHANG.TongChi += datHang.TongTien;
+
 
             //update Loại khách hàng vì khi nó đủ điểm mới set lên 1 , nên ko cần set trường hợp bằng 2
+
             if (datHang.KHACHHANG.TongChi >= Constant.TongChiVIP)
             {
                 datHang.KHACHHANG.Id_LoaiKhachHang = 1;
@@ -354,7 +390,7 @@ namespace WebSiteBanHang.Services
         {
             DATHANG datHang = context.DATHANGs.
                 Include(t => t.CHITIETDATHANGs).
-                FirstOrDefault(t => t.Id_DatHang == maDatHang && t.TrangThai == 3);
+                FirstOrDefault(t => t.Id_DatHang == maDatHang && t.TrangThai == 2);
             if (datHang == null)
             {
                 return false;
@@ -363,6 +399,10 @@ namespace WebSiteBanHang.Services
             // update đặt  hàng
             datHang.TrangThai = 4; //Xuất hoá đơn trạng thái ==4: không nhận
             datHang.GhiChu = "Khách hàng không nhận sản phẩm";
+            if (datHang.DiemTichLuy != null || datHang.DiemTichLuy != 0)
+            {
+                datHang.KHACHHANG.DiemTichLuy += datHang.DiemTichLuy;
+            }
             context.Entry(datHang).State = System.Data.Entity.EntityState.Modified;
             context.SaveChanges();
             return true;
@@ -437,8 +477,8 @@ namespace WebSiteBanHang.Services
             _document.SetPageSize(PageSize.A4);
             _document.SetMargins(20f, 20f, 20f, 20f);
 
-             bf = BaseFont.CreateFont("C:/windows/fonts/Arial.ttf",
-                 BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            bf = BaseFont.CreateFont("C:/windows/fonts/Arial.ttf",
+                BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             _fontStyle = new Font(bf, 12);
 
             PdfWriter.GetInstance(_document, _memoryStream);
@@ -543,7 +583,7 @@ namespace WebSiteBanHang.Services
             {
                 Colspan = _totalColumn,
                 HorizontalAlignment = Element.ALIGN_CENTER,
-                VerticalAlignment  = Element.ALIGN_CENTER,
+                VerticalAlignment = Element.ALIGN_CENTER,
                 Border = 0,
                 BackgroundColor = BaseColor.WHITE,
                 ExtraParagraphSpace = 5f,
@@ -557,12 +597,22 @@ namespace WebSiteBanHang.Services
 
 
             //add content
-           
+
             AddRowDatHang("Mã đặt hàng:");
             AddRowDatHang(_datHang.MaDatHang.ToString());
             AddRowDatHang("Tổng tiền:");
             AddRowDatHang(_datHang.TongTien.ToString());
             _pdfTable.CompleteRow();
+
+            if (_datHang.TongTienSauGiamGia != null && _datHang.TongTienSauGiamGia != 0 && _datHang.DiemTichLuy != null && _datHang.DiemTichLuy != 0)
+            {
+                AddRowDatHang("Tiền khấu trừ:");
+                double KhauTru = _datHang.DiemTichLuy.Value * 1000;
+                AddRowDatHang(KhauTru.ToString());
+                AddRowDatHang("Còn lại :");
+                AddRowDatHang(_datHang.TongTienSauGiamGia.ToString());
+                _pdfTable.CompleteRow();
+            }
 
             AddRowDatHang("Tên người đặt:");
             AddRowDatHang(_datHang.TenKhachHang);
@@ -570,10 +620,13 @@ namespace WebSiteBanHang.Services
             AddRowDatHang(_datHang.SDTNguoiDat);
             _pdfTable.CompleteRow();
 
-            if (_datHang.SoDienThoai != _datHang.SDTNguoiDat)
+            if (_datHang.SoDienThoai != _datHang.SDTNguoiDat && !string.IsNullOrWhiteSpace(_datHang.SDTNguoiDat))
             {
-                AddRowDatHang("Người nhận:");
-                AddRowDatHang(_datHang.TenNguoiNhan);
+                if (!string.IsNullOrWhiteSpace(_datHang.TenNguoiNhan))
+                {
+                    AddRowDatHang("Người nhận:");
+                    AddRowDatHang(_datHang.TenNguoiNhan);
+                }
                 AddRowDatHang("SĐT người nhận:");
                 AddRowDatHang(_datHang.SoDienThoai);
                 _pdfTable.CompleteRow();
@@ -621,8 +674,9 @@ namespace WebSiteBanHang.Services
             foreach (var chiTiet in _datHang.ChiTietDatHangs)
             {
                 AddRowChiTietDatHang(serialNumber++.ToString());
-                //AddRow(chiTiet.MaChiTiet.ToString());
-                AddRowChiTietDatHang(chiTiet.TenSanPham.ToString());
+                //AddRow(chiTiet.MaChiTiet.ToString()); // San pham A (5 tháng); 
+                
+                AddRowChiTietDatHang(chiTiet.TenSanPham.Trim() +" ("+chiTiet.BaoHanh+")");
                 AddRowChiTietDatHang(chiTiet.SoLuong.ToString());
                 AddRowChiTietDatHang(chiTiet.GiaBan.ToString());
                 AddRowChiTietDatHang(chiTiet.ThanhTien.ToString());
