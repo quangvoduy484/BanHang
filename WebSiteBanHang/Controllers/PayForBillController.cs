@@ -42,6 +42,7 @@ namespace WebSiteBanHang.Controllers
 
             //lấy ra sản phẩm trong giỏ hàng từ các sản phẩm đã chọn
             var products = productCarts.Where(x => listHadCheck.Contains(x.Id_SanPham));
+            // tổng tiền trong giổ hàng
             var sumTotal = products.Sum(x => x.soluong * x.giagiam);
 
             var customerlogin = SessionUser.GetSession();
@@ -55,22 +56,20 @@ namespace WebSiteBanHang.Controllers
             orderForm.DiaChiGiao = address.DiaChi;
             orderForm.SoDienThoai = address.SoDienThoai;
             orderForm.Id_KhachHang = customer.Id_KhachHang;
+            // 50 tiền ship 
+            orderForm.TongTien = sumTotal + 50;
             var aNewOder = db.DATHANGs.Add(orderForm);
             orderForm.Id_DatHang = aNewOder.Id_DatHang;
-
+           // nếu nó có check thì lưu thêm cột giảm giá 
             if (Accumulated == true)
             {
-                orderForm.TongTien = sumTotal - double.Parse(customer.DiemTichLuy.ToString()) + 50;
+                orderForm.TongTienSauGiamGia = orderForm.TongTien - (double.Parse(customer.DiemTichLuy.ToString())*1000);
+                orderForm.DiemTichLuy = customer.DiemTichLuy;
                 customer.DiemTichLuy = 0;
                 db.Entry(customer).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
 
-            }
-            else
-            {
-                orderForm.TongTien = sumTotal + 50;
-            }
-
+            }        
 
             foreach (var product in products)
             {

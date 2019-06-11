@@ -47,6 +47,7 @@ namespace WebSiteBanHang.Controllers
                 HinhAnh = product.HinhAnh ?? string.Empty,
                 phantramgiamgia = phantram,
                 giagiam = giagoc*((100 - phantram) / 100)
+                
             };
             if (!string.IsNullOrWhiteSpace(product.HinhAnh))
             {
