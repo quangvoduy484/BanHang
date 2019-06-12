@@ -47,7 +47,14 @@
             <hr />
             <p>
                 Giá Tiền:
-                <span style="color: #757575;text-decoration: line-through;" >@String.Format("{0:0,00}", Model.GiaBan) đ</span><span>,@Model.phantramgiamgia %</span><span style="color: orange; margin-left: 15px;">@String.Format("{0:0,00}", Model.giagiam) đ</span>
+                <input type="hidden" id="ptgiamgia" value="@Model.phantramgiamgia" /> 
+                <span>@String.Format("{0:0,00}", Model.GiaBan) đ</span>
+                @if (Model.phantramgiamgia > 0)
+                {
+                    <span>,@Model.phantramgiamgia %</span>
+                    <span style="color: orange; margin-left: 15px;">@String.Format("{0:0,00}", Model.giagiam) đ</span>
+                }
+
             </p>
 
 
@@ -127,7 +134,13 @@
             focusOnSelect: true
         });
 
+        if ($('#ptgiamgia').val() > 0) {
+            $('#ptgiamgia').next().css({
+                'color': '#757575',
+                'text-decoration': 'line-through'
+            });
 
+        }
 
 
         $('.Comment').click(function () {

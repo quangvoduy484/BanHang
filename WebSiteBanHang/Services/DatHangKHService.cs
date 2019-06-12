@@ -326,8 +326,13 @@ namespace WebSiteBanHang.Services
 
             //update Diem tich luy
             int diemTichLuy = 0;
+            if (datHang.KHACHHANG.TongChi == null)
+            {
+                datHang.KHACHHANG.TongChi = 0;
+            }
             if (datHang.TongTienSauGiamGia == null || datHang.TongTienSauGiamGia == 0)
             {
+                // tính điểm tích lũy cho khách hàng và mỗi điểm là một ngàn
                 if (datHang.KHACHHANG.Id_LoaiKhachHang == 1)//đăng nhập  là thành viên , và mới đăng nhập là thành viên bình thường 2, vip là 1
                 {
                     diemTichLuy = (int)datHang.TongTien / Constant.DiemNhanVIP;
@@ -365,11 +370,7 @@ namespace WebSiteBanHang.Services
             {
                 datHang.DiemTichLuy = 0;
             }
-            if (datHang.KHACHHANG.TongChi == null)
-            {
-                datHang.KHACHHANG.TongChi = 0;
-            }
-
+           
             datHang.KHACHHANG.DiemTichLuy += diemTichLuy;
 
 
@@ -402,6 +403,7 @@ namespace WebSiteBanHang.Services
             if (datHang.DiemTichLuy != null || datHang.DiemTichLuy != 0)
             {
                 datHang.KHACHHANG.DiemTichLuy += datHang.DiemTichLuy;
+                datHang.DiemTichLuy = 0;
             }
             context.Entry(datHang).State = System.Data.Entity.EntityState.Modified;
             context.SaveChanges();
