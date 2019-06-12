@@ -36,13 +36,13 @@
 <div style="clear:both"></div>
 <div id="new_product">
     <div class="new_header title_header">
-        san pham moi
+        SẢN PHẨM MỚI
     </div>
     <div class="new_header">
         <span class="caret" style="font-size: 24px;"></span>
     </div>
     <div class="new_header">
-        <a href="sanphammoi" class="all_new">Xem Tat Ca</a>
+        <a href="sanphammoi" class="all_new">Xem Tất Cả</a>
     </div>
     <div class="container-fluid" id="product">
     </div>
@@ -59,34 +59,49 @@
 
                     var giagiam = 0;
                     if (item.PhanTram > 0) {
-                        giagiam = item.GiaGoc * (1 - item.PhanTram / 100.0);  
+                        giagiam = item.GiaGoc * (1 - item.PhanTram / 100.0);
                     }
-                    var row = "<a   href='/ProductDetails/getDetailProduct/" + item.Id + "' >" + "<div class='col-md-4 content-product' style='text-align:center;padding:15px 15px 15px 15px;'>"
-                        + "<div>" +
-                                 "<img style='width:300px' src=" + item.Hinh + " />"
+                    var row = "<a  href='/ProductDetails/getDetailProduct/" + item.Id + "' >" + "<div class='col-md-4 content-product' style='text-align:center;padding:15px 15px 15px 15px;height:300px;'>"
+                        +"<input type='hidden' value=" + item.PhanTram + " id='ptgiamgia' />" + "<div>" +  
+                        "<img style='width:300px' src=" + item.Hinh + " />"
                         + "</div>"
-                        +"<div>"
-                                + item.Ten +
+                        + "<div>"
+                        + item.Ten +
                         "</div>"
-                        + "<div style='color:orange'>"
-                                + item.GiaGoc +
+                        + "<div id='giagoc' style='color:#757575'>"
+                        + (item.GiaGoc).format(0, 3, '.', ',') +" đ"+
+                        "</div>"
+                        + "<div id='phantram'>"
+                        +"-"+ item.PhanTram + "%"
+                        +"</div>"
+                        + "<div id='giamgia'  style='color:orange'>"
+                        + giagiam.format(0, 3, '.', ',') + " đ" +
                         "</div>"
                         + "</div>"
                         + "</a>";
                     $('#new_product #product').append(row);
 
-                    //if (item.PhanTram > 0) {
-                    //    var addelment = "<div>"
-                    //        + item.PhanTram +
-                    //        "</div>"
-                    //        + "<div>"
-                    //        + giagiam +
-                    //        "</div>"
-                    //    $('#new_product #product').find('.content-product').append(addelment);
-                    //}
+                    $('#product  a').each(function () {
+                        if ($(this).find("#ptgiamgia").val() > 0) {
+                            $(this).find("#phantram").show();
+                            $(this).find("#giamgia").show();
+                            $(this).find("#giagoc").css({                              
+                                'text-decoration': 'line-through'
+                            });
+                           
+                        }
+                        else {
+                            $(this).find("#phantram").hide();
+                            $(this).find("#giamgia").hide();
+                            $(this).find("#giagoc").css({ 
+                                'text-decoration': 'none'
+                            });
+                        }
+                    });
                  
-                    
-                  
+
+
+
                 });
             }
         });

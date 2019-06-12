@@ -121,7 +121,94 @@
     </div>
 
     <div class="container-fluid">
-        @RenderPage("Header.cshtml")
+        <div class="clearfix" style="background-color:#808080;color:white">
+            <div class="float-left  d-block" style="width: 150px;margin: 15px 15px 15px 15px;">
+                <span class="fa fa-phone mr-1" style="color: orange;"></span>Hotline:0914318762
+            </div>
+        </div>
+        <div style="position:relative;top:25px;padding-bottom:30px">
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">GỚI THIỆU<span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">TÌM CỬA HÀNG</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="#">KHUYẾN MÃI</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-center">
+                        <li class="nav-item logo ">
+                            <a class="nav-link" href="/Homepage/Index"><img src="/Content/Template/bower_components/ckeditor/samples/img/nha-xinh-logo.jpg" alt="Nhà Xinh"></a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+
+                        @*//Tìm kiếm*@
+
+                        <li class="nav-item">
+                            <a href="javascript:void(0);" onclick="turnOnSearch()">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+
+                            </a>
+                            <div class="search-box " hidden id="searchBox">
+                                <form id="frm_search" name="frm_search" method="get" action="/Search">
+
+                                    <input class="search" name="keysearch" id="text_search" type="text">
+                                    <input class="icon-search" type="submit" value="Search">
+                                </form>
+                            </div>
+                        </li>
+
+
+                        <li class="nav-item"><a class="nav-link logout" href="/User/Registor">ĐĂNG KÍ</a></li>
+                        <li class="nav-item"><a class="nav-link btn login" id="btn">ĐĂNG NHẬP</a></li>
+                        <li class="nav-item">
+
+                            <a href="/Cart/renderProductCarts">
+                                <img src="~/Content/Template/bower_components/ckeditor/samples/img/shop-01-128.png" width="25px" height="20px" />
+
+                                <span id="totalQuantity"></span>
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+            </nav>
+
+        </div>
+        <div>
+            <ul class="nav navbar-nav menu-kindroom">
+                @{
+
+                    using (WebSiteBanHang.Models.BanHangContext db = new WebSiteBanHang.Models.BanHangContext())
+                    {
+                        var LoaiPhong = db.LOAIPHONGs.Where(x => x.TrangThai != false).OrderBy(x => x.Id_LoaiPhong).AsEnumerable();
+                        foreach (var item in LoaiPhong)
+                        {
+                            <li class="nav-item">
+                                @Html.ActionLink(item.TenLoaiPhong.ToUpper(), "LoadByRoomKind", "RoomKind", new { id = item.Id_LoaiPhong }, new { @class = "nav-link" })
+                            </li>
+                        }
+                    }
+
+                }
+
+            </ul>
+        </div>
     </div>
     <div class="container-fluid wrapper">
         @RenderBody()
@@ -153,18 +240,18 @@
                         $('.logout').hide();
                         $('.login').hide();
                         var row = ` <li class="dropdown">
-                                                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">TÀI KHOẢN ${data.name.toUpperCase()}
-                                                                            <ul class="dropdown-menu">
-                                                                              <li><a href="/InfoCustomer/Details"><span><i class="fa fa-address-book" aria-hidden="true"></i></span>     Quản lý tài khoản</a></li>
-                                                                             <li><a href="/InfoCustomer/ChangePassword"><span><i class="fa fa-address-book" aria-hidden="true"></i></span>     Đổi mật khẩu</a></li>
-                                                                              <li><a href="/OrderManagement/createViewOrder"><span><i class="fa fa-shopping-basket" aria-hidden="true"></i> </span>   Đơn hàng của tôi</a></li>
-                                                                              <li><a href="#"><span><i class="fa fa-commenting" aria-hidden="true"></i> </span>   Nhận xét</a></li>
-                                                                              <li><a href='/User/Logout'><span><i class="fa fa-sign-out" aria-hidden="true"></i></span>   Đăng xuất</a></li>
-                                                                            </ul>
-                                                                          </li>`;
+                                                                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">TÀI KHOẢN ${data.name.toUpperCase()}
+                                                                                        <ul class="dropdown-menu">
+                                                                                          <li><a href="/InfoCustomer/Details"><span><i class="fa fa-address-book" aria-hidden="true"></i></span>     Quản lý tài khoản</a></li>
+                                                                                         <li><a href="/InfoCustomer/ChangePassword"><span><i class="fa fa-address-book" aria-hidden="true"></i></span>     Đổi mật khẩu</a></li>
+                                                                                          <li><a href="/OrderManagement/createViewOrder"><span><i class="fa fa-shopping-basket" aria-hidden="true"></i> </span>   Đơn hàng của tôi</a></li>
+                                                                                          <li><a href="#"><span><i class="fa fa-commenting" aria-hidden="true"></i> </span>   Nhận xét</a></li>
+                                                                                          <li><a href='/User/Logout'><span><i class="fa fa-sign-out" aria-hidden="true"></i></span>   Đăng xuất</a></li>
+                                                                                        </ul>
+                                                                                      </li>`;
                         $('.navbar-right').prepend(row);
 
-                    
+
 
                         // thêm đến một cái nào đó có sẵn rồi dùng .prependTo
                     }
@@ -182,6 +269,17 @@
         });
     </script>
 
+    <script>
+        function turnOnSearch() {
+            var hidden = $('#searchBox').attr('hidden');
+            if (hidden) {
+                $('#searchBox').removeAttr('hidden');
+            }
+            else {
+                $('#searchBox').attr('hidden', true);
+            }
+        }
+    </script>
 
 
     @*đăng nhập*@
@@ -224,7 +322,7 @@
         })
     </script>
 
-    @*format money*@
+    @*format money 3 tham số*@
     <script type="text/javascript">
         $(document).ready(function () {
 
@@ -235,6 +333,18 @@
         });
 
     </script>
+    @*format money 4 tham số*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Number.prototype.format = function (n, x, s, c) {
+                var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')',
+                    num = this.toFixed(Math.max(0, ~~n));
+                return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','));
+            };
+        });
+
+    </script>
+
 
     @*thêm sản phẩm vào giỏ hàng*@
     <script>
@@ -422,7 +532,7 @@
                 })
             }
 
-           
+
         })
     </script>
 
