@@ -57,26 +57,39 @@
             success: function (data) {
                 $.each(data, function (i, item) {
 
-                    var row = "<a  href='/ProductDetails/getDetailProduct/" + item.Id + "' >" + "<div class='col-md-4' style='text-align:center;padding:15px 15px 15px 15px;'>"
-
+                    var giagiam = 0;
+                    if (item.PhanTram > 0) {
+                        giagiam = item.GiaGoc * (1 - item.PhanTram / 100.0);  
+                    }
+                    var row = "<a   href='/ProductDetails/getDetailProduct/" + item.Id + "' >" + "<div class='col-md-4 content-product' style='text-align:center;padding:15px 15px 15px 15px;'>"
                         + "<div>" +
-                        "<img style='width:300px' src=" + item.Hinh + " />"
-                        + "</div>" +
-                        "<div >"
-                        + item.Ten +
-                        "</div>" + "</div>" + "</a>";
+                                 "<img style='width:300px' src=" + item.Hinh + " />"
+                        + "</div>"
+                        +"<div>"
+                                + item.Ten +
+                        "</div>"
+                        + "<div style='color:orange'>"
+                                + item.GiaGoc +
+                        "</div>"
+                        + "</div>"
+                        + "</a>";
                     $('#new_product #product').append(row);
+
+                    //if (item.PhanTram > 0) {
+                    //    var addelment = "<div>"
+                    //        + item.PhanTram +
+                    //        "</div>"
+                    //        + "<div>"
+                    //        + giagiam +
+                    //        "</div>"
+                    //    $('#new_product #product').find('.content-product').append(addelment);
+                    //}
+                 
+                    
+                  
                 });
             }
         });
-
-
-
-        //$('#new_product #product a').hover(function () {
-        //    $(this).children('div').children('div').css('color', 'orange');
-        //}, function () {
-        //    $(this).children('div').css('color', 'yellow');
-        //});
 
     });
 </script>

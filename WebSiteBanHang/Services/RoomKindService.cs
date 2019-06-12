@@ -37,6 +37,7 @@ namespace WebSiteBanHang.Services
                         MaLoai = x.Id_LoaiSanPham,
                         TenLoai = x.TenLoai
                     }).ToList(),
+                    // selectmany dùng cho trường hợp đi qua từng loại sản phẩm lấy được list sản phẩm 
                     SanPhams = t.LOAISANPHAMs
                         .Where(k => !maLoaiSP.HasValue || k.Id_LoaiSanPham == maLoaiSP.Value && k.TrangThai != false)
                         .SelectMany(x => x.SANPHAMs)

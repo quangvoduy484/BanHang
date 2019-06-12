@@ -167,6 +167,7 @@
     // Cập nhật trạng thái đơn hàng
     function CapNhatTrangThaiDaGiao(data) {
         var table = $('#dh').DataTable();
+        // tìm thèn cha của nó 
         var data_row = table.row($(data).closest('tr')).data();
         if (data_row.TrangThai !== "Đang giao") {
             toastr.error("Không thể cập nhật trạng thái đơn hàng");
