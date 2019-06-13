@@ -93,7 +93,9 @@ namespace WebSiteBanHang.Controllers
                         kh.PassWord = Helper.GenHash.GenSHA1(KhachHang.NewPassword);
                         context.SaveChanges();
 
-                        return userControl.Logout(); 
+                        Session["user"] = null;
+                        Session["productCarts"] = null;
+                        return RedirectToAction("Index", "Homepage");
                     }
 
 

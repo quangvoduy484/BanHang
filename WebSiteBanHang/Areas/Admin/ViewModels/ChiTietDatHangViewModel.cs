@@ -10,5 +10,6 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
         public int SoLuong { get; set; }
         public double GiaBan { get; set; }
         public double ThanhTien { get; set; }
+        public string BaoHanh { get; set; }
     }
 }

@@ -102,13 +102,13 @@ namespace WebSiteBanHang.Services
                       DiaChiGiao = t.DiaChiGiao,
                       SoDienThoai = t.SoDienThoai,
                       TongTien = t.TongTien,
-                      TenNguoiNhan=t.TenNguoiNhan,
+                      TenNguoiNhan = t.TenNguoiNhan,
                       NgayGiao = t.NgayGiao,
-                      SDTNguoiDat=t.KHACHHANG.SoDienThoai,
+                      SDTNguoiDat = t.KHACHHANG.SoDienThoai,
                       GhiChu = t.GhiChu,
                       TrangThai = t.TrangThai == 0 ? TinhTrangDatHang.DaHuy :
                       (t.TrangThai == 1) ? TinhTrangDatHang.DangXyLy : (t.TrangThai == 2)
-                        ? TinhTrangDatHang.DangGiao :( t.TrangThai == 3 )
+                        ? TinhTrangDatHang.DangGiao : (t.TrangThai == 3)
                         ? TinhTrangDatHang.DaGiao : TinhTrangDatHang.KhongNhanHang,
                       ChiTietDatHangs = t.CHITIETDATHANGs.Where(k => k.TrangThai != false)
                       .Select(k => new ChiTietDatHangViewModel()
@@ -118,6 +118,7 @@ namespace WebSiteBanHang.Services
                           SoLuong = k.SoLuong,
                           GiaBan = k.GiaBan,
                           ThanhTien = k.SoLuong * k.GiaBan,
+                          BaoHanh = k.SANPHAM.BaoHanh,
                       }).ToList(),
                   })
                   .FirstOrDefault();
@@ -601,10 +602,11 @@ namespace WebSiteBanHang.Services
             #region Table header
             AddHeader("STT");
             //AddHeader("Mã đặt hàng");
-            AddHeader("Tên sản phẩm");
+            AddHeader("Tên sản phẩm (Bảo hành)");
             AddHeader("Số lượng");
             AddHeader("Giá bán");
             AddHeader("Thành tiền");
+            
             _pdfTable.CompleteRow();
             #endregion
 
@@ -615,10 +617,11 @@ namespace WebSiteBanHang.Services
             {
                 AddRowChiTietDatHang(serialNumber++.ToString());
                 //AddRow(chiTiet.MaChiTiet.ToString());
-                AddRowChiTietDatHang(chiTiet.TenSanPham.ToString());
+                AddRowChiTietDatHang(chiTiet.TenSanPham.ToString()+"("+ chiTiet.BaoHanh.ToString()+")");
                 AddRowChiTietDatHang(chiTiet.SoLuong.ToString());
                 AddRowChiTietDatHang(chiTiet.GiaBan.ToString());
                 AddRowChiTietDatHang(chiTiet.ThanhTien.ToString());
+               
                 _pdfTable.CompleteRow();
             }
             #endregion

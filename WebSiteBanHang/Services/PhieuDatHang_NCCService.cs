@@ -431,7 +431,7 @@ namespace WebSiteBanHang.Services
             _pdfTable.HeaderRows = 2;
 
             // add header
-            _pdfCell = new PdfPCell(new Phrase("CHI TIẾT PHIẾU ĐẶT HÀNG", _fontStyle))
+            _pdfCell = new PdfPCell(new Phrase("PHIẾU ĐẶT HÀNG", _fontStyle))
             {
                 Colspan = _totalColumn,
                 HorizontalAlignment = Element.ALIGN_CENTER,
