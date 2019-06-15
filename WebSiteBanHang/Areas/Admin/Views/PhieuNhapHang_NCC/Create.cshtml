@@ -130,7 +130,7 @@
                         </td>
 
                         <td>
-                            <input type="button" value="X" class="btn btn-danger" onclick="remove(this)" />
+                            <input type="button" value="X" class="btn btn-danger btn-save" onclick="remove(this)" />
                             <input type="hidden" value="@item.MaPhieuDat" class=" form-control" name="maDatHang" />
                         </td>
 
@@ -144,9 +144,13 @@
         <button class="col-md-offset-5 col-md-2 btn btn-danger btn-save" value="@Model.TrangThai" onclick="save()">Xác nhận</button>
     </div>
 
-
 </form>
 
+<div class="form-group col-md-offset-2">
+
+    @Html.ActionLink("<<Quay lại danh sách", "Index", "PhieuDatHang_NCC")
+
+</div>
 <script>
 
     function changeSoLuong(atr) {

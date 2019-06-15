@@ -21,12 +21,13 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Login(LoginModel user, string ReturnUrl)
         {
-            
+          
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var login = db.TBL_LOGINs.Where(x => x.USERNAME == user.UserName && x.PASSWORD == user.PassWord).First();
+                    var password = Helper.GenHash.GenSHA1(user.PassWord);
+                    var login = db.TBL_LOGINs.Where(x => x.USERNAME == user.UserName && x.PASSWORD == password).First();
                     if (login != null)
                     {
                         if (login.ACTIVATE == true)
@@ -64,7 +65,8 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         {
             FormsAuthentication.SignOut();
             Session.Abandon();
-            return RedirectToAction("Index", "Homepage");
+            return Redirect("/Admin/Login/Login");
+          
         }
     }
 }

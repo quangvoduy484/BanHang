@@ -179,7 +179,7 @@
 <script>
     // Xóa chi tiết đơn đặt hàng
     function xoaCTDH(maCTDH) {
-        if (window.confirm("Bạn có muốn xoá không?")) { //ok
+        if (window.confirm("Bạn có muốn xoá sản phẩm này không?")) { //ok
             $.ajax({
                 method: "POST",
                 url: "/Admin/PhieuDatHang_NCC/DeleteDetail/" + maCTDH,
