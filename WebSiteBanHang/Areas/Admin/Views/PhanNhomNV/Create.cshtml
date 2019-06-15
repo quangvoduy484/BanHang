@@ -27,7 +27,7 @@
 
     h2, h4 {
         color: blue;
-        text-align:center;
+        text-align: center;
     }
 </style>
 
@@ -35,29 +35,32 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>THÊM TÀI KHOẢN MỚI VÀO NHÓM  </h4>
-        <hr />
-      
-        
-        <div class="form-group">
-            <label class="control-label col-md-2">Account</label>
-            <div class="col-md-6">
-                <select class="form-control select2" name="userNames[]" multiple="multiple" data-placeholder="Chọn nhân viên" style="width: 100%"></select>
-            </div>
+
+
+<div class="form-horizontal">
+    <h2 style="color:blue; text-align:center">Thêm tài khoản vào nhóm</h2>
+    <hr />
+
+    <div class="form-group">
+        <label class="control-label col-md-4">Danh sách tài khoản</label>
+        <div class="col-md-6">
+            <select class="form-control select2" name="userNames[]" multiple="multiple" data-placeholder="Chọn tài khoản đang hoạt động" style="width: 100%"></select>
         </div>
     </div>
-   
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Thêm mới" class="btn btn-primary" />
-        </div>
-        }
+</div>
 
-        <div>
-            @Html.ActionLink("<<Quay lại danh sách", "Index")
-        </div>
+<div class="col-md-offset-5 col-md-8">
+    <input type="submit" value="Thêm mới" class="btn btn-primary" />
+</div>
+}
 
-        <script>
+<div class="form-group col-md-offset-2">
+
+    @Html.ActionLink("<<Quay lại danh sách", "Index", "PhanNhomNV")
+</div>
+
+
+<script>
         //select 2
         $('.select2').select2({
             ajax: {
@@ -83,4 +86,4 @@
                 }
             }
         });
-        </script>
+</script>

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -25,7 +25,13 @@ namespace WebSiteBanHang.Controllers
                 {
                     Id = x.Id_SanPham,
                     Ten = x.TenSanPham,
-                    Hinh = x.HinhAnh
+                    Hinh = x.HinhAnh ?? x.HINHs.FirstOrDefault().Link,
+                    // phần trăm có thể có hay không nên có thể để kiểu int ?
+                    PhanTram = x.KHUYENMAI.NgayBatDau <= DateTime.Now && DateTime.Now <= x.KHUYENMAI.NgayKetThuc ?
+                                         (int?)x.KHUYENMAI.GiaTriKhuyenMai : null,
+                    // sau mà cần lấy giá trị một cột chỉ cần Fistordefault 
+                    GiaGoc = x.GIASANPHAMs.Where(y => y.TrangThai != false).OrderByDescending(m => m.NgayLap).FirstOrDefault().GiaBan
+
 
                 }).Take(6).ToList();
                 return Json(sanphams, JsonRequestBehavior.AllowGet);

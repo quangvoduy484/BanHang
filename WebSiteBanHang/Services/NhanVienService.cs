@@ -34,7 +34,7 @@ namespace WebSiteBanHang.Services
                 return false;
             
             model.ACTIVATE = true;
-            Helper.GenHash.GenSHA1(model.PASSWORD);
+            model.PASSWORD = Helper.GenHash.GenSHA1(model.PASSWORD);
             context.TBL_LOGINs.Add(model);
             context.SaveChanges();
             return true;

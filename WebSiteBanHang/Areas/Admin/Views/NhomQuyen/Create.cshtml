@@ -40,7 +40,7 @@
         <hr />
 
         <div class="form-group">
-            <label class="control-label col-md-5">Danh sách màn hình chức năng</label>
+            <label class="control-label col-md-4">Danh sách màn hình chức năng</label>
             <div class="col-md-6">
                 <select class="form-control select2" name="Quyens" multiple="multiple" data-placeholder="Chọn màn hình" style="width: 100%"></select>
             </div>
@@ -52,9 +52,11 @@
     </div>
 }
 
-<div class="col-md-offset-1" >
-    @Html.ActionLink("<<Quay lại danh sách", "Index")
-</div>
+    <div class="form-group col-md-offset-2">
+
+        @Html.ActionLink("<<Quay lại danh sách", "Index", "PhanNhomNV")
+        
+    </div>
 
 <script>
         //select 2

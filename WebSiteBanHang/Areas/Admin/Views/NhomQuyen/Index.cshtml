@@ -22,7 +22,8 @@
 
 <div class="form-group col-md-5">
 
-    @Html.ActionLink("<<Quay lại danh sách", "PhanNhomNV")
+    @Html.ActionLink("<<Quay lại danh sách", "Index", "PhanNhomNV")|
+    <a class="btn btn-warning" href="/Admin/NhomQuyen/Create/@ViewBag.ID_Group" title="Phân quyền truy cập cho nhóm"><i class="fa fa-eye"></i></a>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {

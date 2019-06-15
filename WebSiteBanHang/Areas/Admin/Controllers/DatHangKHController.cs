@@ -193,6 +193,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
             }
 
         }
+        // ĐÃ GIAO
         [HttpPost]
         public ActionResult UpdateTrangThaiDaGiao(int id)
         {
