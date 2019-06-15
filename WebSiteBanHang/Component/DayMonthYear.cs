@@ -42,7 +42,7 @@ namespace WebSiteBanHang.Component
         {
             List<Nam> Nams = new List<Nam>();
             Nam Nam = new Nam();
-            for (int i = 1990; i <= Convert.ToInt32(DateTime.Now.Year.ToString()); i++)
+            for (int i = 1900; i <= Convert.ToInt32(DateTime.Now.Year.ToString()); i++)
             {
                 Nam = new Nam
                 {

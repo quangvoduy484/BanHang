@@ -6601,6 +6601,8 @@
     <Content Include="Content\Template\bower_components\slick-1.8.1\slick\slick-theme.scss" />
     <Content Include="Content\Template\bower_components\slick-1.8.1\slick\slick.less" />
     <Content Include="Content\Template\bower_components\slick-1.8.1\slick\slick.scss" />
+    <Content Include="Areas\Admin\Views\NhanVien_Nhom\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\NhanVien_Nhom\Index.cshtml" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

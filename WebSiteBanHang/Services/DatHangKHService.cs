@@ -396,7 +396,6 @@ namespace WebSiteBanHang.Services
             {
                 return false;
             }
-            context.SaveChanges();
             // update đặt  hàng
             datHang.TrangThai = 4; //Xuất hoá đơn trạng thái ==4: không nhận
             datHang.GhiChu = "Khách hàng không nhận sản phẩm";

@@ -21,7 +21,7 @@ namespace WebSiteBanHang.Controllers
         {
             try
             {
-                var sanphams = db.SANPHAMs.Where(x => x.TrangThai != false).OrderByDescending(x => x.CREATED_DATE).Select(x => new
+                var sanphams = db.SANPHAMs.Where(x => x.TrangThai != false && x.GIASANPHAMs.Any(y => y.Id_SanPham == x.Id_SanPham)).OrderByDescending(x => x.CREATED_DATE).Select(x => new
                 {
                     Id = x.Id_SanPham,
                     Ten = x.TenSanPham,

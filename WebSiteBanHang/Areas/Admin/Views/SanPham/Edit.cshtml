@@ -187,7 +187,7 @@
                     </div>
                     <div class="form-group">
                         <label for="giaSP" class="col-form-label">Gía mới</label>
-                        <input type="number" class="form-control" id="giamoi" name="giaSP">
+                        <input type="number" min="1" class="form-control" id="giamoi" name="giaSP">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -330,7 +330,8 @@
         modal.find('#giabandau').val(giaBan)
 
     })
-    function themGiaBan(data) {
+    function themGiaBan(data)
+    {
         var dom = document.getElementById("myForm")
         var formData = new FormData(dom)
         var gia = $('#giamoi').val();
@@ -367,5 +368,7 @@
                 toastr.error(errorThrown);
             }
         });
+
     }
+   
 </script>

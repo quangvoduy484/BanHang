@@ -333,6 +333,10 @@ namespace WebSiteBanHang.Services
             var Gianhap = context.CTPHIEUNHAP_NCCs.Where(t => t.MASANPHAM == maSP)
                 .OrderByDescending(t => t.PHIEUNHAP_NCC.NGAYNHAP)
                 .Select(t => t.GIANHAP).FirstOrDefault();
+            if(Gianhap == null && gia <= 0)
+            {
+                throw new Exception("Giá bán phải lớn hơn 0");
+            }
             double giaNhap = Convert.ToDouble(Gianhap);
             if (gia <= giaNhap)
             {
