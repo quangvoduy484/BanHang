@@ -601,16 +601,16 @@ namespace WebSiteBanHang.Services
             AddRowDatHang("Mã đặt hàng:");
             AddRowDatHang(_datHang.MaDatHang.ToString());
             AddRowDatHang("Tổng tiền:");
-            AddRowDatHang(_datHang.TongTien.ToString());
+            AddRowDatHang(String.Format("{0:0,00}", _datHang.TongTien));
             _pdfTable.CompleteRow();
 
             if (_datHang.TongTienSauGiamGia != null && _datHang.TongTienSauGiamGia != 0 && _datHang.DiemTichLuy != null && _datHang.DiemTichLuy != 0)
             {
                 AddRowDatHang("Tiền khấu trừ:");
                 double KhauTru = _datHang.DiemTichLuy.Value * 1000;
-                AddRowDatHang(KhauTru.ToString());
+                AddRowDatHang(String.Format("{0:0,00}", KhauTru));
                 AddRowDatHang("Còn lại :");
-                AddRowDatHang(_datHang.TongTienSauGiamGia.ToString());
+                AddRowDatHang(String.Format("{0:0,00}",_datHang.TongTienSauGiamGia));
                 _pdfTable.CompleteRow();
             }
 
