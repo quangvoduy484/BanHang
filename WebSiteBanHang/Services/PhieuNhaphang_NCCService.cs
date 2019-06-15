@@ -30,10 +30,11 @@ namespace WebSiteBanHang.Services
             var model = context.PHIEUNHAP_NCCs.AsQueryable(); //lấy sản phẩm (chưa thực thi)
 
             //serch
-            //if (!string.IsNullOrWhiteSpace(search))
-            //{
-            //    model = model.Where(t => t..Contains(search));
-            //}
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                
+                model = model.Where(t =>t.MAPHIEUDAT.ToString().Contains(search));
+            }
             var totalRecord = model.Count();
             //Sorting
             switch (sortBy)

@@ -33,6 +33,8 @@ namespace WebSiteBanHang.Services
                 {
                     id = t.ID,
                     text = t.ROLE_NAME,
+                    
+                    
                 }).ToList();
 
             return result;

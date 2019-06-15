@@ -35,8 +35,7 @@ namespace WebSiteBanHang.Services
             {
                 
                 model = model.Where(t => t.NHACUNGCAP.TENNCC.Contains(search));
-                model = model.Where(t => t.NGUOIDAT.Contains(search));
-                model = model.Where(t => t.NGAYDAT.ToString().Contains(search));
+              
             }
             var totalRecord = model.Count();
             //Sorting
@@ -45,6 +44,10 @@ namespace WebSiteBanHang.Services
                 case "MaDatHang":
                     model = dirBy == "desc" ? model.OrderByDescending(t => t.MAPHIEUDAT)
                             : model.OrderBy(t => t.MAPHIEUDAT);
+                    break;
+                case "TongTien":
+                    model = dirBy == "desc" ? model.OrderByDescending(t => t.TONGTIEN)
+                            : model.OrderBy(t => t.TONGTIEN);
                     break;
                 case "TenNCC":
                     model = dirBy == "desc" ? model.OrderByDescending(t => t.NHACUNGCAP.TENNCC)

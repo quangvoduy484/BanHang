@@ -51,7 +51,7 @@ namespace WebSiteBanHang.Controllers
 
 
             DATHANG orderForm = new DATHANG();
-            orderForm.NgayDat = /*DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));*/ DateTime.Now;
+            //orderForm.NgayDat = /*DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));*/ DateTime.Now;
             orderForm.TrangThai = 1;
             orderForm.DiaChiGiao = address.DiaChi;
             orderForm.SoDienThoai = address.SoDienThoai;
@@ -115,15 +115,6 @@ namespace WebSiteBanHang.Controllers
                     content = content.Replace("{{Address}}", DH.DiaChiGiao);
                     content = content.Replace("{{Total}}", DH.TongTien.ToString());
 
-                    // Thông tin CTDH
-                    //foreach(var ctdh in DH.ChiTietDatHangs)
-                    //{
-                    //    content = content.Replace("{{TenSanPham}}", DH.ChiTietDatHangs[0].TenSanPham);
-                    //    content = content.Replace("{{SoLuong}} ", DH.ChiTietDatHangs[0].SoLuong.ToString());
-                    //    content = content.Replace("{{GiaBan}}", DH.ChiTietDatHangs[0].GiaBan.ToString());
-                    //    content = content.Replace("{{ThanhTien}}", DH.ChiTietDatHangs[0].ThanhTien.ToString());
-
-                    //}
                     var totalRow = string.Empty;
                     foreach (var ctdh in DH.ChiTietDatHangs)
 {
@@ -137,8 +128,9 @@ namespace WebSiteBanHang.Controllers
                    
                     content = content.Replace("{{row}}", totalRow);
 
-                    var toEmail = ConfigurationManager.AppSettings["ToEmailAddress"].ToString();
-                    new MailHelper().SendMail(toEmail, "Đơn hàng mới từ NhàXinh", content);
+                    // var toEmail = ConfigurationManager.AppSettings["ToEmailAddress"].ToString();
+                   
+                    new MailHelper().SendMail(DH.Email, "Đơn hàng mới từ NhàXinh", content);
                 }
                 catch (Exception ex)
                 {

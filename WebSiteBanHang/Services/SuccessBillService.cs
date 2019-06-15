@@ -75,7 +75,6 @@ namespace WebSiteBanHang.Services
 
             string body = content;
 
-
             MailMessage message = new MailMessage(new MailAddress(fromEmailAddress, fromEmailDisplayName), new MailAddress(toEmailAddress));
             message.Subject = subject;
             message.IsBodyHtml = true;

@@ -70,23 +70,20 @@
                 @Html.ValidationMessageFor(model => model.SDT, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        
-         
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-success" />
             </div>
         </div>
     </div>
+
+
 }
 
-<div>
-    @Html.ActionLink("<Back to List>", "Index")
-</div>
-<script>
 
+   
+<script>
+    var id=@ViewBag.ID_Group;
     function isNumberKey(evt) {
             var charCode = (evt.which) ? evt.which : evt.keyCode;
             if (charCode > 31 && (charCode < 48 || charCode > 57))

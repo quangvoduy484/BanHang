@@ -7,7 +7,8 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
 {
     public class QuyenDropDownViewModel
     {
-        public int id { get; set;}
+        public int id { get; set; }
         public string text { get; set; }
-    }
+       
+    }      
 }

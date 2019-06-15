@@ -67,18 +67,18 @@ namespace WebSiteBanHang.Services
 
         public bool Add( int id,PhanQuyenNVViewModel model)
         {
-
             if (model.Quyens?.Count > 0)
             {
                 foreach (var idrole in model.Quyens)
                 {
-                    var grouprole = new TBL_GROUP_ROLE
-                    {
-                        ID_GROUP = id,
-                        ID_ROLE=idrole,
-                        ACTIVATE = true
-                    };
-                    context.TBL_GROUP_ROLEs.Add(grouprole);
+                   
+                        var grouprole = new TBL_GROUP_ROLE
+                        {
+                            ID_GROUP = id,
+                            ID_ROLE = idrole,
+                            ACTIVATE = true
+                        };
+                        context.TBL_GROUP_ROLEs.Add(grouprole);
                 }
             }
 

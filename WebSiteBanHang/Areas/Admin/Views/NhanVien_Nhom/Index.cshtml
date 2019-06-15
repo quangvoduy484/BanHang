@@ -4,16 +4,22 @@
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout_admin.cshtml";
 }
-
+<style>
+    h2{
+        color:blue;
+        text-align:center;
+    }
+</style>
 @*<div style="padding-bottom: 10px; padding-left: 15px;">
     <a class="btn btn-success" href="/Admin/NhanVien/Create">Thêm mới</a>
 </div>*@
+<h2> Danh sách nhân viên theo nhóm</h2>
 <div class="col-md-12">
     <table id="pnnv" class="table table-bordered table-striped table-admin" role="grid">
         <tr>
 
             <th>
-                Tên nhân viên
+                Tên tài khoản
             </th>
             <th>
                 Số điện thoại
@@ -21,51 +27,17 @@
             <th>
                 Email
             </th>
-            <th>
-                Mật khẩu
-            </th>
-
+  
             <th>Chức năng</th>
         </tr>
         <tbody class="tbody"> </tbody>
     </table>
 </div>
 
-<div class="modal fade" id="myModalUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title title" id="exampleModalLabel">ACCOUNT Mới </h5>
-            </div>
-            <div class="modal-body">
-                <form id="myForm">
-                    <div class="form-group">
-                        <label for="nhom" class="col-form-label">Tên nhân viên</label>
-                        <input type="text" class="form-control" id="username" name="username">
-                    </div>
+<div class="form-group col-md-5">
 
-                    <div class="form-group">
-                        <label for="nhom" class="col-form-label">Phone</label>
-                        <input type="text" class="form-control" id="phone" name="phone">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="nhom" class="col-form-label">Email</label>
-                        <input type="text" class="form-control" id="email" name="email">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="nhom" class="col-form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
-                <button type="button" id="submit" onclick="AddAccount()" class="btn btn-primary">Lưu</button>
-            </div>
-        </div>
-    </div>
+    @Html.ActionLink("<<Quay lại danh sách", "Index", "PhanNhomNV")|
+    <a class="btn btn-info" href="/Admin/PhanNhomNV/Create/@ViewBag.ID_Group" title="Thêm tài khoản vào nhóm"><i class="fa fa-user-plus"></i></a>
 </div>
 
 <script type="text/javascript">
@@ -116,10 +88,10 @@
             },
             columns: [
 
-                { title: "Tên nhân viên", data: "TenNV" },
+                { title: "Tên tài khoản", data: "TenNV" },
                 { title: "Số điện thoại", data: "SDT" },
                 { title: "Email", data: "Email" },
-                { title: "Mật khẩu", data: "PassWord" },
+               
                 {
                     title: "Chức năng",
                     data: function (data, type, dataToSet) {

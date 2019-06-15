@@ -34,7 +34,7 @@
 <h2>DANH SÁCH TÀI KHOẢN</h2>
 
 <div style="padding-bottom: 10px; padding-left: 15px;">
-    <a class="btn btn-success" data-toggle="modal" data-target="#myModalUser">Thêm account</a>
+    <a class="btn btn-success" data-toggle="modal" data-target="#myModalUser">Thêm tài khoản</a>
 </div>
 <div class="col-md-12">
     <div class="box Bang">
@@ -105,17 +105,17 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title title" id="exampleModalLabel">ACCOUNT Mới </h5>
+                <h5 class="modal-title title" id="exampleModalLabel">Thêm tài khoản mới </h5>
             </div>
             <div class="modal-body">
                 <form id="myFormNV">
                     <div class="form-group">
-                        <label for="tennv" class="col-form-label">Tên nhân viên</label>
+                        <label for="tennv" class="col-form-label">Tên đăng nhập</label>
                         <input type="text" class="form-control" id="username" name="username">
                     </div>
 
                     <div class="form-group">
-                        <label for="phone" class="col-form-label">Phone</label>
+                        <label for="phone" class="col-form-label">Số điện thoại</label>
                         <input type="text" class="form-control" id="phone" name="phone">
                     </div>
 
@@ -125,7 +125,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password" class="col-form-label">Password</label>
+                        <label for="password" class="col-form-label">Mật khẩu</label>
                         <input type="password" class="form-control" id="password" name="password">
                     </div>
                 </form>
@@ -156,18 +156,18 @@
             contentType: false,
 
             success: function (data) {
-                if (data.StatusCode === 200) {
-                    toastr.success("Thêm thành công");
-                    $('#myModalUser').modal('hide')
-                    $('#username').val(username)
-                    $('#password').val(password)
-                    $('$email').val(email)
-                    $('$phone').val(phone)
-                    window.location.reload()
-                }
-                else {
-                    toastr.error(data.Message);
-                }
+
+                toastr.success("Thêm thành công");
+                $('#myModalUser').modal('hide')
+
+                $('#username').val(username)
+                $('#password').val(password)
+                $('#email').val(email)
+                $('#phone').val(phone)
+                window.location.reload()
+
+
+
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 toastr.error(errorThrown);
