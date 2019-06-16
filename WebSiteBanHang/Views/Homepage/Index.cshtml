@@ -41,12 +41,23 @@
     <div class="new_header">
         <span class="caret" style="font-size: 24px;"></span>
     </div>
-    @*<div class="new_header">
-        <a href="sanphammoi" class="all_new">Xem Tất Cả</a>
-    </div>*@
     <div class="container-fluid" id="product">
     </div>
 </div>
+
+<div id="sale_product" style="width: 90%;margin: auto;padding-top: 25px;">
+    <div class="sale_header title_header" >
+        SẢN PHẨM BÁN CHẠY
+    </div>
+    <div class="sale_header">
+        <span class="caret" style="font-size: 24px;"></span>
+    </div>
+    <div class="container-fluid" id="sale-product" style="margin-top:25px">
+        <div class='best_seller_product' style="width: 90%;margin: auto;padding-top: 25px;">
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     $(document).ready(function () {
 
@@ -62,18 +73,18 @@
                         giagiam = item.GiaGoc * (1 - item.PhanTram / 100.0);
                     }
                     var row = "<a  href='/ProductDetails/getDetailProduct/" + item.Id + "' >" + "<div class='col-md-4 content-product' style='text-align:center;padding:15px 15px 15px 15px;height:300px;'>"
-                        +"<input type='hidden' value=" + item.PhanTram + " id='ptgiamgia' />" + "<div>" +  
+                        + "<input type='hidden' value=" + item.PhanTram + " id='ptgiamgia' />" + "<div>" +
                         "<img style='width:300px' src=" + item.Hinh + " />"
                         + "</div>"
                         + "<div>"
                         + item.Ten +
                         "</div>"
                         + "<div id='giagoc' style='color:#757575'>"
-                        + (item.GiaGoc).format(0, 3, '.', ',') +" đ"+
+                        + (item.GiaGoc).format(0, 3, '.', ',') + " đ" +
                         "</div>"
                         + "<div id='phantram'>"
-                        +"-"+ item.PhanTram + "%"
-                        +"</div>"
+                        + "-" + item.PhanTram + "%"
+                        + "</div>"
                         + "<div id='giamgia'  style='color:orange'>"
                         + giagiam.format(0, 3, '.', ',') + " đ" +
                         "</div>"
@@ -85,28 +96,84 @@
                         if ($(this).find("#ptgiamgia").val() > 0) {
                             $(this).find("#phantram").show();
                             $(this).find("#giamgia").show();
-                            $(this).find("#giagoc").css({                              
+                            $(this).find("#giagoc").css({
                                 'text-decoration': 'line-through'
                             });
-                           
+
                         }
                         else {
                             $(this).find("#phantram").hide();
                             $(this).find("#giamgia").hide();
-                            $(this).find("#giagoc").css({ 
+                            $(this).find("#giagoc").css({
                                 'text-decoration': 'none'
                             });
                         }
                     });
-                 
-
-
-
                 });
+            }
+        });
+        function Slickslider() {
+            $('.best_seller_product').not('.slick-initialized').slick({
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+            });
+
+
+            $('button.slick-prev').css('background-color', 'lightgrey');
+            $('button.slick-next').css('background-color', 'lightgrey');
+            $('#sale_product a').hover(function () {
+                $(this).children('div').css('color', 'orange');
+            }, function () {
+                $(this).children('div').css('color', '');
+            })
+        }
+        $.ajax({
+            async: false,
+            url: '/Homepage/getProductMost',
+            type: 'GET',
+            dataType: 'json',
+            success: function (result, status, xhr) {
+                result.products.forEach(function (product, index) {
+                    var row = `<div  style='height: 250px; width: 376px;'>
+                                    <a  href='/ProductDetails/getDetailProduct/${product.IdSanPham}'>
+                                            <div style="width: 100%;height: 80%">
+                                                <img style="margin: auto;max-height: 100%;" src="${product.HinhAnh}" />
+                                            </div>
+                                            <div style='width: 100%;height:20%; text-align: center;'>
+                                                 <span> ${product.TenSanPham}  </span>
+                                            </div>
+                                    </a>
+                                 </div>
+                              `;
+                    $('#sale_product .best_seller_product').append(row);
+                   
+                });
+                Slickslider();
+            }, error: function (xhr, status, error) {
+                console.log(error);
+                console.log(xhr);
             }
         });
 
     });
+
+
 </script>
 
 
+
+
+
+
+@*<div style="height: 250px; width: 376px;" class="slick-slide slick-cloned" data-slick-index="-3" aria-hidden="true" tabindex="-1">
+
+    <a href="Sofa-Cico-Goc-Phai-Vai-Xam-Xanh_m418_p4304.html" tabindex="-1">
+        <div style="width: 100%;height: 80%">
+            <img src="/photo/sofa-goc-cico-vai-xam-xanh-500.jpg" alt="Phối cảnh Sofa Cico Góc Phải Vải Xám Xanh" style="margin: auto;max-height: 100%;">
+        </div>
+        <div style="width: 100%;height:20%; text-align: center;">Sofa Cico Góc Phải Vải Xám Xanh</div>
+    </a>
+
+</div>*@

@@ -8,12 +8,25 @@
   margin:40px 0px 5px 0px;
 
 }
+
+#sale_product {
+    margin: 40px 0px 5px 0px;
+}
+
 .new_header{
   margin:0 auto;
   width:35%;
   text-align:center;
   position:relative;
   top:40px;
+}
+
+.sale_header {
+    margin: 0 auto;
+    width: 35%;
+    text-align: center;
+    position: relative;
+    top: 40px;
 }
 
 .title_header{

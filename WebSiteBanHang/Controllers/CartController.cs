@@ -45,7 +45,7 @@ namespace WebSiteBanHang.Controllers
                 {
                     Id_SanPham = product.Id_SanPham,
                     TenSanPham = product.TenSanPham,
-                    HinhAnh = product.HinhAnh,
+                    HinhAnh = product.HinhAnh ?? product.HINHs.FirstOrDefault().Link,
                     loaisp = product.LOAISANPHAM.TenLoai,
                     giagoc = gia,
                     KichThuoc = product.KichThuoc,
@@ -53,7 +53,6 @@ namespace WebSiteBanHang.Controllers
                     soluong = 1,
                     phantramgiamgia = phantram,
                     giagiam = gia * ((100 - phantram) / 100)
-
 
                 };
 

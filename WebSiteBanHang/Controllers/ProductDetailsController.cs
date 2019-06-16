@@ -32,7 +32,7 @@ namespace WebSiteBanHang.Controllers
             var giagoc = db.GIASANPHAMs.Where(g => g.TrangThai != false && g.Id_SanPham == product.Id_SanPham)
                                              .OrderByDescending(g => g.NgayLap).Select(g => g.GiaBan).FirstOrDefault();
 
-            var phantram = db.KHUYENMAIs.Where(k => k.Id_KhuyenMai == product.Id_KhuyenMai)
+            var phantram = db.KHUYENMAIs.Where(k => k.Id_KhuyenMai == product.Id_KhuyenMai &&  k.NgayBatDau <= DateTime.Now && DateTime.Now <= k.NgayKetThuc)
                                             .OrderByDescending(k => k.NgayKetThuc).Select(g => g.GiaTriKhuyenMai).FirstOrDefault();
             var result = new ProductDetail()
             {

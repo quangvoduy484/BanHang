@@ -69,7 +69,18 @@ namespace WebSiteBanHang.Controllers
 
                 if (CheckEmail.Count == 0 && CheckPhone.Count == 0)
                 {
-                    var thoigian = customer.Ngay + "/" + customer.Thang + "/" + customer.Nam;
+                    var ngay = customer.Ngay.ToString();
+                    var thang = customer.Thang.ToString();
+                    if (customer.Ngay < 10)
+                    {
+                        ngay = '0' + customer.Ngay.ToString();
+                    }
+                    if (customer.Thang < 10)
+                    {
+                        thang = '0' + customer.Thang.ToString();
+                    }
+
+                    var thoigian = ngay + "/" + thang + "/" + customer.Nam;
                     KhachHang = new KHACHHANG
                     {
                         TenKhachHang = customer.TenKhachHang,
@@ -81,9 +92,9 @@ namespace WebSiteBanHang.Controllers
 
                     };
 
-                    if (thoigian != " " && !thoigian.Contains("//"))
+                    if (thoigian != " ")
                     {
-                        KhachHang.NgaySinh = DateTime.Parse(thoigian);
+                        KhachHang.NgaySinh = DateTime.ParseExact(thoigian, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
 
                     }
                     // tổng chi +1,
@@ -112,7 +123,7 @@ namespace WebSiteBanHang.Controllers
 
             var Thangs = new SelectList(
             new List<SelectListItem>
-       {
+            {
                     new SelectListItem { Text = "Tháng một", Value = "1"},
                     new SelectListItem { Text = "Tháng hai", Value = "2"},
                     new SelectListItem { Text = "Tháng ba", Value =  "3"},
@@ -126,7 +137,7 @@ namespace WebSiteBanHang.Controllers
                     new SelectListItem { Text = "Tháng một", Value = "11"},
                     new SelectListItem { Text = "Tháng hai", Value = "12"}
 
-       }, "Value", "Text");
+            }, "Value", "Text");
 
             ViewBag.Ngay = DayMonthYear.GetNgays();
             ViewBag.Thang = Thangs;
@@ -142,7 +153,7 @@ namespace WebSiteBanHang.Controllers
             return PartialView();
         }
 
-     
+
         [HttpPost]
         public ActionResult UserLogin(string name, string pass)
         {
