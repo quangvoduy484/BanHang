@@ -42,29 +42,74 @@
             }
         });
 
+        var convertdate = function (data) {
+            if (data) {
+                data = new Date(parseInt(data.replace("/Date(", "").replace(")/", ""), 10));
+                var dd = data.getDate();
+                var mm = data.getMonth() + 1; //January is 0!
+                var yyyy = data.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd;
+                }
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+                var formatted_date = dd + '/' + mm + '/' + yyyy;
+                return formatted_date;
+            }
+            return ''
+        }
+
         var spansCounts = $('#rating span').length;
 
         $('#addComment').click(function () {
 
             var sumstar = 0;
             if (sosaochon != null) {
-                sumstar = sosaochon+1;     
+                sumstar = sosaochon + 1;
             }
             else {
                 sumstar = sosaomacdinh;
             }
-        
+
             var id = $('#id_sanpham').val();
             var textcomment = $('#text-comment').val();
-        
+
             $.ajax({
                 url: '/Comment/addCommentPartial',
                 type: 'POST',
                 data: { id, textcomment, sumstar },
                 dataType: 'json',
                 success: function (result, status, xhr) {
-                    if (result.result === true) {
+                    if (result.result === true && result.comment != null) {
                         $('#addCommentModal').modal('hide');
+
+                        var row = `<li>
+                                        <div class="comment-name">
+                                            <abbr>TD</abbr>
+                                            <span> ${result.name}</span>
+                                        </div>
+                                        <div class="comment-content">
+                                            <span class="comment-star" id="comment_${result.comment.Id_DanhGia}">
+                                            </span>
+                                            <span>${ result.comment.Comment}</span>
+                                        </div>
+                                        <div class="comment-date">
+                                            <span> ${convertdate(result.comment.NgayDanhGia)}</span>
+                                        </div>
+                                 </li>`;
+
+
+                        $('.comment-list').append(row);
+                        var cmItem = $('#comment_' + result.comment.Id_DanhGia);
+                        for (let i = 0; i < result.comment.SoSao; i++) {
+                            cmItem.append(`<i class="fa fa-star" aria-hidden="true"></i>`);
+                        }
+                        var dif = 5 - result.comment.SoSao
+                        for (let i = 0; i < dif; i++) {
+                            cmItem.append(`<i class="fa fa-star-o" aria-hidden="true"></i>`);
+                        }
+
                     }
                 }, error: function (data, status, xhr) {
 

@@ -21,21 +21,21 @@ namespace WebSiteBanHang.Controllers
         [HttpPost]
         public JsonResult addCommentPartial(int id, string textcomment, int sumstar)
         {
+            var aNewComment = new DANHGIA();
             var user = SessionUser.GetSession();
             if (user != null)
             {
-                var aNewComment = new DANHGIA()
+                aNewComment = new DANHGIA()
                 {
-                    Id_KhachHang = user.Id,
+                    Id_KhachHang = user.Id,   
                     SoSao = sumstar,
                     Comment = textcomment,
                     NgayDanhGia = DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy")),
                     Id_SanPham = id
-
                 };
                 db.DANHGIAs.Add(aNewComment);
                 db.SaveChanges();
-                return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+                return Json(new { result = true,comment = aNewComment,name =user.Name }, JsonRequestBehavior.AllowGet);
             }
             return Json(new { result = false }, JsonRequestBehavior.AllowGet);
         }
