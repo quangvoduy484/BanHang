@@ -34,8 +34,7 @@ namespace WebSiteBanHang.Services
                       //Thông tin đơn hàng
                       MaDatHang = t.Id_DatHang,
                       NgayDatHang = t.NgayDat,
-                      TongTien = t.TongTien,
-
+                      TongTien = t.TongTienSauGiamGia != null && t.TongTienSauGiamGia > 0 ? t.TongTienSauGiamGia.Value : t.TongTien,
                       //Thông tin khách hàng
                       DiaChiGiao = t.DiaChiGiao,
                       SoDienThoai = t.SoDienThoai,

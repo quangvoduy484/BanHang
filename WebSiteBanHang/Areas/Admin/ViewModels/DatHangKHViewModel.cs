@@ -15,7 +15,7 @@ namespace WebSiteBanHang.Areas.Admin.ViewModels
         public string TenKhachHang { get; set; }
         public string TenNguoiNhan { get; set; }
         public double? TongTienSauGiamGia { get; set; }
-        public double? DiemTichLuy { get; set; }
+        public double? KhauTru { get; set; }
         public DateTime? NgayDatHang { get; set; }
         [Required]
         [StringLength(225)]
