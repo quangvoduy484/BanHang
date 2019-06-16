@@ -200,7 +200,8 @@
                         foreach (var item in LoaiPhong)
                         {
                             <li class="nav-item">
-                                @Html.ActionLink(item.TenLoaiPhong.ToUpper(), "LoadByRoomKind", "RoomKind", new { id = item.Id_LoaiPhong }, new { @class = "nav-link" })
+                                <a class="nav-link" href="/RoomKind/LoadByRoomKind?id=@item.Id_LoaiPhong">@item.TenLoaiPhong.ToUpper()</a>
+                                @*@Html.ActionLink(item.TenLoaiPhong.ToUpper(), "LoadByRoomKind", "RoomKind", new { id = item.Id_LoaiPhong }, new { @class = "nav-link" })*@
                             </li>
                         }
                     }

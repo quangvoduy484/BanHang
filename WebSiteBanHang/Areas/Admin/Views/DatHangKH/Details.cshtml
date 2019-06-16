@@ -50,8 +50,7 @@
         <div class="box-header">
         </div>
         <div class="box-body">
-            <div class="col-md-6 ">
-
+            <div class="col-md-6">
                 <div class="form-group">
                     <label class="col-md-4 col-xs-4 ">Mã đặt hàng:  </label>
                     <p class="col-md-8">@Model.MaDatHang </p>
@@ -62,22 +61,39 @@
                 </div>
                 <div class="form-group">
                     <label class="col-md-4 col-xs-4 ">Ngày giao:  </label>
-                    <p class="col-md-8">@Model.NgayGiao</p>
+
+                    @{
+                        if (Model.NgayGiao.HasValue)
+                        {
+                            <p class="col-md-8">@Model.NgayGiao</p>
+                        }
+                        else
+                        {
+                            <p class="col-md-8">NA</p>
+                        }
+                    }
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 col-xs-4 ">Khấu trừ:  </label>
+                    <p class="col-md-8">@Model.KhauTru</p>
                 </div>
             </div>
             <div class="col-md-6">
-
                 <div class="form-group">
-                    <label class="col-md-4 col-xs-4 ">Tên khách hàng:  </label>
-                    <p class="col-md-8">@Model.TenKhachHang </p>
+                    <label class="col-md-5 col-xs-5">Tên khách hàng:  </label>
+                    <p class="col-md-7">@Model.TenKhachHang </p>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 col-xs-4 ">Số điện thoại:  </label>
-                    <p class="col-md-8">@Model.SoDienThoai</p>
+                    <label class="col-md-5 col-xs-5">Số điện thoại:  </label>
+                    <p class="col-md-7">@Model.SoDienThoai</p>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-4 col-xs-4 ">Tổng tiền:  </label>
-                    <p class="col-md-8">@Model.TongTien</p>
+                    <label class="col-md-5 col-xs-5">Tổng tiền:  </label>
+                    <p class="col-md-7">@Model.TongTien</p>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-5 col-xs-5 ">Tổng tiền thanh toán:  </label>
+                    <p class="col-md-7">@Convert.ToDouble(Model.TongTien - Model.KhauTru)</p>
                 </div>
             </div>
         </div>

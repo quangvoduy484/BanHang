@@ -50,14 +50,17 @@ namespace WebSiteBanHang.Controllers
             var address = db.DIACHIs.Where(x => x.Id_KhachHang == customer.Id_KhachHang && x.TrangThai == true).FirstOrDefault();
 
 
-            DATHANG orderForm = new DATHANG();
-            orderForm.NgayDat = /*DateTime.Parse(DateTime.Now.ToString("dd/MM/yyyy"));*/ DateTime.Now;
-            orderForm.TrangThai = 1;
-            orderForm.DiaChiGiao = address.DiaChi;
-            orderForm.SoDienThoai = address.SoDienThoai;
-            orderForm.Id_KhachHang = customer.Id_KhachHang;
-            // 50 tiền ship 
-            orderForm.TongTien = sumTotal + 50;
+            DATHANG orderForm = new DATHANG
+            {
+                NgayDat = DateTime.Now,
+                TrangThai = 1,
+                DiaChiGiao = address.DiaChi,
+                SoDienThoai = address.SoDienThoai,
+                Id_KhachHang = customer.Id_KhachHang,
+                TenNguoiNhan = address.TenKhachHang,
+                // 50 tiền ship 
+                TongTien = sumTotal + 50
+            };
             var aNewOder = db.DATHANGs.Add(orderForm);
             orderForm.Id_DatHang = aNewOder.Id_DatHang;
            // nếu nó có check thì lưu thêm cột giảm giá 

@@ -64,7 +64,7 @@ namespace WebSiteBanHang.Services
                             : model.OrderBy(t => t.NgayGiao);
                     break;
                 default:
-                    model = model.OrderBy(t => t.Id_DatHang);
+                    model = model.OrderByDescending(t => t.NgayDat); //mặc định sắp xếp giảm dần
                     break;
             };
             //paging
@@ -79,8 +79,8 @@ namespace WebSiteBanHang.Services
                     MaDatHang = t.Id_DatHang,
                     NgayDatHang = t.NgayDat,
                     NgayGiao = t.NgayGiao,
-                    TongTienSauGiamGia = t.TongTienSauGiamGia,
-                    TongTien = t.TongTien,
+                    //TongTienSauGiamGia = t.TongTienSauGiamGia,
+                    TongTien = t.TongTienSauGiamGia != null && t.TongTienSauGiamGia > 0 ? t.TongTienSauGiamGia.Value : t.TongTien,
                     TrangThai = ConvertToTrangThaiModel(t.TrangThai),
                     TenKhachHang = t.KHACHHANG.TenKhachHang,
                 }).ToList();
@@ -108,7 +108,7 @@ namespace WebSiteBanHang.Services
                       SoDienThoai = t.SoDienThoai,
                       TongTien = t.TongTien,
                       TongTienSauGiamGia = t.TongTienSauGiamGia,
-                      DiemTichLuy = t.DiemTichLuy,
+                      KhauTru = t.DiemTichLuy.HasValue ? t.DiemTichLuy.Value * Constant.DiemQuyDoi : 0,
                       TenNguoiNhan = t.TenNguoiNhan,
                       NgayGiao = t.NgayGiao,
                       SDTNguoiDat = t.KHACHHANG.SoDienThoai,
@@ -370,7 +370,7 @@ namespace WebSiteBanHang.Services
             {
                 datHang.DiemTichLuy = 0;
             }
-           
+
             datHang.KHACHHANG.DiemTichLuy += diemTichLuy;
 
 
@@ -605,13 +605,13 @@ namespace WebSiteBanHang.Services
             AddRowDatHang(String.Format("{0:0,00}", _datHang.TongTien));
             _pdfTable.CompleteRow();
 
-            if (_datHang.TongTienSauGiamGia != null && _datHang.TongTienSauGiamGia != 0 && _datHang.DiemTichLuy != null && _datHang.DiemTichLuy != 0)
+            if (_datHang.TongTienSauGiamGia != null && _datHang.TongTienSauGiamGia != 0 && _datHang.KhauTru != null && _datHang.KhauTru != 0)
             {
                 AddRowDatHang("Tiền khấu trừ:");
-                double KhauTru = _datHang.DiemTichLuy.Value * 1000;
+                double KhauTru = _datHang.KhauTru.Value;
                 AddRowDatHang(String.Format("{0:0,00}", KhauTru));
                 AddRowDatHang("Còn lại :");
-                AddRowDatHang(String.Format("{0:0,00}",_datHang.TongTienSauGiamGia));
+                AddRowDatHang(String.Format("{0:0,00}", _datHang.TongTienSauGiamGia));
                 _pdfTable.CompleteRow();
             }
 
@@ -676,8 +676,8 @@ namespace WebSiteBanHang.Services
             {
                 AddRowChiTietDatHang(serialNumber++.ToString());
                 //AddRow(chiTiet.MaChiTiet.ToString()); // San pham A (5 tháng); 
-                
-                AddRowChiTietDatHang(chiTiet.TenSanPham.Trim() +" ("+chiTiet.BaoHanh+")");
+
+                AddRowChiTietDatHang(chiTiet.TenSanPham.Trim() + " (" + chiTiet.BaoHanh + ")");
                 AddRowChiTietDatHang(chiTiet.SoLuong.ToString());
                 AddRowChiTietDatHang(chiTiet.GiaBan.ToString());
                 AddRowChiTietDatHang(chiTiet.ThanhTien.ToString());
