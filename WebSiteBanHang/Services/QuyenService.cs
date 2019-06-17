@@ -20,7 +20,7 @@ namespace WebSiteBanHang.Services
             //var nhanViens = context.TBL_LOGINs.Where(t => t.ACTIVATE != false);
             var Quyens = context.TBL_ROLEs
                  .Where(t => t.ACTIVATE != false)
-                 .Where(t => t.TBL_GROUP_ROLEs.All(x => x.ID_GROUP != idgroup && x.ACTIVATE != false));
+                 .Where(t => t.TBL_GROUP_ROLEs.All(x => x.ID_GROUP != idgroup && x.ACTIVATE != false));     
 
             if (!string.IsNullOrWhiteSpace(search))
             {
