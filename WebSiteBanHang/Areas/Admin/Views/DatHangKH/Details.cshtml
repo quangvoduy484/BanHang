@@ -89,11 +89,11 @@
                 </div>
                 <div class="form-group">
                     <label class="col-md-5 col-xs-5">Tổng tiền:  </label>
-                    <p class="col-md-7">@Model.TongTien</p>
+                    <p class="col-md-7">@String.Format("{0:0,00}", Model.TongTien) vnđ</p>
                 </div>
                 <div class="form-group">
                     <label class="col-md-5 col-xs-5 ">Tổng tiền thanh toán:  </label>
-                    <p class="col-md-7">@Convert.ToDouble(Model.TongTien - Model.KhauTru)</p>
+                    <p class="col-md-7">@String.Format("{0:0,00}", Convert.ToDouble(Model.TongTien - Model.KhauTru)) vnđ</p>
                 </div>
             </div>
         </div>
@@ -131,10 +131,10 @@
                             @Html.DisplayFor(modelItem => item.SoLuong)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.GiaBan)
+                            @String.Format("{0:0,00}", item.GiaBan)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.ThanhTien)
+                            @String.Format("{0:0,00}", item.ThanhTien)
                         </td>
                         <td>
                             <button class="btn btn-danger btn-edit-or-delete" value="@Model.TrangThai" onclick="xoaCTDH(@item.MaChiTiet)">Xoá</button>

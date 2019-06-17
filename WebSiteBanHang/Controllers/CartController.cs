@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using WebSiteBanHang.Helper;
 using WebSiteBanHang.Models;
 using WebSiteBanHang.ViewModel;
-
+using System.Data.Entity;
 namespace WebSiteBanHang.Controllers
 {
     public class CartController : Controller
@@ -32,7 +32,8 @@ namespace WebSiteBanHang.Controllers
         public JsonResult createProduct(int id)
         {
             // lúc này thêm bao nhiêu nữa thì nó cũng thêm vào cái list lưu seesion nên sẽ lấy được 
-            var product = db.SANPHAMs.Where(x => x.Id_SanPham == id).SingleOrDefault();
+            var product = db.SANPHAMs.
+                Include(t=>t.HINHs).Where(x => x.Id_SanPham == id).SingleOrDefault();
             List<ProductCart> productCarts = GetProductCarts();
 
             // tao moi mot san pham

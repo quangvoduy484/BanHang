@@ -154,7 +154,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task UpLoadImage(int id)
+        public async Task UpLoadImage(int id) //Upload bất đồng bộ
         {
             try
             {
@@ -176,7 +176,7 @@ namespace WebSiteBanHang.Areas.Admin.Controllers
                     request.AddParameter("application/octet-stream", ms, ParameterType.RequestBody);
 
                     var response = await client.ExecuteTaskAsync(request);
-                    var result = JsonConvert.DeserializeObject<ResponseUploadImageModel>(response.Content);
+                    var result = JsonConvert.DeserializeObject<ResponseUploadImageModel>(response.Content); //DeserializeObject: convert Json to Model
                     if (result != null && result.Status == HttpStatusCode.OK)
                     {
                         sanPhamService.UpdateImage(id, result.Data.Link);

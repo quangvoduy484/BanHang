@@ -111,6 +111,10 @@
             dateFormat: "dd/mm/yy",
             onSelect: function (selected) {
                 var dt = $(this).datepicker('getDate');
+                //Cộng thêm 1 ngày
+                //var date = new Date(dt);
+                //date = date.setDate(date.getDate() + 1);
+                //var minDate = new Date(date);
                 $(".dt2").datepicker("option", "minDate", dt);
             }
         });

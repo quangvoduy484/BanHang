@@ -83,116 +83,83 @@
 
         </div>
     </div>
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-body">
+                <div class="details">
+                    <table class="table table-bordered table-striped table-admin" role="grid" id="chiTietDH" name="CTPHIEUNHAP_NCCs">
+                        <tr>
+                            <th>
+                                Tên sản phẩm
+                            </th>
+                            <th hidden="hidden">
+                                Mã sản phẩm
+                            </th>
+                            <th>
+                                Số lượng
+                            </th>
 
-    <div class="container">
+                            <th>
+                                Giá nhập
+                            </th>
+                            <th>
+                                Thành tiền
+                            </th>
+                            <th>
+                                Chức năng
+                            </th>
+                        </tr>
 
-        <div class="details">
-            <table class="table table-bordered table-striped table-admin" role="grid" id="chiTietDH" name="CTPHIEUNHAP_NCCs">
-                <tr>
-                    <th>
-                        Tên sản phẩm
-                    </th>
-                    <th hidden="hidden">
-                        Mã sản phẩm
-                    </th>
-                    <th>
-                        Số lượng
-                    </th>
+                        @foreach (var item in Model.ChiTietPhieuDats)
+                        {
+                            <tr id="data_@item.MaCTPhieuDat">
+                                <td>
+                                    <input type="text" id="TenSanPham" name="TenSanPham" value="@item.TenSanPham" class=" form-control" />
+                                </td>
+                                <td hidden="hidden">
+                                    <input type="text" id="MaSP" name="MaSP" value="@item.MaSP" class=" form-control" />
+                                </td>
+                                <td style="width:10%">
+                                    <input type="number" id='sl_1' min="1" value="@item.SL" name="SL" onChange=changeSoLuong(this) class=" form-control" />
+                                </td>
+                                <td>
+                                    <input type="number" id='dg_1' value="@item.GiaNhap" name="GiaNhap" min="0" onChange=changeDonGia(this) class=" form-control" />
+                                </td>
+                                <td>
+                                    <input type="text" id='tt_1' value="@item.ThanhTien" class="thanh-tien form-control" name="ThanhTien" disabled onChange=changeThanhTien() readonly="readonly" />
+                                </td>
 
-                    <th>
-                        Giá nhập
-                    </th>
-                    <th>
-                        Thành tiền
-                    </th>
-                    <th>
-                        Chức năng
-                    </th>
-                </tr>
+                                <td>
+                                    <input type="button" value="X" class="btn btn-danger btn-save" onclick="remove(this)" disabled />
+                                    <input type="hidden" value="@item.MaPhieuDat" class=" form-control" name="maDatHang" />
+                                </td>
 
-                @foreach (var item in Model.ChiTietPhieuDats)
-                {
-                    <tr id="data_@item.MaCTPhieuDat">
-                        <td>
-                            <input type="text" id="TenSanPham" name="TenSanPham" value="@item.TenSanPham" class=" form-control" />
-                        </td>
-                        <td hidden="hidden">
-                            <input type="text" id="MaSP" name="MaSP" value="@item.MaSP" class=" form-control" />
-                        </td>
-                        <td>
-                            <input type="number" id='sl_1' min="1" value="@item.SL" name="SL" onChange=changeSoLuong(this) class=" form-control" />
-                        </td>
-                        <td>
-                            <input type="number" id='dg_1' value="@item.GiaNhap" name="GiaNhap" min="0" onChange=changeDonGia(this) class=" form-control" />
-                        </td>
-                        <td>
-                            <input type="text" id='tt_1' value="@item.ThanhTien" class="thanh-tien form-control" name="ThanhTien" disabled onChange=changeThanhTien() readonly="readonly" />
-                        </td>
+                            </tr>
+                        }
 
-                        <td>
-                            <input type="button" value="X" class="btn btn-danger remove-fun " onclick="remove(this)" />
-                            <input type="hidden" value="@item.MaPhieuDat" class=" form-control" name="maDatHang" />
-                        </td>
-
-                    </tr>
-                }
-
-            </table>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-    <div>
-        <button class="col-md-offset-5 col-md-2 btn btn-danger btn-save" value="@Model.TrangThai" onclick="save()">Xác nhận</button>
-    </div>
 
+    <div class="col-md-12">
+        <button class="col-md-offset-5 col-md-2 btn btn-danger btn-save" id="submit" value="@Model.TrangThai" onclick="save()" disabled>Xác nhận</button>
+    </div>
+    <div class="col-md-5">
+        @Html.ActionLink("<<Quay lại danh sách", "Index", "PhieuDatHang_NCC")
+    </div>
 </form>
 
-<div class="form-group col-md-offset-2">
-
-    @Html.ActionLink("<<Quay lại danh sách", "Index", "PhieuDatHang_NCC")
-
-</div>
 <script>
 
-    //function changeSoLuong(atr) {
-    //    var sl = $(atr).val();
-    //    var id = $(atr).attr('id').toString().split('_')[1];
-    //    var dg = $('#dg_' + id).val();
-    //    var thanhTien = dg * sl;
-    //    $('#tt_' + id).val(thanhTien);
-
-
-    //    changeThanhTien();
-    //}
-    //function changeDonGia(atr) {
-    //    var donGia = $(atr).val();
-    //    var id = $(atr).attr('id').toString().split('_')[1];
-    //    var sl = $('#sl_' + id).val();
-    //    var thanhTien = donGia * sl;
-    //    $('#tt_' + id).val(thanhTien);
-
-    //    changeThanhTien();
-
-    //}
-    //function changeThanhTien() {
-    //    var sum = 0;
-    //    var table = $('#chiTietDH')
-    //    table.each(function () {
-    //        $(this).find('tr').each(function () {
-    //            var thanhTien = $(this).find('.thanh-tien').val();
-    //            if (thanhTien) {
-    //                sum = parseInt(sum) + parseInt(thanhTien);
-    //            }
-    //        })
-    //    })
-    //    $('.tong-tien').val(sum);
-    //}
-
-     function changeSoLuong(atr) {
-         var sl = $(atr).val();
+    function changeSoLuong(atr) {
+        var sl = $(atr).val();
         var id = $(atr).attr('id').toString().split('_')[1];
         var dg = $('#dg_' + id).val();
         var thanhTien = dg * sl;
         $('#tt_' + id).val(thanhTien);
+
 
         changeThanhTien();
     }
@@ -279,9 +246,8 @@
         });
     }
 
-    if ($('.btn-save').val() !== 'Đang đặt hàng') {
-        $('.btn-save').attr('disabled', true)
-        $('.remove-fun').attr('disabled', true)
+    if ($('#submit').val() === 'Đang đặt hàng') {
+        $('.btn-save').attr('disabled', false)
     }
 </script>
 
