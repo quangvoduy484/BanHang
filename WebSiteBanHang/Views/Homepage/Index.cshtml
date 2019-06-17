@@ -46,7 +46,7 @@
 </div>
 
 <div id="sale_product" style="width: 90%;margin: auto;padding-top: 25px;">
-    <div class="sale_header title_header" >
+    <div class="sale_header title_header">
         SẢN PHẨM BÁN CHẠY
     </div>
     <div class="sale_header">
@@ -148,7 +148,7 @@
                                  </div>
                               `;
                     $('#sale_product .best_seller_product').append(row);
-                   
+
                 });
                 Slickslider();
             }, error: function (xhr, status, error) {
@@ -169,11 +169,37 @@
 
 @*<div style="height: 250px; width: 376px;" class="slick-slide slick-cloned" data-slick-index="-3" aria-hidden="true" tabindex="-1">
 
-    <a href="Sofa-Cico-Goc-Phai-Vai-Xam-Xanh_m418_p4304.html" tabindex="-1">
-        <div style="width: 100%;height: 80%">
-            <img src="/photo/sofa-goc-cico-vai-xam-xanh-500.jpg" alt="Phối cảnh Sofa Cico Góc Phải Vải Xám Xanh" style="margin: auto;max-height: 100%;">
-        </div>
-        <div style="width: 100%;height:20%; text-align: center;">Sofa Cico Góc Phải Vải Xám Xanh</div>
-    </a>
+        <a href="Sofa-Cico-Goc-Phai-Vai-Xam-Xanh_m418_p4304.html" tabindex="-1">
+            <div style="width: 100%;height: 80%">
+                <img src="/photo/sofa-goc-cico-vai-xam-xanh-500.jpg" alt="Phối cảnh Sofa Cico Góc Phải Vải Xám Xanh" style="margin: auto;max-height: 100%;">
+            </div>
+            <div style="width: 100%;height:20%; text-align: center;">Sofa Cico Góc Phải Vải Xám Xanh</div>
+        </a>
 
-</div>*@
+    </div>*@
+<!-- Load Facebook SDK for JavaScript -->
+<div id="fb-root"></div>
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            xfbml: true,
+            version: 'v3.3'
+        });
+    };
+
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+<!-- Your customer chat code -->
+<div class="fb-customerchat"
+     attribution=setup_tool
+     page_id="1317993118348367"
+     theme_color="#0084ff"
+     logged_in_greeting="Chào! Tôi có thể giúp gì cho bạn?"
+     logged_out_greeting="Chào! Tôi có thể giúp gì cho bạn?">
+</div>
