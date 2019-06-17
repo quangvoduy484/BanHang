@@ -32,8 +32,8 @@ namespace WebSiteBanHang.Services
             //serch
             if (!string.IsNullOrWhiteSpace(search))
             {
-                
-                model = model.Where(t =>t.MAPHIEUDAT.ToString().Contains(search));
+
+                model = model.Where(t => t.MAPHIEUDAT.ToString().Contains(search));
             }
             var totalRecord = model.Count();
             //Sorting
@@ -43,7 +43,7 @@ namespace WebSiteBanHang.Services
                     model = dirBy == "desc" ? model.OrderByDescending(t => t.MAPHIEUDAT)
                             : model.OrderBy(t => t.MAPHIEUDAT);
                     break;
-               
+
 
                 default:
                     model = model.OrderBy(t => t.MAPHIEUDAT);
@@ -58,9 +58,9 @@ namespace WebSiteBanHang.Services
                 Select(t => new PhieuNhapHang_NCCViewModel()
                 {
                     MaPhieuDat = t.MAPHIEUDAT,
-                    MaPhieuNhap=t.MAPHIEUNHAP,
-                    NgayNhap=t.NGAYNHAP,
-                    NguoiNhap=t.NGUOINHAP,
+                    MaPhieuNhap = t.MAPHIEUNHAP,
+                    NgayNhap = t.NGAYNHAP,
+                    NguoiNhap = t.NGUOINHAP,
                     TongTien = t.TONGTIEN,
                     TrangThai = t.TRANGTHAI == 0 ? TinhTrangDatHang.DaHuy :
                                     (t.TRANGTHAI == 1) ? TinhTrangDatHang.DangXyLy : (t.TRANGTHAI == 2) ?
@@ -119,7 +119,7 @@ namespace WebSiteBanHang.Services
                   .Where(t => t.MAPHIEUDAT == id)
                   .Select(t => new PhieuDatHang_NCCViewModel()
                   {
-                      
+
                       MaPhieuDat = t.MAPHIEUDAT,
                       TenNCC = t.NHACUNGCAP.TENNCC,
                       NgayDat = t.NGAYDAT,
@@ -133,7 +133,7 @@ namespace WebSiteBanHang.Services
                       ChiTietPhieuDats = t.CT_PHIEUDATNCCs.Where(k => k.TRANGTHAI != 0)
                       .Select(k => new CT_PhieuDatHangNCCViewModel()
                       {
-                          MaSP=k.MASANPHAM,
+                          MaSP = k.MASANPHAM,
                           TenSanPham = k.SANPHAM.TenSanPham,
                           MaCTPhieuDat = k.MACTPD,
                           SL = k.SOLUONG,
@@ -150,7 +150,7 @@ namespace WebSiteBanHang.Services
         // Lập phiếu nhập hàng từ phiếu đặt
         public bool AddPhieuNhapHangNCC(int id, PhieuNhapHang_NCCViewModel model)
         {
-            
+
             var tongTien = model.ChiTietPhieuNhaps.Sum(t => t.SL * t.GiaNhap);
             var phieuDat = new PHIEUNHAP_NCC()
             {
@@ -162,7 +162,7 @@ namespace WebSiteBanHang.Services
             };
 
             context.PHIEUNHAP_NCCs.Add(phieuDat);
-            
+
             context.SaveChanges();
 
             foreach (var detail in model.ChiTietPhieuNhaps)
@@ -174,15 +174,16 @@ namespace WebSiteBanHang.Services
                     SOLUONGNHAP = detail.SL,
                     GIANHAP = detail.GiaNhap,
                     THANHTIEN = detail.SL * detail.GiaNhap,
-            };
-                
-              var sp= context.SANPHAMs.Where(t => t.Id_SanPham == detail.MaSP).FirstOrDefault();
-                sp.SoLuongTon += detail.SL;
+                };
+
+                var sp = context.SANPHAMs.Where(t => t.Id_SanPham == detail.MaSP).FirstOrDefault();
+                var slTon = sp.SoLuongTon ?? 0; // nếu là null thì gán mặc định = 0;
+                sp.SoLuongTon = detail.SL + slTon;
                 context.CTPHIEUNHAP_NCCs.Add(chiTiet);
 
             }
             UpdateTrangThaiDonHang(id);
-           // CapNhatSLTon(nhapHang);
+            // CapNhatSLTon(nhapHang);
             context.SaveChanges();
 
             return true;
@@ -196,15 +197,15 @@ namespace WebSiteBanHang.Services
                 int sl = chiTiet.SOLUONGNHAP;
                 chiTiet.SANPHAM.SoLuongTon += sl;
             }
-            
+
         }
 
 
         public void UpdateTrangThaiDonHang(int maDatHang)
         {
             PHIEUDATHANG_NCC datHang = context.PHIEUDATHANG_NCCs.
-                FirstOrDefault(t => t.MAPHIEUDAT == maDatHang && t.TRANGTHAI==3);
-            
+                FirstOrDefault(t => t.MAPHIEUDAT == maDatHang && t.TRANGTHAI == 3);
+
             if (datHang == null)
             {
                 return;
@@ -369,14 +370,14 @@ namespace WebSiteBanHang.Services
             AddRowDatHang(_datHang.NgayNhap?.ToString("dd/MM/yyyy"));
             _pdfTable.CompleteRow();
 
-            
+
             AddRowDatHang("Người nhập:");
             AddRowDatHang(_datHang.NguoiNhap.ToString());
             AddRowDatHang("Tổng tiền:");
             AddRowDatHang(_datHang.TongTien.ToString());
             _pdfTable.CompleteRow();
 
-            
+
             AddRowDatHang("Ngày xuất đơn đặt:");
             AddRowDatHang(DateTime.Now.ToString("dd/MM/yyyy"));
             _pdfTable.CompleteRow();

@@ -19,6 +19,7 @@ namespace WebSiteBanHang.Services
             context = new BanHangContext();
 
         }
+        // Tìm kiếm, phân trang
         public async Task<object> GetAllAsync(DataTableAjaxPostModel dataModel)
         {
             var sortBy = dataModel.columns[dataModel.order[0].column].data; //Lấy cột để sắp xếp
@@ -27,12 +28,12 @@ namespace WebSiteBanHang.Services
 
             var model = context.SANPHAMs.Where(t => t.TrangThai != false).AsQueryable(); //lấy sản phẩm (chưa thực thi)
 
-            //serch
+            //Tìm kiếm
             if (!string.IsNullOrWhiteSpace(search))
             {
                 model = model.Where(t => t.TenSanPham.Contains(search));
             }
-            var totalRecord = await model.CountAsync();
+            var totalRecord = await model.CountAsync(); //Tổng số sản phẩm
             //Sorting
             switch (sortBy)
             {
@@ -81,7 +82,7 @@ namespace WebSiteBanHang.Services
                 data = data
             };
         }
-
+        //????
         public List<SanPhamDropDownViewModel> GetAllDropDownList(string search)
         {
             var sanPhams = context.SANPHAMs.Where(t => t.TrangThai != false);
@@ -100,6 +101,7 @@ namespace WebSiteBanHang.Services
 
             return result;
         }
+        //Lấy tên loại sản phẩm
         public List<LOAISANPHAM> GetAllLoaiSP()
         {
             return context.LOAISANPHAMs.ToList();
@@ -117,7 +119,7 @@ namespace WebSiteBanHang.Services
                  })
                     .ToList();
         }
-
+        //lấy tên sẩn phẩm cho CT Phiếu đặt
         public List<SanPhamViewModel> GetTenSPForPhieuDat(int CTDDH)
         {
 
@@ -242,7 +244,7 @@ namespace WebSiteBanHang.Services
         }
 
 
-
+        //Xoá hình ảnh trong bảng HINH
         public bool DeleteImage(int id)
         {
             var hinh = context.HINHs.Find(id);
@@ -255,7 +257,7 @@ namespace WebSiteBanHang.Services
             context.SaveChanges();
             return true;
         }
-
+        //Xoá hình ảnh trong bảng SanPham
         public bool DeletePrimaryImage(int? idSanPham)
         {
             var sanPham = context.SANPHAMs.SingleOrDefault(t => t.Id_SanPham == idSanPham && t.TrangThai != false);

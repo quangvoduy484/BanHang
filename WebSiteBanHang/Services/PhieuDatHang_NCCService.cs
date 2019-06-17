@@ -466,7 +466,7 @@ namespace WebSiteBanHang.Services
 
             AddRowDatHang("Tổng tiền:");
             AddRowDatHang(_datHang.TongTien.ToString());
-            AddRowDatHang("Ngày xuấtđơn đặt:");
+            AddRowDatHang("Ngày xuất đơn đặt:");
             AddRowDatHang(DateTime.Now.ToString("dd/MM/yyyy"));
             _pdfTable.CompleteRow();
 

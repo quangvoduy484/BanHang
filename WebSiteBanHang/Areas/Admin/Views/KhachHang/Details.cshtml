@@ -14,9 +14,10 @@
     .detail-kh {
         padding-left: 20%;
     }
-    h2{
-        color:blue;
-        text-align:center;
+
+    h2 {
+        color: blue;
+        text-align: center;
     }
 </style>
 <h2>Thông tin khách hàng</h2>
@@ -24,43 +25,48 @@
 
 
 <div class="container col-md-10" style="background-color:#ffffff ;margin-left: 98px">
-    <table class="table detail-kh" cellspacing="200" cellpadding="200" />
+    <table class="table detail-kh" cellspacing="200" cellpadding="200">
 
-    <tr>
-        <th>Họ tên</th>
-        <td><input type="text" class="form-control" readonly="readonly" value="@Model.HoTen" /></td>
-        <th>Ngày sinh</th>
-        <td><input type="datetime" class="form-control" readonly="readonly" value="@Model.NgSinh" /></td>
-    </tr>
+        <tr>
+            <th>Họ tên</th>
+            <td><input type="text" class="form-control" readonly="readonly" value="@Model.HoTen" /></td>
+            <th>Ngày sinh</th>
+            <td><input type="datetime" class="form-control" readonly="readonly" value="@Model.NgSinh" /></td>
+        </tr>
 
-    <tr>
-        <th>Số điện thoại</th>
-        <td><input type="text" class="form-control" readonly="readonly" value="@Model.SDT" /></td>
-        <th>Email</th>
-        <td><input type="text" class="form-control" readonly="readonly" value="@Model.Email" /></td>
-    </tr>
-    <tr>
-        <th>Địa chỉ</th>
-        <td colspan="3"><input type="text" class="form-control" readonly="readonly" value="@Model.DC" /></td>
-    </tr>
-    <tr>
+        <tr>
+            <th>Số điện thoại</th>
+            <td><input type="text" class="form-control" readonly="readonly" value="@Model.SDT" /></td>
+            <th>Email</th>
+            <td><input type="text" class="form-control" readonly="readonly" value="@Model.Email" /></td>
+        </tr>
+        <tr>
+            <th>Địa chỉ</th>
+            <div class="input-wrap">
+                <td><input type="text" class="form-control" readonly="readonly" value="@Model.DC" /></td>
+            </div>
+            <th>Điểm tích lũy</th>
+            <div class="input-wrap">
+                <td><input type="text" class="form-control" readonly="readonly" value="@Model.DiemTichLuy" /></td>
+            </div>
+        </tr>
+        <tr>
 
-        <th>Tổng chi tiêu</th>
-        <div class="input-wrap">
-            <td><input type="text" class="form-control" readonly="readonly" value="@Model.TongChi" /></td>
-        </div>
-
-        <th>Điểm tích lũy</th>
-        <div class="input-wrap">
-            <td><input type="text" class="form-control" readonly="readonly" value="@Model.DiemTichLuy" /></td>
-        </div>
-    </tr>
+            <th>Tổng chi tiêu</th>
+            <div class="input-wrap">
+                <td><input type="text" class="form-control" readonly="readonly" value="@String.Format("{0:0,00}", Model.TongChi)" /></td>
+            </div>
+            <th>Loại khách hàng</th>
+            <div class="input-wrap">
+                <td><input type="text" class="form-control" readonly="readonly" value="@Model.TenLoaiKH" /></td>
+            </div>
+        </tr>
 
     </table>
 
     <p>
-        
-        @Html.ActionLink("Quay lại danh sách", "Index")
+
+        @Html.ActionLink("<< Quay lại danh sách", "Index")
     </p>
 </div>
 

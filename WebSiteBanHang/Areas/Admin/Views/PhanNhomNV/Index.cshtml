@@ -145,7 +145,7 @@
                         var a = "#data_" + maNhom;
                         $(a).remove();
                         toastr.success("Xóa thành công");
-                        $(a).DataTable().ajax.reload();
+                        window.location.reload(true);
                         
                     } else {
                         toastr.error(data.Message);
