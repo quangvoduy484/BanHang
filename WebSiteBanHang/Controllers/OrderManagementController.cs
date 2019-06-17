@@ -45,7 +45,7 @@ namespace WebSiteBanHang.Controllers
                 Id_DatHang = x.Id_DatHang,
                 NgayDat = x.NgayDat,
                 TongTien = x.TongTien,
-                order = x.CHITIETDATHANGs.Select(y => new
+                order = x.CHITIETDATHANGs.Where(y=>y.TrangThai != false).Select(y => new
                 {
                     Hinh = y.SANPHAM.HinhAnh ?? y.SANPHAM.HINHs.FirstOrDefault().Link,
                     Tensp = y.SANPHAM.TenSanPham,

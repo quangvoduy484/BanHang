@@ -56,7 +56,7 @@ namespace WebSiteBanHang.Services
                 MaDatHang = x.Id_DatHang,
                 NgayDat = x.NgayDat,
                 TongTien = x.TongTien,
-                Products = x.CHITIETDATHANGs.Select(y => new
+                Products = x.CHITIETDATHANGs.Where(y => y.TrangThai != false).Select(y => new
                 {
                     Hinh = y.SANPHAM.HinhAnh ?? y.SANPHAM.HINHs.FirstOrDefault().Link,
                     TenSanPham = y.SANPHAM.TenSanPham,
@@ -72,7 +72,7 @@ namespace WebSiteBanHang.Services
                 TongTien = String.Format("{0:0,00}", x.TongTien),
                 Products = x.Products.Select(y => new ProductViewModel
                 {
-                    Hinh = y.Hinh, 
+                    Hinh = y.Hinh,
                     TenSanPham = y.TenSanPham,
                     SoLuong = y.SoLuong,
                     ThanhTien = String.Format("{0:0,00}", y.ThanhTien)
